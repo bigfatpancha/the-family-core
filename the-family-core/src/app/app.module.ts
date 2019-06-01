@@ -7,6 +7,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { UsersComponent } from './components/users/users.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { UsersComponent } from './components/users/users.component';
     DashboardComponent,
     NewUserComponent,
     UploadComponent,
-    UsersComponent
+    UsersComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

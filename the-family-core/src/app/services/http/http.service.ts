@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService, Config } from '../config/config.service';
+import { Observable } from 'rxjs';
 
 
 
@@ -20,12 +21,12 @@ export class HttpService implements OnInit {
     .subscribe((data: Config) => this.config = data);
   }
 
-  doGet(url: string, options: any) {
-    this.http.get(this.config.serverUrl + url, options);
+  doGet(url: string, options: any): Observable<any> {
+    return this.http.get(this.config.serverUrl + url, options);
   }
 
   doPost(url: string, body: any, options: any) {
-    this.http.post(this.config.serverUrl + url, body, options);
+    return this.http.post(this.config.serverUrl + url, body, options);
   }
 
 }

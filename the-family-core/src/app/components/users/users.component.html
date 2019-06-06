@@ -3,57 +3,849 @@
     <div class="col-md-3" id="sidebar">
       <div class="sidebar__header row">
         <a href="#"><i>IC</i></a>
-        <h4>Users</h4>
+        <div>
+          <h4>Users</h4>
+        </div>
       </div>
       <div class="sidebar__body mt-4">
-        <ul>
-          <li>All</li>
-          <li>Admin</li>
-          <li>Parent/legal Guardian</li>
-          <li>Child</li>
-          <li>Dependent</li>
-          <li>Nanny</li>
+        <ul class="sidebar__body--list">
+          <li class="sidebar__item"><a (click)="state = 'userInfo'">User info</a></li>
+          <li class="sidebar__item"><a>Calendar</a></li>
+
+          <li class="sidebar__item"><a data-toggle="collapse" href="#collapseSchool" role="button" aria-expanded="false"
+              aria-controls="collapseSchool">School</a>
+            <ul class="sidebar__item--list collapse" id="collapseSchool">
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolLocation'">Location</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolTeachers'">Teachers</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolTask'">Task</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolClassmates'">Classmates</a></li>
+            </ul>
+          </li>
+
+          <li class="sidebar__item"><a data-toggle="collapse" href="#collapseMedical" role="button"
+              aria-expanded="false" aria-controls="collapseMedical">Medical</a>
+            <ul class="sidebar__item--list collapse" id="collapseMedical">
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalRecords'">Records</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalDoctors'">Doctors</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalRx'">Rx</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalAppointments'">Appointments</a></li>
+            </ul>
+          </li>
+
+          <li class="sidebar__item"><a data-toggle="collapse" href="#collapseTeam" role="button" aria-expanded="false"
+              aria-controls="collapseTeam">Team</a>
+            <ul class="sidebar__item--list collapse" id="collapseTeam">
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'teamFamily'">Family</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'teamCaretakers'">Caretakers</a></li>
+              <li class="sidebar__item--list--subitem"><a (click)="state = 'teamContacts'">Contacts</a></li>
+            </ul>
+          </li>
+          <li class="sidebar__item"><a (click)="state = 'general'">General</a></li>
+          <li class="sidebar__item"><a (click)="state = 'legal'">Legal</a></li>
         </ul>
       </div>
 
     </div>
-    <div class="col-md-8">
-      <div class="table">
+    <div class="container__data">
+      <div class="container__data--name">
+        <h4>Kid</h4>
+      </div>
+
+      <!-- USER INFO -->
+
+      <div *ngIf="state == 'userInfo'">
         <div class="table__header">
-          <div class="table__header--columns">
-            <h4>NAME</h4>
-          </div>
-          <div class="table__header--columns">
-          </div>
-          <div class="table__header--columns">
-            <h4>MAIL</h4>
-          </div>
-          <div class="table__header--columns">
-            <h4>MOBILE #</h4>
-          </div>
-          <div class="table__header--columns">
-            <h4>ROLE</h4>
+          <div class="table__header--title">
+            <h4>USER INFO</h4>
           </div>
         </div>
 
-        <div class="table__body">
-            <div class="table__body--columns">
-              <p>Jane Smith</p>
+        <div class="row mt-3">
+          <div class="col-md-8">
+            <form class="form_family">
+
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label>Legal First Name</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>M.I.</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-5">
+                  <label>Legal Last Name</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label>Nickname</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-5">
+                  <label>Email</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label>Mobile #</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-5">
+                  <label>Birth Date</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Role</label>
+                <input class="form-control">
+              </div>
+
+            </form>
+          </div>
+
+          <div class="col-md-4">sd</div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <form class="form_family border-bottom pb-3">
+
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label>Address Line 1</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-5">
+                  <label>Address Line 2</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label>City</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                  <label>State</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                  <label>Zip</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label>Phone #</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                  <label>Fax #</label>
+                  <input class="form-control">
+                </div>
+              </div>
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Gender</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Color Code</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Height</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Weight</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Hair Color</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Eyes Color</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Allergies</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Blood Type</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Country of Citizenship</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Passport #</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>School State</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Social Security #</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>School</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Grade</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Medications / Rx</label>
+                  <p>- Ridelin - 2000 mg</p>
+                  <p>- Fluticasone - 5 mg</p>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Dose</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Tops Size</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Bottoms Size</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Shoe Size</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Bra Size</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Shirt Size</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Pants Size</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Shoe Size</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+              <div class="form-group">
+                <label>Favorites</label>
+                <p>- Red</p>
+                <p>- Mac n' cheese</p>
+              </div>
+
+              <div class="form-group">
+                <label>Dislikes</label>
+                <p>- Liquid cough medicine</p>
+                <p>- Asparagus</p>
+              </div>
+
+              <div class="form-group">
+                <label>Wish List</label>
+                <p>- New guitar</p>
+                <p>- Ipad</p>
+              </div>
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Referred by...</label>
+                  <p>- Ms. Reference</p>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Color Code</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Driver's License State</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Driver License #</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Place of Birth</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Social Security #</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Country of Citizenship</label>
+                  <input class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Passport #</label>
+                  <input class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-8">
+                  <label>Agency for Background Check</label>
+                  <input class="form-control">
+                </div>
+              </div>
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+              <div class="form-row">
+                <div class="form-group col-md-8">
+                  <label>Child / Dependent relationships</label>
+                  <input class="form-control">
+                </div>
+              </div>
+            </form>
+
+            <form class="form_family border-bottom pt-3 pb-3">
+              <div class="form-row">
+                <div class="form-group col-md-8">
+                  <label>Admin Notes</label>
+                  <textarea class="form-control" rows="5" placeholder="Note"></textarea>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- School Location -->
+      <div *ngIf="state =='schoolLocation'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>INSTITUTION</h4>
             </div>
-            <div class="table__body--columns">
-              <p class="resend">Resend Invitation</p>
+            <div class="table__header--columns col-3">
+              <h4>ADDRESS</h4>
             </div>
-            <div class="table__body--columns">
-              <p>mama@gmail.com</p>
+            <div class="table__header--columns col-3">
+              <h4>PHONE #</h4>
             </div>
-            <div class="table__body--columns">
-              <p>888-555-1212</p>
-            </div>
-            <div class="table__body--columns">
-              <p>Parent/Legal Guardian</p>
+            <div class="table__header--columns col-3">
+              <h4>WORKING HOURS</h4>
             </div>
           </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>School 1</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Address 1234 LA CA.</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>07:00 AM - 03:00 PM</p>
+            </div>
+          </div>
+        </div>
       </div>
+      <!-- School Teachers -->
+      <div *ngIf="state =='schoolTeachers'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>NAME</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MOBILE #</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>SUBJECT</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Jane Smith</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>mama@gmail.com</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Principal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- School Task -->
+      <div *ngIf="state =='schoolTask'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>LEAD</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>SUBJECT</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DATE</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Chore 1</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Mama</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>History</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>30 may 2019 - 4:00 AM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- School Classmates -->
+      <div *ngIf="state =='schoolClassmates'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>NAME</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MOBILE #</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>SUBJECT</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Jane Smith</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>mama@gmail.com</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Principal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical Records -->
+      <div *ngIf="state =='medicalRecords'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-6">
+              <h4>DESCRIPTION</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>FILES</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Record 1</p>
+            </div>
+            <div class="table__body--columns col-6">
+              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+              </p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>files</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Medical Doctors -->
+      <div *ngIf="state =='medicalDoctors'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>NAME</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MOBILE #</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>SUBJECT</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Jane Smith</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>mama@gmail.com</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Pediatrician</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Medical Rx -->
+      <div *ngIf="state =='medicalRx'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-6">
+              <h4>DESCRIPTION</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>FILES</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Rx 1</p>
+            </div>
+            <div class="table__body--columns col-6">
+              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+              </p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>files</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Medical Appointments -->
+      <div *ngIf="state =='medicalAppointments'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-2">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-2">
+              <h4>LEAD</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DETAIL</h4>
+            </div>
+            <div class="table__header--columns col-2">
+              <h4>ADDRESS</h4>
+            </div>
+            <div class="table__header--columns col-2">
+              <h4>DATE</h4>
+            </div>
+            <div class="table__header--columns col-1">
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-2">
+              <p>Appoint</p>
+            </div>
+            <div class="table__body--columns col-2">
+              <p>mama</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Lorem ipsum dolor sit amet, consectetuer adipi</p>
+            </div>
+            <div class="table__body--columns col-2">
+              <p>Address 1234 LA CA.</p>
+            </div>
+            <div class="table__body--columns col-2">
+              <p>30 may 2019 - 04:00 AM</p>
+            </div>
+            <div class="table__body--columns col-1">
+              <p>File</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Family -->
+      <div *ngIf="state =='teamFamily'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>NAME</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MOBILE #</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>ROLE</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Jane Smith</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>mama@gmail.com</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Babysister</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Team Caretakers -->
+      <div *ngIf="state =='teamCaretakers'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>NAME</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MOBILE #</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>ROLE</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Jane Smith</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>mama@gmail.com</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Babysister</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Team Contacts -->
+      <div *ngIf="state =='teamContacts'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>NAME</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>MOBILE #</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>ROLE</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Jane Smith</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>mama@gmail.com</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>888-555-1212</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Babysister</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- General -->
+      <div *ngIf="state =='general'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-2">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-2">
+              <h4>LEAD</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DETAIL</h4>
+            </div>
+            <div class="table__header--columns col-2">
+              <h4>ADDRESS</h4>
+            </div>
+            <div class="table__header--columns col-2">
+              <h4>DATE</h4>
+            </div>
+            <div class="table__header--columns col-1">
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-2">
+              <p>Appoint</p>
+            </div>
+            <div class="table__body--columns col-2">
+              <p>mama</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Lorem ipsum dolor sit amet, consectetuer adipi</p>
+            </div>
+            <div class="table__body--columns col-2">
+              <p>Address 1234 LA CA.</p>
+            </div>
+            <div class="table__body--columns col-2">
+              <p>30 may 2019 - 04:00 AM</p>
+            </div>
+            <div class="table__body--columns col-1">
+              <p>File</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legal -->
+      <div *ngIf="state =='legal'">
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-6">
+              <h4>DESCRIPTION</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>FILES</h4>
+            </div>
+          </div>
+
+          <div class="table__body">
+            <div class="table__body--columns col-3">
+              <p>Doc 1</p>
+            </div>
+            <div class="table__body--columns col-6">
+              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+              </p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>files</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   </div>
-</div>

@@ -25,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px 15px;
+  padding: 0px 15px;
   background: #d8f1e6;
   margin-top: 10px;
   height: 50px;
@@ -40,10 +40,22 @@
 
   }
 
-  >div>h4 {
-    margin: 0 !important;
-    color: #001426;
-    font-family: avenirBlack;
+  >div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    img {
+      max-width: 40px;
+      margin-right: 5px;
+    }
+
+    h4 {
+      margin: 0 !important;
+      color: #001426;
+      font-family: avenirBlack;
+    }
   }
 }
 
@@ -82,6 +94,10 @@
         color: #001426;
         cursor: pointer;
 
+        &.active{
+          border-bottom: 1px solid #001426;
+        }
+
         &:hover {
           text-decoration: none;
         }
@@ -97,9 +113,12 @@
             font-size: 0.85rem;
             cursor: pointer;
 
+            &.active{
+              border-bottom: 1px solid #001426;
+            }
+
             &:hover {
               color: #001426;
-              text-decoration: none;
             }
           }
         }
@@ -118,7 +137,7 @@
     display: flex;
     align-items: center;
 
-    &--columns{
+    &--columns {
       display: inline-block;
       padding-right: 15px;
 
@@ -148,7 +167,7 @@
     border-bottom: 2px solid #97c9ff;
 
 
-    &--columns{
+    &--columns {
       display: inline-block;
       padding-right: 15px;
 
@@ -161,3 +180,6 @@
     }
   }
 }
+
+
+/*** Calendario ***/

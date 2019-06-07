@@ -4,44 +4,59 @@
       <div class="sidebar__header row">
         <a href="#"><i>IC</i></a>
         <div>
+          <img src="../../../assets/icono.png" alt="">
           <h4>Users</h4>
         </div>
       </div>
       <div class="sidebar__body mt-4">
         <ul class="sidebar__body--list">
-          <li class="sidebar__item"><a (click)="state = 'userInfo'">User info</a></li>
-          <li class="sidebar__item"><a>Calendar</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 'userInfo'}" (click)="state = 'userInfo'">User
+              info</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}"
+              (click)="state = 'calendar'">Calendar</a></li>
 
           <li class="sidebar__item"><a data-toggle="collapse" href="#collapseSchool" role="button" aria-expanded="false"
               aria-controls="collapseSchool">School</a>
             <ul class="sidebar__item--list collapse" id="collapseSchool">
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolLocation'">Location</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolTeachers'">Teachers</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolTask'">Task</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'schoolClassmates'">Classmates</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolLocation'}"
+                  (click)="state = 'schoolLocation'">Location</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTeachers'}"
+                  (click)="state = 'schoolTeachers'">Teachers</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTask'}"
+                  (click)="state = 'schoolTask'">Task</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolClassmates'}"
+                  (click)="state = 'schoolClassmates'">Classmates</a></li>
             </ul>
           </li>
 
           <li class="sidebar__item"><a data-toggle="collapse" href="#collapseMedical" role="button"
               aria-expanded="false" aria-controls="collapseMedical">Medical</a>
             <ul class="sidebar__item--list collapse" id="collapseMedical">
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalRecords'">Records</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalDoctors'">Doctors</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalRx'">Rx</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'medicalAppointments'">Appointments</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRecords'}"
+                  (click)="state = 'medicalRecords'">Records</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalDoctors'}"
+                  (click)="state = 'medicalDoctors'">Doctors</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRx'}"
+                  (click)="state = 'medicalRx'">Rx</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalAppointments'}"
+                  (click)="state = 'medicalAppointments'">Appointments</a></li>
             </ul>
           </li>
 
           <li class="sidebar__item"><a data-toggle="collapse" href="#collapseTeam" role="button" aria-expanded="false"
               aria-controls="collapseTeam">Team</a>
             <ul class="sidebar__item--list collapse" id="collapseTeam">
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'teamFamily'">Family</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'teamCaretakers'">Caretakers</a></li>
-              <li class="sidebar__item--list--subitem"><a (click)="state = 'teamContacts'">Contacts</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamFamily'}"
+                  (click)="state = 'teamFamily'">Family</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamCaretakers'}"
+                  (click)="state = 'teamCaretakers'">Caretakers</a></li>
+              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamContacts'}"
+                  (click)="state = 'teamContacts'">Contacts</a></li>
             </ul>
           </li>
-          <li class="sidebar__item"><a (click)="state = 'general'">General</a></li>
-          <li class="sidebar__item"><a (click)="state = 'legal'">Legal</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 'general'}"
+              (click)="state = 'general'">General</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="state = 'legal'">Legal</a></li>
         </ul>
       </div>
 
@@ -390,6 +405,14 @@
           </div>
         </div>
       </div>
+
+
+      <!-- Calendario -->
+      <div *ngIf="state =='calendar'">
+        
+      </div>
+
+
 
       <!-- School Location -->
       <div *ngIf="state =='schoolLocation'">

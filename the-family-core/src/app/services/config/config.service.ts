@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
+import { environment } from '../../../environments/environment';
 
 export interface Config {
   serverUrl: string;
@@ -10,11 +11,7 @@ export interface Config {
 })
 export class ConfigService {
 
-  configUrl = 'assets/config.json';
+  serverUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
-
-  getConfig() {
-    return this.http.get<Config>(this.configUrl);
-  }
+  constructor() { }
 }

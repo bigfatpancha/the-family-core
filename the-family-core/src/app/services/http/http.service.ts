@@ -10,23 +10,20 @@ import { Observable } from 'rxjs';
 })
 export class HttpService implements OnInit {
 
-  private config: Config;
 
   constructor(
     private http: HttpClient,
     private configService: ConfigService) { }
 
   ngOnInit() {
-    this.configService.getConfig()
-    .subscribe((data: Config) => this.config = data);
   }
 
   doGet(url: string, options: any): Observable<any> {
-    return this.http.get(this.config.serverUrl + url, options);
+    return this.http.get(this.configService.serverUrl + url, options);
   }
 
   doPost(url: string, body: any, options: any) {
-    return this.http.post(this.config.serverUrl + url, body, options);
+    return this.http.post(this.configService.serverUrl + url, body, options);
   }
 
 }

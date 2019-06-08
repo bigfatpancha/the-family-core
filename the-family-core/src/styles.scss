@@ -59,3 +59,36 @@
   font-family: sfSemibold;
   src: url(./fonts/SF-Pro-Text-Semibold.otf);
 }
+
+
+.form_family{
+  &.border-bottom{
+    border-bottom: 2px solid #007aff !important;
+  }
+
+  .form-group{
+    
+    >label{
+      font-size: 0.8rem;
+      font-family: sfRegular;
+      color: #001426;
+    }
+
+    .form-control{
+      font-size: 0.85rem;
+      color: #001426;
+      border: 1.5px solid #007aff;
+    }
+    
+    p{
+      color: #007aff;
+      font-family: sfBold;
+      font-size: 0.85rem;
+
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+
+  }
+}

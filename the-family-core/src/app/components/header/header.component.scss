@@ -1,0 +1,18 @@
+.header-back{
+    height: 50px;
+    background: #fff;
+    color: #007aff;
+    display: flex;
+    align-items: center;
+    font-family: sfSemibold;
+    font-size: 1.2rem;
+
+    span{
+        margin-right: 10px;
+        margin-left: 15px;
+    }
+    
+    p{
+        margin: 0;
+    }
+}

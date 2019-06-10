@@ -23,3 +23,32 @@
     color: #001426;
   }
 }
+
+.form_family {
+  .subtitle {
+    background: #d9ebff;
+    height: 40px;
+
+    h4 {
+      font-size: 0.8rem;
+      font-family: sfBold;
+      color: #001426;
+      margin: 0px;
+    }
+
+    .progress {
+      border: 1px solid #000;
+      background-color: transparent;
+      height: 0.5rem;
+
+      &-bar {
+        background-color: #000;
+      }
+    }
+
+    .add-image {
+      position: absolute;
+      right: -20px;
+    }
+  }
+}

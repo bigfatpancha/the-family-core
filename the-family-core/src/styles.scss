@@ -90,6 +90,7 @@
         width: auto;
         margin-right: 10px;
         cursor: pointer;
+        margin-bottom: 10px;
 
         &.active {
           background: #007aff;
@@ -99,8 +100,11 @@
     }
 
     &.days {
-      display: flex;
-      justify-content: center;
+      display: inline-block;
+      
+      @media screen and (min-width: 768px) {
+        margin-left: 40px;        
+      }
     }
 
     img.icono-select {
@@ -154,7 +158,7 @@
       }
     }
 
-    .custom-checkbox{
+    .custom-checkbox {
       font-family: sfBold;
       color: #007aff;
     }

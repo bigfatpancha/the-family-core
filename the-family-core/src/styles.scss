@@ -64,6 +64,10 @@
 .form_family {
   &.border-bottom {
     border-bottom: 2px solid #007aff !important;
+
+    &:last-child{
+      border: none !important;
+    }
   }
 
   .form-group {
@@ -136,7 +140,7 @@
 
     .opcion-selected {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
       margin-top: 10px;
 

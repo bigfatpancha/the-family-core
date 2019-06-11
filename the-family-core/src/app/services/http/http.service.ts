@@ -10,6 +10,11 @@ import { Observable } from 'rxjs';
 })
 export class HttpService implements OnInit {
 
+  options: any = {
+    'accept': 'application/json',
+    'X-CSRFToken': 'coN6gUnOiGowkBEdWhO9x57aX1cwuq12x56E7edfvwkN1OESzYMpo572KNTse7aZ',
+    'Access-Control-Allow-Origin': '*'
+  }
 
   constructor(
     private http: HttpClient,
@@ -19,7 +24,8 @@ export class HttpService implements OnInit {
   }
 
   doGet(url: string, options: any): Observable<any> {
-    return this.http.get(this.configService.serverUrl + url, options);
+    console.log('GET', this.configService.serverUrl + url)
+    return this.http.get(this.configService.serverUrl + url, this.options);
   }
 
   doPost(url: string, body: any, options: any) {

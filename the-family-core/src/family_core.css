@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'family_core';
+  src:  url('./fonts/family_core/family_core.eot?kw89w5');
+  src:  url('./fonts/family_core/family_core.eot?kw89w5#iefix') format('embedded-opentype'),
+    url('./fonts/family_core/family_core.ttf?kw89w5') format('truetype'),
+    url('./fonts/family_core/family_core.woff?kw89w5') format('woff'),
+    url('./fonts/family_core/family_core.svg?kw89w5#family_core') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'family_core' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-lupa:before {
+  content: "\e900";
+}

@@ -1,3 +1,107 @@
-<p>
-  dashboard works!
-</p>
+<header class="navbar navbar-expand-lg navbar-light bg-light header-dashboard">
+  <div class="container">
+    <a class="navbar-brand header-dashboard__brand" href="#">THE FAMILY CORE <span>Dashboard</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
+      <div class="d-inline-block mr-3 profile__user">
+        <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
+        <span>Mother Duck</span>
+      </div>
+      <a href="#" class="profile__link">Edit Profile</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="col-lg-10 offset-lg-1">
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mt-3">
+        <div class="input-group input-search">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">@</span>
+          </div>
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search"
+            aria-describedby="basic-addon1">
+        </div>
+      </div>
+    </div>
+
+    <section class="row mt-4">
+
+      <div routerLink="/users" class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Users/Access</span>
+      </div>
+
+      <div routerLink='/upload' class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Upload</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Location</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Chat</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Rewards</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Reports</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Payment</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <span>ICONO</span>
+        </div>
+        <span class="options__text">Resources</span>
+      </div>
+
+    </section>
+
+    <section class="row">
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="users__bloque mb-1">
+          <img src="../../../assets/nino.jpg" alt="Chico">
+        </div>
+        <span class="options__text">User 1</span>
+      </div>
+
+    </section>
+
+
+  </div>
+</main>

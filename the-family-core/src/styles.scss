@@ -65,14 +65,14 @@
   &.border-bottom {
     border-bottom: 2px solid #007aff !important;
 
-    &:last-child{
+    &:last-child {
       border: none !important;
     }
   }
 
   .form-group {
 
-    >label {
+    label {
       font-size: 0.8rem;
       font-family: sfBold;
       color: #001426;
@@ -87,7 +87,10 @@
         border-top-right-radius: 16px;
         border-bottom-right-radius: 16px;
         background: none;
-        cursor: pointer;
+
+        &.select{
+          cursor: pointer;
+        }
       }
 
       &.btn-day {
@@ -105,9 +108,9 @@
 
     &.days {
       display: inline-block;
-      
+
       @media screen and (min-width: 768px) {
-        margin-left: 40px;        
+        margin-left: 40px;
       }
     }
 
@@ -162,7 +165,7 @@
       }
     }
 
-    .custom-checkbox {
+    .custom-checkbox label {
       font-family: sfBold;
       color: #007aff;
     }
@@ -170,6 +173,14 @@
 
 }
 
+.form-inline .form-group {
+  margin-bottom: 1rem !important;
+}
+
+.input-group>.form-control:not(:first-child) {
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
 
 /*** BUTTONS ***/
 .btn-save {

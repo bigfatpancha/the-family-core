@@ -19,7 +19,7 @@
         <div class="form-group col-md-8">
           <label>Type</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>General Appointment</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -30,12 +30,7 @@
         <div class="form-group col-md-8">
           <label>Family member</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
-            <option selected>Select User</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
+          <input type="text" class="form-control custom-select" placeholder="Select User">
           <div class="opcion-selected col-12 col-sm-8 col-xl-6">
             <span>- Ms. Mother</span>
             <a class="btn btn-danger btn-sm">-</a>
@@ -47,12 +42,7 @@
         <div class="form-group col-md-8">
           <label>Lead</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
-            <option selected>Select User</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
+          <input type="text" class="form-control custom-select" placeholder="Select User">
         </div>
 
         <div class="form-group col-md-4 d-flex justify-content-md-center align-items-end">
@@ -104,27 +94,40 @@
     </div>
 
     <div class="form_family border-bottom pb-3 pt-3">
-      <div class="form-row">
-        <div class="form-group col-md-3 col-lg-2">
-          <label>Start Date</label>
-          <input class="form-control" type="date">
+
+      <div class="form-inline row mt-3">
+        <div class="form-group col-sm-6 col-lg-4 col-xl-3">
+          <div class="input-group" style="width: 100%;">
+            <label class="mb-0 d-flex align-items-center">Start Date</label>
+            <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"></button>
+            </div>
+          </div>
         </div>
-        <div class="col-md-1"></div>
-        <div class="form-group col-md-3 col-lg-2">
-          <label>Time</label>
-          <input class="form-control">
+        <div class="form-group col-sm-6 col-lg-3">
+          <div class="input-group">
+            <label class="mb-0 d-flex align-items-center">Time</label>
+            <input class="form-control ml-3" type="text">
+          </div>
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-3 col-lg-2">
-          <label>End Date</label>
-          <input class="form-control" type="date">
+      <div class="form-inline row">
+        <div class="form-group col-sm-6 col-lg-4 col-xl-3">
+          <div class="input-group" style="width: 100%;">
+            <label class="mb-0 d-flex align-items-center">End Date</label>
+            <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d2="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+            </div>
+          </div>
         </div>
-        <div class="col-md-1"></div>
-        <div class="form-group col-md-3 col-lg-2">
-          <label>Time</label>
-          <input class="form-control">
+        <div class="form-group col-sm-6 col-lg-3">
+          <div class="input-group">
+            <label class="mb-0 d-flex align-items-center">Time</label>
+            <input class="form-control ml-3" type="text">
+          </div>
         </div>
       </div>
 
@@ -132,7 +135,7 @@
         <div class="form-group col-md-4">
           <label>Time Zone</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>Select Time Zone</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -143,7 +146,7 @@
         <div class="form-group col-md-3">
           <label>Alert</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>None</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -158,7 +161,7 @@
         <div class="form-group col-md-4">
           <label>Repeat</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>Does not repeat</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -168,23 +171,31 @@
         <div class="form-group col-md-2">
           <label>Ends</label>
           <img src="../../../assets/icono.png" alt="#" class="icono-select">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>Never</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
           </select>
         </div>
-        <div class="form-group col-md-4 col-lg-3 offset-md-1">
-          <label>Start Date</label>
-          <input class="form-control" type="date">
+        <div class="form-group col-md-4 col-lg-3 d-flex align-items-end">
+          <div class="input-group" style="width: 100%;">
+            <label class="mb-0 d-flex align-items-center">End Date</label>
+            <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d3="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d3.toggle()" type="button"></button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-1 offset-md-7">
-          <label>Ocurrences</label>
-          <input class="form-control">
+
+      <div class="row">
+        <div class="form-group col-md-2 offset-md-6 mt-3">
+          <div class="input-group">
+            <label class="mb-0 d-flex align-items-center">Ocurrences</label>
+            <input class="form-control ml-3" type="text">
+          </div>
         </div>
       </div>
 
@@ -195,7 +206,7 @@
       <div class="form-row">
         <div class="form-group col-md-2">
           <img src="../../../assets/icono.png" alt="#" class="icono-select sin-label">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>1</option>
             <option value="1">2</option>
             <option value="2">3</option>
@@ -205,7 +216,7 @@
 
         <div class="form-group col-md-2">
           <img src="../../../assets/icono.png" alt="#" class="icono-select sin-label">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>Day</option>
             <option value="1">Week</option>
             <option value="2">Month</option>
@@ -257,7 +268,7 @@
 
         <div class="form-group col-md-3 col-lg-2">
           <img src="../../../assets/icono.png" alt="#" class="icono-select sin-label">
-          <select class="custom-select form-control">
+          <select class="custom-select select form-control">
             <option selected>State</option>
             <option value="1">Week</option>
             <option value="2">Month</option>
@@ -279,10 +290,9 @@
           <input type="text" class="form-control" placeholder="Fax #">
         </div>
       </div>
-
     </div>
 
-    <div class="form_family">
+    <div class="form_family pt-3">
       <div class="form-row">
         <div class="form-group col-md-8">
           <label>Add Notes</label>

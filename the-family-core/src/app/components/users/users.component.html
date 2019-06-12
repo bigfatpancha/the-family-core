@@ -9,12 +9,12 @@
       </div>
       <div class="sidebar__body mt-4">
         <ul class="sidebar__body--list">
-          <li class="sidebar__item"><a (click)="state = 'userInfo'">All</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}" (click)="state = 'schoolLocation'">Admin</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}" (click)="state = 'calendar'">Parent/legal Guardian</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}" (click)="state = 'calendar'">Child</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}" (click)="state = 'calendar'">Dependent</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}" (click)="state = 'calendar'">Nanny</a></li>
+          <li class="sidebar__item"><a (click)="state = 'All'">All</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Admin</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Parent/legal Guardian</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 2}" (click)="state = 2">Child</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 3}" (click)="state = 3">Dependent</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 4}" (click)="state = 4">Nanny</a></li>
         </ul>
       </div>
     </div>
@@ -39,36 +39,21 @@
                 <h4>ROLE</h4>
               </div>
             </div>
-  
-            <div class="table__body" routerLink="/user">
+
+            <div class="table__body" *ngFor="let contact of contacts" routerLink="/user" [hidden]="!showContact(contact.type)">
               <div class="table__body--columns col-3">
-                <p>Jane Smith</p>
+                <p>{{contact.name}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>mama@gmail.com</p>
+                <p>{{contact.email}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>888-555-1212</p>
+                <p>{{contact.phoneNumber}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>Babysister</p>
+                <p>{{formatType(contact.type)}}</p>
               </div>
             </div>
-
-            <div class="table__body">
-                <div class="table__body--columns col-3">
-                  <p>Jane Smith</p>
-                </div>
-                <div class="table__body--columns col-3">
-                  <p>mama@gmail.com</p>
-                </div>
-                <div class="table__body--columns col-3">
-                  <p>888-555-1212</p>
-                </div>
-                <div class="table__body--columns col-3">
-                  <p>Babysister</p>
-                </div>
-              </div>
 
           </div>
         </div>

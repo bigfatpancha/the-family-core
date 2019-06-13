@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { UserListResponse } from 'src/app/model/user-list';
+import { FamilyUserListResponse } from 'src/app/model/user-list';
 import { User } from 'src/app/model/user';
 import { Observable } from 'rxjs';
 import { Routes } from '../config/routes-enum';
@@ -12,11 +12,11 @@ export class UsersService {
 
   constructor(private http_service: HttpService) { }
 
-  doGetUsersList(): Observable<UserListResponse> {
-    return this.http_service.doGet(Routes.USERS, {});
+  doGetUsersList(): Observable<FamilyUserListResponse> {
+    return this.http_service.doGet(Routes.FAMILY_USERS, {});
   }
 
   doUsersIdGet(id: number): Observable<User> {
-    return this.http_service.doGet(Routes.USERS + id, {});
+    return this.http_service.doGet(Routes.FAMILY_USERS + id, {});
   }
 }

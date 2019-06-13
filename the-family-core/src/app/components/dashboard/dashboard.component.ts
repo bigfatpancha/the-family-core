@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
-import { UserList, UserListResponse } from 'src/app/model/user-list';
+import { UserList, UserListResponse, FamilyUserListResponse, FamilyUserList } from 'src/app/model/user-list';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,13 +9,13 @@ import { UserList, UserListResponse } from 'src/app/model/user-list';
 })
 export class DashboardComponent implements OnInit {
 
-  users: UserList[];
+  users: FamilyUserList[];
 
   constructor(private user_service: UsersService) { }
 
   ngOnInit() {
     this.user_service.doGetUsersList()
-    .subscribe((usersList: UserListResponse) => this.users = usersList.results);
+    .subscribe((usersList: FamilyUserListResponse) => this.users = usersList.results);
   }
 
 }

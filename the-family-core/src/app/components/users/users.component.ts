@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
 import { ContactResponse, Contact } from 'src/app/model/contact';
 import { UserRole } from 'src/app/model/user';
+import { FamilyUserList } from 'src/app/model/user-list';
 
 @Component({
   selector: 'app-users',
@@ -11,76 +12,39 @@ import { UserRole } from 'src/app/model/user';
 export class UsersComponent implements OnInit {
 
   state = 'All';
-  contacts: Contact[];
+  users: FamilyUserList[];
 
   constructor(private contactService: ContactsService) { }
 
   ngOnInit() {
     const data = {
-      "count": 3,
+      "count": 2,
       "next": null,
       "previous": null,
       "results": [
         {
-          "id": 3,
-          "type": 2,
-          "name": "A Classmate",
-          "detail": null,
-          "email": 'lala@lala.com',
-          "phoneNumber": '123-123-123',
+          "id": 5,
+          "role": 0,
+          "username": "developer",
+          "nickname": "",
           "avatar": null,
-          "familyMembers": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ],
-          "notifyTeam": false,
-          "notes": "",
-          "address": null
-        },
-        {
-          "id": 2,
-          "type": 1,
-          "name": "Miss Teacher",
-          "detail": null,
-          "email": 'okka@lala.com',
-          "phoneNumber": '423-6745-567',
-          "avatar": null,
-          "familyMembers": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ],
-          "notifyTeam": false,
-          "notes": "",
-          "address": null
+          "email": "lucia.julia.r@gmail.com",
+          "sendbirdId": "Q5",
+          "coordinate": null
         },
         {
           "id": 1,
-          "type": 0,
-          "name": "Dr Doctor",
-          "detail": null,
-          "email": 'nela@lala.com',
-          "phoneNumber": '5345-765-758',
+          "role": 0,
+          "username": "lepirata",
+          "nickname": "",
           "avatar": null,
-          "familyMembers": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ],
-          "notifyTeam": false,
-          "notes": "",
-          "address": null
+          "email": "martin@hourglass.tech",
+          "sendbirdId": "Q1",
+          "coordinate": null
         }
       ]
     }
-    this.contacts = data.results;
+    this.users = data.results;
     // this.contactService.doGetContacts()
     // .subscribe((data: ContactResponse) => this.contacts = data.results);
   }

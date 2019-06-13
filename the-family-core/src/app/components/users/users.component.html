@@ -40,18 +40,18 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let contact of contacts" routerLink="/user" [hidden]="!showContact(contact.type)">
+            <div class="table__body" *ngFor="let user of users" routerLink="/user" [hidden]="!showContact(user.role)">
               <div class="table__body--columns col-3">
-                <p>{{contact.name}}</p>
+                <p>{{user.username}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>{{contact.email}}</p>
+                <p>{{user.email}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>{{contact.phoneNumber}}</p>
+                <p>888-000-888</p> <!-- Deberia venir el numero de telefono en el pedido -->
               </div>
               <div class="table__body--columns col-3">
-                <p>{{formatType(contact.type)}}</p>
+                <p>{{formatType(user.role)}}</p>
               </div>
             </div>
 

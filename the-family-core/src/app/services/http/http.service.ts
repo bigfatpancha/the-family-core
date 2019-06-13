@@ -12,8 +12,7 @@ export class HttpService implements OnInit {
 
   options: any = {
     'accept': 'application/json',
-    'X-CSRFToken': 'coN6gUnOiGowkBEdWhO9x57aX1cwuq12x56E7edfvwkN1OESzYMpo572KNTse7aZ',
-    'Access-Control-Allow-Origin': '*'
+    'X-CSRFToken': 'kDPv99rjLwwd17u5RYbgFEawHWzjSgptofCLJpky4c7GkV8qr9itiMu04jmtYdNf'
   }
 
   constructor(

@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="sidebar__body mt-4">
-        <ul class="sidebar__body--list">
+        <ul class="sidebar__body--list pl-0 text-right">
           <li class="sidebar__item"><a (click)="state = 'All'">All</a></li>
           <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Admin</a></li>
           <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Parent/legal Guardian</a></li>
@@ -20,7 +20,10 @@
     </div>
     <div class="container__data">
       <div class="container__data--name">
-        <h4></h4> <!-- search icon y agregar usuario -->
+        <div class="d-flex w-100">
+          <div class="col-6">Lupa</div>
+          <div class="col-6">Agregar usuario</div>
+        </div>
       </div>
 
       <div>

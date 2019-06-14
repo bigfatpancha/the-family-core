@@ -47,8 +47,7 @@
     justify-content: flex-end;
 
     img {
-      max-width: 40px;
-      margin-right: 5px;
+      max-width: 45px;
     }
 
     h4 {
@@ -56,6 +55,17 @@
       color: #001426;
       font-family: avenirBlack;
     }
+  }
+
+  .user-pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
   }
 }
 
@@ -176,6 +186,14 @@
         margin: 0;
         font-size: 0.8rem;
         color: #999999;
+      }
+
+      span.icono-file{
+        background: #f05a23;
+        padding: 0.3rem;
+        color: #fff;
+        font-size: 1.2rem;
+        margin-bottom: 2px;
       }
     }
   }

@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'family_core';
+  src:  url('./fonts/family_core/family_core.eot?7it4f5');
+  src:  url('./fonts/family_core/family_core.eot?7it4f5#iefix') format('embedded-opentype'),
+    url('./fonts/family_core/family_core.ttf?7it4f5') format('truetype'),
+    url('./fonts/family_core/family_core.woff?7it4f5') format('woff'),
+    url('./fonts/family_core/family_core.svg?7it4f5#family_core') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'family_core' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-calendar:before {
+  content: "\e90c";
+}
+.icon-arrow-down:before {
+  content: "\e90b";
+}
+.icon-clip:before {
+  content: "\e901";
+}
+.icon-corazon-mas:before {
+  content: "\e902";
+}
+.icon-cruz:before {
+  content: "\e903";
+}
+.icon-guion:before {
+  content: "\e904";
+}
+.icon-star-mas:before {
+  content: "\e905";
+}
+.icon-triste-mas:before {
+  content: "\e906";
+}
+.icon-upload-chat:before {
+  content: "\e907";
+}
+.icon-user-chat .path1:before {
+  content: "\e908";
+  color: rgb(0, 0, 0);
+}
+.icon-user-chat .path2:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+}
+.icon-user-chat .path3:before {
+  content: "\e90a";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-lupa:before {
+  content: "\e900";
+}

@@ -61,34 +61,151 @@
 }
 
 
-.form_family{
-  &.border-bottom{
+.form_family {
+  &.border-bottom {
     border-bottom: 2px solid #007aff !important;
+
+    &:last-child {
+      border: none !important;
+    }
   }
 
-  .form-group{
-    
-    >label{
+  .form-group {
+
+    label {
       font-size: 0.8rem;
-      font-family: sfRegular;
+      font-family: sfBold;
       color: #001426;
     }
 
-    .form-control{
+    .form-control {
       font-size: 0.85rem;
       color: #001426;
       border: 1.5px solid #007aff;
+
+      &.custom-select {
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background: none;
+
+        &.select{
+          cursor: pointer;
+        }
+      }
+
+      &.btn-day {
+        width: auto;
+        margin-right: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+
+        &.active {
+          background: #007aff;
+          color: #fff;
+        }
+      }
     }
-    
-    p{
+
+    &.days {
+      display: inline-block;
+
+      @media screen and (min-width: 768px) {
+        margin-left: 40px;
+      }
+    }
+
+    img.icono-select {
+      position: absolute;
+      height: 35px;
+      top: 31px;
+      right: 4px;
+      cursor: pointer;
+
+      &.sin-label {
+        top: -1px;
+      }
+
+      &.flecha{
+        pointer-events: none;
+      }
+    }
+
+    &.button-save {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    p {
       color: #007aff;
       font-family: sfBold;
       font-size: 0.85rem;
 
-      &:last-child{
+      &:last-child {
         margin-bottom: 0;
       }
     }
 
+    .opcion-selected {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+
+      >span {
+        color: #007aff;
+        font-family: sfBold;
+      }
+
+      a {
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+    }
+
+    .custom-checkbox label {
+      font-family: sfBold;
+      color: #007aff;
+    }
+  }
+
+}
+
+.form-inline .form-group {
+  margin-bottom: 1rem !important;
+}
+
+.input-group>.form-control:not(:first-child) {
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.input-group .input-group-append .icon-calendar{
+  border: 1.5px solid #007aff;
+  font-size: 1.1rem;
+  background: #f6f6f6;
+}
+
+.input-group .input-group-append .icon-calendar:hover{
+  color: #fff;
+  background: #007aff;
+}
+
+/*** BUTTONS ***/
+.btn-save {
+  background: #000;
+  border-radius: 25px;
+  padding: 5px 40px;
+  color: #fff;
+  font-family: sfBold;
+
+  &:hover {
+    color: #fff;
+    background: #666;
+    transition: 0.25s;
   }
 }

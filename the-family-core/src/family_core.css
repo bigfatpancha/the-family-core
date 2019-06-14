@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'family_core';
-  src:  url('./fonts/family_core/family_core.eot?f3xcpz');
-  src:  url('./fonts/family_core/family_core.eot?f3xcpz#iefix') format('embedded-opentype'),
-    url('./fonts/family_core/family_core.ttf?f3xcpz') format('truetype'),
-    url('./fonts/family_core/family_core.woff?f3xcpz') format('woff'),
-    url('./fonts/family_core/family_core.svg?f3xcpz#family_core') format('svg');
+  src:  url('./fonts/family_core/family_core.eot?7it4f5');
+  src:  url('./fonts/family_core/family_core.eot?7it4f5#iefix') format('embedded-opentype'),
+    url('./fonts/family_core/family_core.ttf?7it4f5') format('truetype'),
+    url('./fonts/family_core/family_core.woff?7it4f5') format('woff'),
+    url('./fonts/family_core/family_core.svg?7it4f5#family_core') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-calendar:before {
+  content: "\e90c";
+}
 .icon-arrow-down:before {
   content: "\e90b";
 }

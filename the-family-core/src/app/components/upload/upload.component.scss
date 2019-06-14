@@ -48,8 +48,12 @@
 
     .add-image {
       position: absolute;
-      right: -20px;
+      right: -35px;
       cursor: pointer;
+      
+      img{
+        width: 70px;
+      }
     }
   }
 }

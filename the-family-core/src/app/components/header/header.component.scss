@@ -6,10 +6,19 @@
     align-items: center;
     font-family: sfSemibold;
     font-size: 1.2rem;
+    cursor: pointer;
 
     span{
         margin-right: 10px;
         margin-left: 15px;
+        transform: rotate(90deg);
+        
+
+        i{
+            font-size: 1.2rem;
+            font-weight: 600;
+            transform: rotate(90deg);
+        }
     }
     
     p{

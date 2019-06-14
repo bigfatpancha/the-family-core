@@ -119,10 +119,14 @@
       height: 35px;
       top: 31px;
       right: 4px;
-      pointer-events: none;
+      cursor: pointer;
 
       &.sin-label {
         top: -1px;
+      }
+
+      &.flecha{
+        pointer-events: none;
       }
     }
 
@@ -153,11 +157,9 @@
       }
 
       a {
-        border-radius: 25px;
+        border-radius: 50%;
         color: #fff;
-        width: 30px;
-        height: 30px;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -180,6 +182,17 @@
 .input-group>.form-control:not(:first-child) {
   border-top-left-radius: .25rem;
   border-bottom-left-radius: .25rem;
+}
+
+.input-group .input-group-append .icon-calendar{
+  border: 1.5px solid #007aff;
+  font-size: 1.1rem;
+  background: #f6f6f6;
+}
+
+.input-group .input-group-append .icon-calendar:hover{
+  color: #fff;
+  background: #007aff;
 }
 
 /*** BUTTONS ***/

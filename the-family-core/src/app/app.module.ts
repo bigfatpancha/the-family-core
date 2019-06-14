@@ -11,6 +11,7 @@ import { UploadComponent } from './components/upload/upload.component';
 import { UsersComponent } from './components/users/users.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FooterComponent } from './components/footer/footer.component';
     UploadComponent,
     UsersComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

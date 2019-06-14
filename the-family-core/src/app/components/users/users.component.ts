@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
-import { ContactResponse, Contact } from 'src/app/model/contact';
-import { UserRole } from 'src/app/model/user';
-import { FamilyUserList } from 'src/app/model/user-list';
+import { UserRole } from '../../model/user';
+import { FamilyUserList } from '../../model/user-list';
 
 @Component({
   selector: 'app-users',
@@ -11,7 +10,7 @@ import { FamilyUserList } from 'src/app/model/user-list';
 })
 export class UsersComponent implements OnInit {
 
-  state = 'All';
+  state: number = 5;
   users: FamilyUserList[];
 
   constructor(private contactService: ContactsService) { }
@@ -64,6 +63,6 @@ export class UsersComponent implements OnInit {
   }
 
   showContact(type) {
-    return this.state === 'All' || this.state === type;
+    return this.state === 5 || this.state === type;
   }
 }

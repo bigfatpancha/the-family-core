@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { Contact } from 'src/app/model/contact';
+import { Contact, ContactResponse } from 'src/app/model/contact';
 import { Observable } from 'rxjs';
 import { Routes } from '../config/routes-enum';
 
@@ -13,7 +13,7 @@ export class ContactsService {
 
   constructor(private http_service: HttpService) { }
 
-  doGetContacts(): Observable<Contact[]> {
+  doGetContacts(): Observable<ContactResponse> {
     return this.http_service.doGet(Routes.CONTACTS, {});
   }
 }

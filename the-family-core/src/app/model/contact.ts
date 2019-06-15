@@ -59,3 +59,21 @@ export class Contact {
     }
 
 }
+
+export class ContactResponse {
+    count: number;
+    next: string;
+    previous: string;
+    results: Contact[];
+
+    constructor(
+        count: number,
+        next: string,
+        previous: string,
+        results: Contact[]) {
+            this.count = count;
+            this.next = next;
+            this.previous = previous;
+            this.results = results;
+        }
+}

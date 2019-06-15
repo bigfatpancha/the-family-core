@@ -84,6 +84,14 @@
       margin: 0px;
       padding-left: 15px;
     }
+
+    i{
+      font-size: 1.25rem;
+    }
+
+    img{
+      width: 65px;
+    }
   }
 }
 
@@ -176,6 +184,14 @@
     align-items: center;
     border-bottom: 2px solid #97c9ff;
 
+    &.table_link{
+      cursor: pointer;
+
+      &:hover{
+        background: #ebf5ff;
+      }
+    }
+
 
     &--columns {
       display: inline-block;
@@ -194,6 +210,11 @@
         color: #fff;
         font-size: 1.2rem;
         margin-bottom: 2px;
+      }
+
+      &.resend-invitation>p{
+        font-family: sfBold;
+        color: #007fff;
       }
     }
   }

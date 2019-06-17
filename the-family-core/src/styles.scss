@@ -88,7 +88,7 @@
         border-bottom-right-radius: 16px;
         background: none;
 
-        &.select{
+        &.select {
           cursor: pointer;
         }
       }
@@ -111,18 +111,6 @@
 
       @media screen and (min-width: 768px) {
         margin-left: 40px;
-      }
-    }
-
-    img.icono-select {
-      position: absolute;
-      height: 35px;
-      top: 31px;
-      right: 4px;
-      pointer-events: none;
-
-      &.sin-label {
-        top: -1px;
       }
     }
 
@@ -153,11 +141,9 @@
       }
 
       a {
-        border-radius: 25px;
+        border-radius: 50%;
         color: #fff;
-        width: 30px;
-        height: 30px;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -182,17 +168,75 @@
   border-bottom-left-radius: .25rem;
 }
 
+.input-group .input-group-append .icon-calendar {
+  border: 1.5px solid #007aff;
+  font-size: 1.1rem;
+  background: #f6f6f6;
+}
+
+.input-group .input-group-append .icon-calendar:hover {
+  color: #fff;
+  background: #007aff;
+}
+
 /*** BUTTONS ***/
 .btn-save {
   background: #000;
   border-radius: 25px;
-  padding: 5px 40px;
+  padding: 5px 20px;
   color: #fff;
   font-family: sfBold;
+  font-size: 10px;
 
   &:hover {
     color: #fff;
     background: #666;
     transition: 0.25s;
+  }
+
+  &.invite {
+    background: #007aff;
+    padding: 5px 5px;
+    margin-left: 5px;
+    font-size: 10px;
+
+    &:hover {
+      background: rgba(0, 122, 255, 0.7);
+    }
+  }
+}
+
+.input-icon {
+  position: relative;
+
+  img.icono-select {
+    position: absolute;
+    height: 35px;
+    right: 0px;
+    pointer-events: none;
+    cursor: pointer;
+
+    &.flecha {
+      pointer-events: none;
+    }
+
+    &.icon-add {
+      pointer-events: all;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+
+  /*** BUTTONS ***/
+  .btn-save {
+    padding: 5px 40px;
+    font-size: 1rem;
+
+    &.invite {
+      padding: 5px 20px;
+      margin-left: 15px;
+      font-size: 1rem;
+    }
   }
 }

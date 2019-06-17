@@ -77,3 +77,11 @@ export class User {
             this.address = address;
     }
 }
+
+export enum UserRole {
+    ADMIN = 'Admin',
+    LEGAL_GUARDIAN = 'Co-Parent / Legal Guardian',
+    CHILD = 'Child',
+    DEPENDENT = 'Dependent',
+    NANNY = 'Nanny / Caregiver / Babysitter'
+}

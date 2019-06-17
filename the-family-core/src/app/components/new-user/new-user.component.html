@@ -1,3 +1,677 @@
-<p>
-  new-user works!
-</p>
+<app-header></app-header>
+<div class="header-info mb-4">
+  <h4>New User</h4>
+  <div class="buttons">
+    <a href="#" class="btn btn-sm btn-save">SAVE</a>
+    <a href="#" class="btn btn-sm btn-save invite">SAVE/INVITE</a>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="form_family border-bottom pb-3">
+    <div class="row mt-3">
+      <div class="col-md-8">
+        <form class="form_family">
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Legal Firts Name">
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" placeholder="M.I.">
+            </div>
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Legal Last Name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Nickname">
+            </div>
+            <div class="form-group col-md-4">
+              <input class="form-control" placeholder="Email">
+            </div>
+            <div class="form-group offset-1 offset-md-0 col-md-3 d-flex justify-content-md-center align-items-end">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label check-adelante" for="customCheck1">Send Invitation</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Mobile #">
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+              <div class="input-group" style="width: 100%;">
+                <label class="mb-0 d-flex align-items-center">Start Date</label>
+                <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary icon-calendar" (click)="d1.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Role</label>
+              <div class="input-icon">
+                <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+                <select class="custom-select select form-control">
+                  <option selected>Admin</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input class="form-control" placeholder="Password">
+            </div>
+            <div class="form-group col-md-6">
+              <input class="form-control" placeholder="Repeat Password">
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="upload-pic col-md-4 d-flex flex-column justify-content-center align-items-center">
+        <div class="pic-user">
+          <img src="../../../assets/icono.png" alt="Pic">
+        </div>
+        <a href="#">Upload Pic</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form_family border-bottom pb-3">
+    <div class="form_family border-bottom pb-3 pt-3">
+      <div class="form-row mb-2 mt-4">
+        <div class="form-group col-md-6 col-lg-4">
+          <input class="form-control" type="text" placeholder="Address Line 1">
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+          <input class="form-control" type="text" placeholder="Address Line 2">
+        </div>
+      </div>
+
+      <div class="form-row mb-2">
+        <div class="form-group col-md-3 col-lg-2">
+          <input class="form-control" type="text" placeholder="City">
+        </div>
+
+        <div class="form-group col-md-3 col-lg-2">
+          <div class="input-icon">
+            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <select class="custom-select select form-control">
+              <option selected>State</option>
+              <option value="1">Week</option>
+              <option value="2">Month</option>
+              <option value="3">Year</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group col-md-3 col-lg-2">
+          <input class="form-control" type="text" placeholder="Zip">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control" placeholder="Phone #">
+        </div>
+
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control" placeholder="Fax #">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form_family border-bottom pb-3 mt-5">
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Gender</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Color Code</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Height</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Weight</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Hair Color</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Eye Color</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Allergies</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Blood Type</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Country of Citizenship</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <input type="text" class="form-control" placeholder="Passport #">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>School State</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <input type="text" class="form-control" placeholder="Social Security #">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>School</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Grade</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-3">
+      <div class="col-12 col-md-10 input-add">
+        <div class="form-row">
+          <div class="form-group col-5 mb-0">
+            <input class="form-control" placeholder="Add Teacher Name">
+          </div>
+          <div class="form-group col-5 offset-md-1 mb-0">
+            <input class="form-control" placeholder="Subject">
+          </div>
+          <div class="col-1">
+            <div class="icon-add">
+              <a href="#">
+                <img src="../../../assets/img/mas.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <div class="opcion-selected col-12 col-sm-8 col-xl-6">
+          <span>- Ms. Homeroom - Social Studies</span>
+          <a class="btn btn-danger btn-sm p-1"><i class="icon-guion"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-3">
+      <div class="col-12 col-md-10 input-add">
+        <div class="form-row">
+          <div class="form-group col-5 mb-0">
+            <input class="form-control" placeholder="Medications / Rx">
+          </div>
+          <div class="form-group col-5 offset-md-1 mb-0">
+            <input class="form-control" placeholder="Dose">
+          </div>
+          <div class="col-1">
+            <div class="icon-add">
+              <a href="#">
+                <img src="../../../assets/img/mas.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <div class="opcion-selected col-12 col-sm-8 col-xl-6">
+          <span>- Ridelin - 2000 mg</span>
+          <a class="btn btn-danger btn-sm p-1"><i class="icon-guion"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form_family border-bottom pb-3 mt-5">
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Tops Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Bottoms Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Shoe Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Bra Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form_family border-bottom pb-3 mt-5">
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Shirt Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Pants Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Shoe Size</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form_family border-bottom pb-3 mt-5">
+    <div class="row mt-3 mb-3">
+      <div class="col-10 input-add">
+        <div class="form-row">
+          <div class="form-group col-9 mb-0">
+            <input class="form-control" placeholder="Favorites">
+          </div>
+          <div class="col-3 d-flex align-items-center">
+            <div class="icon-add d-flex align-items-center">
+              <a href="#" class="d-flex align-items-center">
+                <img src="../../../assets/img/corazon-mas.png" alt="#" class="icon-corazon">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <div class="opcion-selected col-12 col-sm-8 col-xl-6">
+          <span>- Red</span>
+          <a class="btn btn-danger btn-sm p-1"><i class="icon-guion"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-3">
+      <div class="col-10 input-add">
+        <div class="form-row">
+          <div class="form-group col-9 mb-0">
+            <input class="form-control" placeholder="Dislikes">
+          </div>
+          <div class="col-3 d-flex align-items-center">
+            <div class="icon-add d-flex align-items-center">
+              <a href="#" class="d-flex align-items-center">
+                <img src="../../../assets/img/sad.png" alt="#" class="icon-corazon">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <div class="opcion-selected col-12 col-sm-8 col-xl-6">
+          <span>- Asparagus</span>
+          <a class="btn btn-danger btn-sm p-1"><i class="icon-guion"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-3">
+      <div class="col-10 input-add">
+        <div class="form-row">
+          <div class="form-group col-9 mb-0">
+            <input class="form-control" placeholder="Wish List">
+          </div>
+          <div class="col-3 d-flex align-items-center">
+            <div class="icon-add d-flex align-items-center">
+              <a href="#" class="d-flex align-items-center">
+                <img src="../../../assets/img/star.png" alt="#" class="icon-corazon">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <div class="opcion-selected col-12 col-sm-8 col-xl-6">
+          <span>- New Guitar</span>
+          <a class="btn btn-danger btn-sm p-1"><i class="icon-guion"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form_family border-bottom pb-3 mt-5">
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon mb-3">
+          <img src="../../../assets/img/mas.png" alt="#" class="icono-select icon-add">
+          <input type="text" class="form-control custom-select" placeholder="Refered By...">
+        </div>
+        <div class="opcion-selected col-12 col-sm-8 col-xl-6">
+          <span>- Ms. Reference</span>
+          <a class="btn btn-danger btn-sm p-1"><i class="icon-guion"></i></a>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Color Code</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Driver's License State</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <input type="text" placeholder="Driver License #" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Place of Birth</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <input type="text" placeholder="Social Security #" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-4">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>Country of Citizenship</option>
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <input type="text" placeholder="Passport #" class="form-control">
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-4">
+      <div class="col-11 col-md-10 input-add">
+        <div class="form-row">
+          <div class="form-group col-9 mb-0">
+            <input class="form-control" placeholder="Agency for Background Check">
+          </div>
+          <div class="col-3 d-flex align-items-center">
+            <div class="icon-add d-flex align-items-center">
+              <a href="#" class="d-flex align-items-center">
+                <img src="../../../assets/img/mas.png" alt="#">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4 d-flex align-items-end offset-1">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="check2">
+          <label class="custom-control-label check-adelante" for="check2">Background check completed </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form_family border-bottom pb-3 mt-5">
+    <div class="form-row">
+      <div class="form-group col-md-8 mb-4">
+        <label>Child / Dependent relationship</label>
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+          <select class="custom-select select form-control">
+            <option selected>None</option>
+            <option value="1">Child 1</option>
+            <option value="2">Child 2</option>
+            <option value="3">Dependent 1</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form class="form_family border-bottom pt-3 pb-3 mb-5">
+    <div class="form-row">
+      <div class="form-group col-md-8 mb-0">
+        <label>Admin Notes</label>
+        <textarea class="form-control" rows="5" placeholder="Note"></textarea>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center align-items-end">
+        <div class="buttons new-user mt-3">
+          <a href="#" class="btn btn-sm btn-save">SAVE</a>
+          <a href="#" class="btn btn-sm btn-save invite">SAVE/INVITE</a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

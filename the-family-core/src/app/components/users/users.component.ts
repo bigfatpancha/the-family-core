@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
-import { UserRole } from '../../model/user';
 import { FamilyUserList } from '../../model/user-list';
 
 @Component({
@@ -48,19 +47,6 @@ export class UsersComponent implements OnInit {
     // .subscribe((data: ContactResponse) => this.contacts = data.results);
   }
 
-  formatType(type) {
-    if (type === 0) {
-      return UserRole.ADMIN;
-    } else if (type === 1) {
-      return UserRole.LEGAL_GUARDIAN;
-    } else if (type === 2) {
-      return UserRole.CHILD;
-    } else if (type === 3) {
-      return UserRole.DEPENDENT;
-    } else {
-      return UserRole.NANNY;
-    }
-  }
 
   showContact(type) {
     return this.state === 5 || this.state === type;

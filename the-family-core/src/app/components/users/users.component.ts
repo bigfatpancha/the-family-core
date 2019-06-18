@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactsService } from 'src/app/services/contacts/contacts.service';
-import { UserRole } from '../../model/user';
-import { FamilyUserList } from '../../model/user-list';
+import { FamilyUser, FamilyUserListResponse, UserRole } from '../../model/family';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-users',
@@ -11,9 +10,9 @@ import { FamilyUserList } from '../../model/user-list';
 export class UsersComponent implements OnInit {
 
   state: number = 5;
-  users: FamilyUserList[];
+  users: FamilyUser[];
 
-  constructor(private contactService: ContactsService) { }
+  constructor(private userService: UsersService) { }
 
   ngOnInit() {
     const data = {
@@ -44,8 +43,8 @@ export class UsersComponent implements OnInit {
       ]
     }
     this.users = data.results;
-    // this.contactService.doGetContacts()
-    // .subscribe((data: ContactResponse) => this.contacts = data.results);
+    // this.userService.doGetUsersList()
+    // .subscribe((data: FamilyUserListResponse) => this.users = data.results);
   }
 
   formatType(type) {

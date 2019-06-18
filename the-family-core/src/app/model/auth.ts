@@ -1,12 +1,10 @@
-import { User } from './user';
-
-export interface Login {
+export interface LoginRequest {
     username: string;
     email: string;
     password: string;
 }
 
-export class UserLogged {
+export class User {
     id: number;
     role: number;
     username: string;
@@ -125,10 +123,37 @@ export class UserLogged {
 
 export class LoginResponse {
     key: string;
-    user: UserLogged;
+    user: User;
     
-    constructor(key: string, user: UserLogged) {
+    constructor(key: string, user: User) {
         this.key = key;
         this.user = user;
+    }
+}
+
+export class RegistrationRequest {
+    username: string;
+    email: string;
+    password1: string;
+    password2: string;
+
+    constructor(
+        username: string,
+        email: string,
+        password1: string,
+        password2: string
+    ) {
+        this.username = username;
+        this.email = email;
+        this.password1 = password1;
+        this.password2 = password2;
+    }
+}
+
+export class RegistrationResponse {
+    key: string;
+
+    constructor(key: string) {
+        this.key = key;
     }
 }

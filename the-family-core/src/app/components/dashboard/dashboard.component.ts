@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
-import { Login, LoginResponse, UserLogged } from '../../model/login';
-import { LoginService } from '../../services/login/login.service';
-import { FamilyUserList, FamilyUserListResponse } from 'src/app/model/user-list';
+import { LoginResponse, User, LoginRequest } from '../../model/auth';
+import { AuthService } from '../../services/auth/auth.service';
+import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
 import { HttpService } from '../../services/http/http.service';
 
 @Component({
@@ -12,21 +12,21 @@ import { HttpService } from '../../services/http/http.service';
 })
 export class DashboardComponent implements OnInit, AfterContentInit {
 
-  body: Login = {
+  body: LoginRequest = {
     username: 'developer',
     email: 'lucia.julia.r@gmail.com',
     password: 'Susvin01'
   }
 
-  user: UserLogged;
-  users: FamilyUserList[]
+  user: User;
+  users: FamilyUser[]
 
-  constructor(private loginService: LoginService,
+  constructor(private authService: AuthService,
               private userService: UsersService,
               private httpService: HttpService) { }
 
   ngOnInit() {
-    this.loginService.doLoginPost(this.body)
+    this.authService.doAuthLoginPost(this.body)
     .subscribe( (data: LoginResponse) => {
       this.user = data.user;
       this.httpService.key = data.key;

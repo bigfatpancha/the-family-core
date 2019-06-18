@@ -20,12 +20,23 @@ export class HttpService implements OnInit {
   }
 
   doGet(url: string, options: any): Observable<any> {
-    console.log('GET', this.configService.serverUrl + url)
     return this.http.get(this.configService.serverUrl + url, options);
   }
 
   doPost(url: string, body: any, options: any): Observable<any> {
     return this.http.post(this.configService.serverUrl + url, body, options);
+  }
+
+  doPut(url: string, body: any, options: any): Observable<any> {
+    return this.http.put(this.configService.serverUrl + url, body, options);
+  }
+
+  doPatch(url: string, body: any, options: any): Observable<any> {
+    return this.http.patch(this.configService.serverUrl + url, body, options);
+  }
+
+  doDelete(url: string, options: any): Observable<any> {
+    return this.http.delete(this.configService.serverUrl + url, options);
   }
 
 }

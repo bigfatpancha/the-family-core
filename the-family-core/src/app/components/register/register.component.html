@@ -1,0 +1,79 @@
+<app-header></app-header>
+<div class="header-info mb-4">
+  <h4>Register User</h4>
+  <div class="buttons">
+    <a href="#" class="btn btn-sm btn-save">SAVE</a>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="form_family border-bottom pb-3">
+    <div class="row mt-3 flex-column-reverse flex-md-row">
+      <div class="col-md-8">
+        <form class="form_family">
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Legal Firts Name">
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" placeholder="M.I.">
+            </div>
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Legal Last Name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Nickname">
+            </div>
+            <div class="form-group col-md-7">
+              <input class="form-control" placeholder="Email">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <input class="form-control" placeholder="Mobile #">
+            </div>
+            <div class="form-group col-md-5 offset-md-2">
+              <div class="input-group" style="width: 100%;">
+                <label class="mb-0 d-flex align-items-center">Birth Date</label>
+                <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary icon-calendar" (click)="d1.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Role</label>
+              <div class="input-icon">
+                <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+                <select class="custom-select select form-control">
+                  <option selected>Admin</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input class="form-control" placeholder="Password">
+            </div>
+            <div class="form-group col-md-6">
+              <input class="form-control" placeholder="Repeat Password">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

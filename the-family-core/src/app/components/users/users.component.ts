@@ -46,17 +46,17 @@ export class UsersComponent implements OnInit {
     // this.userService.doGetUsersList()
     // .subscribe((data: FamilyUserListResponse) => this.users = data.results);
   }
-
+  
   formatType(type) {
-    if (type === 0) {
+    if(type === 0){
       return UserRole.ADMIN;
-    } else if (type === 1) {
+    } else if (type === 1){
       return UserRole.LEGAL_GUARDIAN;
     } else if (type === 2) {
       return UserRole.CHILD;
-    } else if (type === 3) {
+    } else if (type === 3){
       return UserRole.DEPENDENT;
-    } else {
+    } else{
       return UserRole.NANNY;
     }
   }

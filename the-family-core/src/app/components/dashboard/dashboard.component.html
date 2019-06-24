@@ -11,7 +11,8 @@
         <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
         <span>Mother Duck</span>
       </div>
-      <a href="#" class="profile__link">Edit Profile</a>
+      <!-- <a href="#" class="profile__link">Edit Profile</a> -->
+      <a href="#" class="profile__link" routerLink="/register">Register</a>
     </div>
   </div>
 </header>
@@ -84,7 +85,7 @@
 
     </section>
 
-    <section class="row">
+    <section class="row" [hidden]="true">
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options">
         <div class="users__bloque mb-1">

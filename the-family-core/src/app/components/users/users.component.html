@@ -43,7 +43,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let user of users" routerLink="/user" [hidden]="!showContact(user.role)">
+            <div class="table__body" *ngFor="let user of users" [routerLink]="['/user', user.id]" [hidden]="!showContact(user.role)">
               <div class="table__body--columns col-3">
                 <p>{{user.username}}</p>
               </div>

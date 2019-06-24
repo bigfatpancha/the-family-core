@@ -82,49 +82,49 @@
               <div class="form-row">
                 <div class="form-group col-md-5">
                   <label>Legal First Name</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.firstName}}" readonly>
                 </div>
                 <div class="form-group col-md-2">
                   <label>M.I.</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.middleName}}" readonly>
                 </div>
                 <div class="form-group col-md-5">
                   <label>Legal Last Name</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.lastName}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-5">
                   <label>Nickname</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.nickname}}" readonly>
                 </div>
                 <div class="form-group col-md-5">
                   <label>Email</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.email}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-5">
                   <label>Mobile #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.mobileNumber}}" readonly>
                 </div>
                 <div class="form-group col-md-5">
                   <label>Birth Date</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.birthDate}}" readonly>
                 </div>
               </div>
 
               <div class="form-group">
                 <label>Role</label>
-                <input class="form-control">
+                <input class="form-control" value="{{user.role}}" readonly>
               </div>
 
             </form>
           </div>
 
-          <div class="col-md-4 d-flex justify-content-center align-items-center pic-user"><img src="../../../assets/icono.png" alt="Pic"></div>
+          <div class="col-md-4 d-flex justify-content-center align-items-center pic-user"><img src="{{user.avatar}}" alt="Pic"></div>
 
         </div>
 
@@ -135,177 +135,177 @@
               <div class="form-row">
                 <div class="form-group col-md-5">
                   <label>Address Line 1</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.address.addressLine1}}" readonly>
                 </div>
                 <div class="form-group col-md-5">
                   <label>Address Line 2</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.address.addressLine2}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-3">
                   <label>City</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.address.city}}" readonly>
                 </div>
                 <div class="form-group col-md-3">
                   <label>State</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.address.state}}" readonly>
                 </div>
                 <div class="form-group col-md-3">
                   <label>Zip</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.address.zipCode}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-3">
                   <label>Phone #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo phone" readonly>
                 </div>
                 <div class="form-group col-md-3">
                   <label>Fax #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo fax" readonly>
                 </div>
               </div>
             </form>
 
-            <form class="form_family border-bottom pt-3 pb-3">
+            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.role === 2 || user.role === 3">
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Gender</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{formatGender(user.gender)}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Color Code</label>
-                  <input class="form-control">
+                  <input class="form-control" value="que seria el color code" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Height</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.height}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Weight</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.weight}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Hair Color</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.hairColor}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Eyes Color</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.eyeColor}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Allergies</label>
-                  <input class="form-control">
+                  <input class="form-control" value="tengo un array, cual muestro?" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Blood Type</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.bloodType}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Country of Citizenship</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.countryOfCitizenship}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Passport #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.passportNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>School State</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.schoolState}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Social Security #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.socialSecurityNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>School</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.school}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Grade</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.grade}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Medications / Rx</label>
-                  <p>- Ridelin - 2000 mg</p>
+                  <p>no tengo medicaciones</p>
                   <p>- Fluticasone - 5 mg</p>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Dose</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo dosis" readonly>
                 </div>
               </div>
 
             </form>
 
-            <form class="form_family border-bottom pt-3 pb-3">
+            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 1 && (user.role === 2 || user.role === 3)">
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Tops Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.topSize}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Bottoms Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.bottomsSize}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Shoe Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.shoeSize}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Bra Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.braSize}}" readonly>
                 </div>
               </div>
 
             </form>
 
-            <form class="form_family border-bottom pt-3 pb-3">
+            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 0 && (user.role === 2 || user.role === 3)">
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Shirt Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.shirtSize}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Pants Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.pantsSize}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Shoe Size</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.shoeSize}}" readonly>
                 </div>
               </div>
 
@@ -314,72 +314,69 @@
             <form class="form_family border-bottom pt-3 pb-3">
               <div class="form-group">
                 <label>Favorites</label>
-                <p>- Red</p>
-                <p>- Mac n' cheese</p>
+                <p *ngFor="let fav of user.favorites">- {{fav}}</p>
               </div>
 
               <div class="form-group">
                 <label>Dislikes</label>
-                <p>- Liquid cough medicine</p>
-                <p>- Asparagus</p>
+                <p *ngFor="let dis of user.dislikes">- {{dis}}</p>
               </div>
 
               <div class="form-group">
                 <label>Wish List</label>
-                <p>- New guitar</p>
-                <p>- Ipad</p>
+                <p *ngFor="let wish of user.wishlist">- {{wish}}</p>
               </div>
             </form>
 
-            <form class="form_family border-bottom pt-3 pb-3">
+            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.role === 4">
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Referred by...</label>
-                  <p>- Ms. Reference</p>
+                  <p *ngFor="let ref of user.referredBy">- {{ref}}</p>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Color Code</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo color code" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Driver's License State</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo drivers license state" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Driver License #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo drivers license #" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Place of Birth</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo place of birth" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Social Security #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.socialSecurityNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Country of Citizenship</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.countryOfCitizenship}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Passport #</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.passportNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-8">
                   <label>Agency for Background Check</label>
-                  <input class="form-control">
+                  <input class="form-control" value="no tengo agency" readonly>
                 </div>
               </div>
             </form>
@@ -388,7 +385,7 @@
               <div class="form-row">
                 <div class="form-group col-md-8">
                   <label>Child / Dependent relationships</label>
-                  <input class="form-control">
+                  <input class="form-control" value="{{user.relationships}}" readonly>
                 </div>
               </div>
             </form>
@@ -397,7 +394,7 @@
               <div class="form-row">
                 <div class="form-group col-md-8">
                   <label>Admin Notes</label>
-                  <textarea class="form-control" rows="5" placeholder="Note"></textarea>
+                  <textarea class="form-control" rows="5" placeholder="Note" value="{{user.adminNotes}}" readonly></textarea>
                 </div>
               </div>
             </form>

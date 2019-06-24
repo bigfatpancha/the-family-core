@@ -34,15 +34,7 @@ export class UsersService {
     return this.http_service.doPost(Routes.FAMILY_USERS, body, options);
   }
 
-  doUsersIdGet(id: number): Observable<FamilyUser> {
-    this.headers.set('Authorization', 'Token ' + this.http_service.key )
-    const options = {
-      headers: this.headers
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id, options);
-  }
-
-  doUserIdGet(id: number): Observable<FamilyUser> {
+  doUserIdGet(id: number): Observable<User> {
     this.headers.set('Authorization', 'Token ' + this.http_service.key )
     const options = {
       headers: this.headers

@@ -185,7 +185,11 @@
     img{ 
       width: 160px; 
     } 
-  }  
+  }
+
+  .form-control[readonly] {
+    background-color: white;
+}
   
   /*** Calendario ***/
   

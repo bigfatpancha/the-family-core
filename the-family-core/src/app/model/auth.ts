@@ -1,3 +1,5 @@
+import { Address } from './contact';
+
 export interface LoginRequest {
     username: string;
     email: string;
@@ -10,6 +12,7 @@ export class User {
     username: string;
     nickname: string;
     avatar: string;
+    familyId: number;
     email: string;
     sendbirdId: string;
     firstName: string;
@@ -35,13 +38,14 @@ export class User {
     braSize: string;
     shirtSize: string;
     pantsSize: string;
-    allergies: string;
-    favorites: string;
-    dislikes: string;
-    wishlist: string;
+    allergies: string[];
+    favorites: string[];
+    dislikes: string[];
+    wishlist: string[];
     adminNotes: string;
-    address: string;
-    referredBy: string;
+    address: Address;
+    referredBy: string[];
+    relationships: any;
 
     constructor(
         id: number,
@@ -49,6 +53,7 @@ export class User {
         username: string,
         nickname: string,
         avatar: string,
+        familyId: number,
         email: string,
         sendbirdId: string,
         firstName: string,
@@ -74,18 +79,20 @@ export class User {
         braSize: string,
         shirtSize: string,
         pantsSize: string,
-        allergies: string,
-        favorites: string,
-        dislikes: string,
-        wishlist: string,
+        allergies: string[],
+        favorites: string[],
+        dislikes: string[],
+        wishlist: string[],
         adminNotes: string,
-        address: string,
-        referredBy: string) {
+        address: Address,
+        referredBy: string[],
+        relationships: string[]) {
             this.id = id;
             this.role = role;
             this.username = username;
             this.nickname = nickname;
             this.avatar = avatar;
+            this.familyId = familyId;
             this.email = email;
             this.sendbirdId = sendbirdId;
             this.firstName = firstName;
@@ -118,6 +125,7 @@ export class User {
             this.adminNotes = adminNotes;
             this.address = address;
             this.referredBy = referredBy;
+            this.relationships = relationships;
         }
 }
 

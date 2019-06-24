@@ -50,10 +50,30 @@
       position: absolute;
       right: -35px;
       cursor: pointer;
-      
-      img{
+
+      img {
         width: 70px;
       }
     }
+  }
+}
+
+.custom-checkbox {
+  .custom-control-label.check-adelante::after {
+    position: absolute;
+    top: -5px;
+    left: -35px;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    content: "";
+  }
+
+  .custom-control-label.check-adelante::before {
+    border-radius: .25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    top: -5px;
+    left: -35px;
   }
 }

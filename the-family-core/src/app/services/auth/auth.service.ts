@@ -18,7 +18,7 @@ export class AuthService {
 
   headers: HttpHeaders = new HttpHeaders({
     'accept': 'application/json',
-    'Content-Type': 'application/json'
+    'content-type': 'application/json'
   })
 
   constructor(private httpService: HttpService) { }

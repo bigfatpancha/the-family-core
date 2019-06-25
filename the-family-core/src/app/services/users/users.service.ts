@@ -15,7 +15,7 @@ export class UsersService {
 
   constructor(private http_service: HttpService) {
     this.headers = this.headers.set('accept', 'application/json')
-                               .set('Content-Type', 'application/json');
+                               .set('content-type', 'application/json');
   }
 
   doGetUsersList(): Observable<FamilyUserListResponse> {
@@ -27,41 +27,41 @@ export class UsersService {
   }
 
   doUserPost(body: User): Observable<User> {
-    this.headers.set('Authorization', 'Token ' + this.http_service.key )
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key )
     const options = {
-      headers: this.headers
+      headers: headers
     }
     return this.http_service.doPost(Routes.FAMILY_USERS, body, options);
   }
 
   doUserIdGet(id: number): Observable<User> {
-    this.headers.set('Authorization', 'Token ' + this.http_service.key )
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key )
     const options = {
-      headers: this.headers
+      headers: headers
     }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id, options);
+    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/', options);
   }
 
   doUserIdPut(id: number, body: User): Observable<User> {
-    this.headers.set('Authorization', 'Token ' + this.http_service.key )
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key )
     const options = {
-      headers: this.headers
+      headers: headers
     }
     return this.http_service.doPut(Routes.FAMILY_USERS + id, body, options);
   }
 
   doUserIdPatch(id: number, body: User): Observable<User> {
-    this.headers.set('Authorization', 'Token ' + this.http_service.key )
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key )
     const options = {
-      headers: this.headers
+      headers: headers
     }
     return this.http_service.doPatch(Routes.FAMILY_USERS + id, body, options);
   }
 
   doUserIdDelete(id: number): Observable<any> {
-    this.headers.set('Authorization', 'Token ' + this.http_service.key )
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key )
     const options = {
-      headers: this.headers
+      headers: headers
     }
     return this.http_service.doDelete(Routes.FAMILY_USERS + id, options);
   }

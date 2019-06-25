@@ -85,13 +85,13 @@
 
     </section>
 
-    <section class="row" [hidden]="true">
+    <section class="row">
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" *ngFor="let user of users">
         <div class="users__bloque mb-1">
-          <img src="../../../assets/nino.jpg" alt="Chico">
+          <img src="{{user.avatar}}" alt="avatar">
         </div>
-        <span class="options__text">User 1</span>
+        <span class="options__text">{{user.nickname}}</span>
       </div>
 
     </section>

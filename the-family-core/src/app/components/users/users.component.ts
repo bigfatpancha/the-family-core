@@ -15,46 +15,18 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UsersService) { }
 
   ngOnInit() {
-    const data = {
-      "count": 2,
-      "next": null,
-      "previous": null,
-      "results": [
-        {
-          "id": 5,
-          "role": 0,
-          "username": "developer",
-          "nickname": "",
-          "avatar": null,
-          "email": "lucia.julia.r@gmail.com",
-          "sendbirdId": "Q5",
-          "coordinate": null
-        },
-        {
-          "id": 1,
-          "role": 0,
-          "username": "lepirata",
-          "nickname": "",
-          "avatar": null,
-          "email": "martin@hourglass.tech",
-          "sendbirdId": "Q1",
-          "coordinate": null
-        }
-      ]
-    }
-    this.users = data.results;
-    // this.userService.doGetUsersList()
-    // .subscribe((data: FamilyUserListResponse) => this.users = data.results);
+    this.userService.doGetUsersList()
+    .subscribe((data: FamilyUserListResponse) => this.users = data.results);
   }
   
-  formatType(type) {
-    if(type === 0){
+  formatRole(role) {
+    if(role === 0){
       return UserRole.ADMIN;
-    } else if (type === 1){
+    } else if (role === 1){
       return UserRole.LEGAL_GUARDIAN;
-    } else if (type === 2) {
+    } else if (role === 2) {
       return UserRole.CHILD;
-    } else if (type === 3){
+    } else if (role === 3){
       return UserRole.DEPENDENT;
     } else{
       return UserRole.NANNY;

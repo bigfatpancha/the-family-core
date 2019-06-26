@@ -17,7 +17,12 @@ export class FamilyUser {
     username: string;
     nickname: string;
     avatar: string;
+    stars: number;
+    password1: string;
+    password2: string;
     email: string;
+    colorCode: string;
+    mobileNumber: string;
     sendbirdId: string;
     coordinate: string
     
@@ -27,7 +32,12 @@ export class FamilyUser {
         username: string,
         nickname: string,
         avatar: string,
+        stars: number,
+        password1: string,
+        password2: string,
         email: string,
+        colorCode: string,
+        mobileNumber: string,
         sendbirdId: string,
         coordinate: string) {
             this.id = id;
@@ -35,7 +45,12 @@ export class FamilyUser {
             this.username = username;
             this.nickname = nickname;
             this.avatar = avatar;
+            this.stars = stars;
+            this.password1 = password1;
+            this.password2 = password2;
             this.email = email;
+            this.colorCode = colorCode;
+            this.mobileNumber = mobileNumber;
             this.sendbirdId = sendbirdId;
             this.coordinate = coordinate;
     }

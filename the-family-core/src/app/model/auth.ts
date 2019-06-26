@@ -6,6 +6,37 @@ export interface LoginRequest {
     password: string;
 }
 
+export class ReferredBy {
+    name: string;
+    driversLicenseState: string;
+    driversLicenseNumber: string;
+    placeOfBirth: string;
+    passportNumber: string;
+    socialSecurityNumber: string;
+    countryOfCitizenship: string;
+    agencyForBackgroundCheck: string;
+
+    constructor(
+        name: string,
+        driversLicenseState: string,
+        driversLicenseNumber: string,
+        placeOfBirth: string,
+        passportNumber: string,
+        socialSecurityNumber: string,
+        countryOfCitizenship: string,
+        agencyForBackgroundCheck: string
+    ) {
+        this.name = name;
+        this.driversLicenseState = driversLicenseState;
+        this.driversLicenseNumber = driversLicenseNumber;
+        this.placeOfBirth = placeOfBirth;
+        this.passportNumber = passportNumber;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.countryOfCitizenship = countryOfCitizenship;
+        this.agencyForBackgroundCheck = agencyForBackgroundCheck;
+    }
+}
+
 export class User {
     id: number;
     role: number;
@@ -44,8 +75,8 @@ export class User {
     wishlist: string[];
     adminNotes: string;
     address: Address;
-    referredBy: string[];
-    relationships: any;
+    referredBy: ReferredBy;
+    relationships: number[];
 
     constructor(
         id: number,
@@ -85,8 +116,8 @@ export class User {
         wishlist: string[],
         adminNotes: string,
         address: Address,
-        referredBy: string[],
-        relationships: string[]) {
+        referredBy: ReferredBy,
+        relationships: number[]) {
             this.id = id;
             this.role = role;
             this.username = username;

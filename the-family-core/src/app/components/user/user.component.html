@@ -19,13 +19,13 @@
               aria-controls="collapseSchool">School</a>
             <ul class="sidebar__item--list collapse" id="collapseSchool">
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolLocation'}"
-                  (click)="state = 'schoolLocation'">Location</a></li>
+                  (click)="doContactsType(LOCATION, 'schoolLocation')">Location</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTeachers'}"
-                  (click)="state = 'schoolTeachers'">Teachers</a></li>
+                  (click)="doContactsType(TEACHER, 'schoolTeachers')">Teachers</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTask'}"
-                  (click)="state = 'schoolTask'">Task</a></li>
+                  (click)="doEventType(TASK, 'schoolTask')">Task</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolClassmates'}"
-                  (click)="state = 'schoolClassmates'">Classmates</a></li>
+                  (click)="doContactsType(CLASSMATE, 'schoolClassmates')">Classmates</a></li>
             </ul>
           </li>
 
@@ -33,13 +33,13 @@
               aria-expanded="false" aria-controls="collapseMedical">Medical</a>
             <ul class="sidebar__item--list collapse" id="collapseMedical">
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRecords'}"
-                  (click)="state = 'medicalRecords'">Records</a></li>
+                  (click)="doDocumentType(RECORDS, medicalRecords)">Records</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalDoctors'}"
-                  (click)="state = 'medicalDoctors'">Doctors</a></li>
+                  (click)="doContactsType(DOCTORS, 'medicalDoctors')">Doctors</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRx'}"
-                  (click)="state = 'medicalRx'">Rx</a></li>
+                  (click)="doDocumentType(RX, medicalRx)">Rx</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalAppointments'}"
-                  (click)="state = 'medicalAppointments'">Appointments</a></li>
+                  (click)="doEventType(APPOINTMENTS, 'medicalAppointments')">Appointments</a></li>
             </ul>
           </li>
 
@@ -47,16 +47,16 @@
               aria-controls="collapseTeam">Team</a>
             <ul class="sidebar__item--list collapse" id="collapseTeam">
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamFamily'}"
-                  (click)="state = 'teamFamily'">Family</a></li>
+                  (click)="getUsers('teamFamily')">Family</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamCaretakers'}"
-                  (click)="state = 'teamCaretakers'">Caretakers</a></li>
+                  (click)="getUsers('teamCaretakers')">Caretakers</a></li>
               <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamContacts'}"
-                  (click)="state = 'teamContacts'">Contacts</a></li>
+                  (click)="doContacts('teamContacts')">Contacts</a></li>
             </ul>
           </li>
           <li class="sidebar__item"><a [ngClass]="{'active': state == 'general'}"
-              (click)="state = 'general'">General</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="state = 'legal'">Legal</a></li>
+              (click)="doDocumentType(GENERAL, general)">General</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="doDocumentType(LEGAL, legal)">Legal</a></li>
         </ul>
       </div>
 
@@ -208,7 +208,7 @@
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Allergies</label>
-                  <input class="form-control" value="tengo un array, cual muestro?" readonly>
+                  <p *ngFor="let allergy of user.allergies">- {{allergy}}</p>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Blood Type</label>
@@ -248,18 +248,6 @@
                   <input class="form-control" value="{{user.grade}}" readonly>
                 </div>
               </div>
-
-              <!-- <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Medications / Rx</label>
-                  <p>no tengo medicaciones</p>
-                  <p>- Fluticasone - 5 mg</p>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Dose</label>
-                  <input class="form-control" value="no tengo dosis" readonly>
-                </div>
-              </div> -->
 
             </form>
 
@@ -336,47 +324,47 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label>Color Code</label>
-                  <input class="form-control" value="no tengo color code" readonly>
+                  <input class="form-control" value="{{user.colorCode}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Driver's License State</label>
-                  <input class="form-control" value="no tengo drivers license state" readonly>
+                  <input class="form-control" value="{{user.referredBy.driversLicenseState}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Driver License #</label>
-                  <input class="form-control" value="no tengo drivers license #" readonly>
+                  <input class="form-control" value="{{user.referredBy.driversLicenseNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Place of Birth</label>
-                  <input class="form-control" value="no tengo place of birth" readonly>
+                  <input class="form-control" value="{{user.referredBy.placeOfBirth}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Social Security #</label>
-                  <input class="form-control" value="{{user.socialSecurityNumber}}" readonly>
+                  <input class="form-control" value="{{user.referredBy.socialSecurityNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label>Country of Citizenship</label>
-                  <input class="form-control" value="{{user.countryOfCitizenship}}" readonly>
+                  <input class="form-control" value="{{user.referredBy.countryOfCitizenship}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label>Passport #</label>
-                  <input class="form-control" value="{{user.passportNumber}}" readonly>
+                  <input class="form-control" value="{{user.referredBy.passportNumber}}" readonly>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-8">
                   <label>Agency for Background Check</label>
-                  <input class="form-control" value="no tengo agency" readonly>
+                  <input class="form-control" value="{{user.referredBy.agencyForBackgroundCheck}}" readonly>
                 </div>
               </div>
             </form>
@@ -385,7 +373,7 @@
               <div class="form-row">
                 <div class="form-group col-md-8">
                   <label>Child / Dependent relationships</label>
-                  <input class="form-control" value="{{user.relationships}}" readonly>
+                  <p *ngFor="let rel of user.relationships">- {{rel}}</p>
                 </div>
               </div>
             </form>
@@ -429,18 +417,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let loc of contacts">
             <div class="table__body--columns col-3">
-              <p>School 1</p>
+              <p>{{loc.name}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Address 1234 LA CA.</p>
+              <p>{{loc.address.addressLine1}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{loc.phoneNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>07:00 AM - 03:00 PM</p>
+              <p>{{loc.detail}}</p>
             </div>
           </div>
         </div>
@@ -463,18 +451,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let teacher of contacts">
             <div class="table__body--columns col-3">
-              <p>Jane Smith</p>
+              <p>{{teacher.name}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>mama@gmail.com</p>
+              <p>{{teacher.email}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{teacher.phoneNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Principal</p>
+              <p>{{teacher.detail}}</p>
             </div>
           </div>
         </div>
@@ -497,18 +485,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let task of events">
             <div class="table__body--columns col-3">
-              <p>Chore 1</p>
+              <p>{{task.title}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Mama</p>
+              <p>{{task.familyMembers[0]}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>History</p>
+              <p>{{task.detail}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>30 may 2019 - 4:00 AM</p>
+              <p>{{task.start}}</p>
             </div>
           </div>
         </div>
@@ -531,18 +519,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let classmate of contacts">
             <div class="table__body--columns col-3">
-              <p>Jane Smith</p>
+              <p>{{classmate.name}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>mama@gmail.com</p>
+              <p>{{classmate.email}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{classmate.phoneNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Principal</p>
+              <p>{{classmate.detail}}</p>
             </div>
           </div>
         </div>
@@ -563,16 +551,15 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let doc of documents">
             <div class="table__body--columns col-3">
-              <p>Record 1</p>
+              <p>{{doc.title}}</p>
             </div>
             <div class="table__body--columns col-6">
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-              </p>
+              <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>files</p>
+              <p *ngFor="let file of doc.attachments">{{file.file}}</p>
             </div>
           </div>
         </div>
@@ -595,18 +582,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let con of contacts">
             <div class="table__body--columns col-3">
-              <p>Jane Smith</p>
+              <p>{{con.name}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>mama@gmail.com</p>
+              <p>{{con.email}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{con.phoneNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Pediatrician</p>
+              <p>{{con.detail}}</p>
             </div>
           </div>
         </div>
@@ -626,16 +613,15 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let doc of documents">
             <div class="table__body--columns col-3">
-              <p>Rx 1</p>
+              <p>{{doc.title}}</p>
             </div>
             <div class="table__body--columns col-6">
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-              </p>
+              <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>files</p>
+                <p *ngFor="let file of doc.attachments">{{file.file}}</p>
             </div>
           </div>
         </div>
@@ -663,24 +649,24 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let ev of events">
             <div class="table__body--columns col-2">
-              <p>Appoint</p>
+              <p>{{ev.title}}</p>
             </div>
             <div class="table__body--columns col-2">
-              <p>mama</p>
+              <p>{{ev.familyMembers[0]}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Lorem ipsum dolor sit amet, consectetuer adipi</p>
+              <p>{{ev.detail}}</p>
             </div>
             <div class="table__body--columns col-2">
-              <p>Address 1234 LA CA.</p>
+              <p>{{ev.address.addressLine1}}</p>
             </div>
             <div class="table__body--columns col-2">
-              <p>30 may 2019 - 04:00 AM</p>
+              <p>{{ev.start}}</p>
             </div>
             <div class="table__body--columns col-1">
-              <p>File</p>
+              <p *ngFor="let file of attachments">{{file.file}}</p>
             </div>
           </div>
         </div>
@@ -704,18 +690,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let user of users" [hidden]="user.role === 4">
             <div class="table__body--columns col-3">
-              <p>Jane Smith</p>
+              <p>{{user.nickname}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>mama@gmail.com</p>
+              <p>{{user.email}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{user.mobileNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Babysister</p>
+              <p>{{formatRole(user.role)}}</p>
             </div>
           </div>
         </div>
@@ -738,18 +724,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let user of users" [hidden]="user.role !== 4">
             <div class="table__body--columns col-3">
-              <p>Jane Smith</p>
+              <p>{{user.nickname}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>mama@gmail.com</p>
+              <p>{{user.email}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{user.mobileNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Babysister</p>
+              <p>{{formatRole(user.role)}}</p>
             </div>
           </div>
         </div>
@@ -772,18 +758,18 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let con of contacts">
             <div class="table__body--columns col-3">
-              <p>Jane Smith</p>
+              <p>{{con.name}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>mama@gmail.com</p>
+              <p>{{con.email}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>888-555-1212</p>
+              <p>{{con.phoneNumber}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Babysister</p>
+              <p>No tengo el rol</p>
             </div>
           </div>
         </div>
@@ -793,43 +779,26 @@
       <div *ngIf="state =='general'">
         <div class="table">
           <div class="table__header">
-            <div class="table__header--columns col-2">
+            <div class="table__header--columns col-3">
               <h4>TITLE</h4>
             </div>
-            <div class="table__header--columns col-2">
-              <h4>LEAD</h4>
+            <div class="table__header--columns col-6">
+              <h4>DESCRIPTION</h4>
             </div>
             <div class="table__header--columns col-3">
-              <h4>DETAIL</h4>
-            </div>
-            <div class="table__header--columns col-2">
-              <h4>ADDRESS</h4>
-            </div>
-            <div class="table__header--columns col-2">
-              <h4>DATE</h4>
-            </div>
-            <div class="table__header--columns col-1">
+              <h4>FILES</h4>
             </div>
           </div>
 
-          <div class="table__body">
-            <div class="table__body--columns col-2">
-              <p>Appoint</p>
+          <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body--columns col-3">
+              <p>{{doc.title}}</p>
             </div>
-            <div class="table__body--columns col-2">
-              <p>mama</p>
+            <div class="table__body--columns col-6">
+              <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>Lorem ipsum dolor sit amet, consectetuer adipi</p>
-            </div>
-            <div class="table__body--columns col-2">
-              <p>Address 1234 LA CA.</p>
-            </div>
-            <div class="table__body--columns col-2">
-              <p>30 may 2019 - 04:00 AM</p>
-            </div>
-            <div class="table__body--columns col-1">
-              <p>File</p>
+              <p *ngFor="let file of attachments">{{file.file}}</p>
             </div>
           </div>
         </div>
@@ -850,16 +819,15 @@
             </div>
           </div>
 
-          <div class="table__body">
+          <div class="table__body" *ngFor="let doc of documents">
             <div class="table__body--columns col-3">
-              <p>Doc 1</p>
+              <p>{{doc.title}}</p>
             </div>
             <div class="table__body--columns col-6">
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-              </p>
+              <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p>files</p>
+              <p *ngFor="let file of attachments">{{file.file}}</p>
             </div>
           </div>
         </div>

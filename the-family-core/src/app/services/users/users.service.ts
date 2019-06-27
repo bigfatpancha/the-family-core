@@ -30,6 +30,7 @@ export class UsersService {
   }
 
   doUserPost(body: User): Observable<User> {
+    console.log('este es el do post user')
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const options = {
       headers: headers

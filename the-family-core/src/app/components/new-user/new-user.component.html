@@ -15,22 +15,22 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Legal Firts Name">
+              <input [(ngModel)]="newUser.firstName" name="firstName" class="form-control" placeholder="Legal Firts Name">
             </div>
             <div class="form-group col-md-2">
-              <input class="form-control" placeholder="M.I.">
+              <input [(ngModel)]="newUser.middleName" name="middleName" class="form-control" placeholder="M.I.">
             </div>
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Legal Last Name">
+              <input [(ngModel)]="newUser.lastName" name="lastName" class="form-control" placeholder="Legal Last Name">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Nickname">
+              <input [(ngModel)]="newUser.nickname" name="nickname" class="form-control" placeholder="Nickname">
             </div>
             <div class="form-group col-md-4">
-              <input class="form-control" placeholder="Email">
+              <input [(ngModel)]="newUser.email" name="email" class="form-control" placeholder="Email">
             </div>
             <div class="form-group offset-1 offset-md-0 col-md-3 d-flex justify-content-md-center align-items-end">
               <div class="custom-control custom-checkbox">
@@ -42,12 +42,12 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Mobile #">
+              <input [(ngModel)]="newUser.mobileNumber" name="mobileNumber" class="form-control" placeholder="Mobile #">
             </div>
             <div class="form-group col-md-5 offset-md-2">
               <div class="input-group" style="width: 100%;">
                 <label class="mb-0 d-flex align-items-center">Birth Date</label>
-                <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
+                <input [(ngModel)]="newUser.birthDate" name="birthDate" class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary icon-calendar" (click)="d1.toggle()" type="button"></button>
                 </div>
@@ -61,8 +61,8 @@
               <label>Role</label>
               <div class="input-icon">
                 <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
-                <select class="custom-select select form-control">
-                  <option selected>Admin</option>
+                <select class="custom-select select form-control" [(ngModel)]="newUser.role" name="role">
+                  <option value="0">Admin</option>
                   <option value="1">Co-Parent / Legal Guardian</option>
                   <option value="2">Child</option>
                   <option value="3">Dependent</option>
@@ -72,14 +72,14 @@
             </div>
           </div>
 
-          <div class="form-row">
+          <!-- <div class="form-row">
             <div class="form-group col-md-6">
               <input class="form-control" placeholder="Password">
             </div>
             <div class="form-group col-md-6">
               <input class="form-control" placeholder="Repeat Password">
             </div>
-          </div>
+          </div> -->
 
         </form>
       </div>
@@ -98,23 +98,23 @@
     <div class="form_family border-bottom pb-3 pt-3">
       <div class="form-row mb-2 mt-4">
         <div class="form-group col-md-6 col-lg-4">
-          <input class="form-control" type="text" placeholder="Address Line 1">
+          <input [(ngModel)]="newUser.address.addressLine1" name="addressLine1" class="form-control" type="text" placeholder="Address Line 1">
         </div>
         <div class="form-group col-md-6 col-lg-4">
-          <input class="form-control" type="text" placeholder="Address Line 2">
+          <input [(ngModel)]="newUser.address.addressLine2" name="addressLine2" class="form-control" type="text" placeholder="Address Line 2">
         </div>
       </div>
 
       <div class="form-row mb-2">
         <div class="form-group col-md-3 col-lg-2">
-          <input class="form-control" type="text" placeholder="City">
+          <input [(ngModel)]="newUser.address.city" name="city" class="form-control" type="text" placeholder="City">
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-            <select class="custom-select select form-control">
-              <option selected>State</option>
+            <select class="custom-select select form-control" [(ngModel)]="newUser.address.state" name="state">
+              <option value="0">State</option>
               <option value="1">New York</option>
               <option value="2">Florida</option>
               <option value="3">California</option>
@@ -123,17 +123,17 @@
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
-          <input class="form-control" type="text" placeholder="Zip">
+          <input class="form-control" type="text" placeholder="Zip" [(ngModel)]="newUser.address.zip" name="zip">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-3">
-          <input type="text" class="form-control" placeholder="Phone #">
+          <input type="text" class="form-control" placeholder="Phone #" [(ngModel)]="newUser.address.phoneNumber" name="phoneNumber">
         </div>
 
         <div class="form-group col-md-3">
-          <input type="text" class="form-control" placeholder="Fax #">
+          <input type="text" class="form-control" placeholder="Fax #" [(ngModel)]="newUser.address.faxNumber" name="faxNumber">
         </div>
       </div>
     </div>
@@ -145,9 +145,10 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Male</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.gender" name="gender">
+            <option value="0">Male</option>
             <option value="1">Female</option>
+            <option value="2">Other</option>
           </select>
         </div>
       </div>
@@ -155,9 +156,9 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Color Code</option>
-            <option value="1">White</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.colorCode" name="colorCode">
+            <option value="color">Color Code</option>
+            <option value="#FFFFFF">White</option>
           </select>
         </div>
       </div>
@@ -165,11 +166,11 @@
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <input type="text" class="form-control" placeholder="Height">
+        <input type="text" class="form-control" placeholder="Height" [(ngModel)]="newUser.height" name="height">
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" class="form-control" placeholder="Weight">
+        <input type="text" class="form-control" placeholder="Weight" [(ngModel)]="newUser.weight" name="weight">
       </div>
     </div>
 
@@ -177,8 +178,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Hair Color</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.hairColor" name="hairColor">
+            <option value="hair">Hair Color</option>
             <option value="1">blond</option>
             <option value="2">blak</option>
           </select>
@@ -188,8 +189,8 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Eye Color</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.eyeColor" name="eyeColor">
+            <option value="eye">Eye Color</option>
             <option value="1">blue</option>
             <option value="2">green</option>
             <option value="3">brown</option>
@@ -199,8 +200,22 @@
     </div>
 
     <div class="form-row">
-      <div class="form-group col-md-4 mb-4">
-        <input type="text" class="form-control" placeholder="Allergies">
+
+      <div class="form-group col-md-4 offset-md-1 mb-4">
+        <div class="col-12 col-md-10 input-add">
+          <div class="form-row">
+            <div class="form-group col-5 mb-0">
+              <input class="form-control" placeholder="Add Allergies" [(ngModel)]="allergy">
+            </div>
+            <div class="col-1">
+              <div class="icon-add" (click)="addAllergy()">
+                <a>
+                  <img src="../../../assets/img/mas.png" alt="">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
@@ -215,14 +230,26 @@
           </select>
         </div>
       </div>
+      
+    </div>
+
+    <div class="form-row">
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <div class="opcion-selected col-12 col-sm-8 col-xl-6" *ngFor="let allergy of allergies">
+            <span>- {{allergy}}</span>
+            <a class="btn btn-danger btn-sm p-1" (click)="deleteAllergy(allergy)"><i class="icon-guion"></i></a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Country of Citizenship</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.countryOfCitizenship" name="countryOfCitizenship">
+            <option value="country">Country of Citizenship</option>
             <option value="1">USA</option>
             <option value="2">Canada</option>
             <option value="3">Argentina</option>
@@ -230,7 +257,7 @@
         </div>
       </div>
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" class="form-control" placeholder="Passport #">
+        <input type="text" class="form-control" placeholder="Passport #" [(ngModel)]="newUser.passport" name="passport">
       </div>
     </div>
 
@@ -238,15 +265,15 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>School State</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.schoolState" name="schoolState">
+            <option value="schoolSate">School State</option>
             <option value="1">New York</option>
             <option value="2">California</option>
           </select>
         </div>
       </div>
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" class="form-control" placeholder="Social Security #">
+        <input type="text" class="form-control" placeholder="Social Security #" [(ngModel)]="newUser.socialSecurityNumber" name="social">
       </div>
     </div>
 
@@ -254,8 +281,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>School</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.school" name="school">
+            <option value="school">School</option>
             <option value="1">St school</option>
           </select>
         </div>
@@ -264,8 +291,8 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Grade</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.grade" name="grade">
+            <option value="grade">Grade</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -301,34 +328,6 @@
         </div>
       </div>
     </div>
-
-    <div class="row mt-3 mb-3">
-      <div class="col-12 col-md-10 input-add">
-        <div class="form-row">
-          <div class="form-group col-5 mb-0">
-            <input class="form-control" placeholder="Medications / Rx" [(ngModel)]="medication.name">
-          </div>
-          <div class="form-group col-5 offset-md-1 mb-0">
-            <input class="form-control" placeholder="Dose" [(ngModel)]="medication.dose">
-          </div>
-          <div class="col-1">
-            <div class="icon-add" (click)="addMedication()">
-              <a>
-                <img src="../../../assets/img/mas.png" alt="">
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-8">
-        <div class="opcion-selected col-12 col-sm-8 col-xl-6" *ngFor="let med of medications">
-          <span>- {{med.name}} - {{med.dose}}</span>
-          <a class="btn btn-danger btn-sm p-1" (click)="deleteMedication(med)"><i class="icon-guion"></i></a>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="form_family border-bottom pb-3 mt-5">
@@ -336,8 +335,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Tops Size</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.topSize" name="topSize"> 
+            <option value="topSize">Tops Size</option>
             <option value="1">S</option>
             <option value="2">M</option>
             <option value="3">L</option>
@@ -348,8 +347,8 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Bottoms Size</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.bottomsSize" name="bottomsSize">
+            <option value="bottomsSize">Bottoms Size</option>
             <option value="1">S</option>
             <option value="2">M</option>
             <option value="3">L</option>
@@ -362,8 +361,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Shoe Size</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.shoeSize" name="shoeSize">
+            <option value="shoeSize">Shoe Size</option>
             <option value="1">6</option>
             <option value="2">6.5</option>
             <option value="3">7</option>
@@ -374,8 +373,8 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Bra Size</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.braSize" name="braSize">
+            <option value="braSize">Bra Size</option>
             <option value="1">90</option>
             <option value="2">95</option>
             <option value="3">100</option>
@@ -391,8 +390,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Shirt Size</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.shirtSize" name="shirtSize">
+            <option value="shirtSize">Shirt Size</option>
             <option value="1">S</option>
             <option value="2">M</option>
             <option value="3">L</option>
@@ -403,8 +402,8 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Pants Size</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.pantsSize" name="pantsSize">
+            <option value="pantsSize">Pants Size</option>
             <option value="1">S</option>
             <option value="2">M</option>
             <option value="3">L</option>
@@ -417,7 +416,7 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
+          <select class="custom-select select form-control" [(ngModel)]="newUser.shoeSize" name="shoeSize">
             <option selected>Shoe Size</option>
             <option value="1">6</option>
             <option value="2">6.5</option>
@@ -522,8 +521,8 @@
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Color Code</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.colorCode" name="colorCode">
+            <option value="color">Color Code</option>
             <option value="1">White</option>
           </select>
         </div>
@@ -534,15 +533,15 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Driver's License State</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.referredBy.driversLicenseState" name="driversLicenseState">
+            <option value="dlstate">Driver's License State</option>
             <option value="1">New York</option>
           </select>
         </div>
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Driver License #" class="form-control">
+        <input type="text" placeholder="Driver License #" class="form-control" [(ngModel)]="newUser.referredBy.driversLicenseNumber" name="driversLicenseNumber">
       </div>
     </div>
 
@@ -550,15 +549,15 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Place of Birth</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.referredBy.placeOfBirth" name="placeOfBirth">
+            <option value="place">Place of Birth</option>
             <option value="1">USA</option>
           </select>
         </div>
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Social Security #" class="form-control">
+        <input type="text" placeholder="Social Security #" class="form-control" [(ngModel)]="newUser.referredBy.socialSecurityNumber" name="socialSecurityNumber">
       </div>
     </div>
 
@@ -566,15 +565,15 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
-            <option selected>Country of Citizenship</option>
+          <select class="custom-select select form-control" [(ngModel)]="newUser.referredBy.countryOfCitizenship" name="countryOfCitizenship">
+            <option value="countryOfCitizenship">Country of Citizenship</option>
             <option value="1">USA</option>
           </select>
         </div>
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Passport #" class="form-control">
+        <input type="text" placeholder="Passport #" class="form-control" [(ngModel)]="newUser.referredBy.passporNumber" name="passporNumber">
       </div>
     </div>
 
@@ -582,7 +581,7 @@
       <div class="col-11 col-md-10 input-add">
         <div class="form-row">
           <div class="form-group col-9 mb-0">
-            <input class="form-control" placeholder="Agency for Background Check">
+            <input class="form-control" placeholder="Agency for Background Check" [(ngModel)]="newUser.referredBy.agencyForBackgroundCheck" name="agencyForBackgroundCheck">
           </div>
           <div class="col-3 d-flex align-items-center">
             <div class="icon-add d-flex align-items-center">
@@ -610,7 +609,7 @@
         <label>Child / Dependent relationship</label>
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control">
+          <select class="custom-select select form-control"> <!-- TODO pendiente de respuesta-->
             <option selected>None</option>
             <option value="1">Child 1</option>
             <option value="2">Child 2</option>
@@ -625,12 +624,12 @@
     <div class="form-row">
       <div class="form-group col-md-8 mb-0">
         <label>Admin Notes</label>
-        <textarea class="form-control" rows="5" placeholder="Note"></textarea>
+        <textarea class="form-control" rows="5" placeholder="Note" [(ngModel)]="newUser.adminNotes" name="adminNotes"></textarea>
       </div>
       <div class="col-md-4 d-flex justify-content-center align-items-end">
         <div class="buttons new-user mt-3">
-          <a href="#" class="btn btn-sm btn-save">SAVE</a>
-          <a href="#" class="btn btn-sm btn-save invite">SAVE/INVITE</a>
+          <a (click)="saveUser()" class="btn btn-sm btn-save">SAVE</a>
+          <a (click)="saveAndInviteUser()" class="btn btn-sm btn-save invite">SAVE/INVITE</a>
         </div>
       </div>
     </div>

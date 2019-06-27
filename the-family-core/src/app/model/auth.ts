@@ -16,15 +16,16 @@ export class ReferredBy {
     countryOfCitizenship: string;
     agencyForBackgroundCheck: string;
 
+    constructor()
     constructor(
-        name: string,
-        driversLicenseState: string,
-        driversLicenseNumber: string,
-        placeOfBirth: string,
-        passportNumber: string,
-        socialSecurityNumber: string,
-        countryOfCitizenship: string,
-        agencyForBackgroundCheck: string
+        name?: string,
+        driversLicenseState?: string,
+        driversLicenseNumber?: string,
+        placeOfBirth?: string,
+        passportNumber?: string,
+        socialSecurityNumber?: string,
+        countryOfCitizenship?: string,
+        agencyForBackgroundCheck?: string
     ) {
         this.name = name;
         this.driversLicenseState = driversLicenseState;
@@ -45,6 +46,7 @@ export class User {
     avatar: string;
     familyId: number;
     email: string;
+    colorCode: string;
     sendbirdId: string;
     firstName: string;
     middleName: string;
@@ -78,46 +80,48 @@ export class User {
     referredBy: ReferredBy;
     relationships: number[];
 
+    constructor();
     constructor(
-        id: number,
-        role: number,
-        username: string,
-        nickname: string,
-        avatar: string,
-        familyId: number,
-        email: string,
-        sendbirdId: string,
-        firstName: string,
-        middleName: string,
-        lastName: string,
-        gender: number,
-        mobileNumber: string,
-        birthDate: string,
-        height: string,
-        weight: string,
-        hairColor: string,
-        eyeColor: string,
-        bloodType: string,
-        countryOfCitizenship: string,
-        passportNumber: string,
-        socialSecurityNumber: string,
-        schoolState: string,
-        school: string,
-        grade: string,
-        topSize: string,
-        bottomsSize: string,
-        shoeSize: string,
-        braSize: string,
-        shirtSize: string,
-        pantsSize: string,
-        allergies: string[],
-        favorites: string[],
-        dislikes: string[],
-        wishlist: string[],
-        adminNotes: string,
-        address: Address,
-        referredBy: ReferredBy,
-        relationships: number[]) {
+        id?: number,
+        role?: number,
+        username?: string,
+        nickname?: string,
+        avatar?: string,
+        familyId?: number,
+        email?: string,
+        colorCode?: string,
+        sendbirdId?: string,
+        firstName?: string,
+        middleName?: string,
+        lastName?: string,
+        gender?: number,
+        mobileNumber?: string,
+        birthDate?: string,
+        height?: string,
+        weight?: string,
+        hairColor?: string,
+        eyeColor?: string,
+        bloodType?: string,
+        countryOfCitizenship?: string,
+        passportNumber?: string,
+        socialSecurityNumber?: string,
+        schoolState?: string,
+        school?: string,
+        grade?: string,
+        topSize?: string,
+        bottomsSize?: string,
+        shoeSize?: string,
+        braSize?: string,
+        shirtSize?: string,
+        pantsSize?: string,
+        allergies?: string[],
+        favorites?: string[],
+        dislikes?: string[],
+        wishlist?: string[],
+        adminNotes?: string,
+        address?: Address,
+        referredBy?: ReferredBy,
+        relationships?: number[]) {
             this.id = id;
             this.role = role;
             this.username = username;
@@ -125,6 +129,7 @@ export class User {
             this.avatar = avatar;
             this.familyId = familyId;
             this.email = email;
+            this.colorCode = colorCode;
             this.sendbirdId = sendbirdId;
             this.firstName = firstName;
             this.middleName = middleName;

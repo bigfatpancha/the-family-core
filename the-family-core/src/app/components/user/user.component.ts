@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from 'src/app/model/auth';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { DocumentResponse, Document } from '../../model/documents';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterContentInit {
   
   DOCTORS = '0';
   TEACHER = '1';
@@ -35,15 +35,19 @@ export class UserComponent implements OnInit {
   documents: Document[];
   users: FamilyUser[];
 
-  constructor(private usersService: UsersService,
-    private route: ActivatedRoute) {
-      this.route.params.subscribe(params => {
-        this.id = +params['id'];
-        this.findUser(this.id);
-     }); 
-    }
+  constructor(
+    private usersService: UsersService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() { }
+
+  ngAfterContentInit() {
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.findUser(this.id);
+   }); 
+  }
 
   findUser(id: number) {
     this.usersService.doUserIdGet(id)

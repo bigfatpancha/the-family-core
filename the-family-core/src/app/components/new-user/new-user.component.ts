@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User, ReferredBy } from 'src/app/model/auth';
+import { Address } from 'src/app/model/contact';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-new-user',
@@ -6,6 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-user.component.scss']
 })
 export class NewUserComponent implements OnInit {
+
+  newUser: User = new User();
+
+  allergies: string[] = [];
+  allergy = 'alergia';
 
   teachers: any[] = [];
   teacher = {
@@ -31,15 +39,45 @@ export class NewUserComponent implements OnInit {
   references: string[] = [];
   ref = 'Ms. Reference';
 
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit() {
+    this.newUser.role = 0;
+    this.newUser.address = new Address();
+    this.newUser.address.state = "0";
+    this.newUser.gender = 0;
+    this.newUser.colorCode = 'color';
+    this.newUser.hairColor = 'hair'
+    this.newUser.eyeColor = 'eye';
+    this.newUser.countryOfCitizenship = 'country';
+    this.newUser.schoolState = 'schoolState';
+    this.newUser.school = 'school';
+    this.newUser.grade = 'grade';
+    this.newUser.topSize = 'topSize';
+    this.newUser.bottomsSize = 'bottomsSize';
+    this.newUser.shoeSize = 'shoeSize';
+    this.newUser.braSize = 'braSize';
+    this.newUser.shirtSize = 'shirtSize';
+    this.newUser.pantsSize = 'pantsSize';
+    this.newUser.referredBy = new ReferredBy();
+    this.newUser.referredBy.driversLicenseState = 'dlstate';
+    this.newUser.referredBy.placeOfBirth = 'place';
+    this.newUser.referredBy.countryOfCitizenship = 'countryOfCitizenship';
+    this.addAllergy();
     this.addTeacher();
     this.addMedication();
     this.addFavorite();
     this.addDislike();
     this.addWish();
     this.addRef();
+  }
+
+  addAllergy() {
+    this.allergies.push(this.allergy);
+  }
+
+  deleteAllergy(allergy) {
+    this.allergies.splice(this.allergies.indexOf(allergy));
   }
 
   addTeacher() {
@@ -88,6 +126,21 @@ export class NewUserComponent implements OnInit {
 
   deleteRef(ref) {
     this.references.splice(this.references.indexOf(ref), 1);
+  }
+
+  saveUser() {
+    console.log('LLEGA ACAAA')
+    this.newUser.allergies = this.allergies;
+    this.newUser.favorites = this.favorites;
+    this.newUser.dislikes = this.dislikes;
+    this.newUser.wishlist = this.wishes;
+    // TODO revisar el tema de los referred by, solo puedo ingresar varios nombres, pero el resto de los datos me permite uno solo
+    // TODO revisar el tema de las relationships
+    this.usersService.doUserPost(this.newUser).subscribe((data: User) => console.log(data));
+  }
+
+  saveAndInviteUser() {
+
   }
 
 }

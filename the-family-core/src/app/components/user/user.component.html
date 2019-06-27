@@ -4,7 +4,9 @@
       <div class="sidebar__header row">
         <a href="#"><i>IC</i></a>
         <div>
-          <img src="../../../assets/icono.png" alt="">
+          <div class="user-pic">
+            <img src="../../../assets/icono.png" alt="">
+          </div>
           <h4>User</h4>
         </div>
       </div>
@@ -124,7 +126,11 @@
             </form>
           </div>
 
-          <div class="col-md-4 d-flex justify-content-center align-items-center pic-user"><img src="{{user.avatar}}" alt="Pic"></div>
+          <div class="col-md-4 d-flex justify-content-start flex-column align-items-center">
+            <div class="pic-user">
+              <img src="{{user.avatar}}" alt="Pic">
+            </div>
+          </div>
 
         </div>
 
@@ -394,7 +400,7 @@
 
       <!-- Calendario -->
       <div *ngIf="state =='calendar'">
-        
+
       </div>
 
 
@@ -559,7 +565,7 @@
               <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p *ngFor="let file of doc.attachments">{{file.file}}</p>
+              <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
             </div>
           </div>
         </div>
@@ -621,7 +627,7 @@
               <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-                <p *ngFor="let file of doc.attachments">{{file.file}}</p>
+              <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
             </div>
           </div>
         </div>
@@ -666,7 +672,7 @@
               <p>{{ev.start}}</p>
             </div>
             <div class="table__body--columns col-1">
-              <p *ngFor="let file of attachments">{{file.file}}</p>
+              <span class="d-inline-flex icono-file" *ngFor="let file of ev.attachments">{{file.file}}<i class="icon-clip"></i></span>
             </div>
           </div>
         </div>
@@ -798,7 +804,7 @@
               <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p *ngFor="let file of attachments">{{file.file}}</p>
+              <p *ngFor="let file of doc.attachments">{{file.file}}</p>
             </div>
           </div>
         </div>
@@ -827,7 +833,7 @@
               <p>{{doc.description}}</p>
             </div>
             <div class="table__body--columns col-3">
-              <p *ngFor="let file of attachments">{{file.file}}</p>
+              <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
             </div>
           </div>
         </div>

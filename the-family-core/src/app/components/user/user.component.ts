@@ -51,7 +51,7 @@ export class UserComponent implements OnInit {
   }
 
   formatGender(gender: number) {
-    return gender === 0 ? 'Male' : 'Female';
+    return gender === 0 ? 'Male' : gender === 1 ? 'Female' : 'Other';
   }
 
   isChildDependent() {

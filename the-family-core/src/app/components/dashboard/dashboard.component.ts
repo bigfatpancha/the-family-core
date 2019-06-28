@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, AfterContentInit {
     .subscribe( (data: LoginResponse) => {
       this.user = data.user;
       this.httpService.key = data.key;
+      this.httpService.id = data.user.id;
       this.getUsers();
     });
   }

@@ -48,6 +48,9 @@ export class User {
     email: string;
     colorCode: string;
     sendbirdId: string;
+    coordinate: string;
+    password1: string;
+    password2: string;
     firstName: string;
     middleName: string;
     lastName: string;
@@ -89,6 +92,9 @@ export class User {
         avatar?: string,
         familyId?: number,
         email?: string,
+        coordinate?: string,
+        password1?: string,
+        password2?: string,
         colorCode?: string,
         sendbirdId?: string,
         firstName?: string,
@@ -129,6 +135,9 @@ export class User {
             this.avatar = avatar;
             this.familyId = familyId;
             this.email = email;
+            this.coordinate = coordinate;
+            this.password1 = password1;
+            this.password2 = password2;
             this.colorCode = colorCode;
             this.sendbirdId = sendbirdId;
             this.firstName = firstName;

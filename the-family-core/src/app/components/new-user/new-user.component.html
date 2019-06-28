@@ -2,8 +2,8 @@
 <div class="header-info mb-4">
   <h4>New User</h4>
   <div class="buttons">
-    <a href="#" class="btn btn-sm btn-save">SAVE</a>
-    <a href="#" class="btn btn-sm btn-save invite">SAVE/INVITE</a>
+    <a (click)="saveUser()" class="btn btn-sm btn-save">SAVE</a>
+    <a (click)="saveAndInviteUser()" class="btn btn-sm btn-save invite">SAVE/INVITE</a>
   </div>
 </div>
 
@@ -27,10 +27,10 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input [(ngModel)]="newUser.nickname" name="nickname" class="form-control" placeholder="Nickname">
+              <input [(ngModel)]="newUser.nickname" name="nickname" class="form-control" placeholder="Nickname" required>
             </div>
             <div class="form-group col-md-4">
-              <input [(ngModel)]="newUser.email" name="email" class="form-control" placeholder="Email">
+              <input [(ngModel)]="newUser.email" name="email" class="form-control" placeholder="Email" required>
             </div>
             <div class="form-group offset-1 offset-md-0 col-md-3 d-flex justify-content-md-center align-items-end">
               <div class="custom-control custom-checkbox">
@@ -47,7 +47,7 @@
             <div class="form-group col-md-5 offset-md-2">
               <div class="input-group" style="width: 100%;">
                 <label class="mb-0 d-flex align-items-center">Birth Date</label>
-                <input [(ngModel)]="newUser.birthDate" name="birthDate" class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
+                <input [(ngModel)]="birthDate" name="birthDate" class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker" [minDate]="{year: 1950, month: 1, day: 1}">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary icon-calendar" (click)="d1.toggle()" type="button"></button>
                 </div>
@@ -72,23 +72,24 @@
             </div>
           </div>
 
-          <!-- <div class="form-row">
+          <div class="form-row">
             <div class="form-group col-md-6">
-              <input class="form-control" placeholder="Password">
+              <input class="form-control" placeholder="Password" [(ngModel)]="newUser.password1" name="password1" required>
             </div>
             <div class="form-group col-md-6">
-              <input class="form-control" placeholder="Repeat Password">
+              <input class="form-control" placeholder="Repeat Password" [(ngModel)]="newUser.password2" name="password2" required>
             </div>
-          </div> -->
+          </div>
 
         </form>
       </div>
 
       <div class="upload-pic col-md-4 d-flex flex-column justify-content-center align-items-center mb-4">
         <div class="pic-user">
+          <input type="file" accept="image/png, image/jpeg" [(ngModel)]="newUser.avatar" name="avatar">
           <img src="../../../assets/icono.png" alt="Pic">
         </div>
-        <a href="#">Upload Pic</a>
+        <a>Upload Pic</a>
       </div>
 
     </div>
@@ -115,9 +116,56 @@
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
             <select class="custom-select select form-control" [(ngModel)]="newUser.address.state" name="state">
               <option value="0">State</option>
-              <option value="1">New York</option>
-              <option value="2">Florida</option>
-              <option value="3">California</option>
+              <option value="Alabama">Alabama</option>
+              <option value="Alaska">Alaska</option>
+              <option value="Arizona">Arizona</option>
+              <option value="Arkansas">Arkansas</option>
+              <option value="California">California</option>
+              <option value="Colorado">Colorado</option>
+              <option value="Connecticut">Connecticut</option>
+              <option value="Delaware">Delaware</option>
+              <option value="Florida">Florida</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Hawaii">Hawaii</option>
+              <option value="Idaho">Idaho</option>
+              <option value="Illinois">Illinois</option>
+              <option value="Indiana">Indiana</option>
+              <option value="Iowa">Iowa</option>
+              <option value="Kansas">Kansas</option>
+              <option value="Kentucky">Kentucky</option>
+              <option value="Louisiana">Louisiana</option>
+              <option value="Maine">Maine</option>
+              <option value="Maryland">Maryland</option>
+              <option value="Massachusetts">Massachusetts</option>
+              <option value="Michigan">Michigan</option>
+              <option value="Minnesota">Minnesota</option>
+              <option value="Mississippi">Mississippi</option>
+              <option value="Missouri">Missouri</option>
+              <option value="Montana">Montana</option>
+              <option value="Nebraska">Nebraska</option>
+              <option value="Nevada">Nevada</option>
+              <option value="New Hampshire">New Hampshire</option>
+              <option value="New Jersey">New Jersey</option>
+              <option value="New Mexico">New Mexico</option>
+              <option value="New York">New York</option>
+              <option value="North Carolina">North Carolina</option>
+              <option value="North Dakota">North Dakota</option>
+              <option value="Ohio">Ohio</option>
+              <option value="Oklahoma">Oklahoma</option>
+              <option value="Oregon">Oregon</option>
+              <option value="Pennsylvania">Pennsylvania</option>
+              <option value="Rhode Island">Rhode Island</option>
+              <option value="South Carolina">South Carolina</option>
+              <option value="South Dakota">South Dakota</option>
+              <option value="Tennessee">Tennessee</option>
+              <option value="Texas">Texas</option>
+              <option value="Utah">Utah</option>
+              <option value="Vermont">Vermont</option>
+              <option value="Virginia">Virginia</option>
+              <option value="Washington">Washington</option>
+              <option value="West Virginia">West Virginia</option>
+              <option value="Wisconsin">Wisconsin</option>
+              <option value="Wyoming">Wyoming</option>
             </select>
           </div>
         </div>
@@ -140,7 +188,7 @@
   </div>
 
 
-  <div class="form_family border-bottom pb-3 mt-5">
+  <div class="form_family border-bottom pb-3 mt-5" *ngIf="newUser.role === '2' || newUser.role === '3'">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
@@ -159,6 +207,20 @@
           <select class="custom-select select form-control" [(ngModel)]="newUser.colorCode" name="colorCode">
             <option value="color">Color Code</option>
             <option value="#FFFFFF">White</option>
+            <option value="#FF0000">Red</option>
+            <option value="#0000FF">Blue</option>
+            <option value="#008000">Green</option>
+            <option value="#9370DB">Purple</option>
+            <option value="#FFA500">Orange</option>
+            <option value="#000000">Black</option>
+            <option value="#ADD8E6">Light blue</option>
+            <option value="#FFC0CB">Pink</option>
+            <option value="#808080">Gray</option>
+            <option value="#FFFF00">Yellow</option>
+            <option value="#90EE90">Light green</option>
+            <option value="#00FFFF">Cyan</option>
+            <option value="#4B0082">Indigo</option>
+            <option value="#000080">Navy</option>
           </select>
         </div>
       </div>
@@ -176,46 +238,18 @@
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.hairColor" name="hairColor">
-            <option value="hair">Hair Color</option>
-            <option value="1">blond</option>
-            <option value="2">blak</option>
-          </select>
-        </div>
+        <input type="text" class="form-control" placeholder="hair color" [(ngModel)]="newUser.hairColor" name="hairColor">
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.eyeColor" name="eyeColor">
-            <option value="eye">Eye Color</option>
-            <option value="1">blue</option>
-            <option value="2">green</option>
-            <option value="3">brown</option>
-          </select>
-        </div>
+          <input type="text" class="form-control" placeholder="eye color" [(ngModel)]="newUser.eyeColor" name="eyeColor">
       </div>
     </div>
 
     <div class="form-row">
 
-      <div class="form-group col-md-4 offset-md-1 mb-4">
-        <div class="col-12 col-md-10 input-add">
-          <div class="form-row">
-            <div class="form-group col-5 mb-0">
-              <input class="form-control" placeholder="Add Allergies" [(ngModel)]="allergy">
-            </div>
-            <div class="col-1">
-              <div class="icon-add" (click)="addAllergy()">
-                <a>
-                  <img src="../../../assets/img/mas.png" alt="">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="form-group col-md-4 mb-4">
+        <input type="text" class="form-control" placeholder="Allergies" [(ngModel)]="allergy" name="allergy">
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
@@ -231,17 +265,6 @@
         </div>
       </div>
       
-    </div>
-
-    <div class="form-row">
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <div class="opcion-selected col-12 col-sm-8 col-xl-6" *ngFor="let allergy of allergies">
-            <span>- {{allergy}}</span>
-            <a class="btn btn-danger btn-sm p-1" (click)="deleteAllergy(allergy)"><i class="icon-guion"></i></a>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="form-row">
@@ -263,14 +286,7 @@
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.schoolState" name="schoolState">
-            <option value="schoolSate">School State</option>
-            <option value="1">New York</option>
-            <option value="2">California</option>
-          </select>
-        </div>
+        <input type="text" class="form-control" placeholder="School State" [(ngModel)]="newUser.schoolState" name="schoolState">
       </div>
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <input type="text" class="form-control" placeholder="Social Security #" [(ngModel)]="newUser.socialSecurityNumber" name="social">
@@ -279,67 +295,26 @@
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.school" name="school">
-            <option value="school">School</option>
-            <option value="1">St school</option>
-          </select>
-        </div>
+        <input type="text" class="form-control" placeholder="School" [(ngModel)]="newUser.school" name="school">
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.grade" name="grade">
-            <option value="grade">Grade</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
-        </div>
+        <input type="text" class="form-control" placeholder="Grade" [(ngModel)]="newUser.grade" name="grade">
       </div>
     </div>
 
-    <div class="row mt-3 mb-3">
-      <div class="col-12 col-md-10 input-add">
-        <div class="form-row">
-          <div class="form-group col-5 mb-0">
-            <input class="form-control" placeholder="Add Teacher Name" [(ngModel)]="teacher.teacherName">
-          </div>
-          <div class="form-group col-5 offset-md-1 mb-0">
-            <input class="form-control" placeholder="Subject" [(ngModel)]="teacher.subject">
-          </div>
-          <div class="col-1">
-            <div class="icon-add" (click)="addTeacher()">
-              <a>
-                <img src="../../../assets/img/mas.png" alt="">
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-8">
-        <div class="opcion-selected col-12 col-sm-8 col-xl-6" *ngFor="let teacher of teachers">
-          <span>- {{teacher.teacherName}} - {{teacher.subject}}</span>
-          <a class="btn btn-danger btn-sm p-1" (click)="deleteTeacher(teacher)"><i class="icon-guion"></i></a>
-        </div>
-      </div>
-    </div>
   </div>
 
-  <div class="form_family border-bottom pb-3 mt-5">
+  <div class="form_family border-bottom pb-3 mt-5" *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 1 || newUser.gender === '1')">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.topSize" name="topSize"> 
             <option value="topSize">Tops Size</option>
-            <option value="1">S</option>
-            <option value="2">M</option>
-            <option value="3">L</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
           </select>
         </div>
       </div>
@@ -349,9 +324,9 @@
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.bottomsSize" name="bottomsSize">
             <option value="bottomsSize">Bottoms Size</option>
-            <option value="1">S</option>
-            <option value="2">M</option>
-            <option value="3">L</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
           </select>
         </div>
       </div>
@@ -363,9 +338,18 @@
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.shoeSize" name="shoeSize">
             <option value="shoeSize">Shoe Size</option>
-            <option value="1">6</option>
-            <option value="2">6.5</option>
-            <option value="3">7</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
           </select>
         </div>
       </div>
@@ -375,9 +359,9 @@
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.braSize" name="braSize">
             <option value="braSize">Bra Size</option>
-            <option value="1">90</option>
-            <option value="2">95</option>
-            <option value="3">100</option>
+            <option value="90">90</option>
+            <option value="95">95</option>
+            <option value="100">100</option>
           </select>
         </div>
       </div>
@@ -385,16 +369,16 @@
 
   </div>
 
-  <div class="form_family border-bottom pb-3 mt-5">
+  <div class="form_family border-bottom pb-3 mt-5" *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 0 || newUser.gender === '0')">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.shirtSize" name="shirtSize">
             <option value="shirtSize">Shirt Size</option>
-            <option value="1">S</option>
-            <option value="2">M</option>
-            <option value="3">L</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
           </select>
         </div>
       </div>
@@ -404,9 +388,9 @@
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.pantsSize" name="pantsSize">
             <option value="pantsSize">Pants Size</option>
-            <option value="1">S</option>
-            <option value="2">M</option>
-            <option value="3">L</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
           </select>
         </div>
       </div>
@@ -417,10 +401,19 @@
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
           <select class="custom-select select form-control" [(ngModel)]="newUser.shoeSize" name="shoeSize">
-            <option selected>Shoe Size</option>
-            <option value="1">6</option>
-            <option value="2">6.5</option>
-            <option value="3">7</option>
+            <option value="shoeSize">Shoe Size</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
           </select>
         </div>
       </div>
@@ -505,25 +498,32 @@
   </div>
 
 
-  <div class="form_family border-bottom pb-3 mt-5">
+  <div class="form_family border-bottom pb-3 mt-5" *ngIf="newUser.role === '4'">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <div class="input-icon mb-3">
-          <img src="../../../assets/img/mas.png" alt="#" class="icono-select icon-add" (click)="addRef()">
-          <input type="text" class="form-control custom-select" placeholder="Refered By..." [(ngModel)]="ref">
-        </div>
-        <div class="opcion-selected col-12 col-sm-8 col-xl-6" *ngFor="let ref of references">
-          <span>- {{ref}}</span>
-          <a class="btn btn-danger btn-sm p-1" (click)="deleteRef(ref)"><i class="icon-guion"></i></a>
-        </div>
+        <input type="text" placeholder="Refered By..." class="form-control" [(ngModel)]="referredBy.name" name="name">
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.colorCode" name="colorCode">
+          <select class="custom-select select form-control" [(ngModel)]="colorCode" name="colorCode">
             <option value="color">Color Code</option>
-            <option value="1">White</option>
+            <option value="#FFFFFF">White</option>
+            <option value="#FF0000">Red</option>
+            <option value="#0000FF">Blue</option>
+            <option value="#008000">Green</option>
+            <option value="#9370DB">Purple</option>
+            <option value="#FFA500">Orange</option>
+            <option value="#000000">Black</option>
+            <option value="#ADD8E6">Light blue</option>
+            <option value="#FFC0CB">Pink</option>
+            <option value="#808080">Gray</option>
+            <option value="#FFFF00">Yellow</option>
+            <option value="#90EE90">Light green</option>
+            <option value="#00FFFF">Cyan</option>
+            <option value="#4B0082">Indigo</option>
+            <option value="#000080">Navy</option>
           </select>
         </div>
       </div>
@@ -533,15 +533,65 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.referredBy.driversLicenseState" name="driversLicenseState">
+          <select class="custom-select select form-control" [(ngModel)]="referredBy.driversLicenseState" name="driversLicenseState">
             <option value="dlstate">Driver's License State</option>
-            <option value="1">New York</option>
+            <option value="0">State</option>
+            <option value="Alabama">Alabama</option>
+            <option value="Alaska">Alaska</option>
+            <option value="Arizona">Arizona</option>
+            <option value="Arkansas">Arkansas</option>
+            <option value="California">California</option>
+            <option value="Colorado">Colorado</option>
+            <option value="Connecticut">Connecticut</option>
+            <option value="Delaware">Delaware</option>
+            <option value="Florida">Florida</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Hawaii">Hawaii</option>
+            <option value="Idaho">Idaho</option>
+            <option value="Illinois">Illinois</option>
+            <option value="Indiana">Indiana</option>
+            <option value="Iowa">Iowa</option>
+            <option value="Kansas">Kansas</option>
+            <option value="Kentucky">Kentucky</option>
+            <option value="Louisiana">Louisiana</option>
+            <option value="Maine">Maine</option>
+            <option value="Maryland">Maryland</option>
+            <option value="Massachusetts">Massachusetts</option>
+            <option value="Michigan">Michigan</option>
+            <option value="Minnesota">Minnesota</option>
+            <option value="Mississippi">Mississippi</option>
+            <option value="Missouri">Missouri</option>
+            <option value="Montana">Montana</option>
+            <option value="Nebraska">Nebraska</option>
+            <option value="Nevada">Nevada</option>
+            <option value="New Hampshire">New Hampshire</option>
+            <option value="New Jersey">New Jersey</option>
+            <option value="New Mexico">New Mexico</option>
+            <option value="New York">New York</option>
+            <option value="North Carolina">North Carolina</option>
+            <option value="North Dakota">North Dakota</option>
+            <option value="Ohio">Ohio</option>
+            <option value="Oklahoma">Oklahoma</option>
+            <option value="Oregon">Oregon</option>
+            <option value="Pennsylvania">Pennsylvania</option>
+            <option value="Rhode Island">Rhode Island</option>
+            <option value="South Carolina">South Carolina</option>
+            <option value="South Dakota">South Dakota</option>
+            <option value="Tennessee">Tennessee</option>
+            <option value="Texas">Texas</option>
+            <option value="Utah">Utah</option>
+            <option value="Vermont">Vermont</option>
+            <option value="Virginia">Virginia</option>
+            <option value="Washington">Washington</option>
+            <option value="West Virginia">West Virginia</option>
+            <option value="Wisconsin">Wisconsin</option>
+            <option value="Wyoming">Wyoming</option>
           </select>
         </div>
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Driver License #" class="form-control" [(ngModel)]="newUser.referredBy.driversLicenseNumber" name="driversLicenseNumber">
+        <input type="text" placeholder="Driver License #" class="form-control" [(ngModel)]="referredBy.driversLicenseNumber" name="driversLicenseNumber">
       </div>
     </div>
 
@@ -549,7 +599,7 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.referredBy.placeOfBirth" name="placeOfBirth">
+          <select class="custom-select select form-control" [(ngModel)]="referredBy.placeOfBirth" name="placeOfBirth">
             <option value="place">Place of Birth</option>
             <option value="1">USA</option>
           </select>
@@ -557,7 +607,7 @@
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Social Security #" class="form-control" [(ngModel)]="newUser.referredBy.socialSecurityNumber" name="socialSecurityNumber">
+        <input type="text" placeholder="Social Security #" class="form-control" [(ngModel)]="referredBy.socialSecurityNumber" name="socialSecurityNumber">
       </div>
     </div>
 
@@ -565,7 +615,7 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.referredBy.countryOfCitizenship" name="countryOfCitizenship">
+          <select class="custom-select select form-control" [(ngModel)]="referredBy.countryOfCitizenship" name="countryOfCitizenship">
             <option value="countryOfCitizenship">Country of Citizenship</option>
             <option value="1">USA</option>
           </select>
@@ -573,7 +623,7 @@
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Passport #" class="form-control" [(ngModel)]="newUser.referredBy.passporNumber" name="passporNumber">
+        <input type="text" placeholder="Passport #" class="form-control" [(ngModel)]="referredBy.passporNumber" name="passporNumber">
       </div>
     </div>
 
@@ -581,7 +631,7 @@
       <div class="col-11 col-md-10 input-add">
         <div class="form-row">
           <div class="form-group col-9 mb-0">
-            <input class="form-control" placeholder="Agency for Background Check" [(ngModel)]="newUser.referredBy.agencyForBackgroundCheck" name="agencyForBackgroundCheck">
+            <input class="form-control" placeholder="Agency for Background Check" [(ngModel)]="referredBy.agencyForBackgroundCheck" name="agencyForBackgroundCheck">
           </div>
           <div class="col-3 d-flex align-items-center">
             <div class="icon-add d-flex align-items-center">
@@ -609,11 +659,8 @@
         <label>Child / Dependent relationship</label>
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control"> <!-- TODO pendiente de respuesta-->
-            <option selected>None</option>
-            <option value="1">Child 1</option>
-            <option value="2">Child 2</option>
-            <option value="3">Dependent 1</option>
+          <select multiple class="custom-select select form-control" [(ngModel)]="newUser.relationships" name="selectedRelationships">
+            <option *ngFor="let rel of relationships" value="rel.id">{{rel.nickname}}</option>
           </select>
         </div>
       </div>

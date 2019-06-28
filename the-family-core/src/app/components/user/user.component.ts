@@ -63,7 +63,6 @@ export class UserComponent implements OnInit, AfterContentInit {
       return this.user.role === 2 || this.user.role === 3;
     }
     return false;
-    
   }
 
   formatRole(role) {

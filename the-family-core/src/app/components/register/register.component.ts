@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { RegistrationRequest } from 'src/app/model/auth';
 
 @Component({
   selector: 'app-register',
@@ -7,9 +9,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  body: RegistrationRequest = new RegistrationRequest();
+  birthDate: {
+    year: number,
+    month: number,
+    day: number
+  }
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  formatToTwoDigits(num: number): string {
+    if (num < 10) {
+      return '0' + num;
+    }
+    return num.toString();
+  }
+
+  register() {
+    this.body.birthDate = this.birthDate.year + '-' + this.formatToTwoDigits(this.birthDate.month) + '-' + this.formatToTwoDigits(this.birthDate.day);
+    this.body.username = this.body.nickname;
+    this.authService.doAuthRegistrationPost(this.body);
   }
 
 }

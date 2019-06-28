@@ -186,27 +186,75 @@ export class LoginResponse {
 
 export class RegistrationRequest {
     username: string;
+    nickname: string;
     email: string;
     password1: string;
     password2: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    mobileNumber: string;
+    birthDate: string;
 
+    constructor()
     constructor(
-        username: string,
-        email: string,
-        password1: string,
-        password2: string
+        username?: string,
+        nickname?: string,
+        email?: string,
+        password1?: string,
+        password2?: string,
+        firstName?: string,
+        middleName?: string,
+        lastName?: string,
+        mobileNumber?: string,
+        birthDate?: string
     ) {
         this.username = username;
+        this.nickname = nickname;
         this.email = email;
         this.password1 = password1;
         this.password2 = password2;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.mobileNumber = mobileNumber;
+        this.birthDate = birthDate;
     }
 }
 
 export class RegistrationResponse {
-    key: string;
+    username: string;
+    nickname: string;
+    email: string;
+    password1: string;
+    password2: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    mobileNumber: string;
+    birthDate: string;
 
-    constructor(key: string) {
-        this.key = key;
+    constructor(
+        username: string,
+        nickname: string,
+        email: string,
+        password1: string,
+        password2: string,
+        firstName: string,
+        middleName: string,
+        lastName: string,
+        mobileNumber: string,
+        birthDate: string
+    ) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.password1 = password1;
+        this.password2 = password2;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.mobileNumber = mobileNumber;
+        this.birthDate = birthDate;
     }
 }

@@ -16,12 +16,12 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class AuthService {
 
-  headers: HttpHeaders = new HttpHeaders({
-    'accept': 'application/json',
-    'content-type': 'application/json'
-  })
+  headers: HttpHeaders = new HttpHeaders();
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService) {
+    this.headers = this.headers.set('accept', 'application/json')
+                               .set('content-type', 'application/json');
+  }
 
   doAuthLoginPost(body: LoginRequest): Observable<LoginResponse> {
     const options = {

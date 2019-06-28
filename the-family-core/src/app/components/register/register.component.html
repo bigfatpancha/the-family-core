@@ -2,7 +2,7 @@
 <div class="header-info mb-4">
   <h4>Register User</h4>
   <div class="buttons">
-    <a href="#" class="btn btn-sm btn-save">SAVE</a>
+    <a (click)="register()" class="btn btn-sm btn-save">SAVE</a>
   </div>
 </div>
 
@@ -14,33 +14,33 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Legal Firts Name">
+              <input class="form-control" placeholder="Legal Firts Name" [(ngModel)]="body.firstName" name="firstName">
             </div>
             <div class="form-group col-md-2">
-              <input class="form-control" placeholder="M.I.">
+              <input class="form-control" placeholder="M.I." [(ngModel)]="body.middleName" name="middleName">
             </div>
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Legal Last Name">
+              <input class="form-control" placeholder="Legal Last Name" [(ngModel)]="body.lastName" name="lastName">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Nickname">
+              <input class="form-control" placeholder="Nickname" [(ngModel)]="body.nickname" name="nickname">
             </div>
             <div class="form-group col-md-7">
-              <input class="form-control" placeholder="Email">
+              <input class="form-control" placeholder="Email" [(ngModel)]="body.email" name="email">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input class="form-control" placeholder="Mobile #">
+              <input class="form-control" placeholder="Mobile #" [(ngModel)]="body.mobileNumber" name="mobileNumber">
             </div>
             <div class="form-group col-md-5 offset-md-2">
               <div class="input-group" style="width: 100%;">
                 <label class="mb-0 d-flex align-items-center">Birth Date</label>
-                <input class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker">
+                <input [(ngModel)]="birthDate" class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker" [minDate]="{year: 1950, month: 1, day: 1}">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary icon-calendar" (click)="d1.toggle()" type="button"></button>
                 </div>
@@ -48,29 +48,12 @@
             </div>
           </div>
 
-
-          <div class="row">
-            <div class="form-group col-md-12">
-              <label>Role</label>
-              <div class="input-icon">
-                <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
-                <select class="custom-select select form-control">
-                  <option selected>Admin</option>
-                  <option value="1">Co-Parent / Legal Guardian</option>
-                  <option value="2">Child</option>
-                  <option value="3">Dependent</option>
-                  <option value="4">Nanny / Caregiver / Babysitter</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
           <div class="form-row">
             <div class="form-group col-md-6">
-              <input class="form-control" placeholder="Password">
+              <input class="form-control" placeholder="Password" [(ngModel)]="body.password1" name="password1">
             </div>
             <div class="form-group col-md-6">
-              <input class="form-control" placeholder="Repeat Password">
+              <input class="form-control" placeholder="Repeat Password" [(ngModel)]="body.password2" name="password2">
             </div>
           </div>
         </form>

@@ -86,10 +86,14 @@
 
       <div class="upload-pic col-md-4 d-flex flex-column justify-content-center align-items-center mb-4">
         <div class="pic-user">
-          <input type="file" accept="image/png, image/jpeg" [(ngModel)]="newUser.avatar" name="avatar">
           <img src="../../../assets/icono.png" alt="Pic">
         </div>
-        <a>Upload Pic</a>
+        <div class="form-group">
+          <label class="label-upload-pic">
+            <span class="title">Upload Pic</span>
+            <input type="file" accept="image/png, image/jpeg" [(ngModel)]="newUser.avatar" name="avatar">
+          </label>
+        </div>
       </div>
 
     </div>

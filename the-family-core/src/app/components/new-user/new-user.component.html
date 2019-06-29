@@ -15,7 +15,8 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input [(ngModel)]="newUser.firstName" name="firstName" class="form-control" placeholder="Legal Firts Name">
+              <input [(ngModel)]="newUser.firstName" name="firstName" class="form-control"
+                placeholder="Legal Firts Name">
             </div>
             <div class="form-group col-md-2">
               <input [(ngModel)]="newUser.middleName" name="middleName" class="form-control" placeholder="M.I.">
@@ -27,7 +28,8 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <input [(ngModel)]="newUser.nickname" name="nickname" class="form-control" placeholder="Nickname" required>
+              <input [(ngModel)]="newUser.nickname" name="nickname" class="form-control" placeholder="Nickname"
+                required>
             </div>
             <div class="form-group col-md-4">
               <input [(ngModel)]="newUser.email" name="email" class="form-control" placeholder="Email" required>
@@ -47,7 +49,8 @@
             <div class="form-group col-md-5 offset-md-2">
               <div class="input-group" style="width: 100%;">
                 <label class="mb-0 d-flex align-items-center">Birth Date</label>
-                <input [(ngModel)]="birthDate" name="birthDate" class="form-control ml-3" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d1="ngbDatepicker" [minDate]="{year: 1950, month: 1, day: 1}">
+                <input [(ngModel)]="birthDate" name="birthDate" class="form-control ml-3" placeholder="yyyy-mm-dd"
+                  name="dp" ngbDatepicker #d1="ngbDatepicker" [minDate]="{year: 1950, month: 1, day: 1}">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary icon-calendar" (click)="d1.toggle()" type="button"></button>
                 </div>
@@ -74,10 +77,12 @@
 
           <div class="form-row">
             <div class="form-group col-md-6">
-              <input class="form-control" placeholder="Password" [(ngModel)]="newUser.password1" name="password1" required>
+              <input class="form-control" placeholder="Password" [(ngModel)]="newUser.password1" name="password1"
+                required>
             </div>
             <div class="form-group col-md-6">
-              <input class="form-control" placeholder="Repeat Password" [(ngModel)]="newUser.password2" name="password2" required>
+              <input class="form-control" placeholder="Repeat Password" [(ngModel)]="newUser.password2" name="password2"
+                required>
             </div>
           </div>
 
@@ -103,10 +108,12 @@
     <div class="form_family border-bottom pb-3 pt-3">
       <div class="form-row mb-2 mt-4">
         <div class="form-group col-md-6 col-lg-4">
-          <input [(ngModel)]="newUser.address.addressLine1" name="addressLine1" class="form-control" type="text" placeholder="Address Line 1">
+          <input [(ngModel)]="newUser.address.addressLine1" name="addressLine1" class="form-control" type="text"
+            placeholder="Address Line 1">
         </div>
         <div class="form-group col-md-6 col-lg-4">
-          <input [(ngModel)]="newUser.address.addressLine2" name="addressLine2" class="form-control" type="text" placeholder="Address Line 2">
+          <input [(ngModel)]="newUser.address.addressLine2" name="addressLine2" class="form-control" type="text"
+            placeholder="Address Line 2">
         </div>
       </div>
 
@@ -181,11 +188,13 @@
 
       <div class="form-row">
         <div class="form-group col-md-3">
-          <input type="text" class="form-control" placeholder="Phone #" [(ngModel)]="newUser.address.phoneNumber" name="phoneNumber">
+          <input type="text" class="form-control" placeholder="Phone #" [(ngModel)]="newUser.address.phoneNumber"
+            name="phoneNumber">
         </div>
 
         <div class="form-group col-md-3">
-          <input type="text" class="form-control" placeholder="Fax #" [(ngModel)]="newUser.address.faxNumber" name="faxNumber">
+          <input type="text" class="form-control" placeholder="Fax #" [(ngModel)]="newUser.address.faxNumber"
+            name="faxNumber">
         </div>
       </div>
     </div>
@@ -242,11 +251,12 @@
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <input type="text" class="form-control" placeholder="hair color" [(ngModel)]="newUser.hairColor" name="hairColor">
+        <input type="text" class="form-control" placeholder="hair color" [(ngModel)]="newUser.hairColor"
+          name="hairColor">
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-          <input type="text" class="form-control" placeholder="eye color" [(ngModel)]="newUser.eyeColor" name="eyeColor">
+        <input type="text" class="form-control" placeholder="eye color" [(ngModel)]="newUser.eyeColor" name="eyeColor">
       </div>
     </div>
 
@@ -268,14 +278,15 @@
           </select>
         </div>
       </div>
-      
+
     </div>
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.countryOfCitizenship" name="countryOfCitizenship">
+          <select class="custom-select select form-control" [(ngModel)]="newUser.countryOfCitizenship"
+            name="countryOfCitizenship">
             <option value="country">Country of Citizenship</option>
             <option value="1">USA</option>
             <option value="2">Canada</option>
@@ -290,10 +301,12 @@
 
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
-        <input type="text" class="form-control" placeholder="School State" [(ngModel)]="newUser.schoolState" name="schoolState">
+        <input type="text" class="form-control" placeholder="School State" [(ngModel)]="newUser.schoolState"
+          name="schoolState">
       </div>
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" class="form-control" placeholder="Social Security #" [(ngModel)]="newUser.socialSecurityNumber" name="social">
+        <input type="text" class="form-control" placeholder="Social Security #"
+          [(ngModel)]="newUser.socialSecurityNumber" name="social">
       </div>
     </div>
 
@@ -309,12 +322,13 @@
 
   </div>
 
-  <div class="form_family border-bottom pb-3 mt-5" *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 1 || newUser.gender === '1')">
+  <div class="form_family border-bottom pb-3 mt-5"
+    *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 1 || newUser.gender === '1')">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="newUser.topSize" name="topSize"> 
+          <select class="custom-select select form-control" [(ngModel)]="newUser.topSize" name="topSize">
             <option value="topSize">Tops Size</option>
             <option value="S">S</option>
             <option value="M">M</option>
@@ -373,7 +387,8 @@
 
   </div>
 
-  <div class="form_family border-bottom pb-3 mt-5" *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 0 || newUser.gender === '0')">
+  <div class="form_family border-bottom pb-3 mt-5"
+    *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 0 || newUser.gender === '0')">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
@@ -537,7 +552,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="referredBy.driversLicenseState" name="driversLicenseState">
+          <select class="custom-select select form-control" [(ngModel)]="referredBy.driversLicenseState"
+            name="driversLicenseState">
             <option value="dlstate">Driver's License State</option>
             <option value="0">State</option>
             <option value="Alabama">Alabama</option>
@@ -595,7 +611,8 @@
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Driver License #" class="form-control" [(ngModel)]="referredBy.driversLicenseNumber" name="driversLicenseNumber">
+        <input type="text" placeholder="Driver License #" class="form-control"
+          [(ngModel)]="referredBy.driversLicenseNumber" name="driversLicenseNumber">
       </div>
     </div>
 
@@ -611,7 +628,8 @@
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Social Security #" class="form-control" [(ngModel)]="referredBy.socialSecurityNumber" name="socialSecurityNumber">
+        <input type="text" placeholder="Social Security #" class="form-control"
+          [(ngModel)]="referredBy.socialSecurityNumber" name="socialSecurityNumber">
       </div>
     </div>
 
@@ -619,7 +637,8 @@
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select class="custom-select select form-control" [(ngModel)]="referredBy.countryOfCitizenship" name="countryOfCitizenship">
+          <select class="custom-select select form-control" [(ngModel)]="referredBy.countryOfCitizenship"
+            name="countryOfCitizenship">
             <option value="countryOfCitizenship">Country of Citizenship</option>
             <option value="1">USA</option>
           </select>
@@ -627,7 +646,8 @@
       </div>
 
       <div class="form-group col-md-4 offset-md-1 mb-4">
-        <input type="text" placeholder="Passport #" class="form-control" [(ngModel)]="referredBy.passporNumber" name="passporNumber">
+        <input type="text" placeholder="Passport #" class="form-control" [(ngModel)]="referredBy.passporNumber"
+          name="passporNumber">
       </div>
     </div>
 
@@ -635,7 +655,8 @@
       <div class="col-11 col-md-10 input-add">
         <div class="form-row">
           <div class="form-group col-9 mb-0">
-            <input class="form-control" placeholder="Agency for Background Check" [(ngModel)]="referredBy.agencyForBackgroundCheck" name="agencyForBackgroundCheck">
+            <input class="form-control" placeholder="Agency for Background Check"
+              [(ngModel)]="referredBy.agencyForBackgroundCheck" name="agencyForBackgroundCheck">
           </div>
           <div class="col-3 d-flex align-items-center">
             <div class="icon-add d-flex align-items-center">
@@ -659,13 +680,15 @@
 
   <div class="form_family border-bottom pb-3 mt-5">
     <div class="form-row">
-      <div class="form-group col-md-8 mb-4">
-        <label>Child / Dependent relationship</label>
-        <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-          <select multiple class="custom-select select form-control" [(ngModel)]="newUser.relationships" name="selectedRelationships">
-            <option *ngFor="let rel of relationships" value="rel.id">{{rel.nickname}}</option>
-          </select>
+      <div class="col-md-10">
+        <div class="form-group col-md-9 mb-4 p-0">
+          <label>Child / Dependent relationship</label>
+          <div class="input-icon">
+            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <ng-multiselect-dropdown [placeholder]="'Select dependen relationship'" [data]="relationships"
+              [(ngModel)]="newUser.relationships" [settings]="dropdownSettings" class="multiple-select">
+            </ng-multiselect-dropdown>
+          </div>
         </div>
       </div>
     </div>
@@ -675,7 +698,8 @@
     <div class="form-row">
       <div class="form-group col-md-8 mb-0">
         <label>Admin Notes</label>
-        <textarea class="form-control" rows="5" placeholder="Note" [(ngModel)]="newUser.adminNotes" name="adminNotes"></textarea>
+        <textarea class="form-control" rows="5" placeholder="Note" [(ngModel)]="newUser.adminNotes"
+          name="adminNotes"></textarea>
       </div>
       <div class="col-md-4 d-flex justify-content-center align-items-end">
         <div class="buttons new-user mt-3">

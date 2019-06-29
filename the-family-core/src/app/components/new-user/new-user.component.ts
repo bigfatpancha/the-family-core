@@ -12,6 +12,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 })
 export class NewUserComponent implements OnInit {
 
+  dropdownSettings = {};
   newUser: User = new User();
 
   birthDate: {
@@ -63,6 +64,16 @@ export class NewUserComponent implements OnInit {
     this.newUser.referredBy.driversLicenseState = 'dlstate';
     this.newUser.referredBy.placeOfBirth = 'place';
     this.newUser.referredBy.countryOfCitizenship = 'countryOfCitizenship';
+    
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 4,
+      allowSearchFilter: false
+    };
   }
 
   isNotActualUser(element, index, array) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { RegistrationRequest } from 'src/app/model/auth';
+import { RegistrationRequest, RegistrationResponse } from 'src/app/model/auth';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.body.birthDate = this.birthDate.year + '-' + this.formatToTwoDigits(this.birthDate.month) + '-' + this.formatToTwoDigits(this.birthDate.day);
     this.body.username = this.body.nickname;
-    this.authService.doAuthRegistrationPost(this.body);
+    this.authService.doAuthRegistrationPost(this.body).subscribe((data: RegistrationResponse) => console.log(data));
   }
 
 }

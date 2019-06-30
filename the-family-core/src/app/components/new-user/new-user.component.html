@@ -686,7 +686,8 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <ng-multiselect-dropdown [placeholder]="'Select dependen relationship'" [data]="relationships"
-              [(ngModel)]="newUser.relationships" [settings]="dropdownSettings" class="multiple-select">
+              [(ngModel)]="selectedRelationships" [settings]="dropdownSettings" class="multiple-select"
+              [settings]="dropdownSettings">
             </ng-multiselect-dropdown>
           </div>
         </div>

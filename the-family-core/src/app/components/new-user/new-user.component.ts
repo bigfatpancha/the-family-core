@@ -34,20 +34,73 @@ export class NewUserComponent implements OnInit {
   referredBy: ReferredBy = new ReferredBy();
 
   relationships: FamilyUser[];
-  selectedRelationships: number[];
+  selectedRelationships: FamilyUser[];
 
   constructor(
     private usersService: UsersService,
     private httpService: HttpService
-  ) { }
+  ) {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'nickname'
+    };
+  }
 
   ngOnInit() {
-    this.usersService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => {
-      this.relationships = data.results.filter((user: FamilyUser) => {
-        user.id !== this.httpService.id;
-      })
-    });
+    // this.usersService.doGetUsersList()
+    // .subscribe((data: FamilyUserListResponse) => {
+    //   this.relationships = data.results.filter((user: FamilyUser) => {
+    //     user.id !== this.httpService.id;
+    //   })
+    // });
+    this.relationships = [
+      {
+        id: 0,
+        role: 1,
+        username: 'mary',
+        nickname: 'mary',
+        avatar: null,
+        stars: 0,
+        password1: '',
+        password2: '',
+        email: '',
+        colorCode: '',
+        mobileNumber: '',
+        sendbirdId: '',
+        coordinate: ''
+      },
+      {
+        id: 1,
+        role: 0,
+        username: 'john',
+        nickname: 'jhon',
+        avatar: null,
+        stars: 0,
+        password1: '',
+        password2: '',
+        email: '',
+        colorCode: '',
+        mobileNumber: '',
+        sendbirdId: '',
+        coordinate: ''
+      },
+      {
+        id: 2,
+        role: 2,
+        username: 'lucy',
+        nickname: 'lucy',
+        avatar: null,
+        stars: 0,
+        password1: '',
+        password2: '',
+        email: '',
+        colorCode: '',
+        mobileNumber: '',
+        sendbirdId: '',
+        coordinate: ''
+      }
+    ]
     this.newUser.role = 0;
     this.newUser.address = new Address();
     this.newUser.address.state = "0";
@@ -64,16 +117,6 @@ export class NewUserComponent implements OnInit {
     this.newUser.referredBy.driversLicenseState = 'dlstate';
     this.newUser.referredBy.placeOfBirth = 'place';
     this.newUser.referredBy.countryOfCitizenship = 'countryOfCitizenship';
-    
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 4,
-      allowSearchFilter: false
-    };
   }
 
   isNotActualUser(element, index, array) {
@@ -131,6 +174,7 @@ export class NewUserComponent implements OnInit {
       this.newUser.birthDate = this.birthDate.year + '-' + this.formatToTwoDigits(this.birthDate.month) + '-' + this.formatToTwoDigits(this.birthDate.day); 
     }
     this.newUser.referredBy = this.referredBy;
+    this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
     console.log(this.newUser);
     this.usersService.doUserPost(this.newUser).subscribe((data: User) => console.log(data));
   }

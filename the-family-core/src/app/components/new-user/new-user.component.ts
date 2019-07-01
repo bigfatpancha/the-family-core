@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User, ReferredBy } from 'src/app/model/auth';
 import { Address } from 'src/app/model/contact';
 import { UsersService } from 'src/app/services/users/users.service';
-import { FamilyUserListResponse, FamilyUser } from 'src/app/model/family';
+import { FamilyUser } from 'src/app/model/family';
 import { HttpService } from 'src/app/services/http/http.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class NewUserComponent implements OnInit {
   wishes: string[];
   wish: string;
 
-  referredBy: ReferredBy = new ReferredBy();
+  referredBy: ReferredBy;
 
   relationships: FamilyUser[];
   selectedRelationships: FamilyUser[];
@@ -113,10 +113,10 @@ export class NewUserComponent implements OnInit {
     this.newUser.braSize = 'braSize';
     this.newUser.shirtSize = 'shirtSize';
     this.newUser.pantsSize = 'pantsSize';
-    this.newUser.referredBy = new ReferredBy();
-    this.newUser.referredBy.driversLicenseState = 'dlstate';
-    this.newUser.referredBy.placeOfBirth = 'place';
-    this.newUser.referredBy.countryOfCitizenship = 'countryOfCitizenship';
+    this.referredBy = new ReferredBy();
+    this.referredBy.driversLicenseState = 'dlstate';
+    this.referredBy.placeOfBirth = 'place';
+    this.referredBy.countryOfCitizenship = 'countryOfCitizenship';
   }
 
   isNotActualUser(element, index, array) {
@@ -173,8 +173,11 @@ export class NewUserComponent implements OnInit {
     if (this.birthDate) {
       this.newUser.birthDate = this.birthDate.year + '-' + this.formatToTwoDigits(this.birthDate.month) + '-' + this.formatToTwoDigits(this.birthDate.day); 
     }
-    this.newUser.referredBy = this.referredBy;
-    this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
+    // this.newUser.referredBy = this.referredBy;
+    if (this.selectedRelationships) {
+      this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
+    }
+    this.newUser.role = Number(this.newUser.role);
     console.log(this.newUser);
     this.usersService.doUserPost(this.newUser).subscribe((data: User) => console.log(data));
   }

@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class UsersComponent implements OnInit {
 
+  isDataLoaded = false;
   state: number = 5;
   users: FamilyUser[];
 
@@ -16,7 +17,10 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.userService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => this.users = data.results);
+    .subscribe((data: FamilyUserListResponse) => {
+      this.users = data.results;
+      this.isDataLoaded = true;
+    });
   }
   
   formatRole(role) {

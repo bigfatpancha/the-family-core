@@ -1,846 +1,848 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3" id="sidebar">
-      <div class="sidebar__header row">
-        <a href="#"><i>IC</i></a>
-        <div>
-          <div class="user-pic">
-            <img src="../../../assets/icono.png" alt="">
-          </div>
-          <h4>User</h4>
-        </div>
-      </div>
-      <div class="sidebar__body mt-4">
-        <ul class="sidebar__body--list">
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'userInfo'}" (click)="state = 'userInfo'">User
-              info</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}"
-              (click)="state = 'calendar'">Calendar</a></li>
-
-          <li class="sidebar__item"><a data-toggle="collapse" href="#collapseSchool" role="button" aria-expanded="false"
-              aria-controls="collapseSchool">School</a>
-            <ul class="sidebar__item--list collapse" id="collapseSchool">
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolLocation'}"
-                  (click)="doContactsType(LOCATION, 'schoolLocation')">Location</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTeachers'}"
-                  (click)="doContactsType(TEACHER, 'schoolTeachers')">Teachers</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTask'}"
-                  (click)="doEventType(TASK, 'schoolTask')">Task</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolClassmates'}"
-                  (click)="doContactsType(CLASSMATE, 'schoolClassmates')">Classmates</a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar__item"><a data-toggle="collapse" href="#collapseMedical" role="button"
-              aria-expanded="false" aria-controls="collapseMedical">Medical</a>
-            <ul class="sidebar__item--list collapse" id="collapseMedical">
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRecords'}"
-                  (click)="doDocumentType(RECORDS, medicalRecords)">Records</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalDoctors'}"
-                  (click)="doContactsType(DOCTORS, 'medicalDoctors')">Doctors</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRx'}"
-                  (click)="doDocumentType(RX, medicalRx)">Rx</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalAppointments'}"
-                  (click)="doEventType(APPOINTMENTS, 'medicalAppointments')">Appointments</a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar__item"><a data-toggle="collapse" href="#collapseTeam" role="button" aria-expanded="false"
-              aria-controls="collapseTeam">Team</a>
-            <ul class="sidebar__item--list collapse" id="collapseTeam">
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamFamily'}"
-                  (click)="getUsers('teamFamily')">Family</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamCaretakers'}"
-                  (click)="getUsers('teamCaretakers')">Caretakers</a></li>
-              <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamContacts'}"
-                  (click)="doContacts('teamContacts')">Contacts</a></li>
-            </ul>
-          </li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'general'}"
-              (click)="doDocumentType(GENERAL, general)">General</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="doDocumentType(LEGAL, legal)">Legal</a></li>
-        </ul>
-      </div>
-
-    </div>
-    <div class="container__data">
-      <div class="container__data--name">
-        <h4>Kid</h4>
-      </div>
-
-      <!-- USER INFO -->
-
-      <div *ngIf="state == 'userInfo'">
-        <div class="table__header">
-          <div class="table__header--title">
-            <h4>USER INFO</h4>
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-md-8">
-            <form class="form_family">
-
-              <div class="form-row">
-                <div class="form-group col-md-5">
-                  <label>Legal First Name</label>
-                  <input class="form-control" value="{{user.firstName}}" readonly>
-                </div>
-                <div class="form-group col-md-2">
-                  <label>M.I.</label>
-                  <input class="form-control" value="{{user.middleName}}" readonly>
-                </div>
-                <div class="form-group col-md-5">
-                  <label>Legal Last Name</label>
-                  <input class="form-control" value="{{user.lastName}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-5">
-                  <label>Nickname</label>
-                  <input class="form-control" value="{{user.nickname}}" readonly>
-                </div>
-                <div class="form-group col-md-5">
-                  <label>Email</label>
-                  <input class="form-control" value="{{user.email}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-5">
-                  <label>Mobile #</label>
-                  <input class="form-control" value="{{user.mobileNumber}}" readonly>
-                </div>
-                <div class="form-group col-md-5">
-                  <label>Birth Date</label>
-                  <input class="form-control" value="{{user.birthDate}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Role</label>
-                <input class="form-control" value="{{formatRole(user.role)}}" readonly>
-              </div>
-
-            </form>
-          </div>
-
-          <div class="col-md-4 d-flex justify-content-start flex-column align-items-center">
-            <div class="pic-user">
-              <img src="{{user.avatar}}" alt="Pic">
+<div *ngIf="isDataLoaded">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3" id="sidebar">
+        <div class="sidebar__header row">
+          <a href="#"><i>IC</i></a>
+          <div>
+            <div class="user-pic">
+              <img src="../../../assets/icono.png" alt="">
             </div>
-          </div>
-
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <form class="form_family border-bottom pb-3">
-
-              <div class="form-row">
-                <div class="form-group col-md-5">
-                  <label>Address Line 1</label>
-                  <input class="form-control" value="{{user.address.addressLine1}}" readonly>
-                </div>
-                <div class="form-group col-md-5">
-                  <label>Address Line 2</label>
-                  <input class="form-control" value="{{user.address.addressLine2}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label>City</label>
-                  <input class="form-control" value="{{user.address.city}}" readonly>
-                </div>
-                <div class="form-group col-md-3">
-                  <label>State</label>
-                  <input class="form-control" value="{{user.address.state}}" readonly>
-                </div>
-                <div class="form-group col-md-3">
-                  <label>Zip</label>
-                  <input class="form-control" value="{{user.address.zipCode}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label>Phone #</label>
-                  <input class="form-control" value="{{user.address.phoneNumber}}" readonly>
-                </div>
-                <div class="form-group col-md-3">
-                  <label>Fax #</label>
-                  <input class="form-control" value="{{user.address.faxNumber}}" readonly>
-                </div>
-              </div>
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3" *ngIf="isChildDependent()">
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Gender</label>
-                  <input class="form-control" value="{{formatGender(user.gender)}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Color Code</label>
-                  <input class="form-control" value="que seria el color code" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Height</label>
-                  <input class="form-control" value="{{user.height}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Weight</label>
-                  <input class="form-control" value="{{user.weight}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Hair Color</label>
-                  <input class="form-control" value="{{user.hairColor}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Eyes Color</label>
-                  <input class="form-control" value="{{user.eyeColor}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Allergies</label>
-                  <p *ngFor="let allergy of user.allergies">- {{allergy}}</p>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Blood Type</label>
-                  <input class="form-control" value="{{user.bloodType}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Country of Citizenship</label>
-                  <input class="form-control" value="{{user.countryOfCitizenship}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Passport #</label>
-                  <input class="form-control" value="{{user.passportNumber}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>School State</label>
-                  <input class="form-control" value="{{user.schoolState}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Social Security #</label>
-                  <input class="form-control" value="{{user.socialSecurityNumber}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>School</label>
-                  <input class="form-control" value="{{user.school}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Grade</label>
-                  <input class="form-control" value="{{user.grade}}" readonly>
-                </div>
-              </div>
-
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 1 && (user.role === 2 || user.role === 3)">
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Tops Size</label>
-                  <input class="form-control" value="{{user.topSize}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Bottoms Size</label>
-                  <input class="form-control" value="{{user.bottomsSize}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Shoe Size</label>
-                  <input class="form-control" value="{{user.shoeSize}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Bra Size</label>
-                  <input class="form-control" value="{{user.braSize}}" readonly>
-                </div>
-              </div>
-
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 0 && (user.role === 2 || user.role === 3)">
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Shirt Size</label>
-                  <input class="form-control" value="{{user.shirtSize}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Pants Size</label>
-                  <input class="form-control" value="{{user.pantsSize}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Shoe Size</label>
-                  <input class="form-control" value="{{user.shoeSize}}" readonly>
-                </div>
-              </div>
-
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3">
-              <div class="form-group">
-                <label>Favorites</label>
-                <p *ngFor="let fav of user.favorites">- {{fav}}</p>
-              </div>
-
-              <div class="form-group">
-                <label>Dislikes</label>
-                <p *ngFor="let dis of user.dislikes">- {{dis}}</p>
-              </div>
-
-              <div class="form-group">
-                <label>Wish List</label>
-                <p *ngFor="let wish of user.wishlist">- {{wish}}</p>
-              </div>
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.role === 4">
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Referred by...</label>
-                  <p *ngFor="let ref of user.referredBy">- {{ref}}</p>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Color Code</label>
-                  <input class="form-control" value="{{user.colorCode}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Driver's License State</label>
-                  <input class="form-control" value="{{user.referredBy.driversLicenseState}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Driver License #</label>
-                  <input class="form-control" value="{{user.referredBy.driversLicenseNumber}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Place of Birth</label>
-                  <input class="form-control" value="{{user.referredBy.placeOfBirth}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Social Security #</label>
-                  <input class="form-control" value="{{user.referredBy.socialSecurityNumber}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Country of Citizenship</label>
-                  <input class="form-control" value="{{user.referredBy.countryOfCitizenship}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
-                  <label>Passport #</label>
-                  <input class="form-control" value="{{user.referredBy.passportNumber}}" readonly>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-8">
-                  <label>Agency for Background Check</label>
-                  <input class="form-control" value="{{user.referredBy.agencyForBackgroundCheck}}" readonly>
-                </div>
-              </div>
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3">
-              <div class="form-row">
-                <div class="form-group col-md-8">
-                  <label>Child / Dependent relationships</label>
-                  <p *ngFor="let rel of user.relationships">- {{rel}}</p>
-                </div>
-              </div>
-            </form>
-
-            <form class="form_family border-bottom pt-3 pb-3">
-              <div class="form-row">
-                <div class="form-group col-md-8">
-                  <label>Admin Notes</label>
-                  <textarea class="form-control" rows="5" placeholder="Note" value="{{user.adminNotes}}" readonly></textarea>
-                </div>
-              </div>
-            </form>
-
+            <h4>User</h4>
           </div>
         </div>
+        <div class="sidebar__body mt-4">
+          <ul class="sidebar__body--list">
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 'userInfo'}" (click)="state = 'userInfo'">User
+                info</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}"
+                (click)="state = 'calendar'">Calendar</a></li>
+
+            <li class="sidebar__item"><a data-toggle="collapse" href="#collapseSchool" role="button" aria-expanded="false"
+                aria-controls="collapseSchool">School</a>
+              <ul class="sidebar__item--list collapse" id="collapseSchool">
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolLocation'}"
+                    (click)="doContactsType(LOCATION, 'schoolLocation')">Location</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTeachers'}"
+                    (click)="doContactsType(TEACHER, 'schoolTeachers')">Teachers</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolTask'}"
+                    (click)="doEventType(TASK, 'schoolTask')">Task</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolClassmates'}"
+                    (click)="doContactsType(CLASSMATE, 'schoolClassmates')">Classmates</a></li>
+              </ul>
+            </li>
+
+            <li class="sidebar__item"><a data-toggle="collapse" href="#collapseMedical" role="button"
+                aria-expanded="false" aria-controls="collapseMedical">Medical</a>
+              <ul class="sidebar__item--list collapse" id="collapseMedical">
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRecords'}"
+                    (click)="doDocumentType(RECORDS, medicalRecords)">Records</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalDoctors'}"
+                    (click)="doContactsType(DOCTORS, 'medicalDoctors')">Doctors</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRx'}"
+                    (click)="doDocumentType(RX, medicalRx)">Rx</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalAppointments'}"
+                    (click)="doEventType(APPOINTMENTS, 'medicalAppointments')">Appointments</a></li>
+              </ul>
+            </li>
+
+            <li class="sidebar__item"><a data-toggle="collapse" href="#collapseTeam" role="button" aria-expanded="false"
+                aria-controls="collapseTeam">Team</a>
+              <ul class="sidebar__item--list collapse" id="collapseTeam">
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamFamily'}"
+                    (click)="getUsers('teamFamily')">Family</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamCaretakers'}"
+                    (click)="getUsers('teamCaretakers')">Caretakers</a></li>
+                <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'teamContacts'}"
+                    (click)="doContacts('teamContacts')">Contacts</a></li>
+              </ul>
+            </li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 'general'}"
+                (click)="doDocumentType(GENERAL, general)">General</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="doDocumentType(LEGAL, legal)">Legal</a></li>
+          </ul>
+        </div>
+
       </div>
+      <div class="container__data">
+        <div class="container__data--name">
+          <h4>Kid</h4>
+        </div>
 
+        <!-- USER INFO -->
 
-      <!-- Calendario -->
-      <div *ngIf="state =='calendar'">
-
-      </div>
-
-
-
-      <!-- School Location -->
-      <div *ngIf="state =='schoolLocation'">
-        <div class="table">
+        <div *ngIf="state == 'userInfo'">
           <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>INSTITUTION</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>ADDRESS</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>PHONE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>WORKING HOURS</h4>
+            <div class="table__header--title">
+              <h4>USER INFO</h4>
             </div>
           </div>
 
-          <div class="table__body" *ngFor="let loc of contacts">
-            <div class="table__body--columns col-3">
-              <p>{{loc.name}}</p>
+          <div class="row mt-3">
+            <div class="col-md-8">
+              <form class="form_family">
+
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label>Legal First Name</label>
+                    <input class="form-control" value="{{user.firstName}}" readonly>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label>M.I.</label>
+                    <input class="form-control" value="{{user.middleName}}" readonly>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>Legal Last Name</label>
+                    <input class="form-control" value="{{user.lastName}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label>Nickname</label>
+                    <input class="form-control" value="{{user.nickname}}" readonly>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>Email</label>
+                    <input class="form-control" value="{{user.email}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label>Mobile #</label>
+                    <input class="form-control" value="{{user.mobileNumber}}" readonly>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>Birth Date</label>
+                    <input class="form-control" value="{{user.birthDate}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Role</label>
+                  <input class="form-control" value="{{formatRole(user.role)}}" readonly>
+                </div>
+
+              </form>
             </div>
-            <div class="table__body--columns col-3">
-              <p>{{loc.address.addressLine1}}</p>
+
+            <div class="col-md-4 d-flex justify-content-start flex-column align-items-center">
+              <div class="pic-user">
+                <img src="{{user.avatar}}" alt="Pic">
+              </div>
             </div>
-            <div class="table__body--columns col-3">
-              <p>{{loc.phoneNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{loc.detail}}</p>
+
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <form class="form_family border-bottom pb-3">
+
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label>Address Line 1</label>
+                    <input class="form-control" value="{{user.address.addressLine1}}" readonly>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>Address Line 2</label>
+                    <input class="form-control" value="{{user.address.addressLine2}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label>City</label>
+                    <input class="form-control" value="{{user.address.city}}" readonly>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>State</label>
+                    <input class="form-control" value="{{user.address.state}}" readonly>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>Zip</label>
+                    <input class="form-control" value="{{user.address.zipCode}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label>Phone #</label>
+                    <input class="form-control" value="{{user.address.phoneNumber}}" readonly>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>Fax #</label>
+                    <input class="form-control" value="{{user.address.faxNumber}}" readonly>
+                  </div>
+                </div>
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3" *ngIf="isChildDependent()">
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Gender</label>
+                    <input class="form-control" value="{{formatGender(user.gender)}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Color Code</label>
+                    <input class="form-control" value="que seria el color code" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Height</label>
+                    <input class="form-control" value="{{user.height}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Weight</label>
+                    <input class="form-control" value="{{user.weight}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Hair Color</label>
+                    <input class="form-control" value="{{user.hairColor}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Eyes Color</label>
+                    <input class="form-control" value="{{user.eyeColor}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Allergies</label>
+                    <p *ngFor="let allergy of user.allergies">- {{allergy}}</p>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Blood Type</label>
+                    <input class="form-control" value="{{user.bloodType}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Country of Citizenship</label>
+                    <input class="form-control" value="{{user.countryOfCitizenship}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Passport #</label>
+                    <input class="form-control" value="{{user.passportNumber}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>School State</label>
+                    <input class="form-control" value="{{user.schoolState}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Social Security #</label>
+                    <input class="form-control" value="{{user.socialSecurityNumber}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>School</label>
+                    <input class="form-control" value="{{user.school}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Grade</label>
+                    <input class="form-control" value="{{user.grade}}" readonly>
+                  </div>
+                </div>
+
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 1 && (user.role === 2 || user.role === 3)">
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Tops Size</label>
+                    <input class="form-control" value="{{user.topSize}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Bottoms Size</label>
+                    <input class="form-control" value="{{user.bottomsSize}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Shoe Size</label>
+                    <input class="form-control" value="{{user.shoeSize}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Bra Size</label>
+                    <input class="form-control" value="{{user.braSize}}" readonly>
+                  </div>
+                </div>
+
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 0 && (user.role === 2 || user.role === 3)">
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Shirt Size</label>
+                    <input class="form-control" value="{{user.shirtSize}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Pants Size</label>
+                    <input class="form-control" value="{{user.pantsSize}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Shoe Size</label>
+                    <input class="form-control" value="{{user.shoeSize}}" readonly>
+                  </div>
+                </div>
+
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3">
+                <div class="form-group">
+                  <label>Favorites</label>
+                  <p *ngFor="let fav of user.favorites">- {{fav}}</p>
+                </div>
+
+                <div class="form-group">
+                  <label>Dislikes</label>
+                  <p *ngFor="let dis of user.dislikes">- {{dis}}</p>
+                </div>
+
+                <div class="form-group">
+                  <label>Wish List</label>
+                  <p *ngFor="let wish of user.wishlist">- {{wish}}</p>
+                </div>
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.role === 4">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Referred by...</label>
+                    <p *ngFor="let ref of user.referredBy">- {{ref}}</p>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Color Code</label>
+                    <input class="form-control" value="{{user.colorCode}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Driver's License State</label>
+                    <input class="form-control" value="{{user.referredBy.driversLicenseState}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Driver License #</label>
+                    <input class="form-control" value="{{user.referredBy.driversLicenseNumber}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Place of Birth</label>
+                    <input class="form-control" value="{{user.referredBy.placeOfBirth}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Social Security #</label>
+                    <input class="form-control" value="{{user.referredBy.socialSecurityNumber}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Country of Citizenship</label>
+                    <input class="form-control" value="{{user.referredBy.countryOfCitizenship}}" readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Passport #</label>
+                    <input class="form-control" value="{{user.referredBy.passportNumber}}" readonly>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-8">
+                    <label>Agency for Background Check</label>
+                    <input class="form-control" value="{{user.referredBy.agencyForBackgroundCheck}}" readonly>
+                  </div>
+                </div>
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3">
+                <div class="form-row">
+                  <div class="form-group col-md-8">
+                    <label>Child / Dependent relationships</label>
+                    <p *ngFor="let rel of user.relationships">- {{rel}}</p>
+                  </div>
+                </div>
+              </form>
+
+              <form class="form_family border-bottom pt-3 pb-3">
+                <div class="form-row">
+                  <div class="form-group col-md-8">
+                    <label>Admin Notes</label>
+                    <textarea class="form-control" rows="5" placeholder="Note" value="{{user.adminNotes}}" readonly></textarea>
+                  </div>
+                </div>
+              </form>
+
             </div>
           </div>
         </div>
-      </div>
-      <!-- School Teachers -->
-      <div *ngIf="state =='schoolTeachers'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>NAME</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MAIL</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MOBILE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>SUBJECT</h4>
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let teacher of contacts">
-            <div class="table__body--columns col-3">
-              <p>{{teacher.name}}</p>
+
+        <!-- Calendario -->
+        <div *ngIf="state =='calendar'">
+
+        </div>
+
+
+
+        <!-- School Location -->
+        <div *ngIf="state =='schoolLocation'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>INSTITUTION</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>ADDRESS</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>PHONE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>WORKING HOURS</h4>
+              </div>
             </div>
-            <div class="table__body--columns col-3">
-              <p>{{teacher.email}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{teacher.phoneNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{teacher.detail}}</p>
+
+            <div class="table__body" *ngFor="let loc of contacts">
+              <div class="table__body--columns col-3">
+                <p>{{loc.name}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{loc.address.addressLine1}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{loc.phoneNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{loc.detail}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- School Task -->
-      <div *ngIf="state =='schoolTask'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>TITLE</h4>
+        <!-- School Teachers -->
+        <div *ngIf="state =='schoolTeachers'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>NAME</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MAIL</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MOBILE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>SUBJECT</h4>
+              </div>
             </div>
-            <div class="table__header--columns col-3">
-              <h4>LEAD</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>SUBJECT</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>DATE</h4>
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let task of events">
-            <div class="table__body--columns col-3">
-              <p>{{task.title}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{task.familyMembers[0]}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{task.detail}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{task.start}}</p>
+            <div class="table__body" *ngFor="let teacher of contacts">
+              <div class="table__body--columns col-3">
+                <p>{{teacher.name}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{teacher.email}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{teacher.phoneNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{teacher.detail}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- School Classmates -->
-      <div *ngIf="state =='schoolClassmates'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>NAME</h4>
+        <!-- School Task -->
+        <div *ngIf="state =='schoolTask'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>TITLE</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>LEAD</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>SUBJECT</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>DATE</h4>
+              </div>
             </div>
-            <div class="table__header--columns col-3">
-              <h4>MAIL</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MOBILE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>SUBJECT</h4>
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let classmate of contacts">
-            <div class="table__body--columns col-3">
-              <p>{{classmate.name}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{classmate.email}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{classmate.phoneNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{classmate.detail}}</p>
+            <div class="table__body" *ngFor="let task of events">
+              <div class="table__body--columns col-3">
+                <p>{{task.title}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{task.familyMembers[0]}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{task.detail}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{task.start}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <!-- School Classmates -->
+        <div *ngIf="state =='schoolClassmates'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>NAME</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MAIL</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MOBILE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>SUBJECT</h4>
+              </div>
+            </div>
 
-      <!-- Medical Records -->
-      <div *ngIf="state =='medicalRecords'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>TITLE</h4>
-            </div>
-            <div class="table__header--columns col-6">
-              <h4>DESCRIPTION</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>FILES</h4>
-            </div>
-          </div>
-
-          <div class="table__body" *ngFor="let doc of documents">
-            <div class="table__body--columns col-3">
-              <p>{{doc.title}}</p>
-            </div>
-            <div class="table__body--columns col-6">
-              <p>{{doc.description}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+            <div class="table__body" *ngFor="let classmate of contacts">
+              <div class="table__body--columns col-3">
+                <p>{{classmate.name}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{classmate.email}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{classmate.phoneNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{classmate.detail}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Medical Doctors -->
-      <div *ngIf="state =='medicalDoctors'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>NAME</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MAIL</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MOBILE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>SUBJECT</h4>
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let con of contacts">
-            <div class="table__body--columns col-3">
-              <p>{{con.name}}</p>
+        <!-- Medical Records -->
+        <div *ngIf="state =='medicalRecords'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>TITLE</h4>
+              </div>
+              <div class="table__header--columns col-6">
+                <h4>DESCRIPTION</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>FILES</h4>
+              </div>
             </div>
-            <div class="table__body--columns col-3">
-              <p>{{con.email}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{con.phoneNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{con.detail}}</p>
+
+            <div class="table__body" *ngFor="let doc of documents">
+              <div class="table__body--columns col-3">
+                <p>{{doc.title}}</p>
+              </div>
+              <div class="table__body--columns col-6">
+                <p>{{doc.description}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Medical Rx -->
-      <div *ngIf="state =='medicalRx'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>TITLE</h4>
+        <!-- Medical Doctors -->
+        <div *ngIf="state =='medicalDoctors'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>NAME</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MAIL</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MOBILE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>SUBJECT</h4>
+              </div>
             </div>
-            <div class="table__header--columns col-6">
-              <h4>DESCRIPTION</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>FILES</h4>
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let doc of documents">
-            <div class="table__body--columns col-3">
-              <p>{{doc.title}}</p>
-            </div>
-            <div class="table__body--columns col-6">
-              <p>{{doc.description}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+            <div class="table__body" *ngFor="let con of contacts">
+              <div class="table__body--columns col-3">
+                <p>{{con.name}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{con.email}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{con.phoneNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{con.detail}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Medical Appointments -->
-      <div *ngIf="state =='medicalAppointments'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-2">
-              <h4>TITLE</h4>
+        <!-- Medical Rx -->
+        <div *ngIf="state =='medicalRx'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>TITLE</h4>
+              </div>
+              <div class="table__header--columns col-6">
+                <h4>DESCRIPTION</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>FILES</h4>
+              </div>
             </div>
-            <div class="table__header--columns col-2">
-              <h4>LEAD</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>DETAIL</h4>
-            </div>
-            <div class="table__header--columns col-2">
-              <h4>ADDRESS</h4>
-            </div>
-            <div class="table__header--columns col-2">
-              <h4>DATE</h4>
-            </div>
-            <div class="table__header--columns col-1">
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let ev of events">
-            <div class="table__body--columns col-2">
-              <p>{{ev.title}}</p>
-            </div>
-            <div class="table__body--columns col-2">
-              <p>{{ev.familyMembers[0]}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{ev.detail}}</p>
-            </div>
-            <div class="table__body--columns col-2">
-              <p>{{ev.address.addressLine1}}</p>
-            </div>
-            <div class="table__body--columns col-2">
-              <p>{{ev.start}}</p>
-            </div>
-            <div class="table__body--columns col-1">
-              <span class="d-inline-flex icono-file" *ngFor="let file of ev.attachments">{{file.file}}<i class="icon-clip"></i></span>
+            <div class="table__body" *ngFor="let doc of documents">
+              <div class="table__body--columns col-3">
+                <p>{{doc.title}}</p>
+              </div>
+              <div class="table__body--columns col-6">
+                <p>{{doc.description}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <!-- Medical Appointments -->
+        <div *ngIf="state =='medicalAppointments'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-2">
+                <h4>TITLE</h4>
+              </div>
+              <div class="table__header--columns col-2">
+                <h4>LEAD</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>DETAIL</h4>
+              </div>
+              <div class="table__header--columns col-2">
+                <h4>ADDRESS</h4>
+              </div>
+              <div class="table__header--columns col-2">
+                <h4>DATE</h4>
+              </div>
+              <div class="table__header--columns col-1">
+              </div>
+            </div>
 
-      <!-- Team Family -->
-      <div *ngIf="state =='teamFamily'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>NAME</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MAIL</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MOBILE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>ROLE</h4>
-            </div>
-          </div>
-
-          <div class="table__body" *ngFor="let user of users" [hidden]="user.role === 4">
-            <div class="table__body--columns col-3">
-              <p>{{user.nickname}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{user.email}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{user.mobileNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{formatRole(user.role)}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Team Caretakers -->
-      <div *ngIf="state =='teamCaretakers'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>NAME</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MAIL</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MOBILE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>ROLE</h4>
-            </div>
-          </div>
-
-          <div class="table__body" *ngFor="let user of users" [hidden]="user.role !== 4">
-            <div class="table__body--columns col-3">
-              <p>{{user.nickname}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{user.email}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{user.mobileNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{formatRole(user.role)}}</p>
+            <div class="table__body" *ngFor="let ev of events">
+              <div class="table__body--columns col-2">
+                <p>{{ev.title}}</p>
+              </div>
+              <div class="table__body--columns col-2">
+                <p>{{ev.familyMembers[0]}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{ev.detail}}</p>
+              </div>
+              <div class="table__body--columns col-2">
+                <p>{{ev.address.addressLine1}}</p>
+              </div>
+              <div class="table__body--columns col-2">
+                <p>{{ev.start}}</p>
+              </div>
+              <div class="table__body--columns col-1">
+                <span class="d-inline-flex icono-file" *ngFor="let file of ev.attachments">{{file.file}}<i class="icon-clip"></i></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Team Contacts -->
-      <div *ngIf="state =='teamContacts'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>NAME</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MAIL</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>MOBILE #</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>ROLE</h4>
-            </div>
-          </div>
 
-          <div class="table__body" *ngFor="let con of contacts">
-            <div class="table__body--columns col-3">
-              <p>{{con.name}}</p>
+        <!-- Team Family -->
+        <div *ngIf="state =='teamFamily'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>NAME</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MAIL</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MOBILE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>ROLE</h4>
+              </div>
             </div>
-            <div class="table__body--columns col-3">
-              <p>{{con.email}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>{{con.phoneNumber}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p>No tengo el rol</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- General -->
-      <div *ngIf="state =='general'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>TITLE</h4>
-            </div>
-            <div class="table__header--columns col-6">
-              <h4>DESCRIPTION</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>FILES</h4>
-            </div>
-          </div>
-
-          <div class="table__body" *ngFor="let doc of documents">
-            <div class="table__body--columns col-3">
-              <p>{{doc.title}}</p>
-            </div>
-            <div class="table__body--columns col-6">
-              <p>{{doc.description}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <p *ngFor="let file of doc.attachments">{{file.file}}</p>
+            <div class="table__body" *ngFor="let user of users" [hidden]="user.role === 4">
+              <div class="table__body--columns col-3">
+                <p>{{user.nickname}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{user.email}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{user.mobileNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{formatRole(user.role)}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <!-- Team Caretakers -->
+        <div *ngIf="state =='teamCaretakers'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>NAME</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MAIL</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MOBILE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>ROLE</h4>
+              </div>
+            </div>
 
-      <!-- Legal -->
-      <div *ngIf="state =='legal'">
-        <div class="table">
-          <div class="table__header">
-            <div class="table__header--columns col-3">
-              <h4>TITLE</h4>
-            </div>
-            <div class="table__header--columns col-6">
-              <h4>DESCRIPTION</h4>
-            </div>
-            <div class="table__header--columns col-3">
-              <h4>FILES</h4>
-            </div>
-          </div>
-
-          <div class="table__body" *ngFor="let doc of documents">
-            <div class="table__body--columns col-3">
-              <p>{{doc.title}}</p>
-            </div>
-            <div class="table__body--columns col-6">
-              <p>{{doc.description}}</p>
-            </div>
-            <div class="table__body--columns col-3">
-              <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+            <div class="table__body" *ngFor="let user of users" [hidden]="user.role !== 4">
+              <div class="table__body--columns col-3">
+                <p>{{user.nickname}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{user.email}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{user.mobileNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{formatRole(user.role)}}</p>
+              </div>
             </div>
           </div>
         </div>
+        <!-- Team Contacts -->
+        <div *ngIf="state =='teamContacts'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>NAME</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MAIL</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>MOBILE #</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>ROLE</h4>
+              </div>
+            </div>
+
+            <div class="table__body" *ngFor="let con of contacts">
+              <div class="table__body--columns col-3">
+                <p>{{con.name}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{con.email}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>{{con.phoneNumber}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p>No tengo el rol</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- General -->
+        <div *ngIf="state =='general'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>TITLE</h4>
+              </div>
+              <div class="table__header--columns col-6">
+                <h4>DESCRIPTION</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>FILES</h4>
+              </div>
+            </div>
+
+            <div class="table__body" *ngFor="let doc of documents">
+              <div class="table__body--columns col-3">
+                <p>{{doc.title}}</p>
+              </div>
+              <div class="table__body--columns col-6">
+                <p>{{doc.description}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <p *ngFor="let file of doc.attachments">{{file.file}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal -->
+        <div *ngIf="state =='legal'">
+          <div class="table">
+            <div class="table__header">
+              <div class="table__header--columns col-3">
+                <h4>TITLE</h4>
+              </div>
+              <div class="table__header--columns col-6">
+                <h4>DESCRIPTION</h4>
+              </div>
+              <div class="table__header--columns col-3">
+                <h4>FILES</h4>
+              </div>
+            </div>
+
+            <div class="table__body" *ngFor="let doc of documents">
+              <div class="table__body--columns col-3">
+                <p>{{doc.title}}</p>
+              </div>
+              <div class="table__body--columns col-6">
+                <p>{{doc.description}}</p>
+              </div>
+              <div class="table__body--columns col-3">
+                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
-
-
-
     </div>
   </div>
 </div>

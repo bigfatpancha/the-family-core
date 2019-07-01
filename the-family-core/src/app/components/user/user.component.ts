@@ -27,6 +27,8 @@ export class UserComponent implements OnInit, AfterContentInit {
   RX = '2';
   LEGAL = '3';
 
+  isDataLoaded = false;
+
   state = 'userInfo';
   user: User;
   id: number;
@@ -52,6 +54,7 @@ export class UserComponent implements OnInit, AfterContentInit {
   findUser(id: number) {
     this.usersService.doUserIdGet(id)
     .subscribe((data: User) => this.user = data);
+    this.isDataLoaded = true;
   }
 
   formatGender(gender: number) {

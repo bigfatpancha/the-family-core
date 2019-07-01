@@ -1,6 +1,6 @@
 import { Address } from './contact';
 
-export interface LoginRequest {
+export class LoginRequest {
     username: string;
     email: string;
     password: string;

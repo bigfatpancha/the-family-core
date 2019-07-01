@@ -16,10 +16,11 @@ export class DashboardComponent implements OnInit, AfterContentInit {
     username: 'developer',
     email: 'lucia.julia.r@gmail.com',
     password: 'Susvin01'
-  }
+  };
 
   user: User;
-  users: FamilyUser[]
+  users: FamilyUser[];
+  showLogin = false;
 
   constructor(private authService: AuthService,
               private userService: UsersService,

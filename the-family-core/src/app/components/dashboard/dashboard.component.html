@@ -7,7 +7,7 @@
     </button>
 
     <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
-      <div class="d-inline-block mr-3 profile__user">
+      <div class="d-inline-block mr-3 profile__user" *ngIf="!showLogin" (click)="showLogin = !showLogin">
         <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
         <!-- <span>Mother Duck</span> -->
         <span>Login</span>
@@ -19,6 +19,8 @@
 </header>
 
 <main class="container">
+  <app-login [show]="showLogin" (onLogin)="showLogin = event"></app-login>
+
   <div class="col-lg-10 offset-lg-1">
 
     <div class="row">

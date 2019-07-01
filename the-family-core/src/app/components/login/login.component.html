@@ -1,0 +1,23 @@
+<div class="container-fluid" *ngIf="show">
+  <div class="form_family border-bottom pb-3">
+    <div class="row mt-3 flex-column-reverse flex-md-row">
+      <div class="col-md-8">
+        <form class="form_family">
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input [(ngModel)]="body.username" name="nickname" class="form-control"
+                placeholder="Nickname">
+            </div>
+            <div class="form-group col-md-6">
+              <input [(ngModel)]="body.password" name="password" class="form-control" placeholder="password">
+            </div>
+          </div>
+        </form>
+        <div class="buttons">
+          <a (click)="login()" class="btn btn-sm btn-save">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

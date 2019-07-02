@@ -12,11 +12,11 @@ import { HttpService } from '../../services/http/http.service';
 })
 export class DashboardComponent implements OnInit, AfterContentInit {
 
-  body: LoginRequest = {
-    username: 'developer',
-    email: 'lucia.julia.r@gmail.com',
-    password: 'Susvin01'
-  };
+  // body: LoginRequest = {
+  //   username: 'developer',
+  //   email: 'lucia.julia.r@gmail.com',
+  //   password: 'Susvin01'
+  // };
 
   user: User;
   users: FamilyUser[];
@@ -27,20 +27,13 @@ export class DashboardComponent implements OnInit, AfterContentInit {
               private httpService: HttpService) { }
 
   ngOnInit() {
-    this.authService.doAuthLoginPost(this.body)
-    .subscribe( (data: LoginResponse) => {
-      this.user = data.user;
-      this.httpService.key = data.key;
-      this.httpService.id = data.user.id;
-      this.getUsers();
-    });
   }
 
   ngAfterContentInit() { }
 
-  getUsers() {
-    this.userService.doGetUsersList()
-    .subscribe( (data: FamilyUserListResponse) => this.users = data.results);
+  getUsers(event) {
+    this.showLogin = event;
+    this.users = this.userService.users;
   }
 
 }

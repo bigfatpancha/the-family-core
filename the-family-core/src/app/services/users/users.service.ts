@@ -15,6 +15,7 @@ import { DocumentResponse } from 'src/app/model/documents';
 export class UsersService {
 
   user: User;
+  users: FamilyUser[];
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http_service: HttpService) {

@@ -18,6 +18,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LoginComponent } from './components/login/login.component';
+import { LocationComponent } from './components/location/location.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LoginComponent } from './components/login/login.component';
     RegisterComponent,
     ChatComponent,
     RewardsComponent,
-    LoginComponent
+    LoginComponent,
+    LocationComponent
   ],
   imports: [
     BrowserModule,

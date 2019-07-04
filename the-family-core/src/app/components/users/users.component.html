@@ -9,7 +9,7 @@
           </div>
           <div class="sidebar__body mt-4">
             <ul class="sidebar__body--list pl-0 text-right">
-              <li class="sidebar__item"><a (click)="state = 5">All</a></li>
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 5}" (click)="state = 5">All</a></li>
               <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Admin</a></li>
               <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Parent/legal
                   Guardian</a>

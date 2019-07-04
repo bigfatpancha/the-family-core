@@ -275,8 +275,8 @@
   min-height: 100vh;
 }
 
-#sidebar.active {
-  margin-left: -250px;
+#sidebar.close {
+  transform: translateX(-250px)
 }
 
 @media(maz-width:768px) {

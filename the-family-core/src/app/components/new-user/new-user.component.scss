@@ -88,3 +88,26 @@
     }
   }
 }
+
+
+input[type=file] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.label-upload-pic{
+  cursor: pointer;
+  
+  .title{
+    font-size: 1rem;
+  }
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+  input{
+    position: absolute;
+  }
+}

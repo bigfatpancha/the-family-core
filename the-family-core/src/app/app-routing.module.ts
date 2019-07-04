@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'user', component: UserComponent },
+  { path: 'user/:id', component: UserComponent },
   { path: 'newuser', component: NewUserComponent },
   { path: 'upload', component: UploadComponent },
   { path: 'register', component: RegisterComponent }

@@ -22,8 +22,10 @@
     "@ng-bootstrap/ng-bootstrap": "^4.2.1",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
+    "ng-multiselect-dropdown": "^0.2.3",
     "popper.js": "^1.15.0",
     "rxjs": "~6.4.0",
+    "toastr": "^2.1.4",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

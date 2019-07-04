@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { RegistrationRequest, RegistrationResponse, User } from 'src/app/model/auth';
+import { HttpService } from 'src/app/services/http/http.service';
+import { UsersService } from 'src/app/services/users/users.service';
+import { FamilyUserListResponse } from 'src/app/model/family';
 
 @Component({
   selector: 'app-register',
@@ -7,9 +12,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  @Input() show = false;
+  @Output() onRegister = new EventEmitter<boolean>();
+
+  body: RegistrationRequest = new RegistrationRequest();
+  birthDate: {
+    year: number,
+    month: number,
+    day: number
+  }
+
+  constructor(
+    private authService: AuthService,
+    private httpService: HttpService,
+    private userService: UsersService
+  ) { }
 
   ngOnInit() {
+  }
+
+  formatToTwoDigits(num: number): string {
+    if (num < 10) {
+      return '0' + num;
+    }
+    return num.toString();
+  }
+
+  register() {
+    this.body.birthDate = this.birthDate.year + '-' + this.formatToTwoDigits(this.birthDate.month) + '-' + this.formatToTwoDigits(this.birthDate.day);
+    this.body.username = this.body.nickname;
+    this.authService.doAuthRegistrationPost(this.body)
+    .subscribe((data: RegistrationResponse) => {
+      console.log(data);
+      this.httpService.key = data.key;
+      this.getUser();
+      
+    });
+  }
+
+  getUser() {
+    this.authService.doAuthUserGet()
+    .subscribe((res: User) => {
+      this.userService.user = res;
+      this.httpService.id = res.id;
+      this.getUsers();
+      
+    })
+  }
+
+  getUsers() {
+    this.userService.doGetUsersList()
+    .subscribe( (data: FamilyUserListResponse) => {
+      this.userService.users = data.results;
+      this.show = false;
+      this.onRegister.emit(this.show);
+    });
   }
 
 }

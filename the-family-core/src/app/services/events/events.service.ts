@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { Observable } from 'rxjs';
-import { EventResponse } from 'src/app/model/events';
+import { EventResponse, Event } from 'src/app/model/events';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Routes } from '../config/routes-enum';
 

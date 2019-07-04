@@ -15,54 +15,59 @@
       font-size: 1.25rem;
       color: #001426;
     }
+}
+
+.custom-checkbox {
+
+
+  .custom-control-label.check-adelante::after {
+    position: absolute;
+    top: -5px;
+    left: -35px;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    content: "";
   }
-  
-  .custom-checkbox {
-  
-  
-    .custom-control-label.check-adelante::after {
+
+  .custom-control-label.check-adelante::before {
+    border-radius: .25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    top: -5px;
+    left: -35px;
+  }
+}
+
+.input-add {
+  background: #d9ebff;
+
+  .icon-add {
+    img {
+      height: 35px;
       position: absolute;
-      top: -5px;
-      left: -35px;
-      display: block;
-      width: 1.5rem;
-      height: 1.5rem;
-      content: "";
-    }
-  
-    .custom-control-label.check-adelante::before {
-      border-radius: .25rem;
-      height: 1.5rem;
-      width: 1.5rem;
-      top: -5px;
-      left: -35px;
-    }
-  }
-  
-  .input-add {
-    background: #d9ebff;
-  
-    .icon-add {
-      img {
-        height: 35px;
-        position: absolute;
-        right: -25px;
-        cursor: pointer;
-  
-        &.icon-corazon {
-          height: 70px;
-          right: -55px;
-        }
+      right: -25px;
+      cursor: pointer;
+
+      &.icon-corazon {
+        height: 70px;
+        right: -55px;
       }
     }
   }
-  
-  .buttons.new-user {
-    .btn-save {
-  
-      padding: 5px 40px;
-      font-size: 1rem;
-  
-    }
+}
+
+.buttons.new-user {
+  .btn-save {
+
+    padding: 5px 40px;
+    font-size: 1rem;
+
   }
-  
+}
+
+.container {
+  z-index: 1;
+  position: absolute;
+  background-color: white;
+}

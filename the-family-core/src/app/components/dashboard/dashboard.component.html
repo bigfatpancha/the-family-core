@@ -7,17 +7,21 @@
     </button>
 
     <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
-      <div class="d-inline-block mr-3 profile__user">
+      <div class="d-inline-block mr-3 profile__user" (click)="openLogin()">
         <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
-        <span>Mother Duck</span>
+        <span *ngIf="isLogged && user">{{user.nickname}}</span>
+        <span *ngIf="!isLogged">Login</span>
       </div>
-      <!-- <a href="#" class="profile__link">Edit Profile</a> -->
-      <a href="#" class="profile__link" routerLink="/register">Register</a>
+      <a class="profile__link" *ngIf="isLogged">Edit Profile</a>
+      <a class="profile__link" *ngIf="!isLogged" (click)="openRegister()">Register</a>
     </div>
   </div>
 </header>
 
 <main class="container">
+  <app-login [show]="showLogin" (onLogin)="getUsers($event)"></app-login>
+  <app-register [show]="showRegister" (onRegister)="onRegister($event)"></app-register>
+
   <div class="col-lg-10 offset-lg-1">
 
     <div class="row">
@@ -85,13 +89,13 @@
 
     </section>
 
-    <section class="row" [hidden]="true">
+    <section class="row">
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" *ngFor="let user of users">
         <div class="users__bloque mb-1">
-          <img src="../../../assets/nino.jpg" alt="Chico">
+          <img src="{{user.avatar}}" alt="avatar">
         </div>
-        <span class="options__text">User 1</span>
+        <span class="options__text">{{user.nickname}}</span>
       </div>
 
     </section>

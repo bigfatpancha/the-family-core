@@ -1,0 +1,183 @@
+.container__data {
+  width: calc(100% - 250px);
+  padding-left: 15px;
+  padding-right: 15px;
+
+  &--name {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    >h4 {
+      margin: 0px;
+      padding-left: 15px;
+    }
+
+    i {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #03263f;
+    }
+  }
+}
+
+.sidebar__body {
+  >ul {
+    list-style: none;
+    text-align: left;
+    color: #001426;
+    font-family: sfRegular;
+    padding-left: 70px;
+  }
+
+  &--list {
+    .sidebar__item {
+      margin-bottom: 3px;
+
+      >a {
+        color: #001426;
+        cursor: pointer;
+
+        &.active {
+          border-bottom: 1px solid #001426;
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &--list {
+        list-style: none;
+        padding-left: 25px;
+
+        &--subitem {
+          >a {
+            color: #001426;
+            font-size: 0.85rem;
+            cursor: pointer;
+
+            &.active {
+              border-bottom: 1px solid #001426;
+            }
+
+            &:hover {
+              color: #001426;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.table {
+  &__header {
+    width: 100%;
+    background: #f0fbe6;
+    margin-top: 10px;
+    padding: 10px 15px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+    &--columns {
+      display: inline-block;
+      padding-right: 15px;
+
+      >h4 {
+        font-family: sfBold;
+        margin: 0;
+        font-size: 1rem;
+        color: #001426;
+      }
+    }
+
+    &--title {
+      >h4 {
+        font-family: sfBold;
+        margin: 0;
+        font-size: 1rem;
+        color: #001426;
+      }
+    }
+  }
+
+  &__body {
+    width: 100%;
+    padding: 0px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #97c9ff;
+
+    &.table_link {
+      cursor: pointer;
+
+      &.active {
+        background: #3dc924;
+
+        p {
+          font-family: sfMedium;
+          margin: 0;
+          font-size: 0.95rem;
+          color: #03263f;
+
+          &.number {
+            font-size: 1.35rem;
+            font-family: avenirBlack;
+            color: #03263f;
+          }
+        }
+
+        .column-icon {
+          i {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+          }
+        }
+
+        .redeem {
+          background: #a2e596;
+
+          a {
+            color: #03263f;
+          }
+        }
+      }
+    }
+
+
+    &--columns {
+      display: inline-block;
+      padding-right: 15px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      height: 50px;
+      align-items: center;
+      display: flex;
+
+      p {
+        font-family: sfRegular;
+        margin: 0;
+        font-size: 0.9rem;
+        color: #03263f;
+
+        &.number {
+          font-size: 1.3rem;
+          font-family: avenirBlack;
+          color: #03263f;
+        }
+      }
+
+      .column-icon {
+        i {
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: #00aaff;
+        }
+      }
+    }
+  }
+}

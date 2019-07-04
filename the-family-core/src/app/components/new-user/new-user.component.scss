@@ -1,0 +1,113 @@
+.header-info {
+  width: 100%;
+  background: #f0fbe6;
+  margin-top: 10px;
+  padding: 10px 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  justify-content: space-between;
+
+  >h4 {
+    font-family: sfBold;
+    margin: 0;
+    font-size: 1.25rem;
+    color: #001426;
+  }
+}
+
+.custom-checkbox {
+
+
+  .custom-control-label.check-adelante::after {
+    position: absolute;
+    top: -5px;
+    left: -35px;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    content: "";
+  }
+
+  .custom-control-label.check-adelante::before {
+    border-radius: .25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    top: -5px;
+    left: -35px;
+  }
+}
+
+.input-add {
+  background: #d9ebff;
+
+  .icon-add {
+    img {
+      height: 35px;
+      position: absolute;
+      right: -25px;
+      cursor: pointer;
+
+      &.icon-corazon {
+        height: 70px;
+        right: -55px;
+      }
+    }
+  }
+}
+
+.buttons.new-user {
+  .btn-save {
+
+    padding: 5px 40px;
+    font-size: 1rem;
+
+    &.invite {
+      padding: 5px 20px;
+      margin-left: 15px;
+      font-size: 1rem;
+
+    }
+  }
+}
+
+.upload-pic {
+  a{
+    color: #001426;
+    font-family: sfBold;
+  }
+  .pic-user {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+
+    img {
+      width: 145px;
+    }
+  }
+}
+
+
+input[type=file] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.label-upload-pic{
+  cursor: pointer;
+  
+  .title{
+    font-size: 1rem;
+  }
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+  input{
+    position: absolute;
+  }
+}

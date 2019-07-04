@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService, Config } from '../config/config.service';
+import { ConfigService } from '../config/config.service';
 import { Observable } from 'rxjs';
 
 
@@ -10,10 +10,8 @@ import { Observable } from 'rxjs';
 })
 export class HttpService implements OnInit {
 
-  options: any = {
-    'accept': 'application/json',
-    'X-CSRFToken': 'kDPv99rjLwwd17u5RYbgFEawHWzjSgptofCLJpky4c7GkV8qr9itiMu04jmtYdNf'
-  }
+  key: string;
+  id: number;
 
   constructor(
     private http: HttpClient,
@@ -23,12 +21,24 @@ export class HttpService implements OnInit {
   }
 
   doGet(url: string, options: any): Observable<any> {
-    console.log('GET', this.configService.serverUrl + url)
-    return this.http.get(this.configService.serverUrl + url, this.options);
+    return this.http.get(this.configService.serverUrl + url, options);
   }
 
-  doPost(url: string, body: any, options: any) {
+  doPost(url: string, body: any, options: any): Observable<any> {
+    console.log(url, body, options);
     return this.http.post(this.configService.serverUrl + url, body, options);
+  }
+
+  doPut(url: string, body: any, options: any): Observable<any> {
+    return this.http.put(this.configService.serverUrl + url, body, options);
+  }
+
+  doPatch(url: string, body: any, options: any): Observable<any> {
+    return this.http.patch(this.configService.serverUrl + url, body, options);
+  }
+
+  doDelete(url: string, options: any): Observable<any> {
+    return this.http.delete(this.configService.serverUrl + url, options);
   }
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactsService } from 'src/app/services/contacts/contacts.service';
-import { UserRole } from '../../model/user';
-import { FamilyUserList } from '../../model/user-list';
+import { FamilyUser, FamilyUserListResponse, UserRole } from '../../model/family';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-users',
@@ -10,54 +9,30 @@ import { FamilyUserList } from '../../model/user-list';
 })
 export class UsersComponent implements OnInit {
 
+  isDataLoaded = false;
   state: number = 5;
-  users: FamilyUserList[];
+  users: FamilyUser[];
 
-  constructor(private contactService: ContactsService) { }
+  constructor(private userService: UsersService) { }
 
   ngOnInit() {
-    const data = {
-      "count": 2,
-      "next": null,
-      "previous": null,
-      "results": [
-        {
-          "id": 5,
-          "role": 0,
-          "username": "developer",
-          "nickname": "",
-          "avatar": null,
-          "email": "lucia.julia.r@gmail.com",
-          "sendbirdId": "Q5",
-          "coordinate": null
-        },
-        {
-          "id": 1,
-          "role": 0,
-          "username": "lepirata",
-          "nickname": "",
-          "avatar": null,
-          "email": "martin@hourglass.tech",
-          "sendbirdId": "Q1",
-          "coordinate": null
-        }
-      ]
-    }
-    this.users = data.results;
-    // this.contactService.doGetContacts()
-    // .subscribe((data: ContactResponse) => this.contacts = data.results);
+    this.userService.doGetUsersList()
+    .subscribe((data: FamilyUserListResponse) => {
+      this.users = data.results;
+      this.isDataLoaded = true;
+    });
   }
-
-  formatType(type) {
-    if (type === 0) {
+  
+  formatRole(role) {
+    if(role === 0){
       return UserRole.ADMIN;
-    } else if (type === 1) {
+    } else if (role === 1){
       return UserRole.LEGAL_GUARDIAN;
-    } else if (type === 2) {
+    } else if (role === 2) {
       return UserRole.CHILD;
-    } else if (type === 3) {
+    } else if (role === 3){
       return UserRole.DEPENDENT;
-    } else {
+    } else{
       return UserRole.NANNY;
     }
   }

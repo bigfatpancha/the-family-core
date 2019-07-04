@@ -21,19 +21,43 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   user: User;
   users: FamilyUser[];
   showLogin = false;
+  isLogged = false;
+  showRegister = false;
 
   constructor(private authService: AuthService,
               private userService: UsersService,
               private httpService: HttpService) { }
 
   ngOnInit() {
+    this.isLogged = this.httpService.key ? true : false;
   }
 
   ngAfterContentInit() { }
 
   getUsers(event) {
+    this.isLogged = true;
     this.showLogin = event;
     this.users = this.userService.users;
+    this.user = this.userService.user;
+  }
+
+  openLogin() {
+    if (!this.isLogged) {
+      this.showLogin = !this.showLogin;
+    }
+  }
+
+  onRegister(event) {
+    this.showRegister = event;
+    this.isLogged = true;
+    this.user = this.userService.user;
+    this.users = this.userService.users;
+  }
+
+  openRegister() {
+    if (!this.isLogged) {
+      this.showRegister = !this.showRegister;
+    }
   }
 
 }

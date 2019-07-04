@@ -7,19 +7,20 @@
     </button>
 
     <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
-      <div class="d-inline-block mr-3 profile__user" *ngIf="!showLogin" (click)="showLogin = !showLogin">
+      <div class="d-inline-block mr-3 profile__user" (click)="openLogin()">
         <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
-        <!-- <span>Mother Duck</span> -->
-        <span>Login</span>
+        <span *ngIf="isLogged && user">{{user.nickname}}</span>
+        <span *ngIf="!isLogged">Login</span>
       </div>
-      <!-- <a href="#" class="profile__link">Edit Profile</a> -->
-      <a href="#" class="profile__link" routerLink="/register">Register</a>
+      <a class="profile__link" *ngIf="isLogged">Edit Profile</a>
+      <a class="profile__link" *ngIf="!isLogged" (click)="openRegister()">Register</a>
     </div>
   </div>
 </header>
 
 <main class="container">
   <app-login [show]="showLogin" (onLogin)="getUsers($event)"></app-login>
+  <app-register [show]="showRegister" (onRegister)="onRegister($event)"></app-register>
 
   <div class="col-lg-10 offset-lg-1">
 

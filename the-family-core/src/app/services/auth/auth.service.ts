@@ -31,8 +31,9 @@ export class AuthService {
   }
 
   doAuthUserGet(): Observable<User> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.httpService.key );
     const options = {
-      headers: this.headers
+      headers: headers
     }
     return this.httpService.doGet(Routes.AUTH_USER, options);
   }

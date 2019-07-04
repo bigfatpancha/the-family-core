@@ -223,6 +223,7 @@ export class RegistrationRequest {
 }
 
 export class RegistrationResponse {
+    key: string;
     username: string;
     nickname: string;
     email: string;
@@ -235,6 +236,7 @@ export class RegistrationResponse {
     birthDate: string;
 
     constructor(
+        key: string,
         username: string,
         nickname: string,
         email: string,
@@ -246,6 +248,7 @@ export class RegistrationResponse {
         mobileNumber: string,
         birthDate: string
     ) {
+        this.key = key;
         this.username = username;
         this.nickname = nickname;
         this.email = email;

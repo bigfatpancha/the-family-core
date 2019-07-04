@@ -7,13 +7,13 @@
     </button>
 
     <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
-      <div class="d-inline-block mr-3 profile__user" (click)="openLogin()">
+      <div class="d-inline-block mr-3 profile__user cursor-pointer" (click)="openLogin()">
         <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
         <span *ngIf="isLogged && user">{{user.nickname}}</span>
         <span *ngIf="!isLogged">Login</span>
       </div>
-      <a class="profile__link" *ngIf="isLogged">Edit Profile</a>
-      <a class="profile__link" *ngIf="!isLogged" (click)="openRegister()">Register</a>
+      <a class="profile__link cursor-pointer" *ngIf="isLogged">Edit Profile</a>
+      <a class="profile__link cursor-pointer" *ngIf="!isLogged" (click)="openRegister()">Register</a>
     </div>
   </div>
 </header>

@@ -31,7 +31,7 @@ import { LoginComponent } from './components/login/login.component';
     UserComponent,
     RegisterComponent,
     ChatComponent,
-    RewardsComponent
+    RewardsComponent,
     LoginComponent
   ],
   imports: [

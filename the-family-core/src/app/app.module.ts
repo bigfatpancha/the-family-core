@@ -15,6 +15,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { UserComponent } from './components/user/user.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { RewardsComponent } from './components/rewards/rewards.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ChatComponent } from './components/chat/chat.component';
     FooterComponent,
     UserComponent,
     RegisterComponent,
-    ChatComponent
+    ChatComponent,
+    RewardsComponent
   ],
   imports: [
     BrowserModule,

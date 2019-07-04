@@ -14,12 +14,10 @@
       padding-left: 15px;
     }
 
-    i{
-      font-size: 1.25rem;
-    }
-
-    img{
-      width: 65px;
+    i {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #03263f;
     }
   }
 }
@@ -41,7 +39,7 @@
         color: #001426;
         cursor: pointer;
 
-        &.active{
+        &.active {
           border-bottom: 1px solid #001426;
         }
 
@@ -60,7 +58,7 @@
             font-size: 0.85rem;
             cursor: pointer;
 
-            &.active{
+            &.active {
               border-bottom: 1px solid #001426;
             }
 
@@ -108,16 +106,45 @@
 
   &__body {
     width: 100%;
-    padding: 8px 15px;
+    padding: 0px 15px;
     display: flex;
     align-items: center;
     border-bottom: 2px solid #97c9ff;
 
-    &.table_link{
+    &.table_link {
       cursor: pointer;
 
-      &:hover{
-        background: #ebf5ff;
+      &.active {
+        background: #3dc924;
+
+        p {
+          font-family: sfMedium;
+          margin: 0;
+          font-size: 0.95rem;
+          color: #03263f;
+
+          &.number {
+            font-size: 1.35rem;
+            font-family: avenirBlack;
+            color: #03263f;
+          }
+        }
+
+        .column-icon {
+          i {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+          }
+        }
+
+        .redeem {
+          background: #a2e596;
+
+          a {
+            color: #03263f;
+          }
+        }
       }
     }
 
@@ -125,35 +152,32 @@
     &--columns {
       display: inline-block;
       padding-right: 15px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      height: 50px;
+      align-items: center;
+      display: flex;
 
-      >p {
+      p {
         font-family: sfRegular;
         margin: 0;
-        font-size: 0.8rem;
-        color: #999999;
+        font-size: 0.9rem;
+        color: #03263f;
+
+        &.number {
+          font-size: 1.3rem;
+          font-family: avenirBlack;
+          color: #03263f;
+        }
       }
 
-      span.icono-file{
-        background: #f05a23;
-        padding: 0.3rem;
-        color: #fff;
-        font-size: 1.2rem;
-        margin-bottom: 2px;
-      }
-
-      &.resend-invitation>p{
-        font-family: sfBold;
-        color: #007fff;
+      .column-icon {
+        i {
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: #00aaff;
+        }
       }
     }
   }
 }
-
-.pic-user{
-  img{
-    width: 160px;
-  }
-}
-
-
-/*** Calendario ***/

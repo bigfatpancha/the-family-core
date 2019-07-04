@@ -1,0 +1,77 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" id="sidebar">
+      <div class="sidebar__header row">
+        <a href="#"><img src="../../../assets/img/home.png" alt="family core"></a>
+        <div>
+          <h4>Rewards</h4>
+        </div>
+      </div>
+      <div class="sidebar__body mt-4">
+        <ul class="sidebar__body--list pl-0 text-right">
+          <li class="sidebar__item"><a (click)="state = 5">All</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Kid</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Junior</a>
+          </li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 2}" (click)="state = 2">Mother</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 3}" (click)="state = 3">Father</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 4}" (click)="state = 4">Nanny</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container__data">
+      <div class="container__data--name">
+        <div class="d-flex w-100 align-items-center">
+          <div class="d-flex"><i class="icon-star-stroke"></i></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="table">
+          <div class="table__header">
+            <div class="table__header--columns col-2">
+              <h4>#</h4>
+            </div>
+            <div class="table__header--columns col-4"></div>
+            <div class="table__header--columns col-4"></div>
+            <div class="table__header--columns col-2"></div>
+          </div>
+
+          <div class="table__body table_link active pr-0">
+            <div class="table__body--columns col-2">
+              <p class="number">1</p>
+            </div>
+            <div class="table__body--columns col-4">
+              <p>Junior Smith</p>
+            </div>
+            <div class="table__body--columns col-2 justify-content-end">
+              <div class="d-flex align-items-center column-icon">
+                <p class="mb-0 mr-2">10000</p>
+                <i class="icon-star-fill"></i> <!-- CAMBIAR POR ICONO DE STAR FILL -->
+              </div>
+            </div>
+            <div class="table__body--columns offset-2 col-2 redeem d-flex justify-content-center">
+              <a href="#">Redeem</a>
+            </div>
+          </div>
+
+          <div class="table__body table_link pr-0">
+            <div class="table__body--columns col-2">
+              <p class="number">2</p>
+            </div>
+            <div class="table__body--columns col-4">
+              <p>Kid Smith</p>
+            </div>
+            <div class="table__body--columns col-2 justify-content-end">
+              <div class="d-flex align-items-center column-icon">
+                <p class="mb-0 mr-2">5000</p>
+                <i class="icon-star-fill"></i> <!-- CAMBIAR POR ICONO DE STAR FILL -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

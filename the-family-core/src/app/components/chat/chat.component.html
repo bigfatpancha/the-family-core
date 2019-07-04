@@ -1,0 +1,36 @@
+<div class="chat-list" [ngClass]="{'chat-open': chatListOpen}">
+  <div class="chat-header p-2 d-flex align-items-center justify-content-between">
+    <div>
+      <h5 class="mb-0">Channel List</h5>
+    </div>
+    <div class="actions d-flex align-items-center">
+      <div class="add-chat"><i class="icon-cruz"></i></div>
+      <div class="ml-3 close-chat" (click)="closeChat()" [ngClass]="{'chat-open': chatListOpen}"><i
+          class="icon-arrow-down"></i></div>
+    </div>
+  </div>
+  <div class="chat-body p-2">
+    <div class="chat-messages"></div>
+    <div class="chat-write"></div>
+  </div>
+</div>
+
+
+<div class="conversacion" [hidden]="!converOpen">
+  <div class="conver-header p-2 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <p class="mb-0">Martincito</p>
+      <span class="notificaciones">2</span>
+    </div>
+    <div class="actions d-flex align-items-center">
+      <div class="add-chat ml-2"><i class="icon-cruz"></i></div>
+      <div class="add-chat ml-2"><i class="icon-user-chat"></i></div>
+      <div class="upload-chat ml-2"><i class="icon-upload-chat"></i></div>
+      <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>
+    </div>
+  </div>
+  <div class="conver-body p-2">
+    <div class="conver-messages"></div>
+    <div class="conver-write"></div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+.sidebar__body {
+    >ul {
+      list-style: none;
+      text-align: left;
+      color: #001426;
+      font-family: sfRegular;
+      padding-left: 70px;
+    }
+  
+    &--list {
+      .sidebar__item {
+        margin-bottom: 3px;
+  
+        >a {
+          color: #001426;
+          cursor: pointer;
+  
+          &.active {
+            border-bottom: 1px solid #001426;
+          }
+  
+          &:hover {
+            text-decoration: none;
+          }
+        }
+  
+        &--list {
+          list-style: none;
+          padding-left: 25px;
+  
+          &--subitem {
+            >a {
+              color: #001426;
+              font-size: 0.85rem;
+              cursor: pointer;
+  
+              &.active {
+                border-bottom: 1px solid #001426;
+              }
+  
+              &:hover {
+                color: #001426;
+              }
+            }
+          }
+        }
+      }
+    }
+  }

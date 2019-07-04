@@ -9,7 +9,7 @@
       </div>
       <div class="sidebar__body mt-4">
         <ul class="sidebar__body--list pl-0 text-right">
-          <li class="sidebar__item"><a (click)="state = 5">All</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == 5}" (click)="state = 5">All</a></li>
           <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Kid</a></li>
           <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Junior</a>
           </li>
@@ -47,7 +47,7 @@
             <div class="table__body--columns col-2 justify-content-end">
               <div class="d-flex align-items-center column-icon">
                 <p class="mb-0 mr-2">10000</p>
-                <i class="icon-star-fill"></i> <!-- CAMBIAR POR ICONO DE STAR FILL -->
+                <i class="icon-star-fill"></i>
               </div>
             </div>
             <div class="table__body--columns offset-2 col-2 redeem d-flex justify-content-center">
@@ -65,7 +65,7 @@
             <div class="table__body--columns col-2 justify-content-end">
               <div class="d-flex align-items-center column-icon">
                 <p class="mb-0 mr-2">5000</p>
-                <i class="icon-star-fill"></i> <!-- CAMBIAR POR ICONO DE STAR FILL -->
+                <i class="icon-star-fill"></i>
               </div>
             </div>
           </div>

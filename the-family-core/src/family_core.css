@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'family_core';
-  src:  url('fonts/family_core/family_core.eot?sij8vg');
-  src:  url('fonts/family_core/family_core.eot?sij8vg#iefix') format('embedded-opentype'),
-    url('fonts/family_core/family_core.ttf?sij8vg') format('truetype'),
-    url('fonts/family_core/family_core.woff?sij8vg') format('woff'),
-    url('fonts/family_core/family_core.svg?sij8vg#family_core') format('svg');
+  src:  url('fonts/family_core/family_core.eot?rlgrm6');
+  src:  url('fonts/family_core/family_core.eot?rlgrm6#iefix') format('embedded-opentype'),
+    url('fonts/family_core/family_core.ttf?rlgrm6') format('truetype'),
+    url('fonts/family_core/family_core.woff?rlgrm6') format('woff'),
+    url('fonts/family_core/family_core.svg?rlgrm6#family_core') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-fill-left:before {
+  content: "\e90d";
+}
 .icon-star-fill:before {
   content: "\e90a";
 }

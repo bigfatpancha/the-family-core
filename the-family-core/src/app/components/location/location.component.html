@@ -1,10 +1,13 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3" id="sidebar">
+    <div class="col-md-3" id="sidebar" [ngClass]="{'close': !openSidebar}">
       <div class="sidebar__header row">
         <a href="#"><img src="../../../assets/img/home.png" alt="family core"></a>
-        <div>
+        <div class="title">
           <h4>Geolocation</h4>
+        </div>
+        <div class="close-sidebar cursor-pointer" (click)="closeSidebar();">
+          <i class="icon-arrow-fill-left" [ngClass]="{'close': !openSidebar}"></i>
         </div>
       </div>
       <div class="sidebar__body mt-4">

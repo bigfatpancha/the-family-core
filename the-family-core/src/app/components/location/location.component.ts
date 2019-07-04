@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationComponent implements OnInit {
 
+  openSidebar = true;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  closeSidebar(){
+    this.openSidebar = !this.openSidebar;
   }
 
 }

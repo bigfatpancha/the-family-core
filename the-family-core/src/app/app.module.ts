@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,9 +38,15 @@ import { LoginComponent } from './components/login/login.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    LoginComponent,
+    RegisterComponent
+  ],
 })
 export class AppModule { }

@@ -1,9 +1,12 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UsersService } from 'src/app/services/users/users.service';
-import { LoginResponse, User, LoginRequest } from '../../model/auth';
+import { User } from '../../model/auth';
 import { AuthService } from '../../services/auth/auth.service';
-import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
+import { FamilyUser } from 'src/app/model/family';
 import { HttpService } from '../../services/http/http.service';
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,10 +26,13 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   showLogin = false;
   isLogged = false;
   showRegister = false;
+  loginRef: MatDialogRef<LoginComponent>;
+  registerRef: MatDialogRef<RegisterComponent>;
 
   constructor(private authService: AuthService,
               private userService: UsersService,
-              private httpService: HttpService) { }
+              private httpService: HttpService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.isLogged = this.httpService.key ? true : false;
@@ -34,9 +40,9 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() { }
 
-  getUsers(event) {
+  getUsers() {
     this.isLogged = true;
-    this.showLogin = event;
+    this.showLogin = false;
     this.users = this.userService.users;
     this.user = this.userService.user;
   }
@@ -44,6 +50,10 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   openLogin() {
     if (!this.isLogged) {
       this.showLogin = !this.showLogin;
+      this.loginRef = this.dialog.open(LoginComponent, {
+        width: 'auto'
+      });
+      this.loginRef.componentInstance.onLogin.subscribe(() => this.getUsers());
     }
   }
 

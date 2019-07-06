@@ -7,6 +7,8 @@ import { NewUserComponent } from '../app/components/new-user/new-user.component'
 import { UploadComponent } from '../app/components/upload/upload.component';
 import { UserComponent } from './components/user/user.component';
 import { RegisterComponent } from './components/register/register.component';
+import { RewardsComponent } from './components/rewards/rewards.component';
+import { LocationComponent } from './components/location/location.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'user/:id', component: UserComponent },
   { path: 'newuser', component: NewUserComponent },
   { path: 'upload', component: UploadComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'rewards', component: RewardsComponent },
+  { path: 'location', component: LocationComponent }
 ];
 
 @NgModule({

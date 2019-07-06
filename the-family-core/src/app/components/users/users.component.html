@@ -3,68 +3,71 @@
     <div class="row">
       <div class="col-md-3" id="sidebar">
         <div class="sidebar__header row">
-          <a href="#"><i>IC</i></a>
+          <a href="#"><img src="../../../assets/img/home.png" alt="family core"></a>
           <div>
             <h4>Users</h4>
           </div>
-        </div>
-        <div class="sidebar__body mt-4">
-          <ul class="sidebar__body--list pl-0 text-right">
-            <li class="sidebar__item"><a (click)="state = 5">All</a></li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Admin</a></li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Parent/legal Guardian</a>
-            </li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 2}" (click)="state = 2">Child</a></li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 3}" (click)="state = 3">Dependent</a></li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 4}" (click)="state = 4">Nanny</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="container__data">
-        <div class="container__data--name">
-          <div class="d-flex w-100 align-items-center">
-            <div class="col-6"><i class="icon-lupa"></i></div>
-            <div class="col-6"><a routerLink="/newuser"><img src="../../../assets/img/user-mas.png" alt="add user"></a>
-            </div>
+          <div class="sidebar__body mt-4">
+            <ul class="sidebar__body--list pl-0 text-right">
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 5}" (click)="state = 5">All</a></li>
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Admin</a></li>
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Parent/legal
+                  Guardian</a>
+              </li>
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 2}" (click)="state = 2">Child</a></li>
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 3}" (click)="state = 3">Dependent</a></li>
+              <li class="sidebar__item"><a [ngClass]="{'active': state == 4}" (click)="state = 4">Nanny</a></li>
+            </ul>
           </div>
         </div>
-
-        <div>
-          <div class="table">
-            <div class="table__header">
-              <div class="table__header--columns col-2">
-                <h4>NAME</h4>
-              </div>
-              <div class="table__header--columns col-2"></div>
-              <div class="table__header--columns col-3">
-                <h4>MAIL</h4>
-              </div>
-              <div class="table__header--columns col-2">
-                <h4>MOBILE #</h4>
-              </div>
-              <div class="table__header--columns col-3">
-                <h4>ROLE</h4>
+        <div class="container__data">
+          <div class="container__data--name">
+            <div class="d-flex w-100 align-items-center">
+              <div class="col-6"><i class="icon-lupa"></i></div>
+              <div class="col-6"><a routerLink="/newuser"><img src="../../../assets/img/user-mas.png"
+                    alt="add user"></a>
               </div>
             </div>
+          </div>
 
-            <div class="table__body table_link" *ngFor="let user of users" [routerLink]="['/user', user.id]" [hidden]="!showContact(user.role)">
-              <div class="table__body--columns col-2">
-                <p>{{user.nickname}}</p>
+          <div>
+            <div class="table">
+              <div class="table__header">
+                <div class="table__header--columns col-2">
+                  <h4>NAME</h4>
+                </div>
+                <div class="table__header--columns col-2"></div>
+                <div class="table__header--columns col-3">
+                  <h4>MAIL</h4>
+                </div>
+                <div class="table__header--columns col-2">
+                  <h4>MOBILE #</h4>
+                </div>
+                <div class="table__header--columns col-3">
+                  <h4>ROLE</h4>
+                </div>
               </div>
-              <div class="table__body--columns col-2 resend-invitation">
-                <p>Resend Invitation</p>
+
+              <div class="table__body table_link" *ngFor="let user of users" [routerLink]="['/user', user.id]"
+                [hidden]="!showContact(user.role)">
+                <div class="table__body--columns col-2">
+                  <p>{{user.nickname}}</p>
+                </div>
+                <div class="table__body--columns col-2 resend-invitation">
+                  <p>Resend Invitation</p>
+                </div>
+                <div class="table__body--columns col-3">
+                  <p>{{user.email}}</p>
+                </div>
+                <div class="table__body--columns col-2">
+                  <p>{{user.mobileNumber}}</p>
+                </div>
+                <div class="table__body--columns col-3">
+                  <p>{{formatRole(user.role)}}</p>
+                </div>
               </div>
-              <div class="table__body--columns col-3">
-                <p>{{user.email}}</p>
-              </div>
-              <div class="table__body--columns col-2">
-                <p>{{user.mobileNumber}}</p>
-              </div>
-              <div class="table__body--columns col-3">
-                <p>{{formatRole(user.role)}}</p>
-              </div>
+
             </div>
-
           </div>
         </div>
       </div>

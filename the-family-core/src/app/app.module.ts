@@ -17,7 +17,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { UserComponent } from './components/user/user.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { RewardsComponent } from './components/rewards/rewards.component';
 import { LoginComponent } from './components/login/login.component';
+import { LocationComponent } from './components/location/location.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { LoginComponent } from './components/login/login.component';
     FooterComponent,
     UserComponent,
     RegisterComponent,
-    LoginComponent
+    ChatComponent,
+    RewardsComponent,
+    LoginComponent,
+    LocationComponent
   ],
   imports: [
     BrowserModule,

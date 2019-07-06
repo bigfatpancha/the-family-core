@@ -1,0 +1,41 @@
+.header-calendar {
+  padding: 15px 20px;
+  background: #f0fbe6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    font-size: 1.3rem;
+    min-width: 160px;
+  }
+
+  .today {
+    font-size: .8rem;
+    text-transform: uppercase;
+    font-family: sfMedium;
+    color: #001426;
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      color: #007aff;
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  .fecha {
+    h5 {
+      font-size: 1.25rem;
+      font-family: avenirBlack;
+      color: #03263f;
+    }
+  }
+}
+
+.fecha-calendario {
+  i {
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+}

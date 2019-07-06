@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 @font-face {
   font-family: avenirBlack;
@@ -344,6 +345,25 @@
 }
 
 /*** MODALS ***/
-.mat-dialog-container{
+.mat-dialog-container {
   padding: 0px !important;
+}
+
+/*** CALENDARIo ***/
+.cal-month-view .cal-day-badge {
+  background-color: #f15a24;
+  color: #fff;
+}
+
+.cal-month-view .cal-day-number {
+  font-family: avenirBlack;
+  color: #007aff;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #f15a24;
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.5rem;
 }

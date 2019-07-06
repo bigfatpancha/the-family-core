@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +24,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LoginComponent } from './components/login/login.component';
 import { LocationComponent } from './components/location/location.component';
+import { CalendarComponent } from './components/user/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,8 @@ import { LocationComponent } from './components/location/location.component';
     ChatComponent,
     RewardsComponent,
     LoginComponent,
-    LocationComponent
+    LocationComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,10 @@ import { LocationComponent } from './components/location/location.component';
     FormsModule,
     MatDialogModule,
     BrowserAnimationsModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarCommonModule,
+    CalendarMonthModule
   ],
   providers: [],
   bootstrap: [AppComponent],

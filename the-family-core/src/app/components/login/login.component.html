@@ -1,29 +1,18 @@
-<div class="container">
-  <div class="container-fluid">
-    <div class="form_family border-bottom pb-3">
-      <div class="row mt-3 flex-column-reverse flex-md-row">
-        <div class="col-md-8">
-          <form class="form_family">
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <input [(ngModel)]="body.username" name="nickname" class="form-control"
-                  placeholder="Nickname">
-              </div>
-              <div class="form-group col-md-6">
-                <input [(ngModel)]="body.password" name="password" type="password" class="form-control" placeholder="password">
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<div class="login-container">
   <div class="header-info mb-4">
-    <h4></h4>
-    <div class="buttons">
+    <h4>Login User</h4>
+    <div class="buttons cursor-pointer">
       <a (click)="login()" class="btn btn-sm btn-save">Login</a>
     </div>
   </div>
+  <form class="form_family">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input [(ngModel)]="body.username" name="nickname" class="form-control" placeholder="Nickname">
+      </div>
+      <div class="form-group col-md-6">
+        <input [(ngModel)]="body.password" name="password" type="password" class="form-control" placeholder="password">
+      </div>
+    </div>
+  </form>
 </div>

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginRequest, LoginResponse } from 'src/app/model/auth';
 import { UsersService } from 'src/app/services/users/users.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { FamilyUserListResponse } from 'src/app/model/family';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,6 @@ import { FamilyUserListResponse } from 'src/app/model/family';
 })
 export class LoginComponent implements OnInit {
 
-  @Input() show = false;
   body: LoginRequest = new LoginRequest();
 
   @Output() onLogin = new EventEmitter<boolean>();
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private httpService: HttpService) { }
+    private httpService: HttpService,
+    public dialogRef: MatDialogRef<LoginComponent>) { }
 
   ngOnInit() {
   }
@@ -39,8 +40,8 @@ export class LoginComponent implements OnInit {
     this.userService.doGetUsersList()
     .subscribe( (data: FamilyUserListResponse) => {
       this.userService.users = data.results;
-      this.show = false;
-      this.onLogin.emit(this.show);
+      this.onLogin.emit();
+      this.dialogRef.close();
     });
   }
 

@@ -4,6 +4,7 @@ import { RegistrationRequest, RegistrationResponse, User } from 'src/app/model/a
 import { HttpService } from 'src/app/services/http/http.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUserListResponse } from 'src/app/model/family';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,6 @@ import { FamilyUserListResponse } from 'src/app/model/family';
 })
 export class RegisterComponent implements OnInit {
 
-  @Input() show = false;
   @Output() onRegister = new EventEmitter<boolean>();
 
   body: RegistrationRequest = new RegistrationRequest();
@@ -25,7 +25,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private httpService: HttpService,
-    private userService: UsersService
+    private userService: UsersService,
+    public dialogRef: MatDialogRef<RegisterComponent>
   ) { }
 
   ngOnInit() {
@@ -64,8 +65,8 @@ export class RegisterComponent implements OnInit {
     this.userService.doGetUsersList()
     .subscribe( (data: FamilyUserListResponse) => {
       this.userService.users = data.results;
-      this.show = false;
-      this.onRegister.emit(this.show);
+      this.onRegister.emit();
+      this.dialogRef.close();
     });
   }
 

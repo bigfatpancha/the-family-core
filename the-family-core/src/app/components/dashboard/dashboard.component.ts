@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from '../../model/auth';
 import { AuthService } from '../../services/auth/auth.service';
@@ -28,6 +28,8 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   showRegister = false;
   loginRef: MatDialogRef<LoginComponent>;
   registerRef: MatDialogRef<RegisterComponent>;
+  dialogConfig = new MatDialogConfig();
+  
 
   constructor(private authService: AuthService,
               private userService: UsersService,
@@ -36,6 +38,13 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.isLogged = this.httpService.key ? true : false;
+    this.dialogConfig.hasBackdrop = true;
+    this.dialogConfig.width = 'auto';
+    this.dialogConfig.height = 'auto';
+    if (this.isLogged) {
+      this.user = this.userService.user;
+      this.users = this.userService.users;
+    }
   }
 
   ngAfterContentInit() { }
@@ -50,15 +59,13 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   openLogin() {
     if (!this.isLogged) {
       this.showLogin = !this.showLogin;
-      this.loginRef = this.dialog.open(LoginComponent, {
-        width: 'auto'
-      });
+      this.loginRef = this.dialog.open(LoginComponent, this.dialogConfig);
       this.loginRef.componentInstance.onLogin.subscribe(() => this.getUsers());
     }
   }
 
-  onRegister(event) {
-    this.showRegister = event;
+  onRegister() {
+    this.showRegister = false;
     this.isLogged = true;
     this.user = this.userService.user;
     this.users = this.userService.users;
@@ -67,6 +74,8 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   openRegister() {
     if (!this.isLogged) {
       this.showRegister = !this.showRegister;
+      this.registerRef = this.dialog.open(RegisterComponent, this.dialogConfig);
+      this.registerRef.componentInstance.onRegister.subscribe(() => this.onRegister());
     }
   }
 

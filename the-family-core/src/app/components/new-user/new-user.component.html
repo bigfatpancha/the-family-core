@@ -182,7 +182,7 @@
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
-          <input class="form-control" type="text" placeholder="Zip" [(ngModel)]="newUser.address.zip" name="zip">
+          <input class="form-control" type="text" placeholder="Zip" [(ngModel)]="newUser.address.zipCode" name="zip">
         </div>
       </div>
 
@@ -201,7 +201,7 @@
   </div>
 
 
-  <div class="form_family border-bottom pb-3 mt-5" *ngIf="newUser.role === '2' || newUser.role === '3'">
+  <div class="form_family border-bottom pb-3 mt-5" *ngIf="newUser.role === 2 || newUser.role === 3">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
@@ -323,7 +323,7 @@
   </div>
 
   <div class="form_family border-bottom pb-3 mt-5"
-    *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 1 || newUser.gender === '1')">
+    *ngIf="(newUser.role === 2 || newUser.role === 3) && (newUser.gender === 1)">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
@@ -388,7 +388,7 @@
   </div>
 
   <div class="form_family border-bottom pb-3 mt-5"
-    *ngIf="(newUser.role === '2' || newUser.role === '3') && (newUser.gender === 0 || newUser.gender === '0')">
+    *ngIf="(newUser.role === 2 || newUser.role === 3) && (newUser.gender === 0)">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <div class="input-icon">
@@ -517,7 +517,7 @@
   </div>
 
 
-  <div class="form_family border-bottom pb-3 mt-5" *ngIf="newUser.role === '4'">
+  <div class="form_family border-bottom pb-3 mt-5" *ngIf="newUser.role === 4">
     <div class="form-row">
       <div class="form-group col-md-4 mb-4">
         <input type="text" placeholder="Refered By..." class="form-control" [(ngModel)]="referredBy.name" name="name">

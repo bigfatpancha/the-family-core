@@ -19,8 +19,8 @@ export class ChatComponent implements OnInit {
     this.chatListOpen = !this.chatListOpen;
   }
 
-  // converClose(){
-  //   this.converOpen = !this.converOpen;
-  // }
+  converClose(){
+    this.converOpen = !this.converOpen;
+  }
 
 }

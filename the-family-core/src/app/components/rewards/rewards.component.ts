@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RewardsComponent implements OnInit {
 
+  state = 5;
+
   constructor() { }
 
   ngOnInit() {

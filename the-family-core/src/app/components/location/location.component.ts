@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class LocationComponent implements OnInit {
 
   openSidebar = true;
+  state = 5;
 
   constructor() { }
 

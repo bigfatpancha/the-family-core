@@ -210,7 +210,7 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="timezone" required>
-              <option selected>Select Time Zone</option>
+              <option value="null" disabled>Select Time Zone</option>
               <option *ngFor="let timezone of timezones" value="{{timezone.description}}">{{timezone.name}} - {{timezone.description}}</option>
             </select>
             <div *ngIf="timezone.invalid && (timezone.dirty || timezone.touched)"
@@ -227,7 +227,7 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="alert">
-              <option value="0" selected>None</option>
+              <option value="0">None</option>
               <option value="1">Email</option>
               <option value="2">Push</option>
               <option value="3">Both</option>
@@ -244,29 +244,29 @@
           <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
           <select class="custom-select select form-control" formControlName="recurrence">
-            <option value="Does not repeat" selected>Does not repeat</option>
+            <option value="Doesnotrepeat">Does not repeat</option>
             <option value="Daily">Daily</option>
-            <option value="Weekly on {{dayOfWeek}}">Weekly on {{dayOfWeek}}</option>
-            <option value="Monthly on the first {{dayOfWeek}}">Monthly on the first {{dayOfWeek}}</option>
-            <option value="Monthly on the {{dayOfMonth}}">Monthly on the {{dayOfMonth}}</option>
-            <option value="Annually on the {{dayOfYear}}">Annually on the {{dayOfYear}}</option>
-            <option value="Every weekday (Monday to Friday)">Every weekday (Monday to Friday)</option>
+            <option value="WeeklyondayOfWeek">Weekly on {{dayOfWeek}}</option>
+            <option value="Monthlyontheirst">Monthly on the first {{dayOfWeek}}</option>
+            <option value="Monthlyonthe">Monthly on the {{dayOfMonth}}</option>
+            <option value="Annuallyonthe">Annually on the {{dayOfYear}}</option>
+            <option value="EveryweekdayMondaytoFriday">Every weekday (Monday to Friday)</option>
             <option value="Custom">Custom...</option>
           </select>
           </div>
         </div>
-        <div class="form-group col-md-2" *ngIf="event.recurrence !== 'Does not repeat'">
+        <div class="form-group col-md-2" *ngIf="showEnds()">
           <label>Ends</label>
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="endsForm">
-              <option value="Never" selected>Never</option>
+              <option value="Never">Never</option>
               <option value="On">On</option>
               <option value="After">After</option>
             </select>
           </div>
         </div>
-        <div class="form-group col-md-4 col-lg-3 d-flex align-items-end" *ngIf="event.recurrence !== 'Does not repeat' && ends !== 'Never'">
+        <div class="form-group col-md-4 col-lg-3 d-flex align-items-end" *ngIf="showEndDate()">
           <div class="input-group" style="width: 100%;">
             <label class="mb-0 d-flex align-items-center">End Date</label>
             <input class="form-control ml-3" placeholder="yyyy-mm-dd" ngbDatepicker #d3="ngbDatepicker"
@@ -279,7 +279,7 @@
       </div>
 
 
-      <div class="row" *ngIf="event.recurrence !== 'Does not repeat' && ends !== 'Never'">
+      <div class="row" *ngIf="recurrence.value !== 'Doesnotrepeat' && endsForm.value !== 'Never'">
         <div class="form-group col-md-2 offset-md-6 mt-3">
           <div class="input-group">
             <label class="mb-0 d-flex align-items-center">Ocurrences</label>
@@ -288,11 +288,11 @@
         </div>
       </div>
 
-      <div class="form-group mb-0" *ngIf="event.recurrence === 'Custom'">
+      <div class="form-group mb-0" *ngIf="recurrence.value === 'Custom'">
         <label>Custom repeat</label>
       </div>
 
-      <div class="form-row" *ngIf="event.recurrence === 'Custom'">
+      <div class="form-row" *ngIf="recurrence.value === 'Custom'">
         <div class="form-group col-md-2">
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select sin-label">

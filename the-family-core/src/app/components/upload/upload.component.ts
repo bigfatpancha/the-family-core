@@ -59,52 +59,49 @@ export class UploadComponent implements OnInit {
     this.dataService.doTimezoneGet()
     .subscribe((data: Timezone[]) => {
       this.timezones = data;
-    
-      this.userService.doGetUsersList()
-      .subscribe((res: FamilyUserListResponse) => {
-        this.familyMembers = res.results;
-      })
-      let date = new Date();
-      this.startDate = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
-      this.dayOfWeek = this.formatDayOfWeek(date.getDay());
-      this.dayOfMonth = date.getDate().toString() + this.getGetOrdinal(date.getDate());
-      this.dayOfYear = this.formatMonth(date.getMonth()) + ' ' + this.dayOfMonth;
-      this.event.recurrence = 'Does not repeat';
-      this.event.alert = 0;
-      this.event.address = new Address();
-      this.progress = 0;
-      this.eventForm = new FormGroup({
-        'title': new FormControl('Title', [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(30)
-        ]),
-        'detail': new FormControl('Detail', [Validators.maxLength(30)]),
-        'type': new FormControl(0, [Validators. required]),
-        'familyMemberForm': new FormControl(null),
-        'leadForm': new FormControl(null),
-        'dpstart': new FormControl(this.startDate, [Validators.required]),
-        'startTimeForm': new FormControl(this.startTime, [Validators.required]),
-        'dpend': new FormControl(this.endDate, [Validators.required]),
-        'endTimeForm': new FormControl(this.endTime, [Validators.required]),
-        'timezone': new FormControl(this.timezones[0], [Validators.required]),
-        'alert': new FormControl(this.event.alert),
-        'recurrence': new FormControl(this.event.recurrence),
-        'endsForm': new FormControl('Never'),
-        'recurrenceEndDateForm': new FormControl(this.startDate),
-        'recurrenceOcurrencesForm': new FormControl('Ocurrences'),
-        'customRepeatForm': new FormControl(1),
-        'customFrecuenceForm': new FormControl('Day'),
-        'addressLine1': new FormControl('Address Line 1', [Validators.maxLength(128)]),
-        'addressLine2': new FormControl('Address Line 2', [Validators.maxLength(128)]),
-        'city': new FormControl('City', [Validators.maxLength(50)]),
-        'state': new FormControl('state'),
-        'zip': new FormControl('Zip Code', [Validators.maxLength(50)]),
-        'phoneNumber': new FormControl('Phone Number', [Validators.maxLength(128)]),
-        'fax': new FormControl('Fax Number', [Validators.maxLength(128)]),
-        'notes': new FormControl('notes'),
-        'notifyTeam': new FormControl(false)
-      })
+    });
+    this.userService.doGetUsersList()
+    .subscribe((res: FamilyUserListResponse) => {
+      this.familyMembers = res.results;
+    })
+    let date = new Date();
+    this.startDate = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+    this.dayOfWeek = this.formatDayOfWeek(date.getDay());
+    this.dayOfMonth = date.getDate().toString() + this.getGetOrdinal(date.getDate());
+    this.dayOfYear = this.formatMonth(date.getMonth()) + ' ' + this.dayOfMonth;
+    this.event.address = new Address();
+    this.progress = 0;
+    this.eventForm = new FormGroup({
+      'title': new FormControl('Title', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(30)
+      ]),
+      'detail': new FormControl('Detail', [Validators.maxLength(30)]),
+      'type': new FormControl(0, [Validators. required]),
+      'familyMemberForm': new FormControl(null),
+      'leadForm': new FormControl(null),
+      'dpstart': new FormControl(this.startDate, [Validators.required]),
+      'startTimeForm': new FormControl(this.startTime, [Validators.required]),
+      'dpend': new FormControl(this.endDate, [Validators.required]),
+      'endTimeForm': new FormControl(this.endTime, [Validators.required]),
+      'timezone': new FormControl(null, [Validators.required]),
+      'alert': new FormControl(0),
+      'recurrence': new FormControl('Doesnotrepeat'),
+      'endsForm': new FormControl('Never'),
+      'recurrenceEndDateForm': new FormControl(this.startDate),
+      'recurrenceOcurrencesForm': new FormControl('Ocurrences'),
+      'customRepeatForm': new FormControl(1),
+      'customFrecuenceForm': new FormControl('Day'),
+      'addressLine1': new FormControl('Address Line 1', [Validators.maxLength(128)]),
+      'addressLine2': new FormControl('Address Line 2', [Validators.maxLength(128)]),
+      'city': new FormControl('City', [Validators.maxLength(50)]),
+      'state': new FormControl('state'),
+      'zip': new FormControl('Zip Code', [Validators.maxLength(50)]),
+      'phoneNumber': new FormControl('Phone Number', [Validators.maxLength(128)]),
+      'fax': new FormControl('Fax Number', [Validators.maxLength(128)]),
+      'notes': new FormControl('notes'),
+      'notifyTeam': new FormControl(false)
     });
   }
 
@@ -119,7 +116,7 @@ export class UploadComponent implements OnInit {
   get endTimeForm() { return this.eventForm.get('endTimeForm'); }
   get timezone() { return this.eventForm.get('timezone'); }
   get alert() { return this.eventForm.get('alert'); }
-  get recurrence() { return this.eventForm.get('tyrecurrencepe'); }
+  get recurrence() { return this.eventForm.get('recurrence'); }
   get endsForm() { return this.eventForm.get('endsForm'); }
   get recurrenceEndDateForm() { return this.eventForm.get('recurrenceEndDateForm'); }
   get recurrenceOcurrencesForm() { return this.eventForm.get('recurrenceOcurrencesForm'); }
@@ -224,6 +221,14 @@ export class UploadComponent implements OnInit {
       this.isValidTime = true;
     }
     
+  }
+
+  showEnds() {
+    return this.recurrence.value !== 'Doesnotrepeat';
+  }
+
+  showEndDate() {
+    return this.recurrence.value !== 'Doesnotrepeat' && this.endsForm.value !== 'Never';
   }
 
   postEvent() {

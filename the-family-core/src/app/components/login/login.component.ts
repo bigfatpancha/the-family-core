@@ -14,6 +14,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class LoginComponent implements OnInit {
 
   body: LoginRequest = new LoginRequest();
+  
 
   @Output() onLogin = new EventEmitter<boolean>();
 
@@ -24,6 +25,8 @@ export class LoginComponent implements OnInit {
     public dialogRef: MatDialogRef<LoginComponent>) { }
 
   ngOnInit() {
+    this.body.username = 'developer';
+    this.body.password = 'Susvin01';
   }
 
   login() {

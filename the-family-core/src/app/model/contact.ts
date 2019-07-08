@@ -7,27 +7,6 @@ export class Address {
     state: string;
     phoneNumber: string;
     faxNumber: string;
-
-    constructor()
-    constructor(
-        id?: number,
-        addressLine1?: string,
-        addressLine2?: string,
-        city?: string,
-        zipCode?: string,
-        state?: string,
-        phoneNumber?: string,
-        faxNumber?: string
-    ) {
-        this.id = id;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.phoneNumber = phoneNumber;
-        this.faxNumber = faxNumber;
-    }
 }
 
 export class Contact {

@@ -2,16 +2,6 @@ export class Attachment {
     id: number;
     file: string;
     thumbnail: string;
-
-    constructor(
-        id: number,
-        file: string,
-        thumbnail: string
-    ) {
-        this.id = id;
-        this.file = file;
-        this.thumbnail = thumbnail;
-    }
 }
 
 export class Document {

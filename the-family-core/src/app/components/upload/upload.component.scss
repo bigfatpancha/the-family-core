@@ -1,3 +1,8 @@
+.mat-dialog-content {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
 .upload-data {
   .container-fluid {
     padding-left: 30px;
@@ -75,5 +80,23 @@
     width: 1.5rem;
     top: -5px;
     left: -35px;
+  }
+}
+
+input[type=file] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: auto;
+  user-select: none;
+  left: 0px;
+  top: 20px;
+}
+.div-upload-pic{
+  img {
+    cursor: pointer;
+  }
+
+  input{
+    position: absolute;
   }
 }

@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit, AfterContentInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
+    console.log(this.httpService.key)
     this.isLogged = this.httpService.key ? true : false;
     this.dialogConfig.hasBackdrop = true;
     this.dialogConfig.width = 'auto';

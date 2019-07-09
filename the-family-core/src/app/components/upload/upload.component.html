@@ -211,7 +211,7 @@
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="timezone" required>
               <option value="null" disabled>Select Time Zone</option>
-              <option *ngFor="let timezone of timezones" value="{{timezone.description}}">{{timezone.name}} - {{timezone.description}}</option>
+              <option *ngFor="let timezone of timezones" value="{{timezone.name}}">{{timezone.name}} - {{timezone.description}}</option>
             </select>
             <div *ngIf="timezone.invalid && (timezone.dirty || timezone.touched)"
                 class="alert alert-danger">
@@ -247,7 +247,7 @@
             <option value="Doesnotrepeat">Does not repeat</option>
             <option value="Daily">Daily</option>
             <option value="WeeklyondayOfWeek">Weekly on {{dayOfWeek}}</option>
-            <option value="Monthlyontheirst">Monthly on the first {{dayOfWeek}}</option>
+            <option value="Monthlyonthefirst">Monthly on the first {{dayOfWeek}}</option>
             <option value="Monthlyonthe">Monthly on the {{dayOfMonth}}</option>
             <option value="Annuallyonthe">Annually on the {{dayOfYear}}</option>
             <option value="EveryweekdayMondaytoFriday">Every weekday (Monday to Friday)</option>
@@ -309,10 +309,10 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select sin-label">
             <select class="custom-select select form-control" formControlName="customFrecuenceForm">
-              <option selected value="Day">Day</option>
-              <option value="Week">Week</option>
-              <option value="Month">Month</option>
-              <option value="Year">Year</option>
+              <option selected value="0">Day</option>
+              <option value="1">Week</option>
+              <option value="2">Month</option>
+              <option value="3">Year</option>
             </select>
           </div>
         </div>
@@ -331,7 +331,7 @@
             Wed
           </div>
           <div class="form-control btn btn-day" [ngClass]="{'active': activeTur}" (click)="activeTur = !activeTur">
-            Tur
+            Thu
           </div>
           <div class="form-control btn btn-day" [ngClass]="{'active': activeFri}" (click)="activeFri = !activeFri">
             Fri

@@ -9,6 +9,11 @@ import { Attachment } from 'src/app/model/documents';
 import { Address } from 'src/app/model/contact';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { RRule, RRuleSet, rrulestr } from 'rrule'
+import { RouterLink } from '@angular/router';
+import { Observable, Subscriber } from 'rxjs';
+import { reject } from 'q';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-upload',
@@ -44,6 +49,7 @@ export class UploadComponent implements OnInit {
   endTime: any;
   isValidTime = true;
 
+  date: Date;
   dayOfWeek: string;
   dayOfMonth: string;
   dayOfYear: string;
@@ -54,6 +60,8 @@ export class UploadComponent implements OnInit {
   activeTur = false;
   activeFri = false;
   activeSat = false;
+  until: Date;
+  count: number;
 
   ngOnInit() {
     this.dataService.doTimezoneGet()
@@ -64,13 +72,14 @@ export class UploadComponent implements OnInit {
     .subscribe((res: FamilyUserListResponse) => {
       this.familyMembers = res.results;
     })
-    let date = new Date();
-    this.startDate = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
-    this.dayOfWeek = this.formatDayOfWeek(date.getDay());
-    this.dayOfMonth = date.getDate().toString() + this.getGetOrdinal(date.getDate());
-    this.dayOfYear = this.formatMonth(date.getMonth()) + ' ' + this.dayOfMonth;
+    this.date = new Date();
+    this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
+    this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
+    this.dayOfMonth = this.date.getDate().toString() + this.getGetOrdinal(this.date.getDate());
+    this.dayOfYear = this.formatMonth(this.date.getMonth()) + ' ' + this.dayOfMonth;
     this.event.address = new Address();
     this.progress = 0;
+
     this.eventForm = new FormGroup({
       'title': new FormControl('Title', [
         Validators.required,
@@ -90,7 +99,7 @@ export class UploadComponent implements OnInit {
       'recurrence': new FormControl('Doesnotrepeat'),
       'endsForm': new FormControl('Never'),
       'recurrenceEndDateForm': new FormControl(this.startDate),
-      'recurrenceOcurrencesForm': new FormControl('Ocurrences'),
+      'recurrenceOcurrencesForm': new FormControl(null),
       'customRepeatForm': new FormControl(1),
       'customFrecuenceForm': new FormControl('Day'),
       'addressLine1': new FormControl('Address Line 1', [Validators.maxLength(128)]),
@@ -191,17 +200,16 @@ export class UploadComponent implements OnInit {
     if (!this.attachments) {
       this.attachments = [];
     }
-    console.log('event.target.files.length', event.target.files);
     let length = event.target.files.length;
     if (length > 0) {
       for (let i = 0; i < length; i ++) {
+        this.progress = 0;
         this.attachments.push(event.target.files[i]);
         while (this.progress < 100) {
             this.progress ++;
         }
       }
     }
-    console.log(this.attachments);
   }
 
   deleteFile(file) {
@@ -212,12 +220,9 @@ export class UploadComponent implements OnInit {
   }
 
   validateTime() {
-    console.log('validateTime');
     if (this.dpstart.value.equals(this.dpend) && this.startTime > this.endTime) {
-      console.log('false');
       this.isValidTime = false;
     } else {
-      console.log('true');
       this.isValidTime = true;
     }
     
@@ -234,10 +239,14 @@ export class UploadComponent implements OnInit {
   postEvent() {
     if (this.eventForm.status === 'VALID') {
       this.event.title = this.title.value;
-      this.event.detail = this.detail.value;
+      if (this.detail.value) {
+        this.event.detail = this.detail.value;
+      }
       this.event.type = this.type.value;
       this.event.familyMembers = this.familyMembersSelected.map((item) => item.id);
-      this.event.lead = this.leadForm.value.id;
+      if (this.leadForm.value) {
+        this.event.lead = this.leadForm.value.id;
+      }
       // start
       let hour = parseInt(this.startTimeForm.value.toString().substring(0, 2));
       let min = parseInt(this.startTimeForm.value.toString().substring(3, 5));
@@ -248,9 +257,9 @@ export class UploadComponent implements OnInit {
       min = parseInt(this.endTimeForm.value.toString().substring(3, 5));
       const endDate = new Date(this.dpend.value.year, this.dpend.value.month, this.dpend.value.day, hour, min, 0);
       this.event.end = endDate.toISOString();
-      this.event.recurrence = this.recurrence.value;
-      if (this.event.recurrence !== 'Does not repeat') {
-        this.event.recurrenceDescription = this.recurrenceDescriptionJson();
+      if (this.recurrence.value) {
+        this.event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
+        this.event.recurrenceDescription = this.recurrenceToRrule() ? this.recurrenceToRrule().toText() : 'Does not repeat';
       }
       this.event.timezone = this.timezone.value;
       this.event.alert = this.alert.value;
@@ -263,27 +272,323 @@ export class UploadComponent implements OnInit {
       this.event.address.state = this.state.value;
       this.event.address.phoneNumber = this.phoneNumber.value;
       this.event.address.faxNumber = this.fax.value;
+      let promise;
+      if (this.attachments && this.attachments.length > 0) {
+        this.event.attachments = [];
+        promise = new Promise((resolve, reject) => {
+          for(let i = 0; i < this.attachments.length; i++) {
+            let attachment = new EventAttachment();
+            this.getBase64(this.attachments[i]).subscribe((file: string) => {
+              console.log(file);
+              attachment.file = file;
+              this.event.attachments.push(attachment);
+              if (i+1 === this.attachments.length) {
+                resolve();
+              }
+            }, (error) => {
+              console.log(error);
+              reject()
+            });
+          }
+        })
+        
+      }
+      if (!promise) {
+        this.eventsService.doEventPost(this.event).subscribe((res: Event) => console.log(event));
+      } else {
+        Promise.all([promise]).then(() => {
+          this.eventsService.doEventPost(this.event).subscribe((res: Event) => console.log(event));
+        })
+      }
       
-      this.event.attachments = this.attachments.map((file) => {
-        let attachment = new EventAttachment();
-        attachment.file = file.file;
-        return attachment;
-      });
-      
-      console.log(this.event);
     } else {
       alert("There are invalid fields");
     }
   }
 
-  recurrenceDescriptionJson() {
-    return '{' +
-              'ends: ' + this.endsForm.value + ',' +
-              'recurrenceEndDate: ' + this.recurrenceEndDateForm.value + ',' +
-              'recurrenceOcurrences: ' + this.recurrenceOcurrencesForm.value + ',' +
-              'customRepeat: ' + this.customRepeatForm.value + ',' +
-              'customFrecuence: ' + this.customFrecuenceForm.value +
-            '}'
+  getBase64(file): Observable<string> {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    return Observable.create((observer: Subscriber<string | ArrayBuffer>): void => {
+      // if success
+      reader.onload = ((ev: ProgressEvent): void => {
+        observer.next(reader.result);
+        observer.complete();
+      })
+
+      // if failed
+      reader.onerror = (error: ProgressEvent): void => {
+        observer.error(error);
+      }
+    });
+ }
+ 
+
+  recurrenceToRrule(): RRule {
+    switch(this.recurrence.value) {
+      case 'Doesnotrepeat': return null;
+      case 'Daily': return this.dailyToRrule();
+      case 'WeeklyondayOfWeek': return this.weeklyondayOfWeekToRrule();
+      case 'Monthlyonthefirst': return this.monthlyonthefirst();
+      case 'Monthlyonthe': return this.monthlyonthe();
+      case 'Annuallyonthe': return this.annuallyonthe();
+      case 'EveryweekdayMondaytoFriday': return this.everyweekdayMondaytoFriday();
+      case 'Custom': return this.custom();
+    }
   }
 
+  untilAndCount() {
+    this.until = this.endsForm.value !== 'Never' && this.recurrenceEndDateForm.value ? 
+      new Date(
+        this.recurrenceEndDateForm.value.year,
+        this.recurrenceEndDateForm.value.month,
+        this.recurrenceEndDateForm.value.day) :
+        null;
+    this.count = this.recurrenceOcurrencesForm.value ? this.recurrenceOcurrencesForm.value : null;
+  }
+  
+  dailyToRrule(): RRule {
+    this.untilAndCount();
+    let rule;
+    if (!this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.DAILY,
+        dtstart: new Date()
+      });
+    } else if (this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.DAILY,
+        dtstart: new Date(),
+        until: this.until
+      });
+    } else if (!this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.DAILY,
+        dtstart: new Date(),
+        count: this.count
+      });
+    } else if (this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.DAILY,
+        dtstart: new Date(),
+        until: this.until,
+        count: this.count
+      });
+    }
+
+    return rule;
+  }
+
+  weeklyondayOfWeekToRrule(): RRule {
+    this.untilAndCount();
+    let rule;
+    if (!this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.WEEKLY,
+        byweekday: this.date.getDay() -1,
+        dtstart: new Date(),
+      });
+    } else if (this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.WEEKLY,
+        byweekday: this.date.getDay() -1,
+        dtstart: new Date(),
+        until: this.until
+      });
+    } else if (!this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.WEEKLY,
+        byweekday: this.date.getDay() -1,
+        dtstart: new Date(),
+        count: this.count
+      });
+    } else if (this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.WEEKLY,
+        byweekday: this.date.getDay() -1,
+        dtstart: new Date(),
+        until: this.until,
+        count: this.count
+      });
+    }
+    return rule;
+  }
+
+  monthlyonthefirst(): RRule {
+    this.untilAndCount();
+    let rule;
+    if (!this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: this.date.getDay() -1,
+        bysetpos: 1,
+        dtstart: new Date(),
+      });
+    } else if (this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: this.date.getDay() -1,
+        bysetpos: 1,
+        dtstart: new Date(),
+        until: this.until
+      });
+    } else if (!this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: this.date.getDay() -1,
+        bysetpos: 1,
+        dtstart: new Date(),
+        count: this.count
+      });
+    } else if (this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: this.date.getDay() -1,
+        bysetpos: 1,
+        dtstart: new Date(),
+        until: this.until,
+        count: this.count
+      });
+    }
+    return rule;
+  }
+
+  monthlyonthe(): RRule {
+    this.untilAndCount();
+    let rule;
+    if (!this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+      });
+    } else if (this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+        until: this.until
+      });
+    } else if (!this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+        count: this.count
+      });
+    } else if (this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+        until: this.until,
+        count: this.count
+      });
+    }
+    return rule;
+  }
+
+  annuallyonthe(): RRule {
+    this.untilAndCount();
+    let rule;
+    if (!this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.YEARLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+      });
+    } else if (this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.YEARLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+        until: this.until
+      });
+    } else if (!this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.YEARLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+        count: this.count
+      });
+    } else if (this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.YEARLY,
+        bysetpos: 1,
+        dtstart: new Date(),
+        until: this.until,
+        count: this.count
+      });
+    }
+    return rule;
+  }
+
+  everyweekdayMondaytoFriday(): RRule {
+    this.untilAndCount();
+    let rule;
+    if (!this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
+        dtstart: new Date(),
+      });
+    } else if (this.until && !this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
+        dtstart: new Date(),
+        until: this.until
+      });
+    } else if (!this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
+        dtstart: new Date(),
+        count: this.count
+      });
+    } else if (this.until && this.count) {
+      rule = new RRule({
+        freq: RRule.MONTHLY,
+        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
+        dtstart: new Date(),
+        until: this.until,
+        count: this.count
+      });
+    }
+    return rule;
+  }
+
+  custom(): RRule {
+    let byweekday = [];
+    if (this.activeMon) { byweekday.push(RRule.MO) }
+    if (this.activeTue) { byweekday.push(RRule.TU) }
+    if (this.activeWed) { byweekday.push(RRule.WE) }
+    if (this.activeTur) { byweekday.push(RRule.TH) }
+    if (this.activeFri) { byweekday.push(RRule.FR) }
+    if (this.activeSat) { byweekday.push(RRule.SA) }
+    if (this.activeSun) { byweekday.push(RRule.SU) }
+    let freq;
+    switch(this.customFrecuenceForm.value) {
+      case "0": freq = RRule.DAILY; break;
+      case "0": freq = RRule.WEEKLY; break;
+      case "0": freq = RRule.MONTHLY; break;
+      case "0": freq = RRule.YEARLY; break;
+      default: freq = null;
+    }
+    let count = parseInt(this.customRepeatForm.value);
+    if (byweekday.length > 0) {
+      return new RRule({
+        freq: freq,
+        byweekday: byweekday,
+        dtstart: new Date(),
+        count: count
+      })
+    } else {
+      return new RRule({
+        freq: freq,
+        dtstart: new Date(),
+        count: count
+      })
+    }  
+  }
 }

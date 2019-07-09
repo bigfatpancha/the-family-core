@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginRequest, LoginResponse } from 'src/app/model/auth';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
     public dialogRef: MatDialogRef<LoginComponent>) { }
 
   ngOnInit() {
-    this.body.username = 'developer';
-    this.body.password = 'Susvin01';
+    // this.body.username = 'developer';
+    // this.body.password = 'Susvin01';
   }
 
   login() {

@@ -2,11 +2,11 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from '../../model/auth';
-import { AuthService } from '../../services/auth/auth.service';
 import { FamilyUser } from 'src/app/model/family';
 import { HttpService } from '../../services/http/http.service';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
+import { UploadComponent } from '../upload/upload.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,11 +28,11 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   showRegister = false;
   loginRef: MatDialogRef<LoginComponent>;
   registerRef: MatDialogRef<RegisterComponent>;
+  uploadRef: MatDialogRef<UploadComponent>;
   dialogConfig = new MatDialogConfig();
   
 
-  constructor(private authService: AuthService,
-              private userService: UsersService,
+  constructor(private userService: UsersService,
               private httpService: HttpService,
               private dialog: MatDialog) { }
 
@@ -77,6 +77,22 @@ export class DashboardComponent implements OnInit, AfterContentInit {
       this.showRegister = !this.showRegister;
       this.registerRef = this.dialog.open(RegisterComponent, this.dialogConfig);
       this.registerRef.componentInstance.onRegister.subscribe(() => this.onRegister());
+    }
+  }
+
+  openUpload() {
+    if (this.isLogged) {
+      this.dialogConfig.width = '90%';
+      this.uploadRef = this.dialog.open(UploadComponent, this.dialogConfig);
+      this.uploadRef.componentInstance.onEventPost.subscribe((success: boolean) => this.onPostUploadEnd(success));
+    }
+  }
+
+  onPostUploadEnd(success: boolean) {
+    if (success) {
+      alert('Upload success');
+    } else {
+      alert('Upload failed');
     }
   }
 

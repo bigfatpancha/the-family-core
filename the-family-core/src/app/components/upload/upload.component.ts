@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/services/data/data.service';
 import { Timezone } from 'src/app/model/data';
 import { EventsService } from 'src/app/services/events/events.service';
@@ -9,11 +9,9 @@ import { Attachment } from 'src/app/model/documents';
 import { Address } from 'src/app/model/contact';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RRule, RRuleSet, rrulestr } from 'rrule'
-import { RouterLink } from '@angular/router';
+import { RRule } from 'rrule'
 import { Observable, Subscriber } from 'rxjs';
-import { reject } from 'q';
-import { promise } from 'protractor';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-upload',
@@ -22,10 +20,13 @@ import { promise } from 'protractor';
 })
 export class UploadComponent implements OnInit {
 
+  @Output() onEventPost = new EventEmitter<boolean>();
+
   constructor(
     private dataService: DataService,
     private eventsService: EventsService,
-    private userService: UsersService
+    private userService: UsersService,
+    public dialogRef: MatDialogRef<UploadComponent>
   ) { }
 
   eventForm: FormGroup;
@@ -296,10 +297,19 @@ export class UploadComponent implements OnInit {
         
       }
       if (!promise) {
-        this.eventsService.doEventPost(this.event).subscribe((res: Event) => console.log(event));
+        this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
+          console.log(event)});
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
       } else {
         Promise.all([promise]).then(() => {
-          this.eventsService.doEventPost(this.event).subscribe((res: Event) => console.log(event));
+          this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
+            console.log(event)});
+            this.onEventPost.emit(true);
+            this.dialogRef.close();
+        }).catch((error) => {
+          this.onEventPost.emit(false);
+          this.dialogRef.close();
         })
       }
       

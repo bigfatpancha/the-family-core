@@ -1,10 +1,10 @@
 <app-header></app-header>
 
-<div class="upload-data">
+<div class="upload-data" mat-dialog-content>
 
   <div class="header-info mb-4">
     <h4>Upload</h4>
-    <a class="btn btn-sm btn-save">SAVE</a>
+    <a (click)="postEvent()" class="btn btn-sm btn-save">SAVE</a>
   </div>
   <div class="container-fluid" [formGroup]="eventForm">
     <div class="form_family border-bottom pb-3">

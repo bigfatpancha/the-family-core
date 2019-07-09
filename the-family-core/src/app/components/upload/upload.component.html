@@ -10,7 +10,7 @@
     <div class="form_family border-bottom pb-3">
       <div class="form-row">
         <div class="form-group col-md-4">
-          <input class="form-control" formControlName="title" required>
+          <input class="form-control" formControlName="title" required placeholder="Title">
           <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
             <div *ngIf="title.errors.required">
               Title is required.
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="form-group col-md-4">
-          <input class="form-control" formControlName="detail">
+          <input class="form-control" formControlName="detail" placeholder="Detail">
           <div *ngIf="detail.invalid && (title.dirty || title.touched)" class="alert alert-danger">
             <div *ngIf="detail.errors.maxlength">
               Title must have between 1 and 30 characters long.
@@ -347,23 +347,23 @@
     <div class="form_family border-bottom pb-3 pt-3">
       <div class="form-row mb-2 mt-4">
         <div class="form-group col-md-6 col-lg-4">
-          <input class="form-control" type="text" formControlName="addressLine1">
+          <input class="form-control" type="text" formControlName="addressLine1" placeholder="Address Line 1">
         </div>
         <div class="form-group col-md-6 col-lg-4">
-          <input class="form-control" type="text" formControlName="addressLine2">
+          <input class="form-control" type="text" formControlName="addressLine2" placeholder="Address Line 2">
         </div>
       </div>
 
       <div class="form-row mb-2">
         <div class="form-group col-md-3 col-lg-2">
-          <input class="form-control" type="text" formControlName="city">
+          <input class="form-control" type="text" formControlName="city" placeholder="City">
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
           <div class="input-icon">
           <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select sin-label">
           <select class="custom-select select form-control" formControlName="state">
-            <option value="State" disabled>State</option>
+            <option value="null" disabled>State</option>
             <option value="Alabama">Alabama</option>
             <option value="Alaska">Alaska</option>
             <option value="Arizona">Arizona</option>
@@ -419,17 +419,17 @@
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
-          <input class="form-control" type="text" formControlName="zip">
+          <input class="form-control" type="text" formControlName="zip" placeholder="Zip Code">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-3 col-lg-2">
-          <input type="text" class="form-control" formControlName="phoneNumber">
+          <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone #">
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
-          <input type="text" class="form-control" formControlName="fax">
+          <input type="text" class="form-control" formControlName="fax" placeholder="Fax #">
         </div>
       </div>
     </div>
@@ -438,7 +438,7 @@
       <div class="form-row">
         <div class="form-group col-md-8">
           <label>Add Notes</label>
-          <textarea class="form-control" rows="5" formControlName="notes"></textarea>
+          <textarea class="form-control" rows="5" formControlName="notes" placeholder="Note"></textarea>
         </div>
         <div class="form-group button-save col-md-4">
           <a class="btn btn-sm btn-save" (click)="postEvent()">SAVE</a>

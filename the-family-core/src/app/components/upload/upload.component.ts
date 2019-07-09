@@ -81,12 +81,12 @@ export class UploadComponent implements OnInit {
     this.progress = 0;
 
     this.eventForm = new FormGroup({
-      'title': new FormControl('Title', [
+      'title': new FormControl(null, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(30)
       ]),
-      'detail': new FormControl('Detail', [Validators.maxLength(30)]),
+      'detail': new FormControl(null, [Validators.maxLength(30)]),
       'type': new FormControl(0, [Validators. required]),
       'familyMemberForm': new FormControl(null),
       'leadForm': new FormControl(null),
@@ -102,14 +102,14 @@ export class UploadComponent implements OnInit {
       'recurrenceOcurrencesForm': new FormControl(null),
       'customRepeatForm': new FormControl(1),
       'customFrecuenceForm': new FormControl('Day'),
-      'addressLine1': new FormControl('Address Line 1', [Validators.maxLength(128)]),
-      'addressLine2': new FormControl('Address Line 2', [Validators.maxLength(128)]),
-      'city': new FormControl('City', [Validators.maxLength(50)]),
-      'state': new FormControl('state'),
-      'zip': new FormControl('Zip Code', [Validators.maxLength(50)]),
-      'phoneNumber': new FormControl('Phone Number', [Validators.maxLength(128)]),
-      'fax': new FormControl('Fax Number', [Validators.maxLength(128)]),
-      'notes': new FormControl('notes'),
+      'addressLine1': new FormControl(null, [Validators.maxLength(128)]),
+      'addressLine2': new FormControl(null, [Validators.maxLength(128)]),
+      'city': new FormControl(null, [Validators.maxLength(50)]),
+      'state': new FormControl(null),
+      'zip': new FormControl(null, [Validators.maxLength(50)]),
+      'phoneNumber': new FormControl(null, [Validators.maxLength(128)]),
+      'fax': new FormControl(null, [Validators.maxLength(128)]),
+      'notes': new FormControl(null),
       'notifyTeam': new FormControl(false)
     });
   }
@@ -213,7 +213,9 @@ export class UploadComponent implements OnInit {
   }
 
   deleteFile(file) {
+    console.log(this.attachments, file);
     this.attachments.splice(this.attachments.indexOf(file), 1);
+    console.log(this.attachments, file);
     if (this.attachments.length === 0) {
       this.progress = 0;
     }
@@ -326,7 +328,7 @@ export class UploadComponent implements OnInit {
 
   recurrenceToRrule(): RRule {
     switch(this.recurrence.value) {
-      case 'Doesnotrepeat': return null;
+      case 'Doesnotrepeat': return this.doesNotRepeat();
       case 'Daily': return this.dailyToRrule();
       case 'WeeklyondayOfWeek': return this.weeklyondayOfWeekToRrule();
       case 'Monthlyonthefirst': return this.monthlyonthefirst();
@@ -345,6 +347,14 @@ export class UploadComponent implements OnInit {
         this.recurrenceEndDateForm.value.day) :
         null;
     this.count = this.recurrenceOcurrencesForm.value ? this.recurrenceOcurrencesForm.value : null;
+  }
+
+  doesNotRepeat(): RRule {
+    return new RRule({
+      freq: RRule.DAILY,
+      dtstart: new Date(),
+      count: 1
+    });
   }
   
   dailyToRrule(): RRule {

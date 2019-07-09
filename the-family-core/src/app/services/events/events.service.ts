@@ -28,7 +28,10 @@ export class EventsService {
   }
 
   doEventPost(event: Event): Observable<Event> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    let headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Content-Type', 'multipart/form-data')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
     }

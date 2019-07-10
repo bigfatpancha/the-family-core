@@ -1,6 +1,6 @@
 export class Attachment {
     id: number;
-    file: string;
+    file: File;
     thumbnail: string;
 }
 

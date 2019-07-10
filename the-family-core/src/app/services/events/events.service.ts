@@ -34,8 +34,32 @@ export class EventsService {
           .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPost(Routes.EVENTS, event, options);
+    };
+    const formData = new FormData();
+    Object.keys(event).forEach(key => {
+      if (key === 'address') {
+        Object.keys(event[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), event[key][key2]));
+      } else if (key === 'attachments') {
+        let i = 0;
+        for (const attachment of event[key]) {
+          formData.append('attachment_' + i, attachment.file);
+          i++;
+        }
+      } else if (key === 'familyMembers') {
+        let i = 0;
+        for (const member of event[key]) {
+          formData.append('family_members_' + i, member.toString());
+          i++;
+        }
+      } else {
+        formData.append(this.converSnakecase(key), event[key]);
+      }
+    });
+    return this.http_service.doPost(Routes.EVENTS, formData, options);
+  }
+
+  private converSnakecase(name: string): string {
+    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
   }
 
   doEventCountGet(date: string, type: string): Observable<EventResponse> {

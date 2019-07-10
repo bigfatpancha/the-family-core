@@ -3,7 +3,7 @@ import { FamilyUser } from './family';
 
 export class EventAttachment {
     id: number;
-    file: string;
+    file: File;
     thumbnail: string;
 }
 

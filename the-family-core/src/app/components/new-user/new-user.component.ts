@@ -262,13 +262,13 @@ export class NewUserComponent implements OnInit {
       if (this.allergies.value) {
         this.newUser.allergies = [ this.allergies.value ];
       }
-      if (!this.favoritesSelected) {
+      if (!this.favoritesSelected && this.favoritesSelected !== undefined) {
         this.newUser.favorites = this.favoritesSelected;
       }
-      if (!this.dislikesSelected) {
+      if (!this.dislikesSelected && this.dislikesSelected !== undefined) {
         this.newUser.dislikes = this.dislikesSelected;
       }
-      if (!this.wishesSelected) {
+      if (!this.wishesSelected && this.wishesSelected !== undefined) {
         this.newUser.wishlist = this.wishesSelected;
       }
       if (this.birthDate.value) {

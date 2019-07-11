@@ -27,14 +27,13 @@ export class UsersService {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doGet(Routes.FAMILY_USERS, options);
   }
 
   doUserPost(body: User): Observable<User> {
     const headers = new HttpHeaders()
           .set('accept', 'application/json')
-          .set('Content-Type', 'multipart/form-data')
           .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers

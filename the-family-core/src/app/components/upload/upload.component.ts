@@ -260,7 +260,6 @@ export class UploadComponent implements OnInit {
       this.event.end = endDate.toISOString();
       if (this.recurrence.value) {
         this.event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
-        this.event.recurrenceDescription = this.recurrenceToRrule() ? this.recurrenceToRrule().toText() : 'Does not repeat';
       }
       this.event.timezone = this.timezone.value;
       this.event.alert = this.alert.value;

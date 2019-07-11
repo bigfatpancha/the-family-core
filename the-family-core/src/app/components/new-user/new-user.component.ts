@@ -25,6 +25,7 @@ export class NewUserComponent implements OnInit {
   relationshipsList: FamilyUser[];
   selectedRelationships: FamilyUser[];
   imgSrc = '../../../assets/icono.png';
+  avatarFile: any;
 
   constructor(
     private usersService: UsersService,
@@ -43,8 +44,8 @@ export class NewUserComponent implements OnInit {
     this.usersService.doGetUsersList()
     .subscribe((data: FamilyUserListResponse) => {
       this.relationshipsList = data.results.filter((user: FamilyUser) => {
-        user.id !== this.httpService.id;
-      })
+        return user.id !== this.httpService.id;
+      });
     });
     this.newUserForm = new FormGroup({
       'role': new FormControl(null),
@@ -234,8 +235,11 @@ export class NewUserComponent implements OnInit {
 
   processImg(event) {
     if (event.target.files.length > 0) {
-      var reader = new FileReader();
-      this.getBase64(event.target.files[0]).subscribe(file => this.imgSrc = file);
+      this.avatarFile = event.target.files[0];
+      console.log(this.avatarFile);
+      this.getBase64(event.target.files[0]).subscribe(file => {
+        this.imgSrc = file;
+      });
     }
   }
   getBase64(file): Observable<string> {
@@ -246,12 +250,12 @@ export class NewUserComponent implements OnInit {
       reader.onload = ((ev: ProgressEvent): void => {
         observer.next(reader.result);
         observer.complete();
-      })
+      });
 
       // if failed
       reader.onerror = (error: ProgressEvent): void => {
         observer.error(error);
-      }
+      };
     });
   }
 
@@ -263,19 +267,19 @@ export class NewUserComponent implements OnInit {
       if (this.allergies.value) {
         this.newUser.allergies = [ this.allergies.value ];
       }
-      if (!this.favoritesSelected) {
+      if (!this.favoritesSelected && this.favoritesSelected !== undefined) {
         this.newUser.favorites = this.favoritesSelected;
       }
-      if (!this.dislikesSelected) {
+      if (!this.dislikesSelected && this.dislikesSelected !== undefined) {
         this.newUser.dislikes = this.dislikesSelected;
       }
-      if (!this.wishesSelected) {
+      if (!this.wishesSelected && this.wishesSelected !== undefined) {
         this.newUser.wishlist = this.wishesSelected;
       }
       if (this.birthDate.value) {
         this.newUser.birthDate = this.birthDate.value.year + '-' +
           this.formatToTwoDigits(this.birthDate.value.month) + '-' +
-          this.formatToTwoDigits(this.birthDate.value.day); 
+          this.formatToTwoDigits(this.birthDate.value.day);
       }
       if (this.refName.value) {
         this.referredBy.name = this.refName.value;
@@ -288,7 +292,7 @@ export class NewUserComponent implements OnInit {
         this.referredBy.socialSecurityNumber = this.refSocSecNum.value;
         this.newUser.referredBy = this.referredBy;
       }
-      
+
       if (this.selectedRelationships) {
         this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
       }
@@ -382,8 +386,8 @@ export class NewUserComponent implements OnInit {
         this.newUser.address.state = this.state.value;
         this.newUser.address.zipCode = this.zipCode.value;
       }
-      if (this.avatar.value) {
-        this.newUser.avatar = this.imgSrc;
+      if (this.avatarFile) {
+        this.newUser.avatar = this.avatarFile;
       }
       console.log(this.newUser);
       this.usersService.doUserPost(this.newUser).subscribe((data: User) => {
@@ -394,10 +398,8 @@ export class NewUserComponent implements OnInit {
         alert('Something went wrong, please try again ' + err);
       });
     } else {
-      this.newUserForm.errors
       alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));
     }
-    
   }
 
   close() {

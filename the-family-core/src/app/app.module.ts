@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMultiSelectModule } from 'angular4-multiselect-dropdown/angular4-multiselect-dropdown'
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,7 +58,8 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
   entryComponents: [
     LoginComponent,
     RegisterComponent,
-    UploadComponent
+    UploadComponent,
+    NewUserComponent
   ],
 })
 export class AppModule { }

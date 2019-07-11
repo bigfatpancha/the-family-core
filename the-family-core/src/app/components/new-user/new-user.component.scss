@@ -111,3 +111,34 @@ input[type=file] {
     position: absolute;
   }
 }
+.mat-dialog-content {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+.header-back{
+  height: 50px;
+  background: #fff;
+  color: #007aff;
+  display: flex;
+  align-items: center;
+  font-family: sfSemibold;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  span{
+      margin-right: 10px;
+      margin-left: 15px;
+      transform: rotate(90deg);
+      
+
+      i{
+          font-size: 1.2rem;
+          font-weight: 600;
+          transform: rotate(90deg);
+      }
+  }
+  
+  p{
+      margin: 0;
+  }
+}

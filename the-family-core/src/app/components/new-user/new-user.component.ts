@@ -5,6 +5,8 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
 import { HttpService } from 'src/app/services/http/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable, Subscriber } from 'rxjs';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-new-user',
@@ -16,53 +18,36 @@ export class NewUserComponent implements OnInit {
   dropdownSettings = {};
   newUserForm: FormGroup;
   newUser: User = new User();
-
-  birthDate: {
-    day: number,
-    month: number,
-    year: number
-  };
-  allergy: string;
-
-  favorites: string[];
-  favorite: string;
-
-  dislikes: string[];
-  dislike: string;
-
-  wishes: string[];
-  wish: string;
-
+  favoritesSelected: string[];
+  dislikesSelected: string[];
+  wishesSelected: string[];
   referredBy: ReferredBy;
-
-  relationships: FamilyUser[];
+  relationshipsList: FamilyUser[];
   selectedRelationships: FamilyUser[];
+  imgSrc = '../../../assets/icono.png';
 
   constructor(
     private usersService: UsersService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    public dialogRef: MatDialogRef<NewUserComponent>
   ) {
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'nickname'
+      textField: 'nickname',
+      placeholder: 'Select dependant relationship'
     };
   }
 
   ngOnInit() {
     this.usersService.doGetUsersList()
     .subscribe((data: FamilyUserListResponse) => {
-      this.relationships = data.results.filter((user: FamilyUser) => {
+      this.relationshipsList = data.results.filter((user: FamilyUser) => {
         user.id !== this.httpService.id;
       })
     });
     this.newUserForm = new FormGroup({
       'role': new FormControl(null),
-      'username': new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(150),
-        Validators.minLength(4)
-      ]),
       'nickname': new FormControl(null, [
         Validators.required,
         Validators.maxLength(150),
@@ -128,26 +113,12 @@ export class NewUserComponent implements OnInit {
       'refSocSecNum': new FormControl(null, [Validators.maxLength(30)]),
       'refCountOfCit': new FormControl(null, [Validators.maxLength(30)]),
       'agency': new FormControl(null, [Validators.maxLength(30)]),
-      'relationships': new FormControl(null, [Validators.maxLength(30)])
+      'background': new FormControl(null),
+      'relationships': new FormControl([], [Validators.maxLength(30)])
     })
 
-
-    this.newUser.role = 0;
     this.newUser.address = new Address();
-    this.newUser.address.state = "0";
-    this.newUser.gender = 0;
-    this.newUser.colorCode = 'color';
-    this.newUser.countryOfCitizenship = 'country';
-    this.newUser.topSize = 'topSize';
-    this.newUser.bottomsSize = 'bottomsSize';
-    this.newUser.shoeSize = 'shoeSize';
-    this.newUser.braSize = 'braSize';
-    this.newUser.shirtSize = 'shirtSize';
-    this.newUser.pantsSize = 'pantsSize';
     this.referredBy = new ReferredBy();
-    this.referredBy.driversLicenseState = 'dlstate';
-    this.referredBy.placeOfBirth = 'place';
-    this.referredBy.countryOfCitizenship = 'countryOfCitizenship';
   }
 
   get role() { return this.newUserForm.get('role'); }
@@ -207,68 +178,230 @@ export class NewUserComponent implements OnInit {
   get refCountOfCit() { return this.newUserForm.get('refCountOfCit'); }
   get agency() { return this.newUserForm.get('agency'); }
   get relationships() { return this.newUserForm.get('relationships'); }
+  get background() { return this.newUserForm.get('background'); }
 
   isNotActualUser(element, index, array) {
     return element !== this.httpService.id;
   }
 
   addFavorite() {
-    if (!this.favorites) {
-      this.favorites = [];
+    if (!this.favoritesSelected) {
+      this.favoritesSelected = [];
     }
-    this.favorites.push(this.favorite);
-    this.favorite = '';
+    this.favoritesSelected.push(this.favorites.value);
+    this.favorites.setValue(null);
   }
 
   deleteFavorite(fav) {
-    this.favorites.splice(this.favorites.indexOf(fav), 1);
-    this.favorite = '';
+    this.favoritesSelected.splice(this.favoritesSelected.indexOf(fav), 1);
+    this.favorites.setValue(null);
+    if (this.favoritesSelected.length === 0) {
+      this.favoritesSelected = null;
+    }
   }
 
   addDislike() {
-    if (!this.dislikes) {
-      this.dislikes = [];
+    if (!this.dislikesSelected) {
+      this.dislikesSelected = [];
     }
-    this.dislikes.push(this.dislike);
-    this.dislike = '';
+    this.dislikesSelected.push(this.dislikes.value);
+    this.dislikes.setValue(null);
   }
 
   deleteDislike(dis) {
-    this.dislikes.splice(this.dislikes.indexOf(dis), 1);
-    this.dislike = '';
+    this.dislikesSelected.splice(this.dislikesSelected.indexOf(dis), 1);
+    this.dislikes.setValue(null);
+    if (this.dislikesSelected.length === 0) {
+      this.dislikesSelected = null;
+    }
   }
 
   addWish() {
-    if (!this.wishes) {
-      this.wishes = [];
+    if (!this.wishesSelected) {
+      this.wishesSelected = [];
     }
-    this.wishes.push(this.wish);
-    this.wish = '';
+    this.wishesSelected.push(this.whislist.value);
+    this.whislist.setValue(null);
   }
 
   deleteWish(wish) {
-    this.wishes.splice(this.wishes.indexOf(wish), 1);
-    this.wish = '';
+    this.wishesSelected.splice(this.wishesSelected.indexOf(wish), 1);
+    this.whislist.setValue(null);
+    if (this.wishesSelected.length === 0) {
+      this.wishesSelected = null;
+    }
+  }
+
+  processImg(event) {
+    if (event.target.files.length > 0) {
+      var reader = new FileReader();
+      this.getBase64(event.target.files[0]).subscribe(file => this.imgSrc = file);
+    }
+  }
+  getBase64(file): Observable<string> {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    return Observable.create((observer: Subscriber<string | ArrayBuffer>): void => {
+      // if success
+      reader.onload = ((ev: ProgressEvent): void => {
+        observer.next(reader.result);
+        observer.complete();
+      })
+
+      // if failed
+      reader.onerror = (error: ProgressEvent): void => {
+        observer.error(error);
+      }
+    });
   }
 
   saveUser() {
-    this.newUser.username = this.newUser.nickname;
-    if (this.allergy) {
-      this.newUser.allergies = [ this.allergy ];
+    if (this.newUserForm.status === 'VALID') {
+      this.newUser.nickname = this.nickname.value;
+      this.newUser.username = this.nickname.value;
+      this.newUser.email = this.email.value;
+      if (this.allergies.value) {
+        this.newUser.allergies = [ this.allergies.value ];
+      }
+      if (!this.favoritesSelected) {
+        this.newUser.favorites = this.favoritesSelected;
+      }
+      if (!this.dislikesSelected) {
+        this.newUser.dislikes = this.dislikesSelected;
+      }
+      if (!this.wishesSelected) {
+        this.newUser.wishlist = this.wishesSelected;
+      }
+      if (this.birthDate.value) {
+        this.newUser.birthDate = this.birthDate.value.year + '-' +
+          this.formatToTwoDigits(this.birthDate.value.month) + '-' +
+          this.formatToTwoDigits(this.birthDate.value.day); 
+      }
+      if (this.refName.value) {
+        this.referredBy.name = this.refName.value;
+        this.referredBy.driversLicenseState = this.driversLicenseState.value;
+        this.referredBy.driversLicenseNumber = this.driversLicenseNumber.value;
+        this.referredBy.countryOfCitizenship = this.refCountOfCit.value;
+        this.referredBy.agencyForBackgroundCheck = this.agency.value;
+        this.referredBy.passportNumber = this.passportNumber.value;
+        this.referredBy.placeOfBirth = this.refplaceOfBirth.value;
+        this.referredBy.socialSecurityNumber = this.refSocSecNum.value;
+        this.newUser.referredBy = this.referredBy;
+      }
+      
+      if (this.selectedRelationships) {
+        this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
+      }
+      if (this.role.value) {
+        this.newUser.role = this.role.value;
+      }
+      if (this.colorCode.value) {
+        this.newUser.colorCode = this.colorCode.value;
+      }
+      if (this.password1.value) {
+        this.newUser.password1 = this.password1.value;
+      }
+      if (this.password2.value) {
+        this.newUser.password2 = this.password2.value;
+      }
+      if (this.firstName.value) {
+        this.newUser.firstName = this.firstName.value;
+      }
+      if (this.middleName.value) {
+        this.newUser.middleName = this.middleName.value;
+      }
+      if (this.lastName.value) {
+        this.newUser.lastName = this.lastName.value;
+      }
+      if (this.mobileNumber.value) {
+        this.newUser.mobileNumber = this.mobileNumber.value;
+      }
+      if (this.gender.value) {
+        this.newUser.gender = this.gender.value;
+      }
+      if (this.height.value) {
+        this.newUser.height = this.height.value;
+      }
+      if (this.weight.value) {
+        this.newUser.weight = this.weight.value;
+      }
+      if (this.hairColor.value) {
+        this.newUser.hairColor = this.hairColor.value;
+      }
+      if (this.eyeColor.value) {
+        this.newUser.eyeColor = this.eyeColor.value;
+      }
+      if (this.bloodType.value) {
+        this.newUser.bloodType = this.bloodType.value;
+      }
+      if (this.countryOfCitizenship.value) {
+        this.newUser.countryOfCitizenship = this.countryOfCitizenship.value;
+      }
+      if (this.passportNumber.value) {
+        this.newUser.passportNumber = this.passportNumber.value;
+      }
+      if (this.socialSecurityNumber.value) {
+        this.newUser.socialSecurityNumber = this.socialSecurityNumber.value;
+      }
+      if (this.schoolState.value) {
+        this.newUser.schoolState = this.schoolState.value;
+      }
+      if (this.school.value) {
+        this.newUser.school = this.school.value;
+      }
+      if (this.grade.value) {
+        this.newUser.grade = this.grade.value;
+      }
+      if (this.topSize.value) {
+        this.newUser.topSize = this.topSize.value;
+      }
+      if (this.bottomsSize.value) {
+        this.newUser.bottomsSize = this.bottomsSize.value;
+      }
+      if (this.shoeSize.value) {
+        this.newUser.shoeSize = this.shoeSize.value;
+      }
+      if (this.braSize.value) {
+        this.newUser.braSize = this.braSize.value;
+      }
+      if (this.shirtSize.value) {
+        this.newUser.shirtSize = this.shirtSize.value;
+      }
+      if (this.pantsSize.value) {
+        this.newUser.pantsSize = this.pantsSize.value;
+      }
+      if (this.adminNotes.value) {
+        this.newUser.adminNotes = this.adminNotes.value;
+      }
+      if (this.addressLine1.value) {
+        this.newUser.address.addressLine1 = this.addressLine1.value;
+        this.newUser.address.addressLine2 = this.addressLine2.value;
+        this.newUser.address.city = this.city.value;
+        this.newUser.address.faxNumber = this.faxNumber.value;
+        this.newUser.address.phoneNumber = this.phoneNumber.value;
+        this.newUser.address.state = this.state.value;
+        this.newUser.address.zipCode = this.zipCode.value;
+      }
+      if (this.avatar.value) {
+        this.newUser.avatar = this.imgSrc;
+      }
+      console.log(this.newUser);
+      this.usersService.doUserPost(this.newUser).subscribe((data: User) => {
+        console.log(data);
+        this.dialogRef.close();
+        alert('User created successfully');
+      }, (err) => {
+        alert('Something went wrong, please try again ' + err);
+      });
+    } else {
+      this.newUserForm.errors
+      alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));
     }
-    this.newUser.favorites = this.favorites;
-    this.newUser.dislikes = this.dislikes;
-    this.newUser.wishlist = this.wishes;
-    if (this.birthDate) {
-      this.newUser.birthDate = this.birthDate.year + '-' + this.formatToTwoDigits(this.birthDate.month) + '-' + this.formatToTwoDigits(this.birthDate.day); 
-    }
-    this.newUser.referredBy = this.referredBy;
-    if (this.selectedRelationships) {
-      this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
-    }
-    this.newUser.role = Number(this.newUser.role);
-    console.log(this.newUser);
-    this.usersService.doUserPost(this.newUser).subscribe((data: User) => console.log(data));
+    
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 
   saveAndInviteUser() {

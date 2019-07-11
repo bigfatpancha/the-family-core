@@ -25,6 +25,7 @@ export class NewUserComponent implements OnInit {
   relationshipsList: FamilyUser[];
   selectedRelationships: FamilyUser[];
   imgSrc = '../../../assets/icono.png';
+  avatarFile: any;
 
   constructor(
     private usersService: UsersService,
@@ -234,7 +235,11 @@ export class NewUserComponent implements OnInit {
 
   processImg(event) {
     if (event.target.files.length > 0) {
-      this.getBase64(event.target.files[0]).subscribe(file => this.imgSrc = file);
+      this.avatarFile = event.target.files[0];
+      console.log(this.avatarFile);
+      this.getBase64(event.target.files[0]).subscribe(file => {
+        this.imgSrc = file;
+      });
     }
   }
   getBase64(file): Observable<string> {
@@ -381,8 +386,8 @@ export class NewUserComponent implements OnInit {
         this.newUser.address.state = this.state.value;
         this.newUser.address.zipCode = this.zipCode.value;
       }
-      if (this.avatar.value) {
-        this.newUser.avatar = this.avatar.value;
+      if (this.avatarFile) {
+        this.newUser.avatar = this.avatarFile;
       }
       console.log(this.newUser);
       this.usersService.doUserPost(this.newUser).subscribe((data: User) => {

@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,7 +55,8 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
     NgMultiSelectDropDownModule.forRoot(),
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     CalendarCommonModule,
-    CalendarMonthModule
+    CalendarMonthModule,
+    FlatpickrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

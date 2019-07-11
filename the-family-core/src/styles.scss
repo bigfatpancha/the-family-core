@@ -349,7 +349,7 @@
   padding: 0px !important;
 }
 
-/*** CALENDARIo ***/
+/*** CALENDARIO ***/
 .cal-month-view .cal-day-badge {
   background-color: #f15a24;
   color: #fff;
@@ -366,4 +366,17 @@
 
 .cal-month-view .cal-day-cell.cal-today .cal-day-number {
   font-size: 1.5rem;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  height: auto;
+}
+
+.flatpickr-months .flatpickr-month {
+  height: 35px;
+}
+
+.iconos-calendar {
+  margin-left: 5px;
+  font-size: 0.8rem;
 }

@@ -55,13 +55,13 @@ export class CalendarComponent{
 
   actions: CalendarEventAction[] = [
     {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
+      label: '<i class="icon-edit iconos-calendar"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       }
     },
     {
-      label: '<i class="fa fa-fw fa-times"></i>',
+      label: '<i class="icon-delete iconos-calendar"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter(iEvent => iEvent !== event);
         this.handleEvent('Deleted', event);

@@ -43,8 +43,8 @@ export class NewUserComponent implements OnInit {
     this.usersService.doGetUsersList()
     .subscribe((data: FamilyUserListResponse) => {
       this.relationshipsList = data.results.filter((user: FamilyUser) => {
-        user.id !== this.httpService.id;
-      })
+        return user.id !== this.httpService.id;
+      });
     });
     this.newUserForm = new FormGroup({
       'role': new FormControl(null),
@@ -234,7 +234,6 @@ export class NewUserComponent implements OnInit {
 
   processImg(event) {
     if (event.target.files.length > 0) {
-      var reader = new FileReader();
       this.getBase64(event.target.files[0]).subscribe(file => this.imgSrc = file);
     }
   }
@@ -246,12 +245,12 @@ export class NewUserComponent implements OnInit {
       reader.onload = ((ev: ProgressEvent): void => {
         observer.next(reader.result);
         observer.complete();
-      })
+      });
 
       // if failed
       reader.onerror = (error: ProgressEvent): void => {
         observer.error(error);
-      }
+      };
     });
   }
 
@@ -275,7 +274,7 @@ export class NewUserComponent implements OnInit {
       if (this.birthDate.value) {
         this.newUser.birthDate = this.birthDate.value.year + '-' +
           this.formatToTwoDigits(this.birthDate.value.month) + '-' +
-          this.formatToTwoDigits(this.birthDate.value.day); 
+          this.formatToTwoDigits(this.birthDate.value.day);
       }
       if (this.refName.value) {
         this.referredBy.name = this.refName.value;
@@ -288,7 +287,7 @@ export class NewUserComponent implements OnInit {
         this.referredBy.socialSecurityNumber = this.refSocSecNum.value;
         this.newUser.referredBy = this.referredBy;
       }
-      
+
       if (this.selectedRelationships) {
         this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
       }
@@ -383,7 +382,7 @@ export class NewUserComponent implements OnInit {
         this.newUser.address.zipCode = this.zipCode.value;
       }
       if (this.avatar.value) {
-        this.newUser.avatar = this.imgSrc;
+        this.newUser.avatar = this.avatar.value;
       }
       console.log(this.newUser);
       this.usersService.doUserPost(this.newUser).subscribe((data: User) => {
@@ -394,10 +393,8 @@ export class NewUserComponent implements OnInit {
         alert('Something went wrong, please try again ' + err);
       });
     } else {
-      this.newUserForm.errors
       alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));
     }
-    
   }
 
   close() {

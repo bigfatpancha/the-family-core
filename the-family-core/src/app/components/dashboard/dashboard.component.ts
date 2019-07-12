@@ -8,6 +8,7 @@ import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { UploadComponent } from '../upload/upload.component';
 import { Router } from '@angular/router';
+import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,6 +31,7 @@ export class DashboardComponent implements OnInit {
   loginRef: MatDialogRef<LoginComponent>;
   registerRef: MatDialogRef<RegisterComponent>;
   uploadRef: MatDialogRef<UploadComponent>;
+  editRef: MatDialogRef<EditProfileComponent>;
   dialogConfig = new MatDialogConfig();
   
 
@@ -53,18 +55,24 @@ export class DashboardComponent implements OnInit {
   goToUsers() {
     if (this.isLogged) {
       this.router.navigate(['/users']);
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
   goToLocation() {
     if (this.isLogged) {
       this.router.navigate(['/location']);
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
   goToRewards() {
     if (this.isLogged) {
       this.router.navigate(['/rewards']);
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
@@ -103,6 +111,8 @@ export class DashboardComponent implements OnInit {
       this.dialogConfig.width = '90%';
       this.uploadRef = this.dialog.open(UploadComponent, this.dialogConfig);
       this.uploadRef.componentInstance.onEventPost.subscribe((success: boolean) => this.onPostUploadEnd(success));
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
@@ -111,6 +121,14 @@ export class DashboardComponent implements OnInit {
       alert('Upload success');
     } else {
       alert('Upload failed');
+    }
+  }
+
+  openEdit() {
+    if (this.isLogged) {
+      this.dialogConfig.width = '90%';
+      this.editRef = this.dialog.open(EditProfileComponent, this.dialogConfig);
+      // this.editRef.afterClosed(())
     }
   }
 

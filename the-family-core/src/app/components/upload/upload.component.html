@@ -34,9 +34,21 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="type" required>
-              <option value="0">General Appointment</option>
-              <option value="1">School Task</option>
-              <option value="2">Medical Appointment</option>
+              <option value="{value: 0; type: 0}">General Appointment</option>
+              <option value="{value: 1; type: 0}">School Task</option>
+              <option value="{value: 2; type: 0}">Medical Appointment</option>
+
+              <option value="{value: 0; type: 1}">General Document</option>
+              <option value="{value: 1; type: 1}">Medical Record</option>
+              <option value="{value: 2; type: 1}">Rx</option>
+              <option value="{value: 3; type: 1}">Legal Document</option>
+
+              <option value="{value: 0; type: 2}">General Contact</option>
+              <option value="{value: 1; type: 2}">Doctor</option>
+              <option value="{value: 2; type: 2}">Teacher</option>
+              <option value="{value: 3; type: 2}">Classmate</option>
+              <option value="{value: 4; type: 2}">School Location</option>
+
             </select>
             <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert alert-danger">
               <div *ngIf="type.errors.required">
@@ -115,7 +127,7 @@
       </div>
     </div>
 
-    <div class="form_family border-bottom pb-3 pt-3">
+    <div class="form_family border-bottom pb-3 pt-3" *ngIf="type.value.type === 0">
 
       <div class="form-inline row mt-3">
         <div class="form-group col-sm-6 col-lg-4 col-xl-3">
@@ -237,7 +249,7 @@
       </div>
     </div>
 
-    <div class="form_family border-bottom pb-3 pt-3">
+    <div class="form_family border-bottom pb-3 pt-3" *ngIf="type.value.type === 0">
       <div class="form-row">
         <div class="form-group col-md-4">
           <label>Repeat</label>
@@ -344,7 +356,7 @@
 
     </div>
 
-    <div class="form_family border-bottom pb-3 pt-3">
+    <div class="form_family border-bottom pb-3 pt-3" *ngIf="type.value.type !== 1">
       <div class="form-row mb-2 mt-4">
         <div class="form-group col-md-6 col-lg-4">
           <input class="form-control" type="text" formControlName="addressLine1" placeholder="Address Line 1">

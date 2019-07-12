@@ -12,6 +12,11 @@ import { RRule } from 'rrule'
 import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
 
+export class Type {
+  value: number;
+  type: number; // event = 0, document = 1, contact = 2
+}
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -30,6 +35,7 @@ export class UploadComponent implements OnInit {
 
   eventForm: FormGroup;
 
+  typeDef: Type = new Type();
   ariaValuenow = 0;
   timezones: Timezone[];
   event: Event = new Event();
@@ -71,7 +77,9 @@ export class UploadComponent implements OnInit {
     this.userService.doGetUsersList()
     .subscribe((res: FamilyUserListResponse) => {
       this.familyMembers = res.results;
-    })
+    });
+    this.typeDef.value = 0;
+    this.typeDef.type = 0;
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
     this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
@@ -87,14 +95,14 @@ export class UploadComponent implements OnInit {
         Validators.maxLength(30)
       ]),
       'detail': new FormControl(null, [Validators.maxLength(30)]),
-      'type': new FormControl(0, [Validators. required]),
+      'type': new FormControl('{value: 0; type: 0}', [Validators. required]),
       'familyMemberForm': new FormControl(null),
       'leadForm': new FormControl(null),
-      'dpstart': new FormControl(this.startDate, [Validators.required]),
-      'startTimeForm': new FormControl(this.startTime, [Validators.required]),
-      'dpend': new FormControl(this.endDate, [Validators.required]),
-      'endTimeForm': new FormControl(this.endTime, [Validators.required]),
-      'timezone': new FormControl(null, [Validators.required]),
+      'dpstart': new FormControl(this.startDate),
+      'startTimeForm': new FormControl(this.startTime),
+      'dpend': new FormControl(this.endDate),
+      'endTimeForm': new FormControl(this.endTime),
+      'timezone': new FormControl(null),
       'alert': new FormControl(0),
       'recurrence': new FormControl('Doesnotrepeat'),
       'endsForm': new FormControl('Never'),
@@ -112,6 +120,32 @@ export class UploadComponent implements OnInit {
       'notes': new FormControl(null),
       'notifyTeam': new FormControl(false)
     });
+
+    this.eventForm.get('type').valueChanges.subscribe((type) => {
+      if (this.type.value.type === 0) { // for setting validations
+        this.eventForm.get('dpstart').setValidators(Validators.required);
+        this.eventForm.get('dpstart').updateValueAndValidity();
+        this.eventForm.get('startTimeForm').setValidators(Validators.required);
+        this.eventForm.get('startTimeForm').updateValueAndValidity();
+        this.eventForm.get('dpend').setValidators(Validators.required);
+        this.eventForm.get('dpend').updateValueAndValidity();
+        this.eventForm.get('endTimeForm').setValidators(Validators.required);
+        this.eventForm.get('endTimeForm').updateValueAndValidity();
+        this.eventForm.get('timezone').setValidators(Validators.required);
+        this.eventForm.get('timezone').updateValueAndValidity();
+      } else if (this.type.value.type === 1 || this.type.value.type === 2) {
+        this.eventForm.get('dpstart').clearValidators();
+        this.eventForm.get('dpstart').updateValueAndValidity();
+        this.eventForm.get('startTimeForm').clearValidators();
+        this.eventForm.get('startTimeForm').updateValueAndValidity();
+        this.eventForm.get('dpend').clearValidators();
+        this.eventForm.get('dpend').updateValueAndValidity();
+        this.eventForm.get('endTimeForm').clearValidators();
+        this.eventForm.get('endTimeForm').updateValueAndValidity();
+        this.eventForm.get('timezone').clearValidators();
+        this.eventForm.get('timezone').updateValueAndValidity();
+      }
+  });
   }
 
   get title() { return this.eventForm.get('title'); }
@@ -239,55 +273,61 @@ export class UploadComponent implements OnInit {
   }
 
   postEvent() {
+    console.log(this.eventForm);
     if (this.eventForm.status === 'VALID') {
       this.event.title = this.title.value;
       if (this.detail.value) {
         this.event.detail = this.detail.value;
       }
-      this.event.type = this.type.value;
+      console.log(this.type.value.value);
+      this.event.type = this.type.value.value;
       this.event.familyMembers = this.familyMembersSelected.map((item) => item.id);
       if (this.leadForm.value) {
         this.event.lead = this.leadForm.value.id;
       }
-      // start
-      let hour = parseInt(this.startTimeForm.value.toString().substring(0, 2));
-      let min = parseInt(this.startTimeForm.value.toString().substring(3, 5));
-      const startDate = new Date(this.dpstart.value.year, this.dpstart.value.month - 1, this.dpstart.value.day, hour, min, 0);
-      this.event.start = startDate.toISOString();
-      // end
-      hour = parseInt(this.endTimeForm.value.toString().substring(0, 2));
-      min = parseInt(this.endTimeForm.value.toString().substring(3, 5));
-      const endDate = new Date(this.dpend.value.year, this.dpend.value.month, this.dpend.value.day, hour, min, 0);
-      this.event.end = endDate.toISOString();
-      if (this.recurrence.value) {
-        this.event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
+      if (this.type.value.type === 0) {
+        // start
+        let hour = parseInt(this.startTimeForm.value.toString().substring(0, 2));
+        let min = parseInt(this.startTimeForm.value.toString().substring(3, 5));
+        const startDate = new Date(this.dpstart.value.year, this.dpstart.value.month - 1, this.dpstart.value.day, hour, min, 0);
+        this.event.start = startDate.toISOString();
+        // end
+        hour = parseInt(this.endTimeForm.value.toString().substring(0, 2));
+        min = parseInt(this.endTimeForm.value.toString().substring(3, 5));
+        const endDate = new Date(this.dpend.value.year, this.dpend.value.month, this.dpend.value.day, hour, min, 0);
+        this.event.end = endDate.toISOString();
+        if (this.recurrence.value) {
+          this.event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
+        }
+        this.event.timezone = this.timezone.value;
+        this.event.alert = this.alert.value;
       }
-      this.event.timezone = this.timezone.value;
-      this.event.alert = this.alert.value;
       this.event.notifyTeam = this.notifyTeam.value;
       if (this.notes.value) {
         this.event.notes = this.notes.value;
       }
-      if (this.addressLine1.value) {
-        this.event.address.addressLine1 = this.addressLine1.value;
-      }
-      if (this.addressLine2.value) {
-        this.event.address.addressLine2 = this.addressLine2.value;
-      }
-      if (this.city.value) {
-        this.event.address.city = this.city.value;
-      }
-      if (this.zip.value) {
-        this.event.address.zipCode = this.zip.value;
-      }
-      if (this.state.value) {
-        this.event.address.state = this.state.value;
-      }
-      if (this.phoneNumber.value) {
-        this.event.address.phoneNumber = this.phoneNumber.value;
-      }
-      if (this.fax.value) {
-        this.event.address.faxNumber = this.fax.value;
+      if (this.type.value.type !== 1) {
+        if (this.addressLine1.value) {
+          this.event.address.addressLine1 = this.addressLine1.value;
+        }
+        if (this.addressLine2.value) {
+          this.event.address.addressLine2 = this.addressLine2.value;
+        }
+        if (this.city.value) {
+          this.event.address.city = this.city.value;
+        }
+        if (this.zip.value) {
+          this.event.address.zipCode = this.zip.value;
+        }
+        if (this.state.value) {
+          this.event.address.state = this.state.value;
+        }
+        if (this.phoneNumber.value) {
+          this.event.address.phoneNumber = this.phoneNumber.value;
+        }
+        if (this.fax.value) {
+          this.event.address.faxNumber = this.fax.value;
+        }
       }
       if (this.attachments && this.attachments.length > 0) {
         this.event.attachments = this.attachments;

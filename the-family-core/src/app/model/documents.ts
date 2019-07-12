@@ -12,27 +12,7 @@ export class Document {
     familyMembers: number[];
     notifyTeam: boolean;
     notes: string;
-    attachments: Attachment;
-
-    constructor(
-        id: number,
-        title: string,
-        description: string,
-        type: number,
-        familyMembers: number[],
-        notifyTeam: boolean,
-        notes: string,
-        attachments: Attachment
-    ) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.type = type;
-        this.familyMembers = familyMembers;
-        this.notifyTeam = notifyTeam;
-        this.notes = notes;
-        this.attachments = attachments;
-    }
+    attachments: Attachment[];
 }
 
 export class DocumentResponse {

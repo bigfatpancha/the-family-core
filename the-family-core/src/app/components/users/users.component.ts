@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.updateUsers();
+    this.users = this.userService.users;
     this.dialogConfig.hasBackdrop = true;
     this.dialogConfig.width = '90%';
     this.dialogConfig.height = 'auto';
@@ -34,7 +34,6 @@ export class UsersComponent implements OnInit {
     .subscribe((data: FamilyUserListResponse) => {
       this.users = data.results;
       this.userService.users = this.users;
-      this.isDataLoaded = true;
     });
   }
   

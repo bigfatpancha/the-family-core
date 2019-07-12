@@ -7,6 +7,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,6 +48,9 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     HttpClientModule,
     NgbModule,
     FormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBepmuBV69fbv7e56vtA1xvu419bHwjDjU'
+    }),
     MatDialogModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

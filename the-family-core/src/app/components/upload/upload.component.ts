@@ -316,7 +316,7 @@ export class UploadComponent implements OnInit {
         observer.error(error);
       }
     });
- }
+  }
  
 
   recurrenceToRrule(): RRule {

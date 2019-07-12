@@ -27,17 +27,60 @@ export class UsersService {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doGet(Routes.FAMILY_USERS, options);
   }
 
   doUserPost(body: User): Observable<User> {
-    console.log('este es el do post user')
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPost(Routes.FAMILY_USERS, body, options);
+    };
+
+    const formData = new FormData();
+    Object.keys(body).forEach(key => {
+      if (key === 'address') {
+        Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+      } else if (key === 'referredBy') {
+        Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+      } else if (key === 'avatar') {
+          formData.append('avatar', body[key]);
+      } else if (key === 'allergies') {
+        let i = 0;
+        for (const allergy of body[key]) {
+          formData.append('allergy_' + i, allergy.toString());
+          i++;
+        }
+      } else if (key === 'favorites') {
+        let i = 0;
+        for (const fav of body[key]) {
+          formData.append('favorite_' + i, fav.toString());
+          i++;
+        }
+      } else if (key === 'dislikes') {
+        let i = 0;
+        for (const dis of body[key]) {
+          formData.append('dislike_' + i, dis.toString());
+          i++;
+        }
+      } else if (key === 'wishlist') {
+        let i = 0;
+        for (const wish of body[key]) {
+          formData.append('wish_' + i, wish.toString());
+          i++;
+        }
+      } else {
+        formData.append(this.converSnakecase(key), body[key]);
+      }
+    });
+
+    return this.http_service.doPost(Routes.FAMILY_USERS, formData, options);
+  }
+
+  private converSnakecase(name: string): string {
+    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
   }
 
   doUserIdGet(id: number): Observable<User> {

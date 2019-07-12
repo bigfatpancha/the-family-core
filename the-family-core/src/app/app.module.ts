@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LoginComponent } from './components/login/login.component';
 import { LocationComponent } from './components/location/location.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { LocationComponent } from './components/location/location.component';
     ChatComponent,
     RewardsComponent,
     LoginComponent,
-    LocationComponent
+    LocationComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { LocationComponent } from './components/location/location.component';
     MatDialogModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AngularMultiSelectModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [],
@@ -54,7 +58,8 @@ import { LocationComponent } from './components/location/location.component';
   entryComponents: [
     LoginComponent,
     RegisterComponent,
-    UploadComponent
+    UploadComponent,
+    NewUserComponent
   ],
 })
 export class AppModule { }

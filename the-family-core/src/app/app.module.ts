@@ -49,7 +49,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     NgbModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBepmuBV69fbv7e56vtA1xvu419bHwjDjU'
+      apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
     }),
     MatDialogModule,
     BrowserAnimationsModule,

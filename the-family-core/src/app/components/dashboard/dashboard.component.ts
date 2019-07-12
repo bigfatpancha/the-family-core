@@ -7,13 +7,14 @@ import { HttpService } from '../../services/http/http.service';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { UploadComponent } from '../upload/upload.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterContentInit {
+export class DashboardComponent implements OnInit {
 
   // body: LoginRequest = {
   //   username: 'developer',
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
   constructor(private userService: UsersService,
               private httpService: HttpService,
+              private router: Router,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -48,7 +50,29 @@ export class DashboardComponent implements OnInit, AfterContentInit {
     }
   }
 
-  ngAfterContentInit() { }
+  goToUsers() {
+    if (this.isLogged) {
+      this.router.navigate(['/users']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
+
+  goToLocation() {
+    if (this.isLogged) {
+      this.router.navigate(['/location']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
+
+  goToRewards() {
+    if (this.isLogged) {
+      this.router.navigate(['/rewards']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
 
   getUsers() {
     this.isLogged = true;
@@ -85,6 +109,8 @@ export class DashboardComponent implements OnInit, AfterContentInit {
       this.dialogConfig.width = '90%';
       this.uploadRef = this.dialog.open(UploadComponent, this.dialogConfig);
       this.uploadRef.componentInstance.onEventPost.subscribe((success: boolean) => this.onPostUploadEnd(success));
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 

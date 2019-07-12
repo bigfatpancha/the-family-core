@@ -5,7 +5,6 @@ import { EventsService } from 'src/app/services/events/events.service';
 import { Event, EventAttachment } from '../../model/events';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
-import { Attachment } from 'src/app/model/documents';
 import { Address } from 'src/app/model/contact';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -42,7 +41,7 @@ export class UploadComponent implements OnInit {
   leadSelected: FamilyUser[];
 
   progress: number;
-  attachments: Attachment[];
+  attachments: EventAttachment[];
 
   startDate: NgbDate;
   startTime: NgbDate;
@@ -201,22 +200,23 @@ export class UploadComponent implements OnInit {
     if (!this.attachments) {
       this.attachments = [];
     }
-    let length = event.target.files.length;
+    const length = event.target.files.length;
     if (length > 0) {
       for (let i = 0; i < length; i ++) {
         this.progress = 0;
-        this.attachments.push(event.target.files[i]);
+        const attachment = new EventAttachment();
+        attachment.file = event.target.files[i];
+        this.attachments.push(attachment);
         while (this.progress < 100) {
             this.progress ++;
         }
       }
+      console.log(this.attachments);
     }
   }
 
   deleteFile(file) {
-    console.log(this.attachments, file);
     this.attachments.splice(this.attachments.indexOf(file), 1);
-    console.log(this.attachments, file);
     if (this.attachments.length === 0) {
       this.progress = 0;
     }
@@ -228,7 +228,6 @@ export class UploadComponent implements OnInit {
     } else {
       this.isValidTime = true;
     }
-    
   }
 
   showEnds() {
@@ -262,59 +261,46 @@ export class UploadComponent implements OnInit {
       this.event.end = endDate.toISOString();
       if (this.recurrence.value) {
         this.event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
-        this.event.recurrenceDescription = this.recurrenceToRrule() ? this.recurrenceToRrule().toText() : 'Does not repeat';
       }
       this.event.timezone = this.timezone.value;
       this.event.alert = this.alert.value;
       this.event.notifyTeam = this.notifyTeam.value;
-      this.event.notes = this.notes.value;
-      this.event.address.addressLine1 = this.addressLine1.value;
-      this.event.address.addressLine2 = this.addressLine2.value;
-      this.event.address.city = this.city.value;
-      this.event.address.zipCode = this.zip.value;
-      this.event.address.state = this.state.value;
-      this.event.address.phoneNumber = this.phoneNumber.value;
-      this.event.address.faxNumber = this.fax.value;
-      let promise;
+      if (this.notes.value) {
+        this.event.notes = this.notes.value;
+      }
+      if (this.addressLine1.value) {
+        this.event.address.addressLine1 = this.addressLine1.value;
+      }
+      if (this.addressLine2.value) {
+        this.event.address.addressLine2 = this.addressLine2.value;
+      }
+      if (this.city.value) {
+        this.event.address.city = this.city.value;
+      }
+      if (this.zip.value) {
+        this.event.address.zipCode = this.zip.value;
+      }
+      if (this.state.value) {
+        this.event.address.state = this.state.value;
+      }
+      if (this.phoneNumber.value) {
+        this.event.address.phoneNumber = this.phoneNumber.value;
+      }
+      if (this.fax.value) {
+        this.event.address.faxNumber = this.fax.value;
+      }
       if (this.attachments && this.attachments.length > 0) {
-        this.event.attachments = [];
-        promise = new Promise((resolve, reject) => {
-          for(let i = 0; i < this.attachments.length; i++) {
-            let attachment = new EventAttachment();
-            this.getBase64(this.attachments[i]).subscribe((file: string) => {
-              console.log(file);
-              attachment.file = file;
-              this.event.attachments.push(attachment);
-              if (i+1 === this.attachments.length) {
-                resolve();
-              }
-            }, (error) => {
-              console.log(error);
-              reject()
-            });
-          }
-        })
-        
+        this.event.attachments = this.attachments;
       }
-      if (!promise) {
-        this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
-          console.log(event)});
-          this.onEventPost.emit(true);
-          this.dialogRef.close();
-      } else {
-        Promise.all([promise]).then(() => {
-          this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
-            console.log(event)});
-            this.onEventPost.emit(true);
-            this.dialogRef.close();
-        }).catch((error) => {
-          this.onEventPost.emit(false);
-          this.dialogRef.close();
-        })
-      }
-      
+      this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
+        this.onEventPost.emit(true);
+        this.dialogRef.close();
+        console.log(res);
+      }, (err: Error) => {
+        alert('Something went wrong, please try again ' + err.name);
+      });
     } else {
-      alert("There are invalid fields");
+      alert('There are invalid fields');
     }
   }
 

@@ -23,14 +23,19 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => {
-      this.users = data.results;
-      this.isDataLoaded = true;
-    });
+    this.updateUsers();
     this.dialogConfig.hasBackdrop = true;
     this.dialogConfig.width = '90%';
     this.dialogConfig.height = 'auto';
+  }
+
+  updateUsers() {
+    this.userService.doGetUsersList()
+    .subscribe((data: FamilyUserListResponse) => {
+      this.users = data.results;
+      this.userService.users = this.users;
+      this.isDataLoaded = true;
+    });
   }
   
   formatRole(role) {
@@ -53,6 +58,6 @@ export class UsersComponent implements OnInit {
 
   openNewUser() {
     this.newUserRef = this.dialog.open(NewUserComponent, this.dialogConfig);
-    // this.newUserRef.componentInstance.onLogin.subscribe(() => this.getUsers());
+    this.newUserRef.afterClosed().subscribe(() => this.updateUsers());
   }
 }

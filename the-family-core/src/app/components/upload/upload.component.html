@@ -34,20 +34,20 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="type" required>
-              <option value="{value: 0; type: 0}">General Appointment</option>
-              <option value="{value: 1; type: 0}">School Task</option>
-              <option value="{value: 2; type: 0}">Medical Appointment</option>
+              <option value="{id: 0; type: 0}">General Appointment</option>
+              <option value="{id: 1; type: 0}">School Task</option>
+              <option value="{id: 2; type: 0}">Medical Appointment</option>
 
-              <option value="{value: 0; type: 1}">General Document</option>
-              <option value="{value: 1; type: 1}">Medical Record</option>
-              <option value="{value: 2; type: 1}">Rx</option>
-              <option value="{value: 3; type: 1}">Legal Document</option>
+              <option value="{id: 0; type: 1}">General Document</option>
+              <option value="{id: 1; type: 1}">Medical Record</option>
+              <option value="{id: 2; type: 1}">Rx</option>
+              <option value="{id: 3; type: 1}">Legal Document</option>
 
-              <option value="{value: 0; type: 2}">General Contact</option>
-              <option value="{value: 1; type: 2}">Doctor</option>
-              <option value="{value: 2; type: 2}">Teacher</option>
-              <option value="{value: 3; type: 2}">Classmate</option>
-              <option value="{value: 4; type: 2}">School Location</option>
+              <option value="{id: 0; type: 2}">General Contact</option>
+              <option value="{id: 1; type: 2}">Doctor</option>
+              <option value="{id: 2; type: 2}">Teacher</option>
+              <option value="{id: 3; type: 2}">Classmate</option>
+              <option value="{id: 4; type: 2}">School Location</option>
 
             </select>
             <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert alert-danger">

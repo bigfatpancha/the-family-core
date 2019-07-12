@@ -21,31 +21,6 @@ export class Contact {
     notifyTeam: boolean;
     notes: string;
     address: Address;
-
-    constructor(id: number,
-        type: number,
-        name: string,
-        detail: string,
-        email: string,
-        phoneNumber: string,
-        avatar: string,
-        familyMembers: number[],
-        notifyTeam: boolean,
-        notes: string,
-        address: Address) {
-            this.id = id;
-            this.type = type;
-            this.name = name;
-            this.detail = detail;
-            this.email = email;
-            this.phoneNumber = phoneNumber;
-            this.avatar = avatar;
-            this.familyMembers = familyMembers;
-            this.notifyTeam = notifyTeam;
-            this.notes = notes;
-            this.address = address;
-    }
-
 }
 
 export class ContactResponse {

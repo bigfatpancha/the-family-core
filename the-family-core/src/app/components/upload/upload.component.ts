@@ -5,15 +5,18 @@ import { EventsService } from 'src/app/services/events/events.service';
 import { Event, EventAttachment } from '../../model/events';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
-import { Address } from 'src/app/model/contact';
+import { Address, Contact } from 'src/app/model/contact';
+import { Document } from 'src/app/model/documents';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RRule } from 'rrule'
 import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
+import { DocumentsService } from 'src/app/services/documents/documents.service';
+import { ContactsService } from 'src/app/services/contacts/contacts.service';
 
 export class Type {
-  value: number;
+  id: number;
   type: number; // event = 0, document = 1, contact = 2
 }
 
@@ -30,6 +33,8 @@ export class UploadComponent implements OnInit {
     private dataService: DataService,
     private eventsService: EventsService,
     private userService: UsersService,
+    private documentsService: DocumentsService,
+    private contactsService: ContactsService,
     public dialogRef: MatDialogRef<UploadComponent>
   ) { }
 
@@ -39,6 +44,8 @@ export class UploadComponent implements OnInit {
   ariaValuenow = 0;
   timezones: Timezone[];
   event: Event = new Event();
+  doc: Document = new Document();
+  contact: Contact = new Contact();
   isFamilyMemberFormValid = false;
   familyMembersSelected: FamilyUser[];
   familyMembers: FamilyUser[];
@@ -78,7 +85,7 @@ export class UploadComponent implements OnInit {
     .subscribe((res: FamilyUserListResponse) => {
       this.familyMembers = res.results;
     });
-    this.typeDef.value = 0;
+    this.typeDef.id = 0;
     this.typeDef.type = 0;
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
@@ -95,7 +102,7 @@ export class UploadComponent implements OnInit {
         Validators.maxLength(30)
       ]),
       'detail': new FormControl(null, [Validators.maxLength(30)]),
-      'type': new FormControl('{value: 0; type: 0}', [Validators. required]),
+      'type': new FormControl('{id: 0; type: 0}', [Validators. required]),
       'familyMemberForm': new FormControl(null),
       'leadForm': new FormControl(null),
       'dpstart': new FormControl(this.startDate),
@@ -122,7 +129,8 @@ export class UploadComponent implements OnInit {
     });
 
     this.eventForm.get('type').valueChanges.subscribe((type) => {
-      if (this.type.value.type === 0) { // for setting validations
+      const typeObj = JSON.parse(this.type.value);
+      if (typeObj.type === 0) { // for setting validations
         this.eventForm.get('dpstart').setValidators(Validators.required);
         this.eventForm.get('dpstart').updateValueAndValidity();
         this.eventForm.get('startTimeForm').setValidators(Validators.required);
@@ -133,7 +141,7 @@ export class UploadComponent implements OnInit {
         this.eventForm.get('endTimeForm').updateValueAndValidity();
         this.eventForm.get('timezone').setValidators(Validators.required);
         this.eventForm.get('timezone').updateValueAndValidity();
-      } else if (this.type.value.type === 1 || this.type.value.type === 2) {
+      } else if (typeObj.type === 1 || typeObj.type === 2) {
         this.eventForm.get('dpstart').clearValidators();
         this.eventForm.get('dpstart').updateValueAndValidity();
         this.eventForm.get('startTimeForm').clearValidators();
@@ -275,17 +283,18 @@ export class UploadComponent implements OnInit {
   postEvent() {
     console.log(this.eventForm);
     if (this.eventForm.status === 'VALID') {
+      const typeObj = JSON.parse(this.type.value);
       this.event.title = this.title.value;
       if (this.detail.value) {
         this.event.detail = this.detail.value;
       }
-      console.log(this.type.value.value);
-      this.event.type = this.type.value.value;
+      console.log(typeObj);
+      this.event.type = typeObj.id;
       this.event.familyMembers = this.familyMembersSelected.map((item) => item.id);
       if (this.leadForm.value) {
         this.event.lead = this.leadForm.value.id;
       }
-      if (this.type.value.type === 0) {
+      if (typeObj.type === 0) {
         // start
         let hour = parseInt(this.startTimeForm.value.toString().substring(0, 2));
         let min = parseInt(this.startTimeForm.value.toString().substring(3, 5));
@@ -306,7 +315,7 @@ export class UploadComponent implements OnInit {
       if (this.notes.value) {
         this.event.notes = this.notes.value;
       }
-      if (this.type.value.type !== 1) {
+      if (typeObj.type !== 1) {
         if (this.addressLine1.value) {
           this.event.address.addressLine1 = this.addressLine1.value;
         }
@@ -332,13 +341,32 @@ export class UploadComponent implements OnInit {
       if (this.attachments && this.attachments.length > 0) {
         this.event.attachments = this.attachments;
       }
-      this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
-        this.onEventPost.emit(true);
-        this.dialogRef.close();
-        console.log(res);
-      }, (err: Error) => {
-        alert('Something went wrong, please try again ' + err.name);
-      });
+
+      if (typeObj.id === 0) {
+        this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
+          console.log(res);
+        }, (err: Error) => {
+          alert('Something went wrong, please try again ' + err.name);
+        });
+      } else if (typeObj.id === 1) {
+        this.documentsService.doDocumentPost(this.doc).subscribe((res: Document) => {
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
+          console.log(res);
+        }, (err: Error) => {
+          alert('Something went wrong, please try again ' + err.name);
+        });
+      } else if (typeObj.id === 2) {
+        this.contactsService.doContactsPost(this.contact).subscribe((res: Contact) => {
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
+          console.log(res);
+        }, (err: Error) => {
+          alert('Something went wrong, please try again ' + err.name);
+        });
+      }
     } else {
       alert('There are invalid fields');
     }

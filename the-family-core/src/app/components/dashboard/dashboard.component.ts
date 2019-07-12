@@ -53,18 +53,24 @@ export class DashboardComponent implements OnInit {
   goToUsers() {
     if (this.isLogged) {
       this.router.navigate(['/users']);
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
   goToLocation() {
     if (this.isLogged) {
       this.router.navigate(['/location']);
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
   goToRewards() {
     if (this.isLogged) {
       this.router.navigate(['/rewards']);
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 
@@ -103,6 +109,8 @@ export class DashboardComponent implements OnInit {
       this.dialogConfig.width = '90%';
       this.uploadRef = this.dialog.open(UploadComponent, this.dialogConfig);
       this.uploadRef.componentInstance.onEventPost.subscribe((success: boolean) => this.onPostUploadEnd(success));
+    } else {
+      alert('you need to be logged to perform this action');
     }
   }
 

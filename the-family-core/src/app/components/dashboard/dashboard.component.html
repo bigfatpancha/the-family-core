@@ -12,7 +12,7 @@
         <span *ngIf="isLogged && user">{{user.nickname}}</span>
         <span *ngIf="!isLogged">Login</span>
       </div>
-      <a class="profile__link cursor-pointer" *ngIf="isLogged" (click)="openEdit()">Edit Profile</a>
+      <a class="profile__link cursor-pointer" *ngIf="isLogged">Edit Profile</a>
       <a class="profile__link cursor-pointer" *ngIf="!isLogged" (click)="openRegister()">Register</a>
     </div>
   </div>

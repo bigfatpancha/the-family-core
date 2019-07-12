@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       this.httpService.id = data.user.id;
       this.getUsers();
     }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.message);
+      alert('Something went wrong, please try again ' + err.name);
     });
   }
 
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.onLogin.emit();
       this.dialogRef.close();
     }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.message);
+      alert('Something went wrong, please try again ' + err.name);
     });
   }
 

@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
       this.getUser();
       
     }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.message);
+      alert('Something went wrong, please try again ' + err.name);
     });
   }
 
@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
       this.getUsers();
       
     }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.message);
+      alert('Something went wrong, please try again ' + err.name);
     })
   }
 
@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit {
       this.onRegister.emit();
       this.dialogRef.close();
     }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.message);
+      alert('Something went wrong, please try again ' + err.name);
     });
   }
 

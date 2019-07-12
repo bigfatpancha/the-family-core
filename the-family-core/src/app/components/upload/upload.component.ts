@@ -297,7 +297,7 @@ export class UploadComponent implements OnInit {
         this.dialogRef.close();
         console.log(res);
       }, (err: Error) => {
-        alert('Something went wrong, please try again ' + err.message);
+        alert('Something went wrong, please try again ' + err.name);
       });
     } else {
       alert('There are invalid fields');

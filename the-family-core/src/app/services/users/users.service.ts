@@ -39,48 +39,9 @@ export class UsersService {
       headers: headers
     };
 
-    const formData = new FormData();
-    Object.keys(body).forEach(key => {
-      if (key === 'address') {
-        Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
-      } else if (key === 'referredBy') {
-        Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
-      } else if (key === 'avatar') {
-          formData.append('avatar', body[key]);
-      } else if (key === 'allergies') {
-        let i = 0;
-        for (const allergy of body[key]) {
-          formData.append('allergy_' + i, allergy.toString());
-          i++;
-        }
-      } else if (key === 'favorites') {
-        let i = 0;
-        for (const fav of body[key]) {
-          formData.append('favorite_' + i, fav.toString());
-          i++;
-        }
-      } else if (key === 'dislikes') {
-        let i = 0;
-        for (const dis of body[key]) {
-          formData.append('dislike_' + i, dis.toString());
-          i++;
-        }
-      } else if (key === 'wishlist') {
-        let i = 0;
-        for (const wish of body[key]) {
-          formData.append('wish_' + i, wish.toString());
-          i++;
-        }
-      } else {
-        formData.append(this.converSnakecase(key), body[key]);
-      }
-    });
+    const formData = this.getFormData(body);
 
     return this.http_service.doPost(Routes.FAMILY_USERS, formData, options);
-  }
-
-  private converSnakecase(name: string): string {
-    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
   }
 
   doUserIdGet(id: number): Observable<User> {
@@ -92,11 +53,13 @@ export class UsersService {
   }
 
   doUserIdPut(id: number, body: User): Observable<User> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
     }
-    return this.http_service.doPut(Routes.FAMILY_USERS + id, body, options);
+    return this.http_service.doPut(Routes.FAMILY_USERS + id + '/', this.getFormData(body), options);
   }
 
   doUserIdPatch(id: number, body: User): Observable<User> {
@@ -155,4 +118,59 @@ export class UsersService {
     return this.http_service.doGet(Routes.FAMILY_USERS + id + '/contacts/', options);
   }
 
+
+
+  private getFormData(body): FormData {
+    const formData = new FormData();
+    Object.keys(body).forEach(key => {
+      if (key === 'address') {
+        if (body[key]) {
+          Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+        }
+      } else if (key === 'referredBy') {
+        if (body[key]) {
+          Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+        }
+      } else if (key === 'avatar') {
+          formData.append('avatar', body[key]);
+      } else if (key === 'allergies') {
+        let i = 0;
+        for (const allergy of body[key]) {
+          formData.append('allergy_' + i, allergy.toString());
+          i++;
+        }
+      } else if (key === 'favorites') {
+        let i = 0;
+        for (const fav of body[key]) {
+          formData.append('favorite_' + i, fav.toString());
+          i++;
+        }
+      } else if (key === 'dislikes') {
+        let i = 0;
+        for (const dis of body[key]) {
+          formData.append('dislike_' + i, dis.toString());
+          i++;
+        }
+      } else if (key === 'wishlist') {
+        let i = 0;
+        for (const wish of body[key]) {
+          formData.append('wish_' + i, wish.toString());
+          i++;
+        }
+      } else if (key === 'relationships') {
+        let i = 0;
+        for (const rel of body[key]) {
+          formData.append('relationship_' + i, rel.toString());
+          i++;
+        }
+      } else {
+        formData.append(this.converSnakecase(key), body[key]);
+      }
+    });
+    return formData;
+  }
+
+  private converSnakecase(name: string): string {
+    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
+  }
 }

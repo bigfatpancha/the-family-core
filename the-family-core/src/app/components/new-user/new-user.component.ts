@@ -394,8 +394,8 @@ export class NewUserComponent implements OnInit {
         console.log(data);
         this.dialogRef.close();
         alert('User created successfully');
-      }, (err) => {
-        alert('Something went wrong, please try again ' + err);
+      }, (err: Error) => {
+        alert('Something went wrong, please try again ' + err.name);
       });
     } else {
       alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));

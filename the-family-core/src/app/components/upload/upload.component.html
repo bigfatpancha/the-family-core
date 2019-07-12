@@ -108,7 +108,7 @@
       <div class="form-row">
         <div class="form-group col-12 col-sm-8">
           <div class="opcion-selected col-md-8 col-xl-6 mb-3" *ngFor="let file of attachments">
-            <span>- {{file.name}}</span>
+            <span>- {{file.file.name}}</span>
             <a class="btn btn-danger btn-sm p-1" (click)="deleteFile(file)"><i class="icon-guion"></i></a>
           </div>
         </div>
@@ -348,15 +348,33 @@
       <div class="form-row mb-2 mt-4">
         <div class="form-group col-md-6 col-lg-4">
           <input class="form-control" type="text" formControlName="addressLine1" placeholder="Address Line 1">
+          <div *ngIf="addressLine1.invalid && (addressLine1.dirty || addressLine1.touched)"
+              class="alert alert-danger">
+            <div *ngIf="addressLine1.errors.maxlength">
+              Address line must have between 0 and 128 characters
+            </div>
+          </div>
         </div>
         <div class="form-group col-md-6 col-lg-4">
           <input class="form-control" type="text" formControlName="addressLine2" placeholder="Address Line 2">
+          <div *ngIf="addressLine2.invalid && (addressLine2.dirty || addressLine2.touched)"
+              class="alert alert-danger">
+            <div *ngIf="addressLine2.errors.maxlength">
+              Address line must have between 0 and 128 characters
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="form-row mb-2">
         <div class="form-group col-md-3 col-lg-2">
           <input class="form-control" type="text" formControlName="city" placeholder="City">
+          <div *ngIf="city.invalid && (city.dirty || city.touched)"
+              class="alert alert-danger">
+            <div *ngIf="city.errors.maxlength">
+              City must have between 0 and 50 characters
+            </div>
+          </div>
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
@@ -420,16 +438,34 @@
 
         <div class="form-group col-md-3 col-lg-2">
           <input class="form-control" type="text" formControlName="zip" placeholder="Zip Code">
+          <div *ngIf="zip.invalid && (zip.dirty || zip.touched)"
+              class="alert alert-danger">
+            <div *ngIf="zip.errors.maxlength">
+              Zip code must have between 0 and 50 characters
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-3 col-lg-2">
           <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone #">
+          <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
+              class="alert alert-danger">
+            <div *ngIf="phoneNumber.errors.maxlength">
+              Phone # must have between 0 and 128 characters
+            </div>
+          </div>
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
           <input type="text" class="form-control" formControlName="fax" placeholder="Fax #">
+          <div *ngIf="fax.invalid && (fax.dirty || fax.touched)"
+              class="alert alert-danger">
+            <div *ngIf="phoneNumber.errors.maxlength">
+              Fax # must have between 0 and 128 characters
+            </div>
+          </div>
         </div>
       </div>
     </div>

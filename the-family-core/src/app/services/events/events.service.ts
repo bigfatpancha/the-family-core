@@ -30,7 +30,6 @@ export class EventsService {
   doEventPost(event: Event): Observable<Event> {
     let headers = new HttpHeaders()
           .set('accept', 'application/json')
-          .set('Content-Type', 'multipart/form-data')
           .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
@@ -42,7 +41,8 @@ export class EventsService {
       } else if (key === 'attachments') {
         let i = 0;
         for (const attachment of event[key]) {
-          formData.append('attachment_' + i, attachment.file);
+          console.log(attachment.file);
+          formData.append('attachment_' + i + '.file', attachment.file);
           i++;
         }
       } else if (key === 'familyMembers') {

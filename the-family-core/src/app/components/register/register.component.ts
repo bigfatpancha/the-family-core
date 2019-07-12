@@ -48,6 +48,8 @@ export class RegisterComponent implements OnInit {
       this.httpService.key = data.key;
       this.getUser();
       
+    }, (err: Error) => {
+      alert('Something went wrong, please try again ' + err.message);
     });
   }
 
@@ -58,6 +60,8 @@ export class RegisterComponent implements OnInit {
       this.httpService.id = res.id;
       this.getUsers();
       
+    }, (err: Error) => {
+      alert('Something went wrong, please try again ' + err.message);
     })
   }
 
@@ -67,6 +71,8 @@ export class RegisterComponent implements OnInit {
       this.userService.users = data.results;
       this.onRegister.emit();
       this.dialogRef.close();
+    }, (err: Error) => {
+      alert('Something went wrong, please try again ' + err.message);
     });
   }
 

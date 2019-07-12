@@ -36,6 +36,8 @@ export class LoginComponent implements OnInit {
       this.httpService.key = data.key;
       this.httpService.id = data.user.id;
       this.getUsers();
+    }, (err: Error) => {
+      alert('Something went wrong, please try again ' + err.message);
     });
   }
 
@@ -45,6 +47,8 @@ export class LoginComponent implements OnInit {
       this.userService.users = data.results;
       this.onLogin.emit();
       this.dialogRef.close();
+    }, (err: Error) => {
+      alert('Something went wrong, please try again ' + err.message);
     });
   }
 

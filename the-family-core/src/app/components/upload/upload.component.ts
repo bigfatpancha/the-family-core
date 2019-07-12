@@ -211,6 +211,7 @@ export class UploadComponent implements OnInit {
             this.progress ++;
         }
       }
+      console.log(this.attachments);
     }
   }
 
@@ -295,6 +296,8 @@ export class UploadComponent implements OnInit {
         this.onEventPost.emit(true);
         this.dialogRef.close();
         console.log(res);
+      }, (err: Error) => {
+        alert('Something went wrong, please try again ' + err.message);
       });
     } else {
       alert('There are invalid fields');

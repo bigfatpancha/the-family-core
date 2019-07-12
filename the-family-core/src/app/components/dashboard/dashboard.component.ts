@@ -7,13 +7,14 @@ import { HttpService } from '../../services/http/http.service';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { UploadComponent } from '../upload/upload.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterContentInit {
+export class DashboardComponent implements OnInit {
 
   // body: LoginRequest = {
   //   username: 'developer',
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
   constructor(private userService: UsersService,
               private httpService: HttpService,
+              private router: Router,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -48,7 +50,23 @@ export class DashboardComponent implements OnInit, AfterContentInit {
     }
   }
 
-  ngAfterContentInit() { }
+  goToUsers() {
+    if (this.isLogged) {
+      this.router.navigate(['/users']);
+    }
+  }
+
+  goToLocation() {
+    if (this.isLogged) {
+      this.router.navigate(['/location']);
+    }
+  }
+
+  goToRewards() {
+    if (this.isLogged) {
+      this.router.navigate(['/rewards']);
+    }
+  }
 
   getUsers() {
     this.isLogged = true;

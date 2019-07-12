@@ -35,11 +35,11 @@
 
     <section class="row mt-4">
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink="/users">
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToUsers()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/user.access.png" alt="">
         </div>
-        <span class="options__text" routerLink="/users">Users/Access</span>
+        <span class="options__text">Users/Access</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="openUpload()">
@@ -49,18 +49,18 @@
         <span class="options__text">Upload</span>
       </div>
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink='/location'>
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToLocation()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/location.png" alt="">
         </div>
-        <span class="options__text" routerLink='/location'>Location</span>
+        <span class="options__text">Location</span>
       </div>
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink='/rewards'>
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToRewards()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/rewards.png" alt="">
         </div>
-        <span class="options__text" routerLink='/rewards'>Rewards</span>
+        <span class="options__text">Rewards</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options">

@@ -59,7 +59,8 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     LoginComponent,
     RegisterComponent,
     UploadComponent,
-    NewUserComponent
+    NewUserComponent,
+    EditProfileComponent
   ],
 })
 export class AppModule { }

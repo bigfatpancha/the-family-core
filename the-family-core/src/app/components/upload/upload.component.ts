@@ -5,12 +5,26 @@ import { EventsService } from 'src/app/services/events/events.service';
 import { Event, EventAttachment } from '../../model/events';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
-import { Address } from 'src/app/model/contact';
+import { Address, Contact } from 'src/app/model/contact';
+import { Document } from 'src/app/model/documents';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RRule } from 'rrule'
 import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
+import { DocumentsService } from 'src/app/services/documents/documents.service';
+import { ContactsService } from 'src/app/services/contacts/contacts.service';
+
+export class Type {
+  id: number;
+  type: number; // event = 0, document = 1, contact = 2
+  description: string;
+  constructor(id: number, type: number, description: string) {
+    this.id = id;
+    this.type = type;
+    this.description = description;
+  }
+}
 
 @Component({
   selector: 'app-upload',
@@ -25,14 +39,32 @@ export class UploadComponent implements OnInit {
     private dataService: DataService,
     private eventsService: EventsService,
     private userService: UsersService,
+    private documentsService: DocumentsService,
+    private contactsService: ContactsService,
     public dialogRef: MatDialogRef<UploadComponent>
   ) { }
 
   eventForm: FormGroup;
 
+  types: Type[] = [
+    new Type(0, 0, 'General Appointment'),
+    new Type(1, 0, 'School Task'),
+    new Type(2, 0, 'Medical Appointment'),
+
+    new Type(0, 1, 'General Document'),
+    new Type(1, 1, 'Medical Record'),
+    new Type(2, 1, 'Rx'),
+    new Type(3, 1, 'Legal Document'),
+
+    new Type(0, 2, 'General Contact'),
+    new Type(1, 2, 'Doctor'),
+    new Type(2, 2, 'Teacher'),
+    new Type(3, 2, 'Classmate'),
+    new Type(4, 2, 'School Location')
+  ]
+
   ariaValuenow = 0;
   timezones: Timezone[];
-  event: Event = new Event();
   isFamilyMemberFormValid = false;
   familyMembersSelected: FamilyUser[];
   familyMembers: FamilyUser[];
@@ -71,13 +103,12 @@ export class UploadComponent implements OnInit {
     this.userService.doGetUsersList()
     .subscribe((res: FamilyUserListResponse) => {
       this.familyMembers = res.results;
-    })
+    });
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
     this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
     this.dayOfMonth = this.date.getDate().toString() + this.getGetOrdinal(this.date.getDate());
     this.dayOfYear = this.formatMonth(this.date.getMonth()) + ' ' + this.dayOfMonth;
-    this.event.address = new Address();
     this.progress = 0;
 
     this.eventForm = new FormGroup({
@@ -87,14 +118,14 @@ export class UploadComponent implements OnInit {
         Validators.maxLength(30)
       ]),
       'detail': new FormControl(null, [Validators.maxLength(30)]),
-      'type': new FormControl(0, [Validators. required]),
+      'type': new FormControl(this.types[0], [Validators. required]),
       'familyMemberForm': new FormControl(null),
       'leadForm': new FormControl(null),
-      'dpstart': new FormControl(this.startDate, [Validators.required]),
-      'startTimeForm': new FormControl(this.startTime, [Validators.required]),
-      'dpend': new FormControl(this.endDate, [Validators.required]),
-      'endTimeForm': new FormControl(this.endTime, [Validators.required]),
-      'timezone': new FormControl(null, [Validators.required]),
+      'dpstart': new FormControl(this.startDate),
+      'startTimeForm': new FormControl(this.startTime),
+      'dpend': new FormControl(this.endDate),
+      'endTimeForm': new FormControl(this.endTime),
+      'timezone': new FormControl(null),
       'alert': new FormControl(0),
       'recurrence': new FormControl('Doesnotrepeat'),
       'endsForm': new FormControl('Never'),
@@ -110,8 +141,54 @@ export class UploadComponent implements OnInit {
       'phoneNumber': new FormControl(null, [Validators.maxLength(128)]),
       'fax': new FormControl(null, [Validators.maxLength(128)]),
       'notes': new FormControl(null),
-      'notifyTeam': new FormControl(false)
+      'notifyTeam': new FormControl(false),
+      'email': new FormControl(null)
     });
+
+    this.eventForm.get('type').valueChanges.subscribe((type: Type) => {
+      console.log(type);
+      console.log(this.type.value);
+      if (type.type === 0) { // for setting validations
+        this.eventForm.get('email').clearValidators();
+        this.eventForm.get('email').updateValueAndValidity();
+        this.eventForm.get('dpstart').setValidators(Validators.required);
+        this.eventForm.get('dpstart').updateValueAndValidity();
+        this.eventForm.get('startTimeForm').setValidators(Validators.required);
+        this.eventForm.get('startTimeForm').updateValueAndValidity();
+        this.eventForm.get('dpend').setValidators(Validators.required);
+        this.eventForm.get('dpend').updateValueAndValidity();
+        this.eventForm.get('endTimeForm').setValidators(Validators.required);
+        this.eventForm.get('endTimeForm').updateValueAndValidity();
+        this.eventForm.get('timezone').setValidators(Validators.required);
+        this.eventForm.get('timezone').updateValueAndValidity();
+      } else if (type.type === 1) {
+        this.eventForm.get('email').clearValidators();
+        this.eventForm.get('email').updateValueAndValidity();
+        this.eventForm.get('dpstart').clearValidators();
+        this.eventForm.get('dpstart').updateValueAndValidity();
+        this.eventForm.get('startTimeForm').clearValidators();
+        this.eventForm.get('startTimeForm').updateValueAndValidity();
+        this.eventForm.get('dpend').clearValidators();
+        this.eventForm.get('dpend').updateValueAndValidity();
+        this.eventForm.get('endTimeForm').clearValidators();
+        this.eventForm.get('endTimeForm').updateValueAndValidity();
+        this.eventForm.get('timezone').clearValidators();
+        this.eventForm.get('timezone').updateValueAndValidity();
+      } else if (type.type === 2) {
+        this.eventForm.get('email').setValidators([Validators.required, Validators.maxLength(254)]);
+        this.eventForm.get('email').updateValueAndValidity();
+        this.eventForm.get('dpstart').clearValidators();
+        this.eventForm.get('dpstart').updateValueAndValidity();
+        this.eventForm.get('startTimeForm').clearValidators();
+        this.eventForm.get('startTimeForm').updateValueAndValidity();
+        this.eventForm.get('dpend').clearValidators();
+        this.eventForm.get('dpend').updateValueAndValidity();
+        this.eventForm.get('endTimeForm').clearValidators();
+        this.eventForm.get('endTimeForm').updateValueAndValidity();
+        this.eventForm.get('timezone').clearValidators();
+        this.eventForm.get('timezone').updateValueAndValidity();
+      }
+  });
   }
 
   get title() { return this.eventForm.get('title'); }
@@ -140,6 +217,7 @@ export class UploadComponent implements OnInit {
   get fax() { return this.eventForm.get('fax'); }
   get notes() { return this.eventForm.get('notes'); }
   get notifyTeam() { return this.eventForm.get('notifyTeam'); }
+  get email() { return this.eventForm.get('email'); }
 
   formatDayOfWeek(day: number) {
     switch(day) {
@@ -175,10 +253,6 @@ export class UploadComponent implements OnInit {
         v=n%100;
     return n+(s[(v-20)%10]||s[v]||s[0]);
  }
-
-  doEventPost() {
-    this.eventsService.doEventPost(this.event);
-  }
 
   addMember() {
     if (!this.familyMembersSelected) {
@@ -239,66 +313,51 @@ export class UploadComponent implements OnInit {
   }
 
   postEvent() {
+    console.log(this.eventForm);
     if (this.eventForm.status === 'VALID') {
-      this.event.title = this.title.value;
-      if (this.detail.value) {
-        this.event.detail = this.detail.value;
+      if (this.type.value.type === 0) {
+        const event = new Event(this.eventForm);
+        event.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        if (this.recurrence.value) {
+          event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
+        }
+        if (this.attachments && this.attachments.length > 0) {
+          event.attachments = this.attachments;
+        }
+        this.eventsService.doEventPost(event).subscribe((res: Event) => {
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
+          console.log(res);
+        }, (err: Error) => {
+          alert('Something went wrong, please try again ' + err.name);
+        });
+      } else if (this.type.value.type === 1) {
+        const document = new Document(this.eventForm);
+        document.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        if (this.attachments && this.attachments.length > 0) {
+          document.attachments = this.attachments;
+        }
+        this.documentsService.doDocumentPost(document).subscribe((res: Document) => {
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
+          console.log(res);
+        }, (err: Error) => {
+          alert('Something went wrong, please try again ' + err.name);
+        });
+      } else if (this.type.value.type === 2) {
+        const contact = new Contact(this.eventForm);
+        contact.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        if (this.attachments && this.attachments.length > 0) {
+          contact.avatar = this.attachments[0].file;
+        }
+        this.contactsService.doContactsPost(contact).subscribe((res: Contact) => {
+          this.onEventPost.emit(true);
+          this.dialogRef.close();
+          console.log(res);
+        }, (err: Error) => {
+          alert('Something went wrong, please try again ' + err.name);
+        });
       }
-      this.event.type = this.type.value;
-      this.event.familyMembers = this.familyMembersSelected.map((item) => item.id);
-      if (this.leadForm.value) {
-        this.event.lead = this.leadForm.value.id;
-      }
-      // start
-      let hour = parseInt(this.startTimeForm.value.toString().substring(0, 2));
-      let min = parseInt(this.startTimeForm.value.toString().substring(3, 5));
-      const startDate = new Date(this.dpstart.value.year, this.dpstart.value.month - 1, this.dpstart.value.day, hour, min, 0);
-      this.event.start = startDate.toISOString();
-      // end
-      hour = parseInt(this.endTimeForm.value.toString().substring(0, 2));
-      min = parseInt(this.endTimeForm.value.toString().substring(3, 5));
-      const endDate = new Date(this.dpend.value.year, this.dpend.value.month, this.dpend.value.day, hour, min, 0);
-      this.event.end = endDate.toISOString();
-      if (this.recurrence.value) {
-        this.event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
-      }
-      this.event.timezone = this.timezone.value;
-      this.event.alert = this.alert.value;
-      this.event.notifyTeam = this.notifyTeam.value;
-      if (this.notes.value) {
-        this.event.notes = this.notes.value;
-      }
-      if (this.addressLine1.value) {
-        this.event.address.addressLine1 = this.addressLine1.value;
-      }
-      if (this.addressLine2.value) {
-        this.event.address.addressLine2 = this.addressLine2.value;
-      }
-      if (this.city.value) {
-        this.event.address.city = this.city.value;
-      }
-      if (this.zip.value) {
-        this.event.address.zipCode = this.zip.value;
-      }
-      if (this.state.value) {
-        this.event.address.state = this.state.value;
-      }
-      if (this.phoneNumber.value) {
-        this.event.address.phoneNumber = this.phoneNumber.value;
-      }
-      if (this.fax.value) {
-        this.event.address.faxNumber = this.fax.value;
-      }
-      if (this.attachments && this.attachments.length > 0) {
-        this.event.attachments = this.attachments;
-      }
-      this.eventsService.doEventPost(this.event).subscribe((res: Event) => {
-        this.onEventPost.emit(true);
-        this.dialogRef.close();
-        console.log(res);
-      }, (err: Error) => {
-        alert('Something went wrong, please try again ' + err.name);
-      });
     } else {
       alert('There are invalid fields');
     }

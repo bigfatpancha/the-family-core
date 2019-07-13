@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 export class Attachment {
     id: number;
     file: File;
@@ -12,26 +14,18 @@ export class Document {
     familyMembers: number[];
     notifyTeam: boolean;
     notes: string;
-    attachments: Attachment;
+    attachments: Attachment[];
 
-    constructor(
-        id: number,
-        title: string,
-        description: string,
-        type: number,
-        familyMembers: number[],
-        notifyTeam: boolean,
-        notes: string,
-        attachments: Attachment
-    ) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.type = type;
-        this.familyMembers = familyMembers;
-        this.notifyTeam = notifyTeam;
-        this.notes = notes;
-        this.attachments = attachments;
+    constructor(form: FormGroup) {
+        this.title = form.get('title').value;
+        if (form.get('detail').value) {
+          this.description = form.get('detail').value;
+        }
+        this.type = form.get('type').value.id;
+        this.notifyTeam = form.get('notifyTeam').value;
+        if (form.get('notes').value) {
+            this.notes = form.get('notes').value;
+        }
     }
 }
 

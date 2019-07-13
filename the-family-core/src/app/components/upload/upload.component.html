@@ -10,7 +10,7 @@
     <div class="form_family border-bottom pb-3">
       <div class="form-row">
         <div class="form-group col-md-4">
-          <input class="form-control" formControlName="title" required placeholder="Title">
+          <input class="form-control" formControlName="title" required [placeholder]="type.value.type === 1 ? 'Name' : 'Title'">
           <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
             <div *ngIf="title.errors.required">
               Title is required.
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="form-group col-md-4">
-          <input class="form-control" formControlName="detail" placeholder="Detail">
+          <input class="form-control" formControlName="detail" [placeholder]="type.value.type === 1 ? 'Description' : 'Detail'">
           <div *ngIf="detail.invalid && (title.dirty || title.touched)" class="alert alert-danger">
             <div *ngIf="detail.errors.maxlength">
               Title must have between 1 and 30 characters long.
@@ -34,9 +34,7 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="type" required>
-              <option value="0">General Appointment</option>
-              <option value="1">School Task</option>
-              <option value="2">Medical Appointment</option>
+              <option [ngValue]="type" *ngFor="let type of types">{{type.description}}</option>
             </select>
             <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert alert-danger">
               <div *ngIf="type.errors.required">
@@ -66,10 +64,28 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group col-md-4 d-flex justify-content-md-center align-items-end" *ngIf="type.value.type === 1">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="notifyTeam">
+            <label class="custom-control-label check-adelante" for="customCheck1">Notify Team</label>
+          </div>
+        </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-8">
+      <div class="form-row" *ngIf="type.value.type !== 1">
+        <div class="form-group col-md-8" *ngIf="type.value.type === 2">
+          <input formControlName="email" class="form-control" placeholder="Email" required>
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+            <div *ngIf="email.errors.required">
+              This fild is required.
+            </div>
+            <div *ngIf="email.errors.email">
+              This is not a valid email
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-8" *ngIf="type.value.type === 0">
           <label>Lead</label>
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
@@ -115,7 +131,7 @@
       </div>
     </div>
 
-    <div class="form_family border-bottom pb-3 pt-3">
+    <div class="form_family border-bottom pb-3 pt-3" *ngIf="type.value.type === 0">
 
       <div class="form-inline row mt-3">
         <div class="form-group col-sm-6 col-lg-4 col-xl-3">
@@ -237,7 +253,7 @@
       </div>
     </div>
 
-    <div class="form_family border-bottom pb-3 pt-3">
+    <div class="form_family border-bottom pb-3 pt-3" *ngIf="type.value.type === 0">
       <div class="form-row">
         <div class="form-group col-md-4">
           <label>Repeat</label>
@@ -344,7 +360,7 @@
 
     </div>
 
-    <div class="form_family border-bottom pb-3 pt-3">
+    <div class="form_family border-bottom pb-3 pt-3" *ngIf="type.value.type !== 1">
       <div class="form-row mb-2 mt-4">
         <div class="form-group col-md-6 col-lg-4">
           <input class="form-control" type="text" formControlName="addressLine1" placeholder="Address Line 1">

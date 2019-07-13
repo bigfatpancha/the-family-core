@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from '../../model/auth';
-import { FamilyUser } from 'src/app/model/family';
+import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
 import { HttpService } from '../../services/http/http.service';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
@@ -128,7 +128,16 @@ export class DashboardComponent implements OnInit {
     if (this.isLogged) {
       this.dialogConfig.width = '90%';
       this.editRef = this.dialog.open(EditProfileComponent, this.dialogConfig);
-      // this.editRef.afterClosed(())
+      this.editRef.afterClosed().subscribe(() => {
+        this.userService.doUserIdGet(this.user.id).subscribe((res: User) => {
+          this.userService.user = res;
+          this.user = res;
+        });
+        this.userService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
+          this.userService.users = res.results;
+          this.users = res.results;
+        })
+      })
     }
   }
 

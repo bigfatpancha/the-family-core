@@ -327,11 +327,11 @@
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Referred by...</label>
-                    <p *ngFor="let ref of user.referredBy">- {{ref}}</p>
+                    <p>- {{user.referredBy.name}}</p>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Color Code</label>
-                    <input class="form-control" value="{{user.colorCode}}" readonly>
+                    <input class="form-control" value="{{user.referredBy.colorCode}}" readonly>
                   </div>
                 </div>
 

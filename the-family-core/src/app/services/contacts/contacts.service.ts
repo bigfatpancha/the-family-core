@@ -27,7 +27,7 @@ export class ContactsService {
     return this.http_service.doGet(Routes.CONTACTS, options);
   }
 
-  doContactsPost(body: Contact): Observable<PostContactResponse> {
+  doContactsPost(body: Contact): Observable<Contact> {
     const headers = new HttpHeaders()
           .set('accept', 'application/json')
           .set('Authorization', 'Token ' + this.http_service.key);
@@ -38,13 +38,6 @@ export class ContactsService {
     Object.keys(body).forEach(key => {
       if (key === 'address') {
         Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
-      } else if (key === 'attachments') {
-        let i = 0;
-        for (const attachment of body[key]) {
-          console.log(attachment.file);
-          formData.append('attachment_' + i + '.file', attachment.file);
-          i++;
-        }
       } else if (key === 'familyMembers') {
         let i = 0;
         for (const member of body[key]) {

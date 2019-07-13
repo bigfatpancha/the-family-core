@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 export class Attachment {
     id: number;
     file: File;
@@ -13,6 +15,18 @@ export class Document {
     notifyTeam: boolean;
     notes: string;
     attachments: Attachment[];
+
+    constructor(form: FormGroup) {
+        this.title = form.get('title').value;
+        if (form.get('detail').value) {
+          this.description = form.get('detail').value;
+        }
+        this.type = form.get('type').value.id;
+        this.notifyTeam = form.get('notifyTeam').value;
+        if (form.get('notes').value) {
+            this.notes = form.get('notes').value;
+        }
+    }
 }
 
 export class DocumentResponse {

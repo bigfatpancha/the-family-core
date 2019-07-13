@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 export class Address {
     id: number;
     addressLine1: string;
@@ -16,11 +18,66 @@ export class Contact {
     detail: string;
     email: string;
     phoneNumber: string;
-    avatar: string;
+    avatar: File;
     familyMembers: number[];
     notifyTeam: boolean;
     notes: string;
     address: Address;
+
+    constructor(form: FormGroup) {
+        this.name = form.get('title').value;
+        if (form.get('detail').value) {
+          this.detail = form.get('detail').value
+        }
+        this.type = form.get('type').value.id;
+        this.notifyTeam = form.get('notifyTeam').value;
+        if (form.get('notes').value) {
+            this.notes = form.get('notes').value;
+        }
+        if (form.get('addressLine1').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.address.addressLine1 = form.get('addressLine1').value;
+        }
+        if (form.get('addressLine2').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.address.addressLine2 = form.get('addressLine2').value;
+        }
+        if (form.get('city').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.address.city = form.get('city').value;
+        }
+        if (form.get('zip').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.address.zipCode = form.get('zip').value;
+        }
+        if (form.get('state').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.address.state = form.get('state').value;
+        }
+        if (form.get('phoneNumber').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.phoneNumber = form.get('phoneNumber').value;
+            this.address.phoneNumber = form.get('phoneNumber').value;
+        }
+        if (form.get('fax').value) {
+            if (!this.address) {
+                this.address = new Address();
+            }
+            this.address.faxNumber = form.get('fax').value;
+        }
+    }
 }
 
 export class ContactResponse {

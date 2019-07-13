@@ -7,6 +7,8 @@ import { HttpService } from 'src/app/services/http/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { GenericError } from 'src/app/model/error';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,13 +21,14 @@ export class EditProfileComponent implements OnInit {
   dropdownSettings = {};
   newUserForm: FormGroup;
   user: User = new User();
+  editedUser: User = new User();
   favoritesSelected: string[];
   dislikesSelected: string[];
   wishesSelected: string[];
   referredBy: ReferredBy;
   relationshipsList: FamilyUser[];
   selectedRelationships: FamilyUser[];
-  imgSrc = '../../../assets/icono.png';
+  imgSrc: any = '../../../assets/icono.png';
   avatarFile: any;
   idDataLoaded = false;
 
@@ -53,12 +56,13 @@ export class EditProfileComponent implements OnInit {
       .subscribe((user: User) => {
         this.usersService.user = user;
         this.user = user;
+        const birthDate: Date = this.user.birthDate ?  new Date(this.user.birthDate) : null;
+        const birthDateNG: NgbDate = this.user.birthDate ? new NgbDate(birthDate.getFullYear(), birthDate.getMonth() + 1, birthDate.getDate()) : null;
         this.favoritesSelected = this.user.favorites;
         this.dislikesSelected = this.user.dislikes;
         this.wishesSelected = this.user.wishlist;
         if (this.user.avatar) {
-          this.getBase64(this.user.avatar)
-          .subscribe(file => this.imgSrc = file);
+          this.imgSrc = this.user.avatar;
         }
         this.newUserForm = new FormGroup({
           'role': new FormControl(this.user.role),
@@ -72,48 +76,44 @@ export class EditProfileComponent implements OnInit {
             Validators.required,
             Validators.email
           ]),
-          'colorCode': new FormControl(this.user.colorCode),
-          'password1': new FormControl(this.user.password1, [
-            Validators.required
-          ]),
-          'password2': new FormControl(this.user.password2, [
-            Validators.required
-          ]),
-          'firstName': new FormControl(this.user.firstName, [Validators.maxLength(30)]),
-          'middleName': new FormControl(this.user.middleName, [Validators.maxLength(30)]),
-          'lastName': new FormControl(this.user.lastName, [Validators.maxLength(150)]),
-          'mobileNumber': new FormControl(this.user.mobileNumber, [Validators.maxLength(128)]),
+          'colorCode': new FormControl(this.user.colorCode && this.user.colorCode !== 'null' ? this.user.colorCode : null),
+          'password1': new FormControl(this.user.password1),
+          'password2': new FormControl(this.user.password2),
+          'firstName': new FormControl(this.user.firstName && this.user.firstName !== 'null'? this.user.firstName : null, [Validators.maxLength(30)]),
+          'middleName': new FormControl(this.user.middleName && this.user.middleName !== 'null' ? this.user.middleName : null, [Validators.maxLength(30)]),
+          'lastName': new FormControl(this.user.lastName && this.user.lastName !== 'null'? this.user.lastName : null, [Validators.maxLength(150)]),
+          'mobileNumber': new FormControl(this.user.mobileNumber && this.user.mobileNumber !== 'null' ? this.user.mobileNumber : null, [Validators.maxLength(128)]),
           'gender': new FormControl(this.user.gender),
-          'birthDate': new FormControl(null), // TODO pars birthdate
-          'height': new FormControl(this.user.height, [Validators.maxLength(30)]),
-          'weight': new FormControl(this.user.weight, [Validators.maxLength(30)]),
-          'hairColor': new FormControl(this.user.hairColor, [Validators.maxLength(30)]),
-          'eyeColor': new FormControl(this.user.eyeColor, [Validators.maxLength(30)]),
-          'bloodType': new FormControl(this.user.bloodType, [Validators.maxLength(30)]),
-          'countryOfCitizenship': new FormControl(this.user.countryOfCitizenship, [Validators.maxLength(30)]),
-          'passportNumber': new FormControl(this.user.passportNumber, [Validators.maxLength(30)]),
-          'socialSecurityNumber':new FormControl(this.user.socialSecurityNumber, [Validators.maxLength(30)]),
-          'schoolState': new FormControl(this.user.schoolState, [Validators.maxLength(30)]),
-          'school': new FormControl(this.user.school, [Validators.maxLength(30)]),
-          'grade': new FormControl(this.user.grade, [Validators.maxLength(30)]),
-          'topSize': new FormControl(this.user.topSize, [Validators.maxLength(30)]),
-          'bottomsSize': new FormControl(this.user.bottomsSize, [Validators.maxLength(30)]),
-          'shoeSize': new FormControl(this.user.shoeSize, [Validators.maxLength(30)]),
-          'braSize': new FormControl(this.user.braSize, [Validators.maxLength(30)]),
-          'shirtSize': new FormControl(this.user.shirtSize, [Validators.maxLength(30)]),
-          'pantsSize': new FormControl(this.user.pantsSize, [Validators.maxLength(30)]),
+          'birthDate': new FormControl(birthDateNG),
+          'height': new FormControl(this.user.height && this.user.height !== 'null'? this.user.height : null, [Validators.maxLength(30)]),
+          'weight': new FormControl(this.user.weight && this.user.weight !== 'null'? this.user.weight : null, [Validators.maxLength(30)]),
+          'hairColor': new FormControl(this.user.hairColor && this.user.hairColor !== 'null'? this.user.hairColor: null, [Validators.maxLength(30)]),
+          'eyeColor': new FormControl(this.user.eyeColor && this.user.eyeColor !== 'null'? this.user.eyeColor : null, [Validators.maxLength(30)]),
+          'bloodType': new FormControl(this.user.bloodType && this.user.bloodType !== 'null'? this.user.bloodType : null, [Validators.maxLength(30)]),
+          'countryOfCitizenship': new FormControl(this.user.countryOfCitizenship && this.user.countryOfCitizenship !== 'null'? this.user.countryOfCitizenship : null, [Validators.maxLength(30)]),
+          'passportNumber': new FormControl(this.user.passportNumber && this.user.passportNumber !== 'null'? this.user.passportNumber : null, [Validators.maxLength(30)]),
+          'socialSecurityNumber':new FormControl(this.user.socialSecurityNumber && this.user.socialSecurityNumber !== 'null'? this.user.socialSecurityNumber : null, [Validators.maxLength(30)]),
+          'schoolState': new FormControl(this.user.schoolState && this.user.schoolState !== 'null'? this.user.schoolState : null, [Validators.maxLength(30)]),
+          'school': new FormControl(this.user.school && this.user.school !== 'null'? this.user.school : null, [Validators.maxLength(30)]),
+          'grade': new FormControl(this.user.grade && this.user.grade !== 'null'? this.user.grade : null, [Validators.maxLength(30)]),
+          'topSize': new FormControl(this.user.topSize && this.user.topSize !== 'null'? this.user.topSize : null, [Validators.maxLength(30)]),
+          'bottomsSize': new FormControl(this.user.bottomsSize && this.user.bottomsSize !== 'null'? this.user.bottomsSize : null, [Validators.maxLength(30)]),
+          'shoeSize': new FormControl(this.user.shoeSize && this.user.shoeSize !== 'null'? this.user.shoeSize : null, [Validators.maxLength(30)]),
+          'braSize': new FormControl(this.user.braSize && this.user.braSize !== 'null'? this.user.braSize : null, [Validators.maxLength(30)]),
+          'shirtSize': new FormControl(this.user.shirtSize && this.user.shirtSize !== 'null'? this.user.shirtSize : null, [Validators.maxLength(30)]),
+          'pantsSize': new FormControl(this.user.pantsSize && this.user.pantsSize !== 'null'? this.user.pantsSize : null, [Validators.maxLength(30)]),
           'allergies': new FormControl(this.user.allergies?this.user.allergies[0]:null, [Validators.maxLength(32)]),
           'favorites': new FormControl(null, [Validators.maxLength(32)]),
           'dislikes': new FormControl(null, [Validators.maxLength(32)]),
           'whislist': new FormControl(null, [Validators.maxLength(32)]),
-          'adminNotes': new FormControl(this.user.adminNotes),
-          'addressLine1': new FormControl(this.user.address?this.user.address.addressLine1:null, [Validators.maxLength(128)]),
-          'addressLine2': new FormControl(this.user.address?this.user.address.addressLine2:null, [Validators.maxLength(128)]),
-          'city': new FormControl(this.user.address?this.user.address.city:null, [Validators.maxLength(50)]),
-          'zipCode': new FormControl(this.user.address?this.user.address.zipCode:null, [Validators.maxLength(50)]),
-          'state': new FormControl(this.user.address?this.user.address.state:null, [Validators.maxLength(50)]),
-          'phoneNumber': new FormControl(this.user.address?this.user.address.phoneNumber:null, [Validators.maxLength(128)]),
-          'faxNumber': new FormControl(this.user.address?this.user.address.faxNumber:null, [Validators.maxLength(128)]),
+          'adminNotes': new FormControl(this.user.adminNotes && this.user.adminNotes !== 'null'? this.user.adminNotes : null),
+          'addressLine1': new FormControl(this.user.address?this.user.address.addressLine1 && this.user.address.addressLine1 !== 'null'? this.user.address.addressLine1 : null : null, [Validators.maxLength(128)]),
+          'addressLine2': new FormControl(this.user.address?this.user.address.addressLine2 && this.user.address.addressLine2 !== 'null'? this.user.address.addressLine2:null:null, [Validators.maxLength(128)]),
+          'city': new FormControl(this.user.address?this.user.address.city && this.user.address.city !== 'null'? this.user.address.city:null:null, [Validators.maxLength(50)]),
+          'zipCode': new FormControl(this.user.address?this.user.address.zipCode && this.user.address.zipCode !== 'null'? this.user.address.zipCode:null:null, [Validators.maxLength(50)]),
+          'state': new FormControl(this.user.address?this.user.address.state && this.user.address.state !== 'null'? this.user.address.state : null:null, [Validators.maxLength(50)]),
+          'phoneNumber': new FormControl(this.user.address?this.user.address.phoneNumber && this.user.address.phoneNumber !== 'null'? this.user.address.phoneNumber:null:null, [Validators.maxLength(128)]),
+          'faxNumber': new FormControl(this.user.address?this.user.address.faxNumber && this.user.address.faxNumber !== 'null'? this.user.address.faxNumber :null:null, [Validators.maxLength(128)]),
           'refName': new FormControl(this.user.referredBy?this.user.referredBy.name:null, [Validators.maxLength(30)]),
           'driversLicenseState': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseState:null, [Validators.maxLength(30)]),
           'driversLicenseNumber': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseNumber:null, [Validators.maxLength(30)]),
@@ -124,11 +124,14 @@ export class EditProfileComponent implements OnInit {
           'agency': new FormControl(this.user.referredBy?this.user.referredBy.agencyForBackgroundCheck:null, [Validators.maxLength(30)]),
           'background': new FormControl(null),
           'relationships': new FormControl(this.user.relationships, [Validators.maxLength(30)])
-        })
+        });
         this.idDataLoaded = true;
+        this.newUserForm.get('role').setValue(this.user.role);
       });
     });
   }
+
+  
 
   get role() { return this.newUserForm.get('role'); }
   get username() { return this.newUserForm.get('username'); }
@@ -189,7 +192,7 @@ export class EditProfileComponent implements OnInit {
   get relationships() { return this.newUserForm.get('relationships'); }
   get background() { return this.newUserForm.get('background'); }
 
-  isNotActualUser(element, index, array) {
+  isNotActualUser(element) {
     return element !== this.httpService.id;
   }
 
@@ -253,6 +256,7 @@ export class EditProfileComponent implements OnInit {
   }
   getBase64(file): Observable<string> {
     const reader = new FileReader();
+    console.log(file)
     reader.readAsDataURL(file);
     return Observable.create((observer: Subscriber<string | ArrayBuffer>): void => {
       // if success
@@ -270,172 +274,190 @@ export class EditProfileComponent implements OnInit {
 
   saveUser() {
     if (this.newUserForm.status === 'VALID') {
-      this.user.nickname = this.nickname.value;
-      this.user.username = this.nickname.value;
-      this.user.email = this.email.value;
+      if (this.nickname.value) {
+        this.editedUser.nickname = this.nickname.value;
+        this.editedUser.username = this.nickname.value;
+      }
+      if (this.email.value) {
+        this.editedUser.email = this.email.value;
+      }
       if (this.allergies.value) {
-        this.user.allergies = [ this.allergies.value ];
+        this.editedUser.allergies = [ this.allergies.value ];
       }
-      if (!this.favoritesSelected && this.favoritesSelected !== undefined) {
-        this.user.favorites = this.favoritesSelected;
+      console.log('favs', this.favoritesSelected);
+      if (this.favoritesSelected) {
+        console.log('entra a favoritos')
+        this.editedUser.favorites = this.favoritesSelected;
       }
-      if (!this.dislikesSelected && this.dislikesSelected !== undefined) {
-        this.user.dislikes = this.dislikesSelected;
+      if (this.dislikesSelected) {
+        this.editedUser.dislikes = this.dislikesSelected;
       }
-      if (!this.wishesSelected && this.wishesSelected !== undefined) {
-        this.user.wishlist = this.wishesSelected;
+      if (this.wishesSelected) {
+        this.editedUser.wishlist = this.wishesSelected;
       }
       if (this.birthDate.value) {
-        this.user.birthDate = this.birthDate.value.year + '-' +
+        this.editedUser.birthDate = this.birthDate.value.year + '-' +
           this.formatToTwoDigits(this.birthDate.value.month) + '-' +
           this.formatToTwoDigits(this.birthDate.value.day);
       }
-      if (this.isRefEdited() && !this.user.referredBy) {
-        this.user.referredBy = new ReferredBy();
+      if (this.isRefEdited()) {
+        if (!this.user.referredBy) {
+          this.editedUser.referredBy = new ReferredBy();
+        } else {
+          this.editedUser.referredBy = this.user.referredBy;
+        }
         if (this.refName.value) {
-          this.user.referredBy.name = this.refName.value;
+          this.editedUser.referredBy.name = this.refName.value;
         }
         if (this.driversLicenseState.value) {
-          this.user.referredBy.driversLicenseState = this.driversLicenseState.value;
+          this.editedUser.referredBy.driversLicenseState = this.driversLicenseState.value;
         }
         if (this.driversLicenseNumber.value) {
-          this.user.referredBy.driversLicenseNumber = this.driversLicenseNumber.value;
+          this.editedUser.referredBy.driversLicenseNumber = this.driversLicenseNumber.value;
         }
         if (this.refCountOfCit.value) {
-          this.user.referredBy.countryOfCitizenship = this.refCountOfCit.value;  
+          this.editedUser.referredBy.countryOfCitizenship = this.refCountOfCit.value;  
         }
         if (this.agency.value) {
-          this.user.referredBy.agencyForBackgroundCheck = this.agency.value;
+          this.editedUser.referredBy.agencyForBackgroundCheck = this.agency.value;
         }
         if (this.passportNumber.value) {
-          this.user.referredBy.passportNumber = this.passportNumber.value;
+          this.editedUser.referredBy.passportNumber = this.passportNumber.value;
         }
         if (this.refplaceOfBirth.value) {
-          this.user.referredBy.placeOfBirth = this.refplaceOfBirth.value;  
+          this.editedUser.referredBy.placeOfBirth = this.refplaceOfBirth.value;  
         }
         if (this.refSocSecNum.value) {
-          this.user.referredBy.socialSecurityNumber = this.refSocSecNum.value;
+          this.editedUser.referredBy.socialSecurityNumber = this.refSocSecNum.value;
         }
       }
       if (this.selectedRelationships) {
-        this.user.relationships = this.selectedRelationships.map((item) => item.id);
+        this.editedUser.relationships = this.selectedRelationships.map((item) => item.id);
       }
       if (this.role.value) {
-        this.user.role = this.role.value;
+        this.editedUser.role = this.role.value;
       }
       if (this.colorCode.value) {
-        this.user.colorCode = this.colorCode.value;
+        this.editedUser.colorCode = this.colorCode.value;
       }
       if (this.password1.value) {
-        this.user.password1 = this.password1.value;
+        this.editedUser.password1 = this.password1.value;
       }
       if (this.password2.value) {
-        this.user.password2 = this.password2.value;
+        this.editedUser.password2 = this.password2.value;
       }
       if (this.firstName.value) {
-        this.user.firstName = this.firstName.value;
+        this.editedUser.firstName = this.firstName.value;
       }
       if (this.middleName.value) {
-        this.user.middleName = this.middleName.value;
+        this.editedUser.middleName = this.middleName.value;
       }
       if (this.lastName.value) {
-        this.user.lastName = this.lastName.value;
+        this.editedUser.lastName = this.lastName.value;
       }
       if (this.mobileNumber.value) {
-        this.user.mobileNumber = this.mobileNumber.value;
+        this.editedUser.mobileNumber = this.mobileNumber.value;
       }
       if (this.gender.value) {
-        this.user.gender = this.gender.value;
+        this.editedUser.gender = this.gender.value;
       }
       if (this.height.value) {
-        this.user.height = this.height.value;
+        this.editedUser.height = this.height.value;
       }
       if (this.weight.value) {
-        this.user.weight = this.weight.value;
+        this.editedUser.weight = this.weight.value;
       }
       if (this.hairColor.value) {
-        this.user.hairColor = this.hairColor.value;
+        this.editedUser.hairColor = this.hairColor.value;
       }
       if (this.eyeColor.value) {
-        this.user.eyeColor = this.eyeColor.value;
+        this.editedUser.eyeColor = this.eyeColor.value;
       }
       if (this.bloodType.value) {
-        this.user.bloodType = this.bloodType.value;
+        this.editedUser.bloodType = this.bloodType.value;
       }
       if (this.countryOfCitizenship.value) {
-        this.user.countryOfCitizenship = this.countryOfCitizenship.value;
+        this.editedUser.countryOfCitizenship = this.countryOfCitizenship.value;
       }
       if (this.passportNumber.value) {
-        this.user.passportNumber = this.passportNumber.value;
+        this.editedUser.passportNumber = this.passportNumber.value;
       }
       if (this.socialSecurityNumber.value) {
-        this.user.socialSecurityNumber = this.socialSecurityNumber.value;
+        this.editedUser.socialSecurityNumber = this.socialSecurityNumber.value;
       }
       if (this.schoolState.value) {
-        this.user.schoolState = this.schoolState.value;
+        this.editedUser.schoolState = this.schoolState.value;
       }
       if (this.school.value) {
-        this.user.school = this.school.value;
+        this.editedUser.school = this.school.value;
       }
       if (this.grade.value) {
-        this.user.grade = this.grade.value;
+        this.editedUser.grade = this.grade.value;
       }
       if (this.topSize.value) {
-        this.user.topSize = this.topSize.value;
+        this.editedUser.topSize = this.topSize.value;
       }
       if (this.bottomsSize.value) {
-        this.user.bottomsSize = this.bottomsSize.value;
+        this.editedUser.bottomsSize = this.bottomsSize.value;
       }
       if (this.shoeSize.value) {
-        this.user.shoeSize = this.shoeSize.value;
+        this.editedUser.shoeSize = this.shoeSize.value;
       }
       if (this.braSize.value) {
-        this.user.braSize = this.braSize.value;
+        this.editedUser.braSize = this.braSize.value;
       }
       if (this.shirtSize.value) {
-        this.user.shirtSize = this.shirtSize.value;
+        this.editedUser.shirtSize = this.shirtSize.value;
       }
       if (this.pantsSize.value) {
-        this.user.pantsSize = this.pantsSize.value;
+        this.editedUser.pantsSize = this.pantsSize.value;
       }
       if (this.adminNotes.value) {
-        this.user.adminNotes = this.adminNotes.value;
+        this.editedUser.adminNotes = this.adminNotes.value;
       }
-      if (this.isAddressEdited() && !this.user.address) {
-        this.user.address = new Address();
+      if (this.isAddressEdited()) {
+        if (!this.user.address) {
+          this.editedUser.address = new Address();
+        } else {
+          this.editedUser.address = this.user.address;
+        }
         if (this.addressLine1.value) {
-          this.user.address.addressLine1 = this.addressLine1.value;
+          this.editedUser.address.addressLine1 = this.addressLine1.value;
         }
         if (this.addressLine2.value) {
-          this.user.address.addressLine2 = this.addressLine2.value;
+          this.editedUser.address.addressLine2 = this.addressLine2.value;
         }
         if (this.city.value) {
-          this.user.address.city = this.city.value;
+          this.editedUser.address.city = this.city.value;
         }
         if (this.faxNumber.value) {
-          this.user.address.faxNumber = this.faxNumber.value;
+          this.editedUser.address.faxNumber = this.faxNumber.value;
         }
         if (this.phoneNumber.value) {
-          this.user.address.phoneNumber = this.phoneNumber.value;
+          this.editedUser.address.phoneNumber = this.phoneNumber.value;
         }
         if (this.state.value) {
-          this.user.address.state = this.state.value;
+          this.editedUser.address.state = this.state.value;
         }
         if (this.zipCode.value) {
-          this.user.address.zipCode = this.zipCode.value;
+          this.editedUser.address.zipCode = this.zipCode.value;
         }
       }
       
       if (this.avatarFile) {
-        this.user.avatar = this.avatarFile;
+        this.editedUser.avatar = this.avatarFile;
       }
       console.log(this.user);
-      this.usersService.doUserIdPut(this.user.id, this.user).subscribe((data: User) => {
+      this.usersService.doUserIdPut(this.user.id, this.editedUser).subscribe((data: User) => {
         console.log(data);
         this.dialogRef.close();
         alert('Profile edited successfully');
-      }, (err: Error) => {
-        alert('Something went wrong, please try again ' + err.name);
+      }, (err: GenericError) => {
+        let message = '';
+        Object.keys(err.error).forEach((key: string) => {
+          message += key + ': ' + err.error[key][0] + '.\n';
+        })
+        alert('Something went wrong, please try again ' + message);
       });
     } else {
       alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));

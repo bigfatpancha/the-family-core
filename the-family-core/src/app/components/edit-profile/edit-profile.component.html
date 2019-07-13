@@ -69,12 +69,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="form-group offset-1 offset-md-0 col-md-3 d-flex justify-content-md-center align-items-end">
-                <div class="custom-control custom-checkbox">
-                  <input formControlName="sendInvitation" type="checkbox" class="custom-control-input" id="customCheck1">
-                  <label class="custom-control-label check-adelante" for="customCheck1">Send Invitation</label>
-                </div>
-              </div> -->
             </div>
 
             <div class="form-row">
@@ -118,22 +112,10 @@
 
             <div class="form-row">
               <div class="form-group col-md-6">
-                <input class="form-control" placeholder="Password" formControlName="password1"
-                  required type="password">
-                  <div *ngIf="password1.invalid && (password1.dirty || password1.touched)" class="alert alert-danger">
-                    <div *ngIf="password1.errors.required">
-                      password is required.
-                    </div>
-                  </div>
+                <input class="form-control" placeholder="Password" formControlName="password1" type="password">
               </div>
               <div class="form-group col-md-6">
-                <input class="form-control" placeholder="Repeat Password" formControlName="password2"
-                  required type="password">
-                  <div *ngIf="password2.invalid && (password2.dirty || password2.touched)" class="alert alert-danger">
-                    <div *ngIf="password2.errors.required">
-                      password is required.
-                    </div>
-                  </div>
+                <input class="form-control" placeholder="Repeat Password" formControlName="password2" type="password">
               </div>
             </div>
 
@@ -280,7 +262,7 @@
     </div>
 
 
-    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === '2' || role.value === '3'">
+    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === 2 || role.value === 3">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
@@ -449,7 +431,7 @@
     </div>
 
     <div class="form_family border-bottom pb-3 mt-5"
-      *ngIf="(role.value === '2' || role.value === '3') && (gender.value === '1')">
+      *ngIf="(role.value === 2 || role.value === 3) && (gender.value === 1)">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
@@ -518,7 +500,7 @@
     </div>
 
     <div class="form_family border-bottom pb-3 mt-5"
-      *ngIf="(role.value === '2' || role.value === '3') && (gender.value === '0')">
+      *ngIf="(role.value === 2 || role.value === 3) && (gender.value === 0)">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">

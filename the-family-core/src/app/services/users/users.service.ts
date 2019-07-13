@@ -131,6 +131,10 @@ export class UsersService {
         if (body[key]) {
           Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
         }
+      } else if (key === 'coordinate') {
+        if (body[key]) {
+          Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+        }
       } else if (key === 'avatar') {
           formData.append('avatar', body[key]);
       } else if (key === 'allergies') {
@@ -141,26 +145,27 @@ export class UsersService {
         }
       } else if (key === 'favorites') {
         let i = 0;
+        console.log(body[key]);
         for (const fav of body[key]) {
-          formData.append('favorite_' + i, fav.toString());
+          formData.append('favorites_' + i, fav.toString());
           i++;
         }
       } else if (key === 'dislikes') {
         let i = 0;
         for (const dis of body[key]) {
-          formData.append('dislike_' + i, dis.toString());
+          formData.append('dislikes_' + i, dis.toString());
           i++;
         }
       } else if (key === 'wishlist') {
         let i = 0;
         for (const wish of body[key]) {
-          formData.append('wish_' + i, wish.toString());
+          formData.append('wishlist_' + i, wish.toString());
           i++;
         }
       } else if (key === 'relationships') {
         let i = 0;
         for (const rel of body[key]) {
-          formData.append('relationship_' + i, rel.toString());
+          formData.append('relationships_' + i, rel.toString());
           i++;
         }
       } else {

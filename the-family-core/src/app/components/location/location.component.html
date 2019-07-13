@@ -13,15 +13,15 @@
       <div class="sidebar__body mt-4">
         <ul class="sidebar__body--list pl-0 text-right">
           <li class="sidebar__item"><a [ngClass]="{'active': state == -1}" (click)="state = -1">All</a></li>
-          <li class="sidebar__item" *ngFor="let device of devices">
-            <a [ngClass]="{'active': state == user.deviceId}" (click)="state = user.deviceId">{{device.name}}</a>
+          <li class="sidebar__item" *ngFor="let user of users">
+            <a [ngClass]="{'active': state == user.id}" (click)="state = user.id">{{user.nickname}}</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="map">
       <agm-map [latitude]="lat" [longitude]="lng">
-          <agm-marker *ngFor="let dev of devices" [latitude]="lat" [longitude]="lng"></agm-marker>
+          <agm-marker *ngFor="let user of users" [latitude]="user.coordinate.latitude" [longitude]="user.coordinate.longitude"></agm-marker>
       </agm-map>
     </div>
   </div>

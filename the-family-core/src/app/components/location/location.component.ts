@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DevicesService } from 'src/app/services/devices/devices.service';
-import { DevicesResponse, FCMDevice } from 'src/app/model/devices';
+import { UsersService } from 'src/app/services/users/users.service';
+import { FamilyUser } from 'src/app/model/family';
 
 @Component({
   selector: 'app-location',
@@ -11,18 +11,20 @@ export class LocationComponent implements OnInit {
 
   openSidebar = true;
   state = -1;
-  devices: FCMDevice[];
+  users: FamilyUser[];
 
   lat: number = 51.678418;
   lng: number = 7.809007;
 
-  constructor(private devicesService: DevicesService) { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit() {
-    this.devicesService.doDevicesGet()
-    .subscribe((res: DevicesResponse) => {
-      this.devices = res.results
-    });
+    this.users = this.usersService.users.filter((user) => user.coordinate !== null);
+    console.log(this.users);
+    if (this.users.length < 0) {
+      this.lat = this.users[0].coordinate.latitude;
+      this.lng = this.users[0].coordinate.longitude;
+    }
   }
 
   closeSidebar(){

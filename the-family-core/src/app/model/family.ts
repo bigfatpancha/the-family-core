@@ -6,9 +6,9 @@ export enum UserRole {
     NANNY = 'Nanny / Caregiver / Babysitter' 
 }
 
-export interface Coordinate {
-    latitude: number,
-    longitude: number
+export class Coordinate {
+    latitude: number;
+    longitude: number;
 }
 
 export class FamilyUser {
@@ -24,7 +24,7 @@ export class FamilyUser {
     colorCode: string;
     mobileNumber: string;
     sendbirdId: string;
-    coordinate: string
+    coordinate: Coordinate
     
     constructor();
     constructor(
@@ -40,7 +40,7 @@ export class FamilyUser {
         colorCode?: string,
         mobileNumber?: string,
         sendbirdId?: string,
-        coordinate?: string) {
+        coordinate?: Coordinate) {
             this.id = id;
             this.role = role;
             this.username = username;

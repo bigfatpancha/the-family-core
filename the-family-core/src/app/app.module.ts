@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -54,7 +53,6 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     MatDialogModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    AngularMultiSelectModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [],

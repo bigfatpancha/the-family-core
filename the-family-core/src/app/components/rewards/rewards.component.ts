@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from 'src/app/services/users/users.service';
+import { FamilyUser } from 'src/app/model/family';
 
 @Component({
   selector: 'app-rewards',
@@ -7,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RewardsComponent implements OnInit {
 
-  state = 5;
+  state = -1;
+  users: FamilyUser[];
 
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit() {
+    this.users = this.usersService.users;
   }
 
 }

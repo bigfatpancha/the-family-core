@@ -1,4 +1,4 @@
-<div *ngIf="isDataLoaded">
+<div *ngIf="user">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3" id="sidebar">
@@ -36,11 +36,11 @@
                 aria-expanded="false" aria-controls="collapseMedical">Medical</a>
               <ul class="sidebar__item--list collapse" id="collapseMedical">
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRecords'}"
-                    (click)="doDocumentType(RECORDS, medicalRecords)">Records</a></li>
+                    (click)="doDocumentType(RECORDS, 'medicalRecords')">Records</a></li>
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalDoctors'}"
                     (click)="doContactsType(DOCTORS, 'medicalDoctors')">Doctors</a></li>
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRx'}"
-                    (click)="doDocumentType(RX, medicalRx)">Rx</a></li>
+                    (click)="doDocumentType(RX, 'medicalRx')">Rx</a></li>
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalAppointments'}"
                     (click)="doEventType(APPOINTMENTS, 'medicalAppointments')">Appointments</a></li>
               </ul>
@@ -58,16 +58,13 @@
               </ul>
             </li>
             <li class="sidebar__item"><a [ngClass]="{'active': state == 'general'}"
-                (click)="doDocumentType(GENERAL, general)">General</a></li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="doDocumentType(LEGAL, legal)">Legal</a></li>
+                (click)="doDocumentType(GENERAL, 'general')">General</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="doDocumentType(LEGAL, 'legal')">Legal</a></li>
           </ul>
         </div>
 
       </div>
       <div class="container__data">
-        <div class="container__data--name">
-          <h4>Kid</h4>
-        </div>
 
         <!-- USER INFO -->
 
@@ -186,7 +183,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Color Code</label>
-                    <input class="form-control" value="que seria el color code" readonly>
+                    <input class="form-control" value="{{user.colorCode}}" readonly>
                   </div>
                 </div>
 
@@ -380,7 +377,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-8">
                     <label>Child / Dependent relationships</label>
-                    <p *ngFor="let rel of user.relationships">- {{rel}}</p>
+                    <p *ngFor="let rel of selectedRelationships">- {{rel.nickname}}</p>
                   </div>
                 </div>
               </form>
@@ -751,33 +748,33 @@
         <div *ngIf="state =='teamContacts'">
           <div class="table">
             <div class="table__header">
-              <div class="table__header--columns col-3">
+              <div class="table__header--columns col-4">
                 <h4>NAME</h4>
               </div>
-              <div class="table__header--columns col-3">
+              <div class="table__header--columns col-4">
                 <h4>MAIL</h4>
               </div>
-              <div class="table__header--columns col-3">
+              <div class="table__header--columns col-4">
                 <h4>MOBILE #</h4>
               </div>
-              <div class="table__header--columns col-3">
+              <!-- <div class="table__header--columns col-3">
                 <h4>ROLE</h4>
-              </div>
+              </div> -->
             </div>
 
             <div class="table__body" *ngFor="let con of contacts">
-              <div class="table__body--columns col-3">
+              <div class="table__body--columns col-4">
                 <p>{{con.name}}</p>
               </div>
-              <div class="table__body--columns col-3">
+              <div class="table__body--columns col-4">
                 <p>{{con.email}}</p>
               </div>
-              <div class="table__body--columns col-3">
+              <div class="table__body--columns col-4">
                 <p>{{con.phoneNumber}}</p>
               </div>
-              <div class="table__body--columns col-3">
+              <!-- <div class="table__body--columns col-3">
                 <p>No tengo el rol</p>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -839,9 +836,6 @@
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
   </div>

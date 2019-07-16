@@ -9,6 +9,7 @@ import { UserComponent } from './components/user/user.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LocationComponent } from './components/location/location.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'upload', component: UploadComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'rewards', component: RewardsComponent },
-  { path: 'location', component: LocationComponent }
+  { path: 'location', component: LocationComponent },
+  { path: 'reports', component: ReportsComponent }
 ];
 
 @NgModule({

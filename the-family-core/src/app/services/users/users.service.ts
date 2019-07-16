@@ -144,29 +144,20 @@ export class UsersService {
           i++;
         }
       } else if (key === 'favorites') {
-        let i = 0;
-        console.log(body[key]);
         for (const fav of body[key]) {
-          formData.append('favorites_' + i, fav.toString());
-          i++;
+          formData.append('favorites', fav.toString());
         }
       } else if (key === 'dislikes') {
-        let i = 0;
         for (const dis of body[key]) {
-          formData.append('dislikes_' + i, dis.toString());
-          i++;
+          formData.append('dislikes', dis.toString());
         }
       } else if (key === 'wishlist') {
-        let i = 0;
         for (const wish of body[key]) {
-          formData.append('wishlist_' + i, wish.toString());
-          i++;
+          formData.append('wishlist', wish.toString());
         }
       } else if (key === 'relationships') {
-        let i = 0;
         for (const rel of body[key]) {
-          formData.append('relationships_' + i, rel.toString());
-          i++;
+          formData.append('relationships', rel.toString());
         }
       } else {
         formData.append(this.converSnakecase(key), body[key]);

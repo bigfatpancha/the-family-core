@@ -56,13 +56,28 @@ export class EditProfileComponent implements OnInit {
       .subscribe((user: User) => {
         this.usersService.user = user;
         this.user = user;
-        const birthDate: Date = this.user.birthDate ?  new Date(this.user.birthDate) : null;
-        const birthDateNG: NgbDate = this.user.birthDate ? new NgbDate(birthDate.getFullYear(), birthDate.getMonth() + 1, birthDate.getDate()) : null;
+        let birthDateNG: NgbDate = null;
+        if (this.user.birthDate) {
+          const year = this.user.birthDate.substring(0,4);
+          const month = this.user.birthDate.substring(5,7);
+          const day = this.user.birthDate.substring(8,10);
+          birthDateNG = new NgbDate(parseInt(year), parseInt(month), parseInt(day));
+        }
         this.favoritesSelected = this.user.favorites;
         this.dislikesSelected = this.user.dislikes;
         this.wishesSelected = this.user.wishlist;
         if (this.user.avatar) {
           this.imgSrc = this.user.avatar;
+        }
+        if (this.user.relationships) {
+          this.selectedRelationships = [];
+          this.user.relationships.forEach((id: number) => {
+            this.usersService.users.forEach((user: FamilyUser) => {
+              if (id === user.id) {
+                this.selectedRelationships.push(user);
+              }
+            })
+          });
         }
         this.newUserForm = new FormGroup({
           'role': new FormControl(this.user.role),
@@ -247,16 +262,13 @@ export class EditProfileComponent implements OnInit {
   processImg(event) {
     if (event.target.files.length > 0) {
       this.avatarFile = event.target.files[0];
-      console.log(this.avatarFile);
       this.getBase64(event.target.files[0]).subscribe(file => {
         this.imgSrc = file;
       });
     }
-    console.log(this.avatarFile);
   }
   getBase64(file): Observable<string> {
     const reader = new FileReader();
-    console.log(file)
     reader.readAsDataURL(file);
     return Observable.create((observer: Subscriber<string | ArrayBuffer>): void => {
       // if success
@@ -284,9 +296,7 @@ export class EditProfileComponent implements OnInit {
       if (this.allergies.value) {
         this.editedUser.allergies = [ this.allergies.value ];
       }
-      console.log('favs', this.favoritesSelected);
       if (this.favoritesSelected) {
-        console.log('entra a favoritos')
         this.editedUser.favorites = this.favoritesSelected;
       }
       if (this.dislikesSelected) {
@@ -447,9 +457,7 @@ export class EditProfileComponent implements OnInit {
       if (this.avatarFile) {
         this.editedUser.avatar = this.avatarFile;
       }
-      console.log(this.user);
       this.usersService.doUserIdPut(this.user.id, this.editedUser).subscribe((data: User) => {
-        console.log(data);
         this.dialogRef.close();
         alert('Profile edited successfully');
       }, (err: GenericError) => {

@@ -76,6 +76,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  goToReports() {
+    if (this.isLogged) {
+      this.router.navigate(['/reports']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
+
   getUsers() {
     this.isLogged = true;
     this.showLogin = false;

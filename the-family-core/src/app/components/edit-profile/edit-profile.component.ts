@@ -465,7 +465,7 @@ export class EditProfileComponent implements OnInit {
         Object.keys(err.error).forEach((key: string) => {
           message += key + ': ' + err.error[key][0] + '.\n';
         })
-        alert('Something went wrong, please try again ' + message);
+        alert('Something went wrong, please try again.\n' + message);
       });
     } else {
       alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));

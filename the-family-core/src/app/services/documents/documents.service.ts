@@ -44,7 +44,7 @@ export class DocumentsService {
       } else if (key === 'familyMembers') {
         let i = 0;
         for (const member of body[key]) {
-          formData.append('family_members_' + i, member.toString());
+          formData.append('family_members' + i, member.toString());
           i++;
         }
       } else {

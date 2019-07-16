@@ -48,7 +48,7 @@ export class EventsService {
       } else if (key === 'familyMembers') {
         let i = 0;
         for (const member of event[key]) {
-          formData.append('family_members_' + i, member.toString());
+          formData.append('family_members' + i, member.toString());
           i++;
         }
       } else {

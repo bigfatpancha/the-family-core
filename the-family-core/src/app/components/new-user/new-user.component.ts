@@ -7,6 +7,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
+import { GenericError } from 'src/app/model/error';
 
 @Component({
   selector: 'app-new-user',
@@ -394,8 +395,12 @@ export class NewUserComponent implements OnInit {
         console.log(data);
         this.dialogRef.close();
         alert('User created successfully');
-      }, (err: Error) => {
-        alert('Something went wrong, please try again ' + err.name);
+      }, (err: GenericError) => {
+        let message = '';
+        Object.keys(err.error).forEach((key: string) => {
+          message += key + ': ' + err.error[key][0] + '.\n';
+        })
+        alert('Something went wrong, please try again.\n' + message);
       });
     } else {
       alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));

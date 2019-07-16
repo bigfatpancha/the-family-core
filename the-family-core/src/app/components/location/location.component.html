@@ -20,9 +20,9 @@
       </div>
     </div>
     <div class="map">
-      <agm-map #mapa [latitude]="userSelected.coordinate.latitude" [longitude]="userSelected.coordinate.longitude">
+      <agm-map #mapa [latitude]="userSelected.coordinate.latitude" [longitude]="userSelected.coordinate.longitude" > <!--[fitBounds]="true"-->
           <agm-marker *ngFor="let user of users" [latitude]="user.coordinate.latitude" [longitude]="user.coordinate.longitude"
-            [iconUrl]="user.avatar" [visible]="state === user.id || state === -1">
+            [label]="user.nickname" [visible]="state === user.id || state === -1" (markerClick)="goToUser(user.id)"> <!--[iconUrl]="user.avatar"-->
           </agm-marker>
       </agm-map>
     </div>

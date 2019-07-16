@@ -23,6 +23,7 @@ import { RewardsComponent } from './components/rewards/rewards.component';
 import { LoginComponent } from './components/login/login.component';
 import { LocationComponent } from './components/location/location.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     RewardsComponent,
     LoginComponent,
     LocationComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

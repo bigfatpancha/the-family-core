@@ -1,3 +1,105 @@
-<p>
-  reports works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" id="sidebar">
+      <div class="sidebar__header row">
+        <a routerLink="/dashboard"><img src="../../../assets/img/home.png" alt="family core"></a>
+        <div class="h-100">
+          <h4>Reports</h4>
+        </div>
+        <div class="sidebar__body mt-4">
+          <ul class="sidebar__body--list pl-0 text-right">
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 5}" (click)="state = 5">All</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Admin</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Parent/legal
+                Guardian</a>
+            </li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 2}" (click)="state = 2">Child</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 3}" (click)="state = 3">Dependent</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 4}" (click)="state = 4">Nanny</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container__data">
+      <div class="container__data--name">
+        <div class="d-flex w-100 align-items-center switch-info">
+          <div class="cursor-pointer" (click)="tipeReport = 'events'">
+            <h5 [ngClass]="{'active': tipeReport == 'events'}">EVENTS</h5>
+          </div>
+          <div class="cursor-pointer" (click)="tipeReport = 'documents'">
+            <h5 [ngClass]="{'active': tipeReport == 'documents'}">DOCUMENTS</h5>
+          </div>
+        </div>
+      </div>
+
+      <div>
+
+        <div class="table table-events" *ngIf="tipeReport == 'events'">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>LEAD</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DETAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DATE</h4>
+            </div>
+          </div>
+
+          <div class="table__body table_link">
+            <div class="table__body--columns col-3">
+              <p>Event</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Mama</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Paseo</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>30 May 2019 - 04:00 AM</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="table table-documents" *ngIf="tipeReport == 'documents'">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>ATTACHED</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DETAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DATE</h4>
+            </div>
+          </div>
+
+          <div class="table__body table_link">
+            <div class="table__body--columns col-3">
+              <p>Event</p>
+            </div>
+            <div class="table__body--columns col-3 d-flex">
+              <span class="d-inline-flex icono-file mr-2"><i class="icon-clip"></i>
+              </span>
+              <span>pic.jpg</span>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>Paseo</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>30 May 2019 - 04:00 AM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

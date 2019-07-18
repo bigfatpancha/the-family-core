@@ -2,6 +2,7 @@ import { Component, OnInit, AfterContentInit, ViewChild, AfterViewInit } from '@
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, Coordinate } from 'src/app/model/family';
 import { AgmMap, LatLngBounds, LatLng } from '@agm/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location',
@@ -20,11 +21,14 @@ export class LocationComponent implements OnInit, AfterViewInit {
   lat: number = 51.678418;
   lng: number = 7.809007;
 
-  constructor(private usersService: UsersService) {
+  constructor(
+    private usersService: UsersService,
+    private router: Router
+  ) {
     this.userSelected = new FamilyUser();
     this.userSelected.coordinate = new Coordinate();
-    this.userSelected.coordinate.latitude = 51.678418;
-    this.userSelected.coordinate.longitude = 7.809007;
+    this.userSelected.coordinate.latitude = 0;
+    this.userSelected.coordinate.longitude = 0;
   }
 
   ngOnInit() {
@@ -45,7 +49,7 @@ export class LocationComponent implements OnInit, AfterViewInit {
 
   selectAll() {
     this.state = -1;
-    if (this.users.length < 0) {
+    if (this.users.length > 0) {
       this.userSelected = this.users[0];
       console.log(this.userSelected);
     }
@@ -68,6 +72,10 @@ export class LocationComponent implements OnInit, AfterViewInit {
 
   closeSidebar(){
     this.openSidebar = !this.openSidebar;
+  }
+
+  goToUser(id: number) {
+    this.router.navigate(['/user', id]);
   }
 
 }

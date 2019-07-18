@@ -36,6 +36,7 @@ export class UserComponent implements OnInit, AfterContentInit {
   events: Event[];
   documents: Document[];
   users: FamilyUser[];
+  selectedRelationships: FamilyUser[];
 
   constructor(
     private usersService: UsersService,
@@ -53,8 +54,21 @@ export class UserComponent implements OnInit, AfterContentInit {
 
   findUser(id: number) {
     this.usersService.doUserIdGet(id)
-    .subscribe((data: User) => this.user = data);
-    this.isDataLoaded = true;
+    .subscribe((data: User) => {
+      this.user = data;
+      this.isDataLoaded = true;
+      if (this.user.relationships) {
+        this.selectedRelationships = [];
+        this.user.relationships.forEach((id: number) => {
+          this.usersService.users.forEach((user: FamilyUser) => {
+            if (id === user.id) {
+              this.selectedRelationships.push(user);
+            }
+          })
+        });
+      }
+    });
+    
   }
 
   formatGender(gender: number) {

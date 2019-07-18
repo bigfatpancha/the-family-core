@@ -59,4 +59,8 @@ export class UsersComponent implements OnInit {
     this.newUserRef = this.dialog.open(NewUserComponent, this.dialogConfig);
     this.newUserRef.afterClosed().subscribe(() => this.updateUsers());
   }
+
+  sendInvitation(user: FamilyUser) {
+    console.log('enviar invitacion')
+  }
 }

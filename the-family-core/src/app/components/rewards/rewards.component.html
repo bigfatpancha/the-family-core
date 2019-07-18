@@ -9,13 +9,8 @@
       </div>
       <div class="sidebar__body mt-4">
         <ul class="sidebar__body--list pl-0 text-right">
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 5}" (click)="state = 5">All</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 0}" (click)="state = 0">Kid</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 1}" (click)="state = 1">Junior</a>
-          </li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 2}" (click)="state = 2">Mother</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 3}" (click)="state = 3">Father</a></li>
-          <li class="sidebar__item"><a [ngClass]="{'active': state == 4}" (click)="state = 4">Nanny</a></li>
+          <li class="sidebar__item"><a [ngClass]="{'active': state == -1}" (click)="state = -1">All</a></li>
+          <li class="sidebar__item" *ngFor="let user of users"><a [ngClass]="{'active': state == user.id}" (click)="state = user.id">{{user.nickname}}</a></li>
         </ul>
       </div>
     </div>
@@ -37,36 +32,21 @@
             <div class="table__header--columns col-2"></div>
           </div>
 
-          <div class="table__body table_link active pr-0">
+          <div class="table__body table_link pr-0" [ngClass]="{'active': true}" *ngFor="let user of users; let i = index" [hidden]="state !== user.id && state !== -1">
             <div class="table__body--columns col-2">
-              <p class="number">1</p>
+              <p class="number">{{i+1}}</p>
             </div>
             <div class="table__body--columns col-4">
-              <p>Junior Smith</p>
+              <p>{{user.nickname}}</p>
             </div>
             <div class="table__body--columns col-2 justify-content-end">
               <div class="d-flex align-items-center column-icon">
-                <p class="mb-0 mr-2">10000</p>
+                <p class="mb-0 mr-2">{{user.stars}}</p>
                 <i class="icon-star-fill"></i>
               </div>
             </div>
-            <div class="table__body--columns offset-2 col-2 redeem d-flex justify-content-center">
+            <div class="table__body--columns offset-2 col-2 redeem d-flex justify-content-center" (click)="redeem(user)">
               <a>Redeem</a>
-            </div>
-          </div>
-
-          <div class="table__body table_link pr-0">
-            <div class="table__body--columns col-2">
-              <p class="number">2</p>
-            </div>
-            <div class="table__body--columns col-4">
-              <p>Kid Smith</p>
-            </div>
-            <div class="table__body--columns col-2 justify-content-end">
-              <div class="d-flex align-items-center column-icon">
-                <p class="mb-0 mr-2">5000</p>
-                <i class="icon-star-fill"></i>
-              </div>
             </div>
           </div>
 

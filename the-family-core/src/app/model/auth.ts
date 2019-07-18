@@ -82,6 +82,7 @@ export class User {
     address: Address;
     referredBy: ReferredBy;
     relationships: number[];
+    stars: number;
 }
 
 export class LoginResponse {

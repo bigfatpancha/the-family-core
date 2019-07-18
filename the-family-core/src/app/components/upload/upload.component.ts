@@ -63,6 +63,7 @@ export class UploadComponent implements OnInit {
     new Type(4, 2, 'School Location')
   ]
 
+  saveClicked = false;
   ariaValuenow = 0;
   timezones: Timezone[];
   isFamilyMemberFormValid = false;
@@ -145,9 +146,8 @@ export class UploadComponent implements OnInit {
       'email': new FormControl(null)
     });
 
+
     this.eventForm.get('type').valueChanges.subscribe((type: Type) => {
-      console.log(type);
-      console.log(this.type.value);
       if (type.type === 0) { // for setting validations
         this.eventForm.get('email').clearValidators();
         this.eventForm.get('email').updateValueAndValidity();
@@ -161,6 +161,8 @@ export class UploadComponent implements OnInit {
         this.eventForm.get('endTimeForm').updateValueAndValidity();
         this.eventForm.get('timezone').setValidators(Validators.required);
         this.eventForm.get('timezone').updateValueAndValidity();
+        this.eventForm.get('detail').clearValidators();
+        this.eventForm.get('detail').updateValueAndValidity();
       } else if (type.type === 1) {
         this.eventForm.get('email').clearValidators();
         this.eventForm.get('email').updateValueAndValidity();
@@ -174,7 +176,11 @@ export class UploadComponent implements OnInit {
         this.eventForm.get('endTimeForm').updateValueAndValidity();
         this.eventForm.get('timezone').clearValidators();
         this.eventForm.get('timezone').updateValueAndValidity();
+        this.eventForm.get('detail').setValidators([Validators.required]);
+        this.eventForm.get('detail').updateValueAndValidity();
       } else if (type.type === 2) {
+        this.eventForm.get('detail').clearValidators();
+        this.eventForm.get('detail').updateValueAndValidity();
         this.eventForm.get('email').setValidators([Validators.required, Validators.maxLength(254)]);
         this.eventForm.get('email').updateValueAndValidity();
         this.eventForm.get('dpstart').clearValidators();
@@ -285,7 +291,6 @@ export class UploadComponent implements OnInit {
             this.progress ++;
         }
       }
-      console.log(this.attachments);
     }
   }
 
@@ -313,7 +318,6 @@ export class UploadComponent implements OnInit {
   }
 
   postEvent() {
-    console.log(this.eventForm);
     if (this.eventForm.status === 'VALID') {
       if (this.type.value.type === 0) {
         const event = new Event(this.eventForm);
@@ -359,7 +363,7 @@ export class UploadComponent implements OnInit {
         });
       }
     } else {
-      alert('There are invalid fields');
+      this.eventForm.markAllAsTouched();
     }
   }
 

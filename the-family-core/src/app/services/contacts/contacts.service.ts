@@ -39,10 +39,8 @@ export class ContactsService {
       if (key === 'address') {
         Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
       } else if (key === 'familyMembers') {
-        let i = 0;
         for (const member of body[key]) {
-          formData.append('family_members' + i, member.toString());
-          i++;
+          formData.append('family_members', member.toString());
         }
       } else {
         formData.append(this.converSnakecase(key), body[key]);

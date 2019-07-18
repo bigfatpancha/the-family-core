@@ -403,7 +403,7 @@ export class NewUserComponent implements OnInit {
         alert('Something went wrong, please try again.\n' + message);
       });
     } else {
-      alert('the form is invalid ' + JSON.stringify(this.newUserForm.errors));
+      this.newUserForm.markAllAsTouched();
     }
   }
 

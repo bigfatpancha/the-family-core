@@ -1,3 +1,97 @@
-<p>
-  reports works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" id="sidebar">
+      <div class="sidebar__header row">
+        <a routerLink="/dashboard"><img src="../../../assets/img/home.png" alt="family core"></a>
+        <div class="h-100">
+          <h4>Reports</h4>
+        </div>
+        <div class="sidebar__body mt-4">
+          <ul class="sidebar__body--list pl-0 text-right">
+            <li class="sidebar__item"><a [ngClass]="{'active': state == -1}" (click)="state = -1">All</a></li>
+            <li class="sidebar__item" *ngFor="let user of users"><a [ngClass]="{'active': state == user.id}" (click)="state = user.id">{{user.nickname}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container__data">
+      <div class="container__data--name">
+        <div class="d-flex w-100 align-items-center switch-info">
+          <div class="cursor-pointer" (click)="tipeReport = 'events'">
+            <h5 [ngClass]="{'active': tipeReport == 'events'}">EVENTS</h5>
+          </div>
+          <div class="cursor-pointer" (click)="tipeReport = 'documents'">
+            <h5 [ngClass]="{'active': tipeReport == 'documents'}">DOCUMENTS</h5>
+          </div>
+        </div>
+      </div>
+
+      <div>
+
+        <div class="table table-events" *ngIf="tipeReport == 'events'">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>LEAD</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DETAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DATE</h4>
+            </div>
+          </div>
+
+          <div class="table__body table_link" *ngFor="let event of events" [hidden]="hideEvent(event)">
+            <div class="table__body--columns col-3">
+              <p>{{event.title}}</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>{{event.lead}}</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>{{event.detail}}</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>{{formatDate(event.start)}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="table table-documents" *ngIf="tipeReport == 'documents'">
+          <div class="table__header">
+            <div class="table__header--columns col-3">
+              <h4>TITLE</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>ATTACHED</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DETAIL</h4>
+            </div>
+            <div class="table__header--columns col-3">
+              <h4>DATE</h4>
+            </div>
+          </div>
+
+          <div class="table__body table_link" *ngFor="let doc of documents" [hidden]="hideDocument(doc)">
+            <div class="table__body--columns col-3">
+              <p>{{doc.title}}</p>
+            </div>
+            <div class="table__body--columns col-3 d-flex">
+              <img *ngFor="let attachment of doc.attachments" [src]="attachment.thumbnail" alt="attachment" height="25px">
+            </div>
+            <div class="table__body--columns col-3">
+              <p>{{doc.detail}}</p>
+            </div>
+            <div class="table__body--columns col-3">
+              <p>{{formatDate(doc.createdOn)}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

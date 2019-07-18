@@ -42,10 +42,8 @@ export class DocumentsService {
           i++;
         }
       } else if (key === 'familyMembers') {
-        let i = 0;
         for (const member of body[key]) {
-          formData.append('family_members' + i, member.toString());
-          i++;
+          formData.append('family_members', member.toString());
         }
       } else {
         formData.append(this.converSnakecase(key), body[key]);

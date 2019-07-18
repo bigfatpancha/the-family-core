@@ -563,7 +563,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -625,7 +625,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -670,7 +670,7 @@
                 <p>{{ev.start}}</p>
               </div>
               <div class="table__body--columns col-1">
-                <span class="d-inline-flex icono-file" *ngFor="let file of ev.attachments">{{file.file}}<i class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -802,7 +802,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p *ngFor="let file of doc.attachments">{{file.file}}</p>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -831,7 +831,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>

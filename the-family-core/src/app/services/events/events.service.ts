@@ -17,9 +17,15 @@ export class EventsService {
                                .set('Content-Type', 'application/json');
   }
 
-  doEventsGet(date: string, type: string): Observable<EventResponse> {
+  doEventsGet(date?: string, type?: string): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
-    const params = new HttpParams().set('date', date).set('type', type);
+    const params = new HttpParams();
+    if (date) {
+      params.set('date', date)
+    }
+    if (type) {
+      params.set('type', type);
+    }
     const options = {
       headers: headers,
       params: params
@@ -46,10 +52,8 @@ export class EventsService {
           i++;
         }
       } else if (key === 'familyMembers') {
-        let i = 0;
         for (const member of event[key]) {
-          formData.append('family_members' + i, member.toString());
-          i++;
+          formData.append('family_members', member.toString());
         }
       } else {
         formData.append(this.converSnakecase(key), event[key]);

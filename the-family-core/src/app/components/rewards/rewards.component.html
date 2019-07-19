@@ -32,7 +32,7 @@
             <div class="table__header--columns col-2"></div>
           </div>
 
-          <div class="table__body table_link pr-0" [ngClass]="{'active': true}" *ngFor="let user of users; let i = index" [hidden]="state !== user.id && state !== -1">
+          <div class="table__body table_link pr-0" [ngClass]="{'active': i === 0}" *ngFor="let user of users; let i = index" [hidden]="state !== user.id && state !== -1">
             <div class="table__body--columns col-2">
               <p class="number">{{i+1}}</p>
             </div>

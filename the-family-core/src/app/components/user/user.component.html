@@ -69,9 +69,15 @@
         <!-- USER INFO -->
 
         <div *ngIf="state == 'userInfo'">
-          <div class="table__header">
-            <div class="table__header--title">
-              <h4>USER INFO</h4>
+
+          <div class="container__data--name">
+            <div class="d-flex w-100 align-items-center table__header">
+              <div class="col-6 table__header--title">
+                <h4>USER INFO</h4>
+              </div>
+              <div class="col-6">
+                <button (click)="editUser()" class="btn btn-sm btn-save">Edit User</button>
+              </div>
             </div>
           </div>
 

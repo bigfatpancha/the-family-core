@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   uploadRef: MatDialogRef<UploadComponent>;
   editRef: MatDialogRef<EditProfileComponent>;
   dialogConfig = new MatDialogConfig();
-  
+
 
   constructor(private userService: UsersService,
               private httpService: HttpService,
@@ -41,7 +41,6 @@ export class DashboardComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    console.log(this.httpService.key)
     this.isLogged = this.httpService.key ? true : false;
     this.dialogConfig.hasBackdrop = true;
     this.dialogConfig.width = 'auto';
@@ -144,8 +143,8 @@ export class DashboardComponent implements OnInit {
         this.userService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
           this.userService.users = res.results;
           this.users = res.results;
-        })
-      })
+        });
+      });
     }
   }
 

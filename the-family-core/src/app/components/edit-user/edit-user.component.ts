@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { User, ReferredBy } from 'src/app/model/auth';
 import { Address } from 'src/app/model/contact';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -6,20 +6,19 @@ import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
 import { HttpService } from 'src/app/services/http/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { GenericError } from 'src/app/model/error';
 
 @Component({
-  selector: 'app-edit-profile',
-  templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.scss']
 })
-export class EditProfileComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
   dropdownSettings = {};
   newUserForm: FormGroup;
-  user: User = new User();
   editedUser: User = new User();
   favoritesSelected: string[];
   dislikesSelected: string[];
@@ -34,8 +33,10 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private httpService: HttpService,
-    public dialogRef: MatDialogRef<EditProfileComponent>
+    public dialogRef: MatDialogRef<EditUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public user: User
   ) {
+    console.log(this.user);
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -50,98 +51,92 @@ export class EditProfileComponent implements OnInit {
       this.relationshipsList = data.results.filter((user: FamilyUser) => {
         return user.id !== this.httpService.id;
       });
-
-      this.usersService.doUserIdGet(this.httpService.id)
-      .subscribe((user: User) => {
-        this.usersService.user = user;
-        this.user = user;
-        let birthDateNG: NgbDate = null;
-        if (this.user.birthDate) {
-          const year = this.user.birthDate.substring(0,4);
-          const month = this.user.birthDate.substring(5,7);
-          const day = this.user.birthDate.substring(8,10);
-          birthDateNG = new NgbDate(parseInt(year, 10), parseInt(month, 10), parseInt(day, 10));
-        }
-        this.favoritesSelected = this.user.favorites;
-        this.dislikesSelected = this.user.dislikes;
-        this.wishesSelected = this.user.wishlist;
-        if (this.user.avatar) {
-          this.imgSrc = this.user.avatar;
-        }
-        if (this.user.relationships) {
-          this.selectedRelationships = [];
-          this.user.relationships.forEach((id: number) => {
-            this.usersService.users.forEach((user: FamilyUser) => {
-              if (id === user.id) {
-                this.selectedRelationships.push(user);
-              }
-            })
+      let birthDateNG: NgbDate = null;
+      if (this.user.birthDate) {
+        const year = this.user.birthDate.substring(0, 4);
+        const month = this.user.birthDate.substring(5, 7);
+        const day = this.user.birthDate.substring(8, 10);
+        birthDateNG = new NgbDate(parseInt(year, 10), parseInt(month, 10), parseInt(day, 10));
+      }
+      this.favoritesSelected = this.user.favorites;
+      this.dislikesSelected = this.user.dislikes;
+      this.wishesSelected = this.user.wishlist;
+      if (this.user.avatar) {
+        this.imgSrc = this.user.avatar;
+      }
+      if (this.user.relationships) {
+        this.selectedRelationships = [];
+        this.user.relationships.forEach((id: number) => {
+          this.usersService.users.forEach((user: FamilyUser) => {
+            if (id === user.id) {
+              this.selectedRelationships.push(user);
+            }
           });
-        }
-        this.newUserForm = new FormGroup({
-          'role': new FormControl(this.user.role),
-          'nickname': new FormControl(this.user.nickname, [
-            Validators.required,
-            Validators.maxLength(150),
-            Validators.minLength(4)
-          ]),
-          'avatar': new FormControl(null),
-          'email': new FormControl(this.user.email, [
-            Validators.required,
-            Validators.email
-          ]),
-          'colorCode': new FormControl(this.user.colorCode && this.user.colorCode !== 'null' ? this.user.colorCode : null),
-          'password1': new FormControl(this.user.password1),
-          'password2': new FormControl(this.user.password2),
-          'firstName': new FormControl(this.user.firstName && this.user.firstName !== 'null'? this.user.firstName : null, [Validators.maxLength(30)]),
-          'middleName': new FormControl(this.user.middleName && this.user.middleName !== 'null' ? this.user.middleName : null, [Validators.maxLength(30)]),
-          'lastName': new FormControl(this.user.lastName && this.user.lastName !== 'null'? this.user.lastName : null, [Validators.maxLength(150)]),
-          'mobileNumber': new FormControl(this.user.mobileNumber && this.user.mobileNumber !== 'null' ? this.user.mobileNumber : null, [Validators.maxLength(128)]),
-          'gender': new FormControl(this.user.gender),
-          'birthDate': new FormControl(birthDateNG),
-          'height': new FormControl(this.user.height && this.user.height !== 'null'? this.user.height : null, [Validators.maxLength(30)]),
-          'weight': new FormControl(this.user.weight && this.user.weight !== 'null'? this.user.weight : null, [Validators.maxLength(30)]),
-          'hairColor': new FormControl(this.user.hairColor && this.user.hairColor !== 'null'? this.user.hairColor: null, [Validators.maxLength(30)]),
-          'eyeColor': new FormControl(this.user.eyeColor && this.user.eyeColor !== 'null'? this.user.eyeColor : null, [Validators.maxLength(30)]),
-          'bloodType': new FormControl(this.user.bloodType && this.user.bloodType !== 'null'? this.user.bloodType : null, [Validators.maxLength(30)]),
-          'countryOfCitizenship': new FormControl(this.user.countryOfCitizenship && this.user.countryOfCitizenship !== 'null'? this.user.countryOfCitizenship : null, [Validators.maxLength(30)]),
-          'passportNumber': new FormControl(this.user.passportNumber && this.user.passportNumber !== 'null'? this.user.passportNumber : null, [Validators.maxLength(30)]),
-          'socialSecurityNumber':new FormControl(this.user.socialSecurityNumber && this.user.socialSecurityNumber !== 'null'? this.user.socialSecurityNumber : null, [Validators.maxLength(30)]),
-          'schoolState': new FormControl(this.user.schoolState && this.user.schoolState !== 'null'? this.user.schoolState : null, [Validators.maxLength(30)]),
-          'school': new FormControl(this.user.school && this.user.school !== 'null'? this.user.school : null, [Validators.maxLength(30)]),
-          'grade': new FormControl(this.user.grade && this.user.grade !== 'null'? this.user.grade : null, [Validators.maxLength(30)]),
-          'topSize': new FormControl(this.user.topSize && this.user.topSize !== 'null'? this.user.topSize : null, [Validators.maxLength(30)]),
-          'bottomsSize': new FormControl(this.user.bottomsSize && this.user.bottomsSize !== 'null'? this.user.bottomsSize : null, [Validators.maxLength(30)]),
-          'shoeSize': new FormControl(this.user.shoeSize && this.user.shoeSize !== 'null'? this.user.shoeSize : null, [Validators.maxLength(30)]),
-          'braSize': new FormControl(this.user.braSize && this.user.braSize !== 'null'? this.user.braSize : null, [Validators.maxLength(30)]),
-          'shirtSize': new FormControl(this.user.shirtSize && this.user.shirtSize !== 'null'? this.user.shirtSize : null, [Validators.maxLength(30)]),
-          'pantsSize': new FormControl(this.user.pantsSize && this.user.pantsSize !== 'null'? this.user.pantsSize : null, [Validators.maxLength(30)]),
-          'allergies': new FormControl(this.user.allergies?this.user.allergies[0]:null, [Validators.maxLength(32)]),
-          'favorites': new FormControl(null, [Validators.maxLength(32)]),
-          'dislikes': new FormControl(null, [Validators.maxLength(32)]),
-          'whislist': new FormControl(null, [Validators.maxLength(32)]),
-          'adminNotes': new FormControl(this.user.adminNotes && this.user.adminNotes !== 'null'? this.user.adminNotes : null),
-          'addressLine1': new FormControl(this.user.address?this.user.address.addressLine1 && this.user.address.addressLine1 !== 'null'? this.user.address.addressLine1 : null : null, [Validators.maxLength(128)]),
-          'addressLine2': new FormControl(this.user.address?this.user.address.addressLine2 && this.user.address.addressLine2 !== 'null'? this.user.address.addressLine2:null:null, [Validators.maxLength(128)]),
-          'city': new FormControl(this.user.address?this.user.address.city && this.user.address.city !== 'null'? this.user.address.city:null:null, [Validators.maxLength(50)]),
-          'zipCode': new FormControl(this.user.address?this.user.address.zipCode && this.user.address.zipCode !== 'null'? this.user.address.zipCode:null:null, [Validators.maxLength(50)]),
-          'state': new FormControl(this.user.address?this.user.address.state && this.user.address.state !== 'null'? this.user.address.state : null:null, [Validators.maxLength(50)]),
-          'phoneNumber': new FormControl(this.user.address?this.user.address.phoneNumber && this.user.address.phoneNumber !== 'null'? this.user.address.phoneNumber:null:null, [Validators.maxLength(128)]),
-          'faxNumber': new FormControl(this.user.address?this.user.address.faxNumber && this.user.address.faxNumber !== 'null'? this.user.address.faxNumber :null:null, [Validators.maxLength(128)]),
-          'refName': new FormControl(this.user.referredBy?this.user.referredBy.name:null, [Validators.maxLength(30)]),
-          'driversLicenseState': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseState:null, [Validators.maxLength(30)]),
-          'driversLicenseNumber': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseNumber:null, [Validators.maxLength(30)]),
-          'refplaceOfBirth': new FormControl(this.user.referredBy?this.user.referredBy.placeOfBirth:null, [Validators.maxLength(30)]),
-          'refpassportNumber': new FormControl(this.user.referredBy?this.user.referredBy.passportNumber:null, [Validators.maxLength(30)]),
-          'refSocSecNum': new FormControl(this.user.referredBy?this.user.referredBy.socialSecurityNumber:null, [Validators.maxLength(30)]),
-          'refCountOfCit': new FormControl(this.user.referredBy?this.user.referredBy.countryOfCitizenship:null, [Validators.maxLength(30)]),
-          'agency': new FormControl(this.user.referredBy?this.user.referredBy.agencyForBackgroundCheck:null, [Validators.maxLength(30)]),
-          'background': new FormControl(null),
-          'relationships': new FormControl(this.user.relationships, [Validators.maxLength(30)])
         });
-        this.idDataLoaded = true;
-        this.newUserForm.get('role').setValue(this.user.role);
+      }
+      this.newUserForm = new FormGroup({
+        'role': new FormControl(this.user.role),
+        'nickname': new FormControl(this.user.nickname, [
+          Validators.required,
+          Validators.maxLength(150),
+          Validators.minLength(4)
+        ]),
+        'avatar': new FormControl(null),
+        'email': new FormControl(this.user.email, [
+          Validators.required,
+          Validators.email
+        ]),
+        'colorCode': new FormControl(this.user.colorCode && this.user.colorCode !== 'null' ? this.user.colorCode : null),
+        'password1': new FormControl(this.user.password1),
+        'password2': new FormControl(this.user.password2),
+        'firstName': new FormControl(this.user.firstName && this.user.firstName !== 'null'? this.user.firstName : null, [Validators.maxLength(30)]),
+        'middleName': new FormControl(this.user.middleName && this.user.middleName !== 'null' ? this.user.middleName : null, [Validators.maxLength(30)]),
+        'lastName': new FormControl(this.user.lastName && this.user.lastName !== 'null'? this.user.lastName : null, [Validators.maxLength(150)]),
+        'mobileNumber': new FormControl(this.user.mobileNumber && this.user.mobileNumber !== 'null' ? this.user.mobileNumber : null, [Validators.maxLength(128)]),
+        'gender': new FormControl(this.user.gender),
+        'birthDate': new FormControl(birthDateNG),
+        'height': new FormControl(this.user.height && this.user.height !== 'null'? this.user.height : null, [Validators.maxLength(30)]),
+        'weight': new FormControl(this.user.weight && this.user.weight !== 'null'? this.user.weight : null, [Validators.maxLength(30)]),
+        'hairColor': new FormControl(this.user.hairColor && this.user.hairColor !== 'null'? this.user.hairColor: null, [Validators.maxLength(30)]),
+        'eyeColor': new FormControl(this.user.eyeColor && this.user.eyeColor !== 'null'? this.user.eyeColor : null, [Validators.maxLength(30)]),
+        'bloodType': new FormControl(this.user.bloodType && this.user.bloodType !== 'null'? this.user.bloodType : null, [Validators.maxLength(30)]),
+        'countryOfCitizenship': new FormControl(this.user.countryOfCitizenship && this.user.countryOfCitizenship !== 'null'? this.user.countryOfCitizenship : null, [Validators.maxLength(30)]),
+        'passportNumber': new FormControl(this.user.passportNumber && this.user.passportNumber !== 'null'? this.user.passportNumber : null, [Validators.maxLength(30)]),
+        'socialSecurityNumber':new FormControl(this.user.socialSecurityNumber && this.user.socialSecurityNumber !== 'null'? this.user.socialSecurityNumber : null, [Validators.maxLength(30)]),
+        'schoolState': new FormControl(this.user.schoolState && this.user.schoolState !== 'null'? this.user.schoolState : null, [Validators.maxLength(30)]),
+        'school': new FormControl(this.user.school && this.user.school !== 'null'? this.user.school : null, [Validators.maxLength(30)]),
+        'grade': new FormControl(this.user.grade && this.user.grade !== 'null'? this.user.grade : null, [Validators.maxLength(30)]),
+        'topSize': new FormControl(this.user.topSize && this.user.topSize !== 'null'? this.user.topSize : null, [Validators.maxLength(30)]),
+        'bottomsSize': new FormControl(this.user.bottomsSize && this.user.bottomsSize !== 'null'? this.user.bottomsSize : null, [Validators.maxLength(30)]),
+        'shoeSize': new FormControl(this.user.shoeSize && this.user.shoeSize !== 'null'? this.user.shoeSize : null, [Validators.maxLength(30)]),
+        'braSize': new FormControl(this.user.braSize && this.user.braSize !== 'null'? this.user.braSize : null, [Validators.maxLength(30)]),
+        'shirtSize': new FormControl(this.user.shirtSize && this.user.shirtSize !== 'null'? this.user.shirtSize : null, [Validators.maxLength(30)]),
+        'pantsSize': new FormControl(this.user.pantsSize && this.user.pantsSize !== 'null'? this.user.pantsSize : null, [Validators.maxLength(30)]),
+        'allergies': new FormControl(this.user.allergies?this.user.allergies[0]:null, [Validators.maxLength(32)]),
+        'favorites': new FormControl(null, [Validators.maxLength(32)]),
+        'dislikes': new FormControl(null, [Validators.maxLength(32)]),
+        'whislist': new FormControl(null, [Validators.maxLength(32)]),
+        'adminNotes': new FormControl(this.user.adminNotes && this.user.adminNotes !== 'null'? this.user.adminNotes : null),
+        'addressLine1': new FormControl(this.user.address?this.user.address.addressLine1 && this.user.address.addressLine1 !== 'null'? this.user.address.addressLine1 : null : null, [Validators.maxLength(128)]),
+        'addressLine2': new FormControl(this.user.address?this.user.address.addressLine2 && this.user.address.addressLine2 !== 'null'? this.user.address.addressLine2:null:null, [Validators.maxLength(128)]),
+        'city': new FormControl(this.user.address?this.user.address.city && this.user.address.city !== 'null'? this.user.address.city:null:null, [Validators.maxLength(50)]),
+        'zipCode': new FormControl(this.user.address?this.user.address.zipCode && this.user.address.zipCode !== 'null'? this.user.address.zipCode:null:null, [Validators.maxLength(50)]),
+        'state': new FormControl(this.user.address?this.user.address.state && this.user.address.state !== 'null'? this.user.address.state : null:null, [Validators.maxLength(50)]),
+        'phoneNumber': new FormControl(this.user.address?this.user.address.phoneNumber && this.user.address.phoneNumber !== 'null'? this.user.address.phoneNumber:null:null, [Validators.maxLength(128)]),
+        'faxNumber': new FormControl(this.user.address?this.user.address.faxNumber && this.user.address.faxNumber !== 'null'? this.user.address.faxNumber :null:null, [Validators.maxLength(128)]),
+        'refName': new FormControl(this.user.referredBy?this.user.referredBy.name:null, [Validators.maxLength(30)]),
+        'driversLicenseState': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseState:null, [Validators.maxLength(30)]),
+        'driversLicenseNumber': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseNumber:null, [Validators.maxLength(30)]),
+        'refplaceOfBirth': new FormControl(this.user.referredBy?this.user.referredBy.placeOfBirth:null, [Validators.maxLength(30)]),
+        'refpassportNumber': new FormControl(this.user.referredBy?this.user.referredBy.passportNumber:null, [Validators.maxLength(30)]),
+        'refSocSecNum': new FormControl(this.user.referredBy?this.user.referredBy.socialSecurityNumber:null, [Validators.maxLength(30)]),
+        'refCountOfCit': new FormControl(this.user.referredBy?this.user.referredBy.countryOfCitizenship:null, [Validators.maxLength(30)]),
+        'agency': new FormControl(this.user.referredBy?this.user.referredBy.agencyForBackgroundCheck:null, [Validators.maxLength(30)]),
+        'background': new FormControl(null),
+        'relationships': new FormControl(this.user.relationships, [Validators.maxLength(30)])
       });
+      this.idDataLoaded = true;
+      this.newUserForm.get('role').setValue(this.user.role);
     });
   }
 
@@ -461,7 +456,7 @@ export class EditProfileComponent implements OnInit {
         let message = '';
         Object.keys(err.error).forEach((key: string) => {
           message += key + ': ' + err.error[key][0] + '.\n';
-        })
+        });
         alert('Something went wrong, please try again.\n' + message);
       });
     } else {
@@ -493,4 +488,5 @@ export class EditProfileComponent implements OnInit {
     return (this.refName.value || this.driversLicenseState.value || this.driversLicenseNumber.value || this.refCountOfCit.value ||
       this.agency.value || this.passportNumber.value || this.refplaceOfBirth.value || this.refSocSecNum.value);
   }
+
 }

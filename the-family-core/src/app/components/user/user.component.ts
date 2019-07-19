@@ -6,6 +6,8 @@ import { UserRole, FamilyUser, FamilyUserListResponse } from 'src/app/model/fami
 import { ContactResponse, Contact } from '../../model/contact';
 import { EventResponse, Event } from '../../model/events';
 import { DocumentResponse, Document } from '../../model/documents';
+import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
+import { EditUserComponent } from '../edit-user/edit-user.component';
 
 @Component({
   selector: 'app-user',
@@ -13,12 +15,12 @@ import { DocumentResponse, Document } from '../../model/documents';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, AfterContentInit {
-  
+
   DOCTORS = '0';
   TEACHER = '1';
   CLASSMATE = '2';
   LOCATION = '3';
-  
+
   TASK = '1';
   APPOINTMENTS = '2';
 
@@ -37,19 +39,26 @@ export class UserComponent implements OnInit, AfterContentInit {
   documents: Document[];
   users: FamilyUser[];
   selectedRelationships: FamilyUser[];
+  editRef: MatDialogRef<EditUserComponent>;
+  dialogConfig = new MatDialogConfig();
 
   constructor(
     private usersService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.dialogConfig.hasBackdrop = true;
+    this.dialogConfig.width = 'auto';
+    this.dialogConfig.height = 'auto';
+  }
 
   ngAfterContentInit() {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.findUser(this.id);
-   }); 
+   });
   }
 
   findUser(id: number) {
@@ -64,11 +73,11 @@ export class UserComponent implements OnInit, AfterContentInit {
             if (id === user.id) {
               this.selectedRelationships.push(user);
             }
-          })
+          });
         });
       }
     });
-    
+
   }
 
   formatGender(gender: number) {
@@ -83,15 +92,15 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   formatRole(role) {
-    if(role === 0){
+    if (role === 0) {
       return UserRole.ADMIN;
-    } else if (role === 1){
+    } else if (role === 1) {
       return UserRole.LEGAL_GUARDIAN;
     } else if (role === 2) {
       return UserRole.CHILD;
-    } else if (role === 3){
+    } else if (role === 3) {
       return UserRole.DEPENDENT;
-    } else{
+    } else {
       return UserRole.NANNY;
     }
   }
@@ -99,7 +108,7 @@ export class UserComponent implements OnInit, AfterContentInit {
   doContactsType(type, state) {
     this.usersService.doUserIdContactTypeGet(this.id, type)
     .subscribe((data: ContactResponse) => {
-      this.contacts = data.results
+      this.contacts = data.results;
       this.state = state;
     })
   }
@@ -109,7 +118,7 @@ export class UserComponent implements OnInit, AfterContentInit {
     .subscribe((data: EventResponse) => {
       this.events = data.results;
       this.state = state;
-    })
+    });
   }
 
   doDocumentType(type, state) {
@@ -117,7 +126,7 @@ export class UserComponent implements OnInit, AfterContentInit {
     .subscribe((data: DocumentResponse) => {
       this.documents = data.results;
       this.state = state;
-    })
+    });
   }
 
   getUsers(state) {
@@ -125,15 +134,24 @@ export class UserComponent implements OnInit, AfterContentInit {
     .subscribe((data: FamilyUserListResponse) => {
       this.users = data.results;
       this.state = state;
-    })
+    });
   }
 
   doContacts(state) {
     this.usersService.doUserIdContactGet(this.id)
     .subscribe((data: ContactResponse) => {
-      this.contacts = data.results
+      this.contacts = data.results;
       this.state = state;
-    })
+    });
+  }
+
+  editUser() {
+    this.dialogConfig.width = '90%';
+    this.dialogConfig.data = this.user;
+    this.editRef = this.dialog.open(EditUserComponent, this.dialogConfig);
+    this.editRef.afterClosed().subscribe(() => {
+      this.findUser(this.user.id);
+    });
   }
 
 }

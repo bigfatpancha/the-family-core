@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { LoginRequest, LoginResponse } from 'src/app/model/auth';
+import { LoginRequest, LoginResponse, SendVerifyEmail } from 'src/app/model/auth';
 import { UsersService } from 'src/app/services/users/users.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { FamilyUserListResponse } from 'src/app/model/family';
@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   body: LoginRequest = new LoginRequest();
   loginForm: FormGroup;
+  validateEmail = false;
 
   @Output() onLogin = new EventEmitter<boolean>();
 
@@ -29,12 +30,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = new FormGroup({
       'username': new FormControl(null, [Validators.required]),
-      'password': new FormControl(null, [Validators.required])
+      'password': new FormControl(null, [Validators.required]),
+      'email': new FormControl(null, [Validators.email])
     })
   }
 
   get username() { return this.loginForm.get('username'); }
   get password() { return this.loginForm.get('password'); }
+  get email() { return this.loginForm.get('email') }
 
   login() {
     if (this.loginForm.status === 'VALID') {
@@ -47,14 +50,29 @@ export class LoginComponent implements OnInit {
         this.httpService.id = data.user.id;
         this.getUsers();
       }, (err: GenericError) => {
-        let message = 'Error: ';
-        Object.keys(err.error).forEach(key => {
-          err.error[key].forEach(msg => {
-            message += msg + ' ';
+        if (err.error && err.error.code && err.error.code === 10) {
+          this.validateEmail = true;
+          this.loginForm.get('email').setValidators([Validators.required]);
+          this.loginForm.get('email').updateValueAndValidity();
+          this.loginForm.get('username').clearValidators();
+          this.loginForm.get('username').updateValueAndValidity();
+          this.loginForm.get('password').clearValidators();
+          this.loginForm.get('password').updateValueAndValidity();
+          this.loginForm.markAsUntouched();
+        } else {
+          let message = 'Error: ';
+          Object.keys(err.error).forEach(key => {
+            if (Array.isArray(err.error[key])) {
+              err.error[key].forEach(msg => {
+                message += msg + ' ';
+              });
+            } else {
+              message += err.error;
+            }            
+            message += '\n';
           });
-          message += '\n';
-        });
-        alert('Something went wrong, please try again\n' + message);
+          alert('Something went wrong, please try again\n' + message);
+        }
       });
     } else {
       this.loginForm.markAllAsTouched();
@@ -71,6 +89,32 @@ export class LoginComponent implements OnInit {
     }, (err: Error) => {
       alert('Something went wrong, please try again ' + err.name);
     });
+  }
+
+  verifyEmail() {
+    if (this.loginForm.status === 'VALID') {
+      let body = new SendVerifyEmail();
+      body.email = this.email.value;
+      this.authService.doAuthRegistrationVerifyEmailPost(body)
+      .subscribe((res: SendVerifyEmail) => {
+        alert('email sent!')
+      }, (err: GenericError) => {
+        let message = 'Error: ';
+        Object.keys(err.error).forEach(key => {
+          if (Array.isArray(err.error[key])) {
+            err.error[key].forEach(msg => {
+              message += msg + ' ';
+            });
+          } else {
+            message += err.error[key];
+          }            
+          message += '\n';
+        });
+        alert('Something went wrong, please try again\n' + message);
+      })
+    } else {
+      this.loginForm.markAllAsTouched();
+    }    
   }
 
 }

@@ -6,6 +6,10 @@ export class LoginRequest {
     password: string;
 }
 
+export class SendVerifyEmail {
+    email: string;
+}
+
 export class ReferredBy {
     name: string;
     driversLicenseState: string;
@@ -145,30 +149,6 @@ export class RegistrationResponse {
     lastName: string;
     mobileNumber: string;
     birthDate: string;
-
-    constructor(
-        key: string,
-        username: string,
-        nickname: string,
-        email: string,
-        password1: string,
-        password2: string,
-        firstName: string,
-        middleName: string,
-        lastName: string,
-        mobileNumber: string,
-        birthDate: string
-    ) {
-        this.key = key;
-        this.username = username;
-        this.nickname = nickname;
-        this.email = email;
-        this.password1 = password1;
-        this.password2 = password2;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.mobileNumber = mobileNumber;
-        this.birthDate = birthDate;
-    }
+    detail: string;
+    code: number;
 }

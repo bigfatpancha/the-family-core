@@ -265,7 +265,7 @@ export class NewUserComponent implements OnInit {
       this.newUser.nickname = this.nickname.value;
       this.newUser.username = this.nickname.value;
       this.newUser.email = this.email.value;
-      if (this.allergies.value) {
+      if (this.allergies.dirty) {
         this.newUser.allergies = [ this.allergies.value ];
       }
       if (!this.favoritesSelected && this.favoritesSelected !== undefined) {
@@ -277,114 +277,142 @@ export class NewUserComponent implements OnInit {
       if (!this.wishesSelected && this.wishesSelected !== undefined) {
         this.newUser.wishlist = this.wishesSelected;
       }
-      if (this.birthDate.value) {
+      if (this.birthDate.dirty) {
         this.newUser.birthDate = this.birthDate.value.year + '-' +
           this.formatToTwoDigits(this.birthDate.value.month) + '-' +
           this.formatToTwoDigits(this.birthDate.value.day);
       }
-      if (this.refName.value) {
+      if (this.refName.dirty) {
         this.referredBy.name = this.refName.value;
+      }
+      if (this.driversLicenseState.dirty) {
         this.referredBy.driversLicenseState = this.driversLicenseState.value;
+      }
+      if (this.driversLicenseNumber.dirty) {
         this.referredBy.driversLicenseNumber = this.driversLicenseNumber.value;
+      }
+      if (this.countryOfCitizenship.dirty) {
         this.referredBy.countryOfCitizenship = this.refCountOfCit.value;
+      }
+      if (this.agency.dirty) {
         this.referredBy.agencyForBackgroundCheck = this.agency.value;
+      }
+      if (this.passportNumber.dirty) {
         this.referredBy.passportNumber = this.passportNumber.value;
+      }
+      if (this.refplaceOfBirth.dirty) {
         this.referredBy.placeOfBirth = this.refplaceOfBirth.value;
+      }
+      if (this.refSocSecNum.dirty) {
         this.referredBy.socialSecurityNumber = this.refSocSecNum.value;
+      }
+      if (this.refName.dirty) {
         this.newUser.referredBy = this.referredBy;
       }
 
       if (this.selectedRelationships) {
         this.newUser.relationships = this.selectedRelationships.map((item) => item.id);
       }
-      if (this.role.value) {
+      if (this.role.dirty) {
         this.newUser.role = this.role.value;
       }
-      if (this.colorCode.value) {
+      if (this.colorCode.dirty) {
         this.newUser.colorCode = this.colorCode.value;
       }
-      if (this.password1.value) {
+      if (this.password1.dirty) {
         this.newUser.password1 = this.password1.value;
       }
-      if (this.password2.value) {
+      if (this.password2.dirty) {
         this.newUser.password2 = this.password2.value;
       }
-      if (this.firstName.value) {
+      if (this.firstName.dirty) {
         this.newUser.firstName = this.firstName.value;
       }
-      if (this.middleName.value) {
+      if (this.middleName.dirty) {
         this.newUser.middleName = this.middleName.value;
       }
-      if (this.lastName.value) {
+      if (this.lastName.dirty) {
         this.newUser.lastName = this.lastName.value;
       }
-      if (this.mobileNumber.value) {
+      if (this.mobileNumber.dirty) {
         this.newUser.mobileNumber = this.mobileNumber.value;
       }
-      if (this.gender.value) {
+      if (this.gender.dirty) {
         this.newUser.gender = this.gender.value;
       }
-      if (this.height.value) {
+      if (this.height.dirty) {
         this.newUser.height = this.height.value;
       }
-      if (this.weight.value) {
+      if (this.weight.dirty) {
         this.newUser.weight = this.weight.value;
       }
-      if (this.hairColor.value) {
+      if (this.hairColor.dirty) {
         this.newUser.hairColor = this.hairColor.value;
       }
-      if (this.eyeColor.value) {
+      if (this.eyeColor.dirty) {
         this.newUser.eyeColor = this.eyeColor.value;
       }
-      if (this.bloodType.value) {
+      if (this.bloodType.dirty) {
         this.newUser.bloodType = this.bloodType.value;
       }
-      if (this.countryOfCitizenship.value) {
+      if (this.countryOfCitizenship.dirty) {
         this.newUser.countryOfCitizenship = this.countryOfCitizenship.value;
       }
-      if (this.passportNumber.value) {
+      if (this.passportNumber.dirty) {
         this.newUser.passportNumber = this.passportNumber.value;
       }
-      if (this.socialSecurityNumber.value) {
+      if (this.socialSecurityNumber.dirty) {
         this.newUser.socialSecurityNumber = this.socialSecurityNumber.value;
       }
-      if (this.schoolState.value) {
+      if (this.schoolState.dirty) {
         this.newUser.schoolState = this.schoolState.value;
       }
-      if (this.school.value) {
+      if (this.school.dirty) {
         this.newUser.school = this.school.value;
       }
-      if (this.grade.value) {
+      if (this.grade.dirty) {
         this.newUser.grade = this.grade.value;
       }
-      if (this.topSize.value) {
+      if (this.topSize.dirty) {
         this.newUser.topSize = this.topSize.value;
       }
-      if (this.bottomsSize.value) {
+      if (this.bottomsSize.dirty) {
         this.newUser.bottomsSize = this.bottomsSize.value;
       }
-      if (this.shoeSize.value) {
+      if (this.shoeSize.dirty) {
         this.newUser.shoeSize = this.shoeSize.value;
       }
-      if (this.braSize.value) {
+      if (this.braSize.dirty) {
         this.newUser.braSize = this.braSize.value;
       }
-      if (this.shirtSize.value) {
+      if (this.shirtSize.dirty) {
         this.newUser.shirtSize = this.shirtSize.value;
       }
-      if (this.pantsSize.value) {
+      if (this.pantsSize.dirty) {
         this.newUser.pantsSize = this.pantsSize.value;
       }
-      if (this.adminNotes.value) {
+      if (this.adminNotes.dirty) {
         this.newUser.adminNotes = this.adminNotes.value;
       }
-      if (this.addressLine1.value) {
+      if (this.addressLine1.dirty) {
         this.newUser.address.addressLine1 = this.addressLine1.value;
+      }
+      if (this.addressLine2.dirty) {
         this.newUser.address.addressLine2 = this.addressLine2.value;
+      }
+      if (this.city.dirty) {
         this.newUser.address.city = this.city.value;
+      }
+      if (this.faxNumber.dirty) {
         this.newUser.address.faxNumber = this.faxNumber.value;
+      }
+      if (this.phoneNumber.dirty) {
         this.newUser.address.phoneNumber = this.phoneNumber.value;
+      }
+      if (this.state.dirty) {
         this.newUser.address.state = this.state.value;
+      }
+      if (this.zipCode.dirty) {
         this.newUser.address.zipCode = this.zipCode.value;
       }
       if (this.avatarFile) {

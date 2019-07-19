@@ -485,12 +485,12 @@ export class EditProfileComponent implements OnInit {
   }
 
   isAddressEdited(): boolean {
-    return (this.addressLine1.value || this.addressLine2.value || this.city.value || this.faxNumber.value ||
-      this.phoneNumber.value || this.state.value || this.zipCode.value);
+    return (this.addressLine1.dirty || this.addressLine2.dirty || this.city.dirty || this.faxNumber.dirty ||
+      this.phoneNumber.dirty || this.state.dirty || this.zipCode.dirty);
   }
 
   isRefEdited(): boolean {
-    return (this.refName.value || this.driversLicenseState.value || this.driversLicenseNumber.value || this.refCountOfCit.value ||
-      this.agency.value || this.passportNumber.value || this.refplaceOfBirth.value || this.refSocSecNum.value);
+    return (this.refName.dirty || this.driversLicenseState.dirty || this.driversLicenseNumber.dirty || this.refCountOfCit.dirty ||
+      this.agency.dirty || this.passportNumber.dirty || this.refplaceOfBirth.dirty || this.refSocSecNum.dirty);
   }
 }

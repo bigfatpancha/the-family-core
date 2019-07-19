@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { RegistrationRequest, RegistrationResponse, User } from 'src/app/model/auth';
+import { RegistrationRequest, RegistrationResponse, User, SendVerifyEmail } from 'src/app/model/auth';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUserListResponse } from 'src/app/model/family';
@@ -76,7 +76,6 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log(this.form)
     if (this.form.status === 'VALID') {
       this.body.nickname = this.username.value;
       this.body.username = this.username.value;
@@ -99,15 +98,19 @@ export class RegisterComponent implements OnInit {
       }
       this.authService.doAuthRegistrationPost(this.body)
       .subscribe((data: RegistrationResponse) => {
-        this.httpService.key = data.key;
-        this.getUser();
-        
+        if (data.code && data.code === 10) {
+          this.verifyEmail();
+        }
       }, (err: GenericError) => {
         let message = 'Error: ';
         Object.keys(err.error).forEach(key => {
-          err.error[key].forEach(msg => {
-            message += msg + ' ';
-          });
+          if (Array.isArray(err.error[key])) {
+            err.error[key].forEach(msg => {
+              message += msg + ' ';
+            });
+          } else {
+            message += err.error;
+          }            
           message += '\n';
         });
         alert('Something went wrong, please try again\n' + message);
@@ -116,6 +119,29 @@ export class RegisterComponent implements OnInit {
       this.form.markAllAsTouched();
     }    
   }
+
+  verifyEmail() {
+    let body = new SendVerifyEmail();
+    body.email = this.email.value;
+    this.authService.doAuthRegistrationVerifyEmailPost(body)
+    .subscribe((res: SendVerifyEmail) => {
+      alert('we sent you an email to verify your account.\nPlease check your email')
+    }, (err: GenericError) => {
+      let message = 'Error: ';
+      Object.keys(err.error).forEach(key => {
+        if (Array.isArray(err.error[key])) {
+          err.error[key].forEach(msg => {
+            message += msg + ' ';
+          });
+        } else {
+          message += err.error[key];
+        }            
+        message += '\n';
+      });
+      alert('Something went wrong, please try again\n' + message);
+    })
+  }
+
 
   getUser() {
     this.authService.doAuthUserGet()

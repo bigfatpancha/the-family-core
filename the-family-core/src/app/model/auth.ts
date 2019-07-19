@@ -19,27 +19,7 @@ export class ReferredBy {
     socialSecurityNumber: string;
     countryOfCitizenship: string;
     agencyForBackgroundCheck: string;
-
-    constructor()
-    constructor(
-        name?: string,
-        driversLicenseState?: string,
-        driversLicenseNumber?: string,
-        placeOfBirth?: string,
-        passportNumber?: string,
-        socialSecurityNumber?: string,
-        countryOfCitizenship?: string,
-        agencyForBackgroundCheck?: string
-    ) {
-        this.name = name;
-        this.driversLicenseState = driversLicenseState;
-        this.driversLicenseNumber = driversLicenseNumber;
-        this.placeOfBirth = placeOfBirth;
-        this.passportNumber = passportNumber;
-        this.socialSecurityNumber = socialSecurityNumber;
-        this.countryOfCitizenship = countryOfCitizenship;
-        this.agencyForBackgroundCheck = agencyForBackgroundCheck;
-    }
+    colorCode: string;
 }
 
 export class User {

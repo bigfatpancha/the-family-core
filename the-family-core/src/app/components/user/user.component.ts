@@ -105,6 +105,70 @@ export class UserComponent implements OnInit, AfterContentInit {
     }
   }
 
+  getAddress1() {
+    return this.user.address ? this.user.address.addressLine1 : '';
+  }
+
+  getAddress2() {
+    return this.user.address ? this.user.address.addressLine2 : '';
+  }
+
+  getCity() {
+    return this.user.address ? this.user.address.city : '';
+  }
+
+  getState() {
+    return this.user.address ? this.user.address.state : '';
+  }
+
+  getZipcode() {
+    return this.user.address ? this.user.address.zipCode : '';
+  }
+
+  getPhoneNumber() {
+    return this.user.address ? this.user.address.phoneNumber : '';
+  }
+
+  getFaxNumber() {
+    return this.user.address ? this.user.address.faxNumber : '';
+  }
+
+  getRefName() {
+    return this.user.referredBy ? this.user.referredBy.name : '';
+  }
+
+  getRefColorCode() {
+    return this.user.referredBy ? this.user.referredBy.colorCode : '';
+  }
+
+  getDriversLicenseState() {
+    return this.user.referredBy ? this.user.referredBy.driversLicenseState : '';
+  }
+
+  getDriversLicenseNumber() {
+    return this.user.referredBy ? this.user.referredBy.driversLicenseNumber : '';
+  }
+
+  getPlaceOfBirth() {
+    return this.user.referredBy ? this.user.referredBy.placeOfBirth : '';
+  }
+
+  getSocialSecurityNumber() {
+    return this.user.referredBy ? this.user.referredBy.socialSecurityNumber : '';
+  }
+
+  getCountryOfCitizenship() {
+    return this.user.referredBy ? this.user.referredBy.countryOfCitizenship : '';
+  }
+
+  getPassportNumber() {
+    return this.user.referredBy ? this.user.referredBy.passportNumber : '';
+  }
+
+  getAgencyForBackgroundCheck() {
+    return this.user.referredBy ? this.user.referredBy.agencyForBackgroundCheck : '';
+  }
+
   doContactsType(type, state) {
     this.usersService.doUserIdContactTypeGet(this.id, type)
     .subscribe((data: ContactResponse) => {

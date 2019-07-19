@@ -24,6 +24,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LocationComponent } from './components/location/location.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ReportsComponent } from './components/reports/reports.component';
     LoginComponent,
     LocationComponent,
     EditProfileComponent,
-    ReportsComponent
+    ReportsComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +66,7 @@ import { ReportsComponent } from './components/reports/reports.component';
     RegisterComponent,
     UploadComponent,
     NewUserComponent,
+    EditUserComponent,
     EditProfileComponent
   ],
 })

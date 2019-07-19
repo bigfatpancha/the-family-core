@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from 'src/app/model/auth';
+import { SendbirdService } from 'src/app/services/sendbird/sendbird.service';
 
 @Component({
   selector: 'app-chat',
@@ -7,12 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
+  @Input() user: User;
+
   chatListOpen = false;
   converOpen = false;
 
-  constructor() { }
+  constructor(private sbService: SendbirdService) { }
 
   ngOnInit() {
+    this.sbService.connect(this.user.sendbirdId);
   }
 
   closeChat(){

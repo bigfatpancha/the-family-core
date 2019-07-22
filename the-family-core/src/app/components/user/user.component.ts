@@ -8,6 +8,8 @@ import { EventResponse, Event } from '../../model/events';
 import { DocumentResponse, Document } from '../../model/documents';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
 
 @Component({
   selector: 'app-user',
@@ -16,10 +18,11 @@ import { EditUserComponent } from '../edit-user/edit-user.component';
 })
 export class UserComponent implements OnInit, AfterContentInit {
 
-  DOCTORS = '0';
-  TEACHER = '1';
-  CLASSMATE = '2';
-  LOCATION = '3';
+  GENERAL_CONTACT = '0';
+  DOCTORS = '1';
+  TEACHER = '2';
+  CLASSMATE = '3';
+  LOCATION = '4';
 
   TASK = '1';
   APPOINTMENTS = '2';
@@ -45,6 +48,7 @@ export class UserComponent implements OnInit, AfterContentInit {
   constructor(
     private usersService: UsersService,
     private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     private dialog: MatDialog
   ) { }
 
@@ -62,8 +66,10 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   findUser(id: number) {
+    this.spinner.show();
     this.usersService.doUserIdGet(id)
     .subscribe((data: User) => {
+      this.spinner.hide();
       this.user = data;
       this.isDataLoaded = true;
       if (this.user.relationships) {
@@ -76,6 +82,8 @@ export class UserComponent implements OnInit, AfterContentInit {
           });
         });
       }
+    }, (err: GenericError) => {
+      this.spinner.hide();
     });
 
   }
@@ -169,43 +177,67 @@ export class UserComponent implements OnInit, AfterContentInit {
     return this.user.referredBy ? this.user.referredBy.agencyForBackgroundCheck : '';
   }
 
+  getLocationAddress(loc) {
+    return loc.address ? loc.address.addressLine1 : '';
+  }
+
   doContactsType(type, state) {
+    this.spinner.show();
     this.usersService.doUserIdContactTypeGet(this.id, type)
     .subscribe((data: ContactResponse) => {
+      this.spinner.hide();
       this.contacts = data.results;
       this.state = state;
+    }, (err: GenericError) => {
+      this.spinner.hide();
     })
   }
 
   doEventType(type, state) {
+    this.spinner.show()
     this.usersService.doUserIdEventGet(this.id, type, {}, {})
     .subscribe((data: EventResponse) => {
+      this.spinner.hide();
       this.events = data.results;
       this.state = state;
+    }, (err: GenericError) => {
+      this.spinner.hide();
     });
   }
 
   doDocumentType(type, state) {
+    this.spinner.show();
     this.usersService.doUserIdDocumentGet(this.id, type)
     .subscribe((data: DocumentResponse) => {
+      this.spinner.hide();
       this.documents = data.results;
       this.state = state;
+    }, (err: GenericError) => {
+      this.spinner.hide();
     });
   }
 
   getUsers(state) {
+    this.spinner.show();
     this.usersService.doGetUsersList()
     .subscribe((data: FamilyUserListResponse) => {
+      this.spinner.hide();
       this.users = data.results;
       this.state = state;
+    }, (err: GenericError) => {
+      this.spinner.hide();
     });
   }
 
   doContacts(state) {
+    this.spinner.show();
     this.usersService.doUserIdContactGet(this.id)
     .subscribe((data: ContactResponse) => {
+      this.spinner.hide();
       this.contacts = data.results;
       this.state = state;
+    }, (err: GenericError) => {
+      this.spinner.hide();
     });
   }
 

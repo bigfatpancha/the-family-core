@@ -9,6 +9,8 @@ import { RegisterComponent } from '../register/register.component';
 import { UploadComponent } from '../upload/upload.component';
 import { Router } from '@angular/router';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +40,7 @@ export class DashboardComponent implements OnInit {
   constructor(private userService: UsersService,
               private httpService: HttpService,
               private router: Router,
+              private spinner: NgxSpinnerService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -136,13 +139,20 @@ export class DashboardComponent implements OnInit {
       this.dialogConfig.width = '90%';
       this.editRef = this.dialog.open(EditProfileComponent, this.dialogConfig);
       this.editRef.afterClosed().subscribe(() => {
+        this.spinner.show();
         this.userService.doUserIdGet(this.user.id).subscribe((res: User) => {
+          this.spinner.hide();
           this.userService.user = res;
           this.user = res;
+        }, (err: GenericError) => {
+          this.spinner.hide();
         });
         this.userService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
+          this.spinner.hide();
           this.userService.users = res.results;
           this.users = res.results;
+        }, (err: GenericError) => {
+          this.spinner.hide();
         });
       });
     }

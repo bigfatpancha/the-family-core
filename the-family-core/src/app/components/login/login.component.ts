@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginRequest, LoginResponse, SendVerifyEmail } from 'src/app/model/auth';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private userService: UsersService,
     private httpService: HttpService,
+    private spinner: NgxSpinnerService,
     public dialogRef: MatDialogRef<LoginComponent>) { }
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.loginForm.status === 'VALID') {
+      this.spinner.show();
       this.body.username = this.username.value;
       this.body.password = this.password.value;
       this.authService.doAuthLoginPost(this.body)
@@ -50,6 +53,7 @@ export class LoginComponent implements OnInit {
         this.httpService.id = data.user.id;
         this.getUsers();
       }, (err: GenericError) => {
+        this.spinner.hide();
         if (err.error && err.error.code && err.error.code === 10) {
           this.validateEmail = true;
           this.loginForm.get('email').setValidators([Validators.required]);
@@ -86,19 +90,25 @@ export class LoginComponent implements OnInit {
       this.userService.users = data.results;
       this.onLogin.emit();
       this.dialogRef.close();
+      this.spinner.hide();
     }, (err: Error) => {
+      this.spinner.hide();
       alert('Something went wrong, please try again ' + err.name);
     });
   }
 
   verifyEmail() {
     if (this.loginForm.status === 'VALID') {
+      this.spinner.show();
       let body = new SendVerifyEmail();
       body.email = this.email.value;
       this.authService.doAuthRegistrationVerifyEmailPost(body)
       .subscribe((res: SendVerifyEmail) => {
-        alert('email sent!')
+        this.dialogRef.close();
+        this.spinner.hide();
+        alert('email sent!');
       }, (err: GenericError) => {
+        this.spinner.hide();
         let message = 'Error: ';
         Object.keys(err.error).forEach(key => {
           if (Array.isArray(err.error[key])) {

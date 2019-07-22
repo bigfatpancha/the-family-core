@@ -27,12 +27,26 @@ export class ContactsService {
     return this.http_service.doGet(Routes.CONTACTS, options);
   }
 
-  doContactsPost(body: Contact): Observable<PostContactResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+  doContactsPost(body: Contact): Observable<Contact> {
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPost(Routes.CONTACTS, body, options);
+    };
+    const formData = new FormData();
+    Object.keys(body).forEach(key => {
+      if (key === 'address') {
+        Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+      } else if (key === 'familyMembers') {
+        for (const member of body[key]) {
+          formData.append('family_members', member.toString());
+        }
+      } else {
+        formData.append(this.converSnakecase(key), body[key]);
+      }
+    });
+    return this.http_service.doPost(Routes.CONTACTS, formData, options);
   }
 
   doContactIdGet(id: number): Observable<Contact> {
@@ -65,6 +79,10 @@ export class ContactsService {
       headers: headers
     }
     return this.http_service.doDelete(Routes.CONTACTS + id, options);
+  }
+
+  private converSnakecase(name: string): string {
+    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
   }
 
 }

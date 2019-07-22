@@ -68,3 +68,12 @@
     }
   }
 }
+agm-map {
+  height: 100%;
+  width: 900px;
+}
+
+#sidebar{
+  position: absolute;
+  z-index: 3;
+}

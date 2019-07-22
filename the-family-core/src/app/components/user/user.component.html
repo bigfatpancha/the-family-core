@@ -1,9 +1,9 @@
-<div *ngIf="isDataLoaded">
+<div *ngIf="user">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3" id="sidebar">
         <div class="sidebar__header row">
-          <a href="#"><img src="../../../assets/img/home.png" alt="family core"></a>
+          <a routerLink="/dashboard"><img src="../../../assets/img/home.png" alt="family core"></a>
           <div>
             <div class="user-pic">
               <img src="../../../assets/icono.png" alt="">
@@ -36,11 +36,11 @@
                 aria-expanded="false" aria-controls="collapseMedical">Medical</a>
               <ul class="sidebar__item--list collapse" id="collapseMedical">
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRecords'}"
-                    (click)="doDocumentType(RECORDS, medicalRecords)">Records</a></li>
+                    (click)="doDocumentType(RECORDS, 'medicalRecords')">Records</a></li>
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalDoctors'}"
                     (click)="doContactsType(DOCTORS, 'medicalDoctors')">Doctors</a></li>
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalRx'}"
-                    (click)="doDocumentType(RX, medicalRx)">Rx</a></li>
+                    (click)="doDocumentType(RX, 'medicalRx')">Rx</a></li>
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'medicalAppointments'}"
                     (click)="doEventType(APPOINTMENTS, 'medicalAppointments')">Appointments</a></li>
               </ul>
@@ -58,24 +58,26 @@
               </ul>
             </li>
             <li class="sidebar__item"><a [ngClass]="{'active': state == 'general'}"
-                (click)="doDocumentType(GENERAL, general)">General</a></li>
-            <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}"
-                (click)="doDocumentType(LEGAL, legal)">Legal</a></li>
+                (click)="doDocumentType(GENERAL, 'general')">General</a></li>
+            <li class="sidebar__item"><a [ngClass]="{'active': state == 'legal'}" (click)="doDocumentType(LEGAL, 'legal')">Legal</a></li>
           </ul>
         </div>
 
       </div>
       <div class="container__data">
-        <div class="container__data--name">
-          <h4>Kid</h4>
-        </div>
 
         <!-- USER INFO -->
 
         <div *ngIf="state == 'userInfo'">
-          <div class="table__header">
-            <div class="table__header--title">
-              <h4>USER INFO</h4>
+
+          <div class="container__data--name">
+            <div class="d-flex w-100 align-items-center table__header">
+              <div class="col-6 table__header--title">
+                <h4>USER INFO</h4>
+              </div>
+              <div class="col-6">
+                <button (click)="editUser()" class="btn btn-sm btn-save">Edit User</button>
+              </div>
             </div>
           </div>
 
@@ -143,37 +145,37 @@
                 <div class="form-row">
                   <div class="form-group col-md-5">
                     <label>Address Line 1</label>
-                    <input class="form-control" value="{{user.address.addressLine1}}" readonly>
+                    <input class="form-control" value="{{getAddress1()}}" readonly>
                   </div>
                   <div class="form-group col-md-5">
                     <label>Address Line 2</label>
-                    <input class="form-control" value="{{user.address.addressLine2}}" readonly>
+                    <input class="form-control" value="{{getAddress2()}}" readonly>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-3">
                     <label>City</label>
-                    <input class="form-control" value="{{user.address.city}}" readonly>
+                    <input class="form-control" value="{{getCity()}}" readonly>
                   </div>
                   <div class="form-group col-md-3">
                     <label>State</label>
-                    <input class="form-control" value="{{user.address.state}}" readonly>
+                    <input class="form-control" value="{{getState()}}" readonly>
                   </div>
                   <div class="form-group col-md-3">
                     <label>Zip</label>
-                    <input class="form-control" value="{{user.address.zipCode}}" readonly>
+                    <input class="form-control" value="{{getZipcode()}}" readonly>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-3">
                     <label>Phone #</label>
-                    <input class="form-control" value="{{user.address.phoneNumber}}" readonly>
+                    <input class="form-control" value="{{getPhoneNumber()}}" readonly>
                   </div>
                   <div class="form-group col-md-3">
                     <label>Fax #</label>
-                    <input class="form-control" value="{{user.address.faxNumber}}" readonly>
+                    <input class="form-control" value="{{getFaxNumber()}}" readonly>
                   </div>
                 </div>
               </form>
@@ -187,7 +189,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Color Code</label>
-                    <input class="form-control" value="que seria el color code" readonly>
+                    <input class="form-control" value="{{user.colorCode}}" readonly>
                   </div>
                 </div>
 
@@ -330,51 +332,51 @@
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Referred by...</label>
-                    <p *ngFor="let ref of user.referredBy">- {{ref}}</p>
+                    <p>- {{getRefName()}}</p>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Color Code</label>
-                    <input class="form-control" value="{{user.colorCode}}" readonly>
+                    <input class="form-control" value="{{getRefColorCode()}}" readonly>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Driver's License State</label>
-                    <input class="form-control" value="{{user.referredBy.driversLicenseState}}" readonly>
+                    <input class="form-control" value="{{getDriversLicenseState()}}" readonly>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Driver License #</label>
-                    <input class="form-control" value="{{user.referredBy.driversLicenseNumber}}" readonly>
+                    <input class="form-control" value="{{getDriversLicenseNumber()}}" readonly>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Place of Birth</label>
-                    <input class="form-control" value="{{user.referredBy.placeOfBirth}}" readonly>
+                    <input class="form-control" value="{{getPlaceOfBirth()}}" readonly>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Social Security #</label>
-                    <input class="form-control" value="{{user.referredBy.socialSecurityNumber}}" readonly>
+                    <input class="form-control" value="{{getSocialSecurityNumber()}}" readonly>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Country of Citizenship</label>
-                    <input class="form-control" value="{{user.referredBy.countryOfCitizenship}}" readonly>
+                    <input class="form-control" value="{{getCountryOfCitizenship()}}" readonly>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Passport #</label>
-                    <input class="form-control" value="{{user.referredBy.passportNumber}}" readonly>
+                    <input class="form-control" value="{{getPassportNumber()}}" readonly>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-8">
                     <label>Agency for Background Check</label>
-                    <input class="form-control" value="{{user.referredBy.agencyForBackgroundCheck}}" readonly>
+                    <input class="form-control" value="{{getAgencyForBackgroundCheck()}}" readonly>
                   </div>
                 </div>
               </form>
@@ -383,7 +385,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-8">
                     <label>Child / Dependent relationships</label>
-                    <p *ngFor="let rel of user.relationships">- {{rel}}</p>
+                    <p *ngFor="let rel of selectedRelationships">- {{rel.nickname}}</p>
                   </div>
                 </div>
               </form>
@@ -433,7 +435,7 @@
                 <p>{{loc.name}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>{{loc.address.addressLine1}}</p>
+                <p>{{getLocationAddress(loc)}}</p>
               </div>
               <div class="table__body--columns col-3">
                 <p>{{loc.phoneNumber}}</p>
@@ -570,8 +572,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i
-                    class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -633,8 +634,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i
-                    class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -673,14 +673,13 @@
                 <p>{{ev.detail}}</p>
               </div>
               <div class="table__body--columns col-2">
-                <p>{{ev.address.addressLine1}}</p>
+                <p>{{getLocationAddress(ev)}}</p>
               </div>
               <div class="table__body--columns col-2">
                 <p>{{ev.start}}</p>
               </div>
               <div class="table__body--columns col-1">
-                <span class="d-inline-flex icono-file" *ngFor="let file of ev.attachments">{{file.file}}<i
-                    class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -758,33 +757,33 @@
         <div *ngIf="state =='teamContacts'">
           <div class="table">
             <div class="table__header">
-              <div class="table__header--columns col-3">
+              <div class="table__header--columns col-4">
                 <h4>NAME</h4>
               </div>
-              <div class="table__header--columns col-3">
+              <div class="table__header--columns col-4">
                 <h4>MAIL</h4>
               </div>
-              <div class="table__header--columns col-3">
+              <div class="table__header--columns col-4">
                 <h4>MOBILE #</h4>
               </div>
-              <div class="table__header--columns col-3">
+              <!-- <div class="table__header--columns col-3">
                 <h4>ROLE</h4>
-              </div>
+              </div> -->
             </div>
 
             <div class="table__body" *ngFor="let con of contacts">
-              <div class="table__body--columns col-3">
+              <div class="table__body--columns col-4">
                 <p>{{con.name}}</p>
               </div>
-              <div class="table__body--columns col-3">
+              <div class="table__body--columns col-4">
                 <p>{{con.email}}</p>
               </div>
-              <div class="table__body--columns col-3">
+              <div class="table__body--columns col-4">
                 <p>{{con.phoneNumber}}</p>
               </div>
-              <div class="table__body--columns col-3">
+              <!-- <div class="table__body--columns col-3">
                 <p>No tengo el rol</p>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -812,7 +811,7 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p *ngFor="let file of doc.attachments">{{file.file}}</p>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -841,16 +840,13 @@
                 <p>{{doc.description}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <span class="d-inline-flex icono-file" *ngFor="let file of doc.attachments">{{file.file}}<i
-                    class="icon-clip"></i></span>
+                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </div>

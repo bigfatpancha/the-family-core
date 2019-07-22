@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AgmCoreModule } from '@agm/core';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
@@ -25,6 +27,9 @@ import { ChatComponent } from './components/chat/chat.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LoginComponent } from './components/login/login.component';
 import { LocationComponent } from './components/location/location.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CalendarComponent } from './components/user/calendar/calendar.component';
 
 @NgModule({
@@ -42,6 +47,9 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
     RewardsComponent,
     LoginComponent,
     LocationComponent,
+    EditProfileComponent,
+    ReportsComponent,
+    EditUserComponent,
     CalendarComponent
   ],
   imports: [
@@ -50,8 +58,13 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
     HttpClientModule,
     NgbModule,
     FormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
+    }),
     MatDialogModule,
+    NgxSpinnerModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     CalendarCommonModule,
@@ -62,7 +75,11 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
   bootstrap: [AppComponent],
   entryComponents: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UploadComponent,
+    NewUserComponent,
+    EditUserComponent,
+    EditProfileComponent
   ],
 })
 export class AppModule { }

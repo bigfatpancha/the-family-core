@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-lg navbar-light bg-light header-dashboard">
   <div class="container">
-    <a class="navbar-brand header-dashboard__brand" href="#">THE FAMILY CORE <span>Dashboard</span></a>
+    <a class="navbar-brand header-dashboard__brand">THE FAMILY CORE <span>Dashboard</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
       aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -12,7 +12,7 @@
         <span *ngIf="isLogged && user">{{user.nickname}}</span>
         <span *ngIf="!isLogged">Login</span>
       </div>
-      <a class="profile__link cursor-pointer" *ngIf="isLogged">Edit Profile</a>
+      <a class="profile__link cursor-pointer" *ngIf="isLogged" (click)="openEdit()">Edit Profile</a>
       <a class="profile__link cursor-pointer" *ngIf="!isLogged" (click)="openRegister()">Register</a>
     </div>
   </div>
@@ -35,35 +35,35 @@
 
     <section class="row mt-4">
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink="/users">
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToUsers()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/user.access.png" alt="">
         </div>
-        <span class="options__text" routerLink="/users">Users/Access</span>
+        <span class="options__text">Users/Access</span>
       </div>
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink='/upload'>
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="openUpload()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/upload.png" alt="">
         </div>
-        <span class="options__text" routerLink='/upload'>Upload</span>
+        <span class="options__text">Upload</span>
       </div>
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink='/location'>
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToLocation()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/location.png" alt="">
         </div>
-        <span class="options__text" routerLink='/location'>Location</span>
+        <span class="options__text">Location</span>
       </div>
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
-        <div class="options__bloque mb-1" routerLink='/rewards'>
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToRewards()">
+        <div class="options__bloque mb-1">
           <img src="../../../assets/img/rewards.png" alt="">
         </div>
-        <span class="options__text" routerLink='/rewards'>Rewards</span>
+        <span class="options__text">Rewards</span>
       </div>
 
-      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToReports()">
         <div class="options__bloque mb-1">
           <img src="../../../assets/img/reports.png" alt="">
         </div>
@@ -99,5 +99,6 @@
 
 
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </main>
 <app-chat></app-chat>

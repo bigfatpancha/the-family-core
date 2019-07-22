@@ -1,3 +1,8 @@
+.mat-dialog-container {
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+}
+
 .header-dashboard {
   background: -moz-linear-gradient(left, rgba(90, 214, 140, 1) 0%, rgba(1, 203, 249, 1) 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, rgba(90, 214, 140, 1)), color-stop(100%, rgba(1, 203, 249, 1)));
@@ -8,7 +13,7 @@
 
   &__brand {
     font-family: avenirBlack;
-    color: #fff;
+    color: #fff !important;
 
     &:hover {
       color: #fff;

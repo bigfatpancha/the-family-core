@@ -349,6 +349,12 @@
   padding: 0px !important;
 }
 
+
+/*** MAP ***/
+.agm-map-container-inner{
+  width: 100% !important;
+  position: absolute;
+}
 /*** CALENDARIO ***/
 .cal-month-view .cal-day-badge {
   background-color: #f15a24;

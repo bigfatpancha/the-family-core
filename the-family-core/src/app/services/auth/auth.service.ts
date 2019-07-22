@@ -5,7 +5,8 @@ import {
   User,
   LoginRequest,
   RegistrationRequest,
-  RegistrationResponse
+  RegistrationResponse,
+  SendVerifyEmail
 } from '../../model/auth';
 import { Routes } from '../config/routes-enum';
 import { Observable } from 'rxjs';
@@ -43,6 +44,13 @@ export class AuthService {
       headers: this.headers
     }
     return this.httpService.doPost(Routes.AUTH_REGISTRATION, body, options);
+  }
+
+  doAuthRegistrationVerifyEmailPost(body: SendVerifyEmail): Observable<SendVerifyEmail> {
+    const options = {
+      headers: this.headers
+    }
+    return this.httpService.doPost(Routes.AUTH_REGISTRATION_VERIFY_EMAIL, body, options);
   }
 
 }

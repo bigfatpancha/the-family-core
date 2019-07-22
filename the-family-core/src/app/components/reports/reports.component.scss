@@ -9,17 +9,16 @@
     align-items: center;
     margin-top: 10px;
 
-    >h4 {
-      margin: 0px;
-      padding-left: 15px;
-    }
+    .switch-info {
+      h5 {
+        margin: 0px 15px;
+        font-family: sfMedium;
+        color: #001426;
 
-    i{
-      font-size: 1.25rem;
-    }
-
-    img{
-      width: 65px;
+        &.active{
+            border-bottom: 1.5px solid;
+        }
+      }
     }
   }
 }
@@ -41,7 +40,7 @@
         color: #001426;
         cursor: pointer;
 
-        &.active{
+        &.active {
           border-bottom: 1px solid #001426;
         }
 
@@ -60,7 +59,7 @@
             font-size: 0.85rem;
             cursor: pointer;
 
-            &.active{
+            &.active {
               border-bottom: 1px solid #001426;
             }
 
@@ -111,12 +110,13 @@
     padding: 8px 15px;
     display: flex;
     align-items: center;
+    min-height: 50px;
     border-bottom: 2px solid #97c9ff;
 
-    &.table_link{
+    &.table_link {
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         background: #ebf5ff;
       }
     }
@@ -133,24 +133,13 @@
         color: #999999;
       }
 
-      span.icono-file{
+      span.icono-file {
         background: #f05a23;
         padding: 0.3rem;
         color: #fff;
         font-size: 1.2rem;
         margin-bottom: 2px;
       }
-
-      &.resend-invitation>p{
-        font-family: sfBold;
-        color: #007fff;
-      }
     }
-  }
-}
-
-.pic-user{
-  img{
-    width: 160px;
   }
 }

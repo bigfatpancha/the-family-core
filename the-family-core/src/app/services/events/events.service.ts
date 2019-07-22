@@ -17,9 +17,15 @@ export class EventsService {
                                .set('Content-Type', 'application/json');
   }
 
-  doEventsGet(date: string, type: string): Observable<EventResponse> {
+  doEventsGet(date?: string, type?: string): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
-    const params = new HttpParams().set('date', date).set('type', type);
+    const params = new HttpParams();
+    if (date) {
+      params.set('date', date)
+    }
+    if (type) {
+      params.set('type', type);
+    }
     const options = {
       headers: headers,
       params: params
@@ -28,11 +34,36 @@ export class EventsService {
   }
 
   doEventPost(event: Event): Observable<Event> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    let headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPost(Routes.EVENTS, event, options);
+    };
+    const formData = new FormData();
+    Object.keys(event).forEach(key => {
+      if (key === 'address') {
+        Object.keys(event[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), event[key][key2]));
+      } else if (key === 'attachments') {
+        let i = 0;
+        for (const attachment of event[key]) {
+          console.log(attachment.file);
+          formData.append('attachment_' + i + '.file', attachment.file);
+          i++;
+        }
+      } else if (key === 'familyMembers') {
+        for (const member of event[key]) {
+          formData.append('family_members', member.toString());
+        }
+      } else {
+        formData.append(this.converSnakecase(key), event[key]);
+      }
+    });
+    return this.http_service.doPost(Routes.EVENTS, formData, options);
+  }
+
+  private converSnakecase(name: string): string {
+    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
   }
 
   doEventCountGet(date: string, type: string): Observable<EventResponse> {

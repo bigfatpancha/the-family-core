@@ -26,7 +26,7 @@ export class NewUserComponent implements OnInit {
   referredBy: ReferredBy;
   relationshipsList: FamilyUser[];
   selectedRelationships: FamilyUser[];
-  imgSrc = '../../../assets/icono.png';
+  imgSrc = '../../../assets/icono.webp';
   avatarFile: any;
 
   constructor(

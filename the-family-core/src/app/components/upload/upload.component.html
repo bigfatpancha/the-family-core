@@ -35,7 +35,7 @@
         <div class="form-group col-md-8">
           <label>Type</label>
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="type" required>
               <option [ngValue]="type" *ngFor="let type of types">{{type.description}}</option>
             </select>
@@ -50,7 +50,7 @@
         <div class="form-group col-md-8">
           <label>Family member</label>
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" (change)="addMember()"
               formControlName="familyMemberForm" required>
               <option value="null" disabled>Select user</option>
@@ -91,7 +91,7 @@
         <div class="form-group col-md-8" *ngIf="type.value.type === 0">
           <label>Lead</label>
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="leadForm">
               <option value="null" disabled>Select User</option>
               <option *ngFor="let member of familyMembers" [ngValue]="member">{{member.nickname}}</option>
@@ -120,7 +120,7 @@
           </div>
         </div>
         <div class="add-image div-upload-pic">
-          <img src="../../../assets/img/camera.png" alt="upload imagen">
+          <img src="../../../assets/img/camera.webp" alt="upload imagen">
           <input multiple type="file" accept="image/png, image/jpeg" (change)="addAttachment($event)">
         </div>
       </div>
@@ -227,7 +227,7 @@
         <div class="form-group col-md-4">
           <label>Time Zone</label>
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="timezone" required>
               <option value="null" disabled>Select Time Zone</option>
               <option *ngFor="let timezone of timezones" value="{{timezone.name}}">{{timezone.name}} - {{timezone.description}}</option>
@@ -244,7 +244,7 @@
         <div class="form-group col-md-3">
           <label>Alert</label>
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="alert">
               <option value="0">None</option>
               <option value="1">Email</option>
@@ -261,7 +261,7 @@
         <div class="form-group col-md-4">
           <label>Repeat</label>
           <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+          <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
           <select class="custom-select select form-control" formControlName="recurrence">
             <option value="Doesnotrepeat">Does not repeat</option>
             <option value="Daily">Daily</option>
@@ -277,7 +277,7 @@
         <div class="form-group col-md-2" *ngIf="showEnds()">
           <label>Ends</label>
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" formControlName="endsForm">
               <option value="Never">Never</option>
               <option value="On">On</option>
@@ -314,7 +314,7 @@
       <div class="form-row" *ngIf="recurrence.value === 'Custom'">
         <div class="form-group col-md-2">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select sin-label">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select sin-label">
             <select class="custom-select select form-control" formControlName="customRepeatForm">
               <option value="1">1</option>
               <option value="2">2</option>
@@ -326,7 +326,7 @@
 
         <div class="form-group col-md-2">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select sin-label">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select sin-label">
             <select class="custom-select select form-control" formControlName="customFrecuenceForm">
               <option selected value="0">Day</option>
               <option value="1">Week</option>
@@ -398,7 +398,7 @@
 
         <div class="form-group col-md-3 col-lg-2">
           <div class="input-icon">
-          <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select sin-label">
+          <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select sin-label">
           <select class="custom-select select form-control" formControlName="state">
             <option value="null" disabled>State</option>
             <option value="Alabama">Alabama</option>

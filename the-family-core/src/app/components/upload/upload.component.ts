@@ -14,6 +14,8 @@ import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
 
 export class Type {
   id: number;
@@ -41,6 +43,7 @@ export class UploadComponent implements OnInit {
     private userService: UsersService,
     private documentsService: DocumentsService,
     private contactsService: ContactsService,
+    private spinner: NgxSpinnerService,
     public dialogRef: MatDialogRef<UploadComponent>
   ) { }
 
@@ -101,10 +104,7 @@ export class UploadComponent implements OnInit {
     .subscribe((data: Timezone[]) => {
       this.timezones = data;
     });
-    this.userService.doGetUsersList()
-    .subscribe((res: FamilyUserListResponse) => {
-      this.familyMembers = res.results;
-    });
+    this.familyMembers = this.userService.users;
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
     this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
@@ -319,6 +319,7 @@ export class UploadComponent implements OnInit {
 
   postEvent() {
     if (this.eventForm.status === 'VALID') {
+      this.spinner.show();
       if (this.type.value.type === 0) {
         const event = new Event(this.eventForm);
         event.familyMembers = this.familyMembersSelected.map((item) => item.id);
@@ -329,11 +330,23 @@ export class UploadComponent implements OnInit {
           event.attachments = this.attachments;
         }
         this.eventsService.doEventPost(event).subscribe((res: Event) => {
+          this.spinner.hide();
           this.onEventPost.emit(true);
           this.dialogRef.close();
-          console.log(res);
-        }, (err: Error) => {
-          alert('Something went wrong, please try again ' + err.name);
+        }, (err: GenericError) => {
+          this.spinner.hide();
+          let message = 'Error: ';
+          Object.keys(err.error).forEach(key => {
+            if (Array.isArray(err.error[key])) {
+              err.error[key].forEach(msg => {
+                message += msg + ' ';
+              });
+            } else {
+              message += err.error;
+            }            
+            message += '\n';
+          });
+          alert('Something went wrong, please try again\n' + message);
         });
       } else if (this.type.value.type === 1) {
         const document = new Document(this.eventForm);
@@ -342,11 +355,24 @@ export class UploadComponent implements OnInit {
           document.attachments = this.attachments;
         }
         this.documentsService.doDocumentPost(document).subscribe((res: Document) => {
+          this.spinner.hide();
           this.onEventPost.emit(true);
           this.dialogRef.close();
           console.log(res);
-        }, (err: Error) => {
-          alert('Something went wrong, please try again ' + err.name);
+        }, (err: GenericError) => {
+          this.spinner.hide();
+          let message = 'Error: ';
+          Object.keys(err.error).forEach(key => {
+            if (Array.isArray(err.error[key])) {
+              err.error[key].forEach(msg => {
+                message += msg + ' ';
+              });
+            } else {
+              message += err.error;
+            }            
+            message += '\n';
+          });
+          alert('Something went wrong, please try again\n' + message);
         });
       } else if (this.type.value.type === 2) {
         const contact = new Contact(this.eventForm);
@@ -355,11 +381,24 @@ export class UploadComponent implements OnInit {
           contact.avatar = this.attachments[0].file;
         }
         this.contactsService.doContactsPost(contact).subscribe((res: Contact) => {
+          this.spinner.hide();
           this.onEventPost.emit(true);
           this.dialogRef.close();
           console.log(res);
-        }, (err: Error) => {
-          alert('Something went wrong, please try again ' + err.name);
+        }, (err: GenericError) => {
+          this.spinner.hide();
+          let message = 'Error: ';
+          Object.keys(err.error).forEach(key => {
+            if (Array.isArray(err.error[key])) {
+              err.error[key].forEach(msg => {
+                message += msg + ' ';
+              });
+            } else {
+              message += err.error;
+            }            
+            message += '\n';
+          });
+          alert('Something went wrong, please try again\n' + message);
         });
       }
     } else {

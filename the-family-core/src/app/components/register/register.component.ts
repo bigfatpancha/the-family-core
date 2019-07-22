@@ -7,6 +7,7 @@ import { FamilyUserListResponse } from 'src/app/model/family';
 import { MatDialogRef, ErrorStateMatcher } from '@angular/material';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { GenericError } from 'src/app/model/error';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -34,6 +35,7 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private httpService: HttpService,
     private userService: UsersService,
+    private spinner: NgxSpinnerService,
     public dialogRef: MatDialogRef<RegisterComponent>
   ) { }
 
@@ -77,6 +79,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.form.status === 'VALID') {
+      this.spinner.show();
       this.body.nickname = this.username.value;
       this.body.username = this.username.value;
       this.body.email = this.email.value;
@@ -102,6 +105,7 @@ export class RegisterComponent implements OnInit {
           this.verifyEmail();
         }
       }, (err: GenericError) => {
+        this.spinner.hide();
         let message = 'Error: ';
         Object.keys(err.error).forEach(key => {
           if (Array.isArray(err.error[key])) {
@@ -125,8 +129,11 @@ export class RegisterComponent implements OnInit {
     body.email = this.email.value;
     this.authService.doAuthRegistrationVerifyEmailPost(body)
     .subscribe((res: SendVerifyEmail) => {
+      this.dialogRef.close();
+      this.spinner.hide();
       alert('we sent you an email to verify your account.\nPlease check your email')
     }, (err: GenericError) => {
+      this.spinner.hide();
       let message = 'Error: ';
       Object.keys(err.error).forEach(key => {
         if (Array.isArray(err.error[key])) {

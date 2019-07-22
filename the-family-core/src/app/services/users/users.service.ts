@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { FamilyUserListResponse, FamilyUser } from 'src/app/model/family';
+import { FamilyUserListResponse, FamilyUser, UserId } from 'src/app/model/family';
 import { Observable } from 'rxjs';
 import { Routes } from '../config/routes-enum';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
@@ -116,6 +116,14 @@ export class UsersService {
       headers: headers
     }
     return this.http_service.doGet(Routes.FAMILY_USERS + id + '/contacts/', options);
+  }
+
+  doUsersIdSendInvitePost(body: UserId): Observable<UserId> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const options = {
+      headers: headers
+    }
+    return this.http_service.doPost(Routes.FAMILY_USERS + body.id + '/sendInvite/', body, options);
   }
 
 

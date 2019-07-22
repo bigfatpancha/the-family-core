@@ -6,6 +6,10 @@ export enum UserRole {
     NANNY = 'Nanny / Caregiver / Babysitter' 
 }
 
+export class UserId {
+    id: number;
+}
+
 export class Coordinate {
     latitude: number;
     longitude: number;

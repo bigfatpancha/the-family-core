@@ -432,7 +432,7 @@
                 <p>{{loc.name}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>{{loc.address.addressLine1}}</p>
+                <p>{{getLocationAddress(loc)}}</p>
               </div>
               <div class="table__body--columns col-3">
                 <p>{{loc.phoneNumber}}</p>
@@ -670,7 +670,7 @@
                 <p>{{ev.detail}}</p>
               </div>
               <div class="table__body--columns col-2">
-                <p>{{ev.address.addressLine1}}</p>
+                <p>{{getLocationAddress(ev)}}</p>
               </div>
               <div class="table__body--columns col-2">
                 <p>{{ev.start}}</p>
@@ -845,4 +845,5 @@
       </div>
     </div>
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
 import { User } from 'src/app/model/auth';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
 
 @Component({
   selector: 'app-rewards',
@@ -13,7 +15,10 @@ export class RewardsComponent implements OnInit {
   state = -1;
   users: FamilyUser[];
 
-  constructor(private usersService: UsersService) { }
+  constructor(
+    private usersService: UsersService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
     this.users = this.usersService.users;
@@ -34,12 +39,30 @@ export class RewardsComponent implements OnInit {
     user.username = userGeneric.username;
     user.nickname = userGeneric.nickname;
     user.email = userGeneric.email;
+    this.spinner.show();
     this.usersService.doUserIdPut(userGeneric.id, user).subscribe((res: User) => {
-      alert('Redeem Successful');
       this.usersService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
+        this.spinner.hide();
         this.users = res.results;
         this.usersService.users = res.results;
+        alert('Redeem Successful');
+      }, (err: GenericError) => {
+        this.spinner.hide();
       })
+    }, (err: GenericError) => {
+      this.spinner.hide();
+      let message = 'Error: ';
+      Object.keys(err.error).forEach(key => {
+        if (Array.isArray(err.error[key])) {
+          err.error[key].forEach(msg => {
+            message += msg + ' ';
+          });
+        } else {
+          message += err.error;
+        }            
+        message += '\n';
+      });
+      alert('Something went wrong, please try again\n' + message);
     })
   }
 

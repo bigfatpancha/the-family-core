@@ -8,7 +8,7 @@
 
     <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
       <div class="d-inline-block mr-3 profile__user cursor-pointer" (click)="openLogin()">
-        <img src="../../../assets/icono.png" alt="icono de perfil" class="mr-3">
+        <img src="../../../assets/icono.webp" alt="icono de perfil" class="mr-3">
         <span *ngIf="isLogged && user">{{user.nickname}}</span>
         <span *ngIf="!isLogged">Login</span>
       </div>
@@ -37,49 +37,49 @@
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToUsers()">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/user.access.png" alt="">
+          <img src="../../../assets/img/user.access.webp" alt="">
         </div>
         <span class="options__text">Users/Access</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="openUpload()">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/upload.png" alt="">
+          <img src="../../../assets/img/upload.webp" alt="">
         </div>
         <span class="options__text">Upload</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToLocation()">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/location.png" alt="">
+          <img src="../../../assets/img/location.webp" alt="">
         </div>
         <span class="options__text">Location</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToRewards()">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/rewards.png" alt="">
+          <img src="../../../assets/img/rewards.webp" alt="">
         </div>
         <span class="options__text">Rewards</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToReports()">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/reports.png" alt="">
+          <img src="../../../assets/img/reports.webp" alt="">
         </div>
         <span class="options__text">Reports</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/payments.png" alt="">
+          <img src="../../../assets/img/payments.webp" alt="">
         </div>
         <span class="options__text">Payment</span>
       </div>
 
       <div class="col-6 col-sm-4 col-md-3 mb-4 options">
         <div class="options__bloque mb-1">
-          <img src="../../../assets/img/resources.png" alt="">
+          <img src="../../../assets/img/resources.webp" alt="">
         </div>
         <span class="options__text">Resources</span>
       </div>
@@ -99,5 +99,6 @@
 
 
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </main>
 <app-chat *ngIf="isLogged" [user]="user"></app-chat>

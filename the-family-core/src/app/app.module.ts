@@ -7,6 +7,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LocationComponent } from './components/location/location.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { ReportsComponent } from './components/reports/reports.component';
     LoginComponent,
     LocationComponent,
     EditProfileComponent,
-    ReportsComponent
+    ReportsComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { ReportsComponent } from './components/reports/reports.component';
       apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
     }),
     MatDialogModule,
+    NgxSpinnerModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot()
@@ -64,6 +68,7 @@ import { ReportsComponent } from './components/reports/reports.component';
     RegisterComponent,
     UploadComponent,
     NewUserComponent,
+    EditUserComponent,
     EditProfileComponent
   ],
 })

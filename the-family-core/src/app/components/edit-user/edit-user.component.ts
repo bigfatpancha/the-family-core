@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { User, ReferredBy } from 'src/app/model/auth';
 import { Address } from 'src/app/model/contact';
 import { UsersService } from 'src/app/services/users/users.service';
-import { FamilyUser, FamilyUserListResponse, UserId } from 'src/app/model/family';
+import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
 import { HttpService } from 'src/app/services/http/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { GenericError } from 'src/app/model/error';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-edit-profile',
-  templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.scss']
 })
-export class EditProfileComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
   dropdownSettings = {};
   newUserForm: FormGroup;
-  user: User = new User();
   editedUser: User = new User();
   favoritesSelected: string[];
   dislikesSelected: string[];
@@ -36,8 +35,10 @@ export class EditProfileComponent implements OnInit {
     private usersService: UsersService,
     private httpService: HttpService,
     private spinner: NgxSpinnerService,
-    public dialogRef: MatDialogRef<EditProfileComponent>
+    public dialogRef: MatDialogRef<EditUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public user: User
   ) {
+    console.log(this.user);
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -53,12 +54,11 @@ export class EditProfileComponent implements OnInit {
         return user.id !== this.httpService.id;
       });
     });
-    this.user = this.usersService.user;
     let birthDateNG: NgbDate = null;
     if (this.user.birthDate) {
-      const year = this.user.birthDate.substring(0,4);
-      const month = this.user.birthDate.substring(5,7);
-      const day = this.user.birthDate.substring(8,10);
+      const year = this.user.birthDate.substring(0, 4);
+      const month = this.user.birthDate.substring(5, 7);
+      const day = this.user.birthDate.substring(8, 10);
       birthDateNG = new NgbDate(parseInt(year, 10), parseInt(month, 10), parseInt(day, 10));
     }
     this.favoritesSelected = this.user.favorites;
@@ -74,7 +74,7 @@ export class EditProfileComponent implements OnInit {
           if (id === user.id) {
             this.selectedRelationships.push(user);
           }
-        })
+        });
       });
     }
     this.newUserForm = new FormGroup({
@@ -402,7 +402,7 @@ export class EditProfileComponent implements OnInit {
       if (this.topSize.dirty) {
         this.editedUser.topSize = this.topSize.value;
       }
-      if (this.bottomsSize.disable) {
+      if (this.bottomsSize.dirty) {
         this.editedUser.bottomsSize = this.bottomsSize.value;
       }
       if (this.shoeSize.dirty) {
@@ -426,7 +426,7 @@ export class EditProfileComponent implements OnInit {
         } else {
           this.editedUser.address = this.user.address;
         }
-        if (this.addressLine1.dirty) {
+        if (this.addressLine1.disable) {
           this.editedUser.address.addressLine1 = this.addressLine1.value;
         }
         if (this.addressLine2.dirty) {
@@ -461,7 +461,7 @@ export class EditProfileComponent implements OnInit {
         let message = '';
         Object.keys(err.error).forEach((key: string) => {
           message += key + ': ' + err.error[key][0] + '.\n';
-        })
+        });
         alert('Something went wrong, please try again.\n' + message);
       });
     } else {
@@ -489,4 +489,5 @@ export class EditProfileComponent implements OnInit {
     return (this.refName.dirty || this.driversLicenseState.dirty || this.driversLicenseNumber.dirty || this.refCountOfCit.dirty ||
       this.agency.dirty || this.passportNumber.dirty || this.refplaceOfBirth.dirty || this.refSocSecNum.dirty);
   }
+
 }

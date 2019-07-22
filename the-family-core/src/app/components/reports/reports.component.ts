@@ -5,6 +5,8 @@ import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { EventResponse, Event } from 'src/app/model/events';
 import { DocumentResponse, Document } from 'src/app/model/documents';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
 
 @Component({
   selector: 'app-reports',
@@ -22,14 +24,19 @@ export class ReportsComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private eventsService: EventsService,
+    private spinner: NgxSpinnerService,
     private documentsService: DocumentsService
   ) { }
 
   ngOnInit() {
     this.users = this.usersService.users;
+    this.spinner.show();
     this.eventsService.doEventsGet()
     .subscribe((res: EventResponse) => {
+      this.spinner.hide();
       this.events = res.results;
+    }, (err: GenericError) => {
+      this.spinner.hide();
     });
     this.documentsService.doDocumentsGet()
     .subscribe((res: DocumentResponse) => {

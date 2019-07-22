@@ -1,25 +1,13 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-calendar',
-//   templateUrl: './calendar.component.html',
-//   styleUrls: ['./calendar.component.scss']
-// })
-// export class CalendarComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit, Input } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { UsersService } from 'src/app/services/users/users.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { User } from 'src/app/model/auth';
+import { EventResponse, Event, CalendarEventImpl } from 'src/app/model/events';
+import { GenericError } from 'src/app/model/error';
 
 const colors: any = {
   red: {
@@ -39,14 +27,17 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent{
+export class CalendarComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+
+  @Input() user: User;
 
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
+  today;
 
   modalData: {
     action: string;
@@ -71,50 +62,50 @@ export class CalendarComponent{
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
+  events: CalendarEvent[];
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(
+    private modal: NgbModal,
+    private usersService: UsersService,
+    private spinner: NgxSpinnerService
+  ) {}
+
+  ngOnInit() {
+    this.spinner.show();
+    const today = new Date();
+    this.today = today.toUTCString().substring(0,7);
+    const after = new Date(today.getFullYear(), today.getMonth(), 1);
+    const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
+      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
+    this.usersService.doUserIdEventByDateGet(this.user.id, after.toISOString(), before.toISOString())
+    .subscribe((res: EventResponse) => {
+      this.events = res.results.map((event: Event) => {
+        let ev = new CalendarEventImpl()
+        ev.start = new Date(event.start);
+        ev.end = new Date(event.end);
+        ev.title = event.title;
+        return ev;
+      })
+      this.spinner.hide();
+    }, (err: GenericError) => {
+      this.spinner.hide();
+      let message = 'Error: ';
+      Object.keys(err.error).forEach(key => {
+        if (Array.isArray(err.error[key])) {
+          err.error[key].forEach(msg => {
+            message += msg + ' ';
+          });
+        } else {
+          message += err.error;
+        }            
+        message += '\n';
+      });
+      alert('Something went wrong, please try again\n' + message);
+    })
+
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {

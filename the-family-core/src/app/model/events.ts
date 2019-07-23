@@ -44,7 +44,7 @@ export class Event {
         // end
         hour = parseInt(form.get('endTimeForm').value.toString().substring(0, 2));
         min = parseInt(form.get('endTimeForm').value.toString().substring(3, 5));
-        const endDate = new Date(form.get('dpend').value.year, form.get('dpend').value.month, form.get('dpend').value.day, hour, min, 0);
+        const endDate = new Date(form.get('dpend').value.year, form.get('dpend').value.month - 1, form.get('dpend').value.day, hour, min, 0);
         this.end = endDate.toISOString();
         this.timezone = form.get('timezone').value;
         if (form.get('alert').value){

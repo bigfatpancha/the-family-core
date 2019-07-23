@@ -144,7 +144,7 @@ export class UploadComponent implements OnInit {
       'notes': new FormControl(null),
       'notifyTeam': new FormControl(false),
       'email': new FormControl(null)
-    });
+    }, this.validateTime);
 
 
     this.eventForm.get('type').valueChanges.subscribe((type: Type) => {
@@ -301,11 +301,18 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  validateTime() {
-    if (this.dpstart.value.equals(this.dpend) && this.startTime > this.endTime) {
-      this.isValidTime = false;
-    } else {
-      this.isValidTime = true;
+  validateTime(group: FormGroup) {
+    if (group && group.controls && group.controls.dpstart.value && group.controls.dpend.value && group.controls.startTimeForm.value && group.controls.endTimeForm.value) {
+      // start
+      let hour = parseInt(group.controls.startTimeForm.value.toString().substring(0, 2));
+      let min = parseInt(group.controls.startTimeForm.value.toString().substring(3, 5));
+      const startDate = new Date(group.controls.dpstart.value.year, group.controls.dpstart.value.month - 1, group.controls.dpstart.value.day, hour, min, 0);
+      // end
+      hour = parseInt(group.controls.endTimeForm.value.toString().substring(0, 2));
+      min = parseInt(group.controls.endTimeForm.value.toString().substring(3, 5));
+      const endDate = new Date(group.controls.dpend.value.year, group.controls.dpend.value.month - 1, group.controls.dpend.value.day, hour, min, 0);
+
+      return startDate > endDate ? { notValidTime: true } : null;
     }
   }
 

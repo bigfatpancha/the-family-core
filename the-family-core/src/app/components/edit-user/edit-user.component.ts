@@ -27,7 +27,7 @@ export class EditUserComponent implements OnInit {
   referredBy: ReferredBy;
   relationshipsList: FamilyUser[];
   selectedRelationships: FamilyUser[];
-  imgSrc: any = '../../../assets/icono.png';
+  imgSrc: any = '../../../assets/icono.webp';
   avatarFile: any;
   idDataLoaded = false;
 

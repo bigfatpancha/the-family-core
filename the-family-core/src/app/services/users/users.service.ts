@@ -100,6 +100,16 @@ export class UsersService {
     return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
   }
 
+  doUserIdEventByTypeGet(id: number, type: string): Observable<EventResponse> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const params = new HttpParams().set('type', type);
+    const options = {
+      headers: headers,
+      params: params
+    }
+    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+  }
+
   doUserIdEventByDateGet(id: number, after: any, before: any): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const params = new HttpParams().set('date_before', before)

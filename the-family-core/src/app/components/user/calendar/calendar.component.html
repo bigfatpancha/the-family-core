@@ -7,10 +7,6 @@
     <div mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="dataChange(viewDate)">
       <i class="icon-arrow-right-orange cursor-pointer"></i>
     </div>
-    <div class="today ml-3 cursor-pointer" mwlCalendarToday [(viewDate)]="viewDate"
-      (viewDateChange)="viewDateChange.next(viewDate)">
-      Today
-    </div>
   </div>
   <div class="fecha">
     <h5 class="mb-0">

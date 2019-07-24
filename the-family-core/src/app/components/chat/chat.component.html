@@ -1,25 +1,34 @@
-<div class="chat-list" [ngClass]="{'chat-open': chatListOpen}">
+<div class="chat-list" [ngClass]="{'chat-open': chatListOpen}" [formGroup]="formList">
   <div class="chat-header p-2 d-flex align-items-center justify-content-between">
     <div>
       <h5 class="mb-0">Channel List</h5>
     </div>
     <div class="actions d-flex align-items-center">
-      <div class="add-chat"><i class="icon-cruz"></i></div>
+      <div class="add-chat" (click)="showList()"><i class="icon-cruz"></i></div>
       <div class="ml-3 close-chat" (click)="closeChat()" [ngClass]="{'chat-open': chatListOpen}"><i
           class="icon-arrow-down"></i></div>
     </div>
   </div>
   <div class="chat-body p-2">
-    <div class="chat-messages"></div>
-    <div class="chat-write"></div>
+    <div class="input-icon" *ngIf="showSelect">
+      <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
+      <ng-multiselect-dropdown [data]="users" [(ngModel)]="selectedUsers"
+        class="multiple-select" [settings]="dropdownSettings" formControlName="chats"> 
+      </ng-multiselect-dropdown>
+      <button (click)="newChat()">Create Chat</button>
+    </div>
+    <div *ngFor="let chat of channelList" (click)="openChat(chat)">
+      <div class="chat-messages">{{getNameChat(chat)}}SACAR ESTO</div>
+      <div class="chat-write">{{chat.lastMessage.message}}</div>
+    </div>
   </div>
 </div>
 
 
-<div class="conversacion" [hidden]="!converOpen">
+<div class="conversacion" *ngIf="chat" [hidden]="!converOpen" [formGroup]="formChat">
   <div class="conver-header p-2 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center">
-      <p class="mb-0">Martincito</p>
+      <p class="mb-0">{{getName()}}</p>
       <span class="notificaciones">2</span>
     </div>
     <div class="actions d-flex align-items-center">
@@ -29,8 +38,12 @@
       <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>
     </div>
   </div>
-  <div class="conver-body p-2">
-    <div class="conver-messages"></div>
-    <div class="conver-write"></div>
+  <div class="conver-body p-2" *ngFor="let message of messages">
+    <div *ngIf="message.sender" class="conver-messages">{{message.sender.nickname}}</div>
+    <div *ngIf="message.sender" class="conver-write">{{message.message}}</div>
+  </div>
+  <div class="conver-message d-flex">
+    <input class="form-control" type="text" formControlName="message">
+    <button (click)="sendmessage()">send</button>
   </div>
 </div>

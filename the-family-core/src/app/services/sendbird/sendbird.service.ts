@@ -42,10 +42,16 @@ export class SendbirdService implements OnDestroy {
   }
 
   startGroupChannel(name: string, ids: string[]): Promise<any> {
-    ids.push(this.id);
-    console.log(name, ids)
+	let params = new this.sendbird.GroupChannelParams();
+	params.isPublic = false;
+	params.isEphemeral = false;
+	params.isDistinct = false;
+	params.addUserIds(ids);
+	params.operatorIds = [this.id];   // or .operators(Array<User>)
+	params.name = name;
+	
     const promise = new Promise((resolve, reject) => {
-      this.sendbird.GroupChannel.createChannelWithUserIds(ids, true, name, function(groupChannel, error) {
+      this.sendbird.GroupChannel.createChannelWithUserIds(params, function(groupChannel, error) {
         if (error) {
             reject(error);
         }

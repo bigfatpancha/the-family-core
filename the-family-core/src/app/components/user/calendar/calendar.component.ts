@@ -134,16 +134,16 @@ export class CalendarComponent implements OnInit {
 
   getTime(event: Event) {
     const date = new Date(event.start);
-    return event.start ? date.toLocaleTimeString() : '';
+    return event.start ? date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) : '';
   }
 
-  getAvatar(event) {
-    const user = this.usersService.users.find((user: FamilyUser) => user.id === event.lead);
+  getAvatar(member: number) {
+    const user = this.usersService.users.find((user: FamilyUser) => user.id === member);
     return user ? user.avatar : '';
   }
 
-  getLeadName(event: Event) {
-    const user = this.usersService.users.find((user: FamilyUser) => user.id === event.lead);
+  getName(member: number) {
+    const user = this.usersService.users.find((user: FamilyUser) => user.id === member);
     return user ? user.nickname : '';
   }
 

@@ -38,9 +38,9 @@
         <p class="mb-1 pl-4">{{event.detail}}</p>
       </div>
       <div class="users mb-2">
-        <div class="d-flex align-items-center">
-          <div class="mr-2 mb-1 div-img"><img src="{{getAvatar(event)}}" alt="..."></div>
-          <p class="mb-1">{{getLeadName(event)}}</p>
+        <div class="d-flex align-items-center" *ngFor="let mem of event.familyMembers">
+          <div class="mr-2 mb-1 div-img"><img src="{{getAvatar(mem)}}" alt="..."></div>
+          <p class="mb-1">{{getName(mem)}}</p>
         </div>
       </div>
       <div class="location mb-2 d-flex align-items-center">

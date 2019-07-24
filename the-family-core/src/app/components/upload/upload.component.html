@@ -210,17 +210,17 @@
         </div>
         <div class="form-group col-sm-6 col-lg-3">
           <div class="input-group">
-            <div *ngIf="(endTimeForm.invalid || !isValidTime) && (endTimeForm.dirty || endTimeForm.touched)"
+            <div *ngIf="endTimeForm.invalid && (endTimeForm.dirty || endTimeForm.touched)"
                 class="alert alert-danger">
-              <div *ngIf="isValidTime && endTimeForm.errors.required">
+              <div *ngIf="endTimeForm.errors.required">
                 End time is required.
-              </div>
-              <div *ngIf="!isValidTime">
-                End time has to be after start time
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div *ngIf="eventForm.errors?.notValidTime && (eventForm.touched || eventForm.dirty)" class="cross-validation-error-message alert alert-danger">
+        Start date should be before end date
       </div>
 
       <div class="form-row">
@@ -234,7 +234,7 @@
             </select>
             <div *ngIf="timezone.invalid && (timezone.dirty || timezone.touched)"
                 class="alert alert-danger">
-              <div *ngIf="isValidTime && timezone.errors.required">
+              <div *ngIf="timezone.errors.required">
                 Timezone is required.
               </div>
             </div>

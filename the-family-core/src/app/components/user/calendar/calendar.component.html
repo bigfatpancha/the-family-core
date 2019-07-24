@@ -1,0 +1,122 @@
+<div class="header-calendar">
+  <div class="d-flex align-items-center fecha-calendario">
+    <div mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="dataChange(viewDate)"><i
+        class="icon-arrow-left-orange cursor-pointer"></i>
+    </div>
+    <h3 class="mx-4 text-center">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    <div mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="dataChange(viewDate)">
+      <i class="icon-arrow-right-orange cursor-pointer"></i>
+    </div>
+  </div>
+  <div class="fecha">
+    <h5 class="mb-0">
+      {{today}}
+    </h5>
+  </div>
+</div>
+
+<div class="row mb-5">
+  <div  class="col-lg-8">
+    <mwl-calendar-month-view [viewDate]="viewDate" [events]="calendarEvents" [refresh]="refresh">
+    </mwl-calendar-month-view>
+  </div>
+  <div class="events col-lg-4">
+    <div class="py-3 px-2 container-event" *ngFor="let event of events">
+      <div class="d-flex justify-content-between align-items-center header-event">
+        <div>
+          <span class="point-event"></span>
+          <p class="mb-1 pl-4">{{getTime(event)}}</p>
+          <p class="title mb-1 pl-4">{{event.title}}</p>
+        </div>
+        <img *ngFor="let attachment of event.attachments" [src]="attachment.thumbnail" alt="attachment" height="25px">
+      </div>
+      <div class="events-detail mb-2">
+        <p class="mb-1 pl-4">{{event.detail}}</p>
+      </div>
+      <div class="users mb-2">
+        <div class="d-flex align-items-center" *ngFor="let mem of event.familyMembers">
+          <div class="mr-2 mb-1 div-img"><img src="{{getAvatar(mem)}}" alt="..."></div>
+          <p class="mb-1">{{getName(mem)}}</p>
+        </div>
+      </div>
+      <div class="location mb-2 d-flex align-items-center">
+        <i class="icon-location mb-0 mr-2"></i>
+        <p class="mb-0">{{getAddress(event)}}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- <div class="d-flex justify-content-between align-items-center mb-3 edit-event">
+  <h3>Edit events</h3>
+  <button class="btn btn-primary" (click)="addEvent()">Add new</button>
+</div> -->
+
+<!-- <div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Primary color</th>
+        <th>Secondary color</th>
+        <th>Starts at</th>
+        <th>Ends at</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td>
+          <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
+        </td>
+        <td>
+          <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />
+        </td>
+        <td>
+          <input type="color" [(ngModel)]="event.color.secondary" (change)="refresh.next()" />
+        </td>
+        <td>
+          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
+            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+            dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+        </td>
+        <td>
+          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()"
+            [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i" placeholder="Not set" />
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteEvent(event)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+<!-- <ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Event action occurred</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Action:
+      <pre>{{ modalData?.action }}</pre>
+    </div>
+    <div>
+      Event:
+      <pre>{{ modalData?.event | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template> -->

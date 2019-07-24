@@ -91,8 +91,29 @@ export class UsersService {
   doUserIdEventGet(id: number, type: string, after: any, before: any): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const params = new HttpParams().set('type', type)
-                                    .set('before', before)
-                                    .set('after', after);
+                                    .set('date_before', before)
+                                    .set('date_after', after);
+    const options = {
+      headers: headers,
+      params: params
+    }
+    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+  }
+
+  doUserIdEventByTypeGet(id: number, type: string): Observable<EventResponse> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const params = new HttpParams().set('type', type);
+    const options = {
+      headers: headers,
+      params: params
+    }
+    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+  }
+
+  doUserIdEventByDateGet(id: number, after: any, before: any): Observable<EventResponse> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const params = new HttpParams().set('date_before', before)
+                                    .set('date_after', after);
     const options = {
       headers: headers,
       params: params

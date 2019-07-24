@@ -8,6 +8,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +30,7 @@ import { LocationComponent } from './components/location/location.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { CalendarComponent } from './components/user/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +49,8 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     LocationComponent,
     EditProfileComponent,
     ReportsComponent,
-    EditUserComponent
+    EditUserComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +65,11 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     NgxSpinnerModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarCommonModule,
+    CalendarMonthModule,
+    FlatpickrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

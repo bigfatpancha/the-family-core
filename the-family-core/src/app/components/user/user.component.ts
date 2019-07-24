@@ -195,7 +195,7 @@ export class UserComponent implements OnInit, AfterContentInit {
 
   doEventType(type, state) {
     this.spinner.show()
-    this.usersService.doUserIdEventGet(this.id, type, {}, {})
+    this.usersService.doUserIdEventByTypeGet(this.id, type)
     .subscribe((data: EventResponse) => {
       this.spinner.hide();
       this.events = data.results;

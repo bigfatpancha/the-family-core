@@ -96,6 +96,7 @@ export class DashboardComponent implements OnInit {
   openLogin() {
     if (!this.isLogged) {
       this.showLogin = !this.showLogin;
+	  this.dialogConfig.width = 'auto';
       this.loginRef = this.dialog.open(LoginComponent, this.dialogConfig);
       this.loginRef.componentInstance.onLogin.subscribe(() => this.getUsers());
     }
@@ -111,6 +112,7 @@ export class DashboardComponent implements OnInit {
   openRegister() {
     if (!this.isLogged) {
       this.showRegister = !this.showRegister;
+	  this.dialogConfig.width = '70%';
       this.registerRef = this.dialog.open(RegisterComponent, this.dialogConfig);
       this.registerRef.componentInstance.onRegister.subscribe(() => this.onRegister());
     }

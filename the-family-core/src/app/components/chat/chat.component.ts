@@ -121,6 +121,17 @@ export class ChatComponent implements OnInit, OnDestroy {
     })
   }
 
+  sendFile(event) {
+    console.log(event)
+    if (event.target.files.length > 0) {
+      this.sbService.sendFileMessage(event.target.files[0], this.groupChannel).then((message) => {
+        this.sbService.loadPreviousMessages(this.groupChannel).then((messages) => {
+          this.messages = messages;
+        })
+      });
+    }
+  }
+
   leaveChat() {
     this.sbService.leaveChannel(this.groupChannel).then(() => {
       this.sbService.getChannelList().then((channelList) => {

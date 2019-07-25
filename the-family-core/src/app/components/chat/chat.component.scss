@@ -139,3 +139,12 @@
     width: 100%;
   }
 }
+input[type=file] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: auto;
+  position: absolute;
+  right: 56px;
+  width: 15px;
+  user-select: none;
+}

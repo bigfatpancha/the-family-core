@@ -28,7 +28,10 @@
     </div>
     <div class="actions d-flex align-items-center">
       <div class="add-chat ml-2" matTooltip="Invite user" (click)="inviteUser()"><i class="icon-cruz"></i></div>
-      <div class="add-chat ml-2" matTooltip="Upload file"><i class="icon-user-chat"></i></div>
+      <div class="add-chat ml-2" matTooltip="Upload file">
+        <i class="icon-user-chat"></i>
+        <input type="file" accept="image/png, image/jpeg" (change)="sendFile($event)">
+      </div>
       <div class="upload-chat ml-2" matTooltip="Leave chat" (click)="leaveChat()"><i class="icon-upload-chat"></i></div>
       <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>
     </div>
@@ -36,7 +39,10 @@
   <div class="conver-messages">
     <div class="conver-body p-2" *ngFor="let message of messages">
       <div *ngIf="message.sender" class="message-sender" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.sender.nickname}}</div>
-      <div *ngIf="message.sender" class="message-text" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.message}}</div>
+      <div *ngIf="message.messageType === 'user'" class="message-text" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.message}}</div>
+      <div *ngIf="message.messageType === 'file'" class="message-text" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">
+        <img [src]="message.url" alt="file">
+      </div>
     </div>
   </div>
   <div class="conver-message d-flex">

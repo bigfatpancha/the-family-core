@@ -174,6 +174,25 @@ export class SendbirdService implements OnDestroy {
     return promise;
   }
 
+  sendFileMessage(file: File, groupChannel): Promise<any> {
+    // Sending a file message with a raw file
+    const params = new this.sendbird.FileMessageParams();
+
+    params.file = file;
+    params.fileName = file.name;
+    params.fileSize = file.size;
+    const promise = new Promise((resolve, reject) => {
+      groupChannel.sendFileMessage(params, function(fileMessage, error) {
+        if (error) {
+            reject(error);
+        }
+        resolve(fileMessage)
+      });
+    });
+    return promise;
+  }
+  
+
   ngOnDestroy() {
     this.sendbird.disconnect(function(){
       // A current user is discconected from SendBird server.

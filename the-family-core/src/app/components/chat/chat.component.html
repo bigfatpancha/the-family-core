@@ -15,20 +15,22 @@
       <ng-multiselect-dropdown [data]="users" [(ngModel)]="selectedUsers"
         class="multiple-select" [settings]="dropdownSettings" formControlName="chats"> 
       </ng-multiselect-dropdown>
-      <button (click)="newChat()">Create Chat</button>
+      <button class="btn-save" (click)="newChat()">Create Chat</button>
     </div>
-    <div *ngFor="let chat of channelList" (click)="openChat(chat)">
-      <div class="chat-messages">{{getNameChat(chat)}}SACAR ESTO</div>
-      <div class="chat-write">{{chat.lastMessage.message}}</div>
+    <div *ngIf="channelList" class="channels">
+      <div *ngFor="let channel of channelList" (click)="openChat(channel)">
+        <div class="chat-messages">{{channel.name}}</div>
+        <div class="chat-write">{{getLastMessage(channel)}}</div>
+      </div>
     </div>
   </div>
 </div>
 
 
-<div class="conversacion" *ngIf="chat" [hidden]="!converOpen" [formGroup]="formChat">
+<div class="conversacion" *ngIf="groupChannel" [hidden]="!converOpen" [formGroup]="formChat">
   <div class="conver-header p-2 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center">
-      <p class="mb-0">{{getName()}}</p>
+      <p class="mb-0">{{groupChannel.name}}</p>
       <span class="notificaciones">2</span>
     </div>
     <div class="actions d-flex align-items-center">
@@ -38,9 +40,11 @@
       <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>
     </div>
   </div>
-  <div class="conver-body p-2" *ngFor="let message of messages">
-    <div *ngIf="message.sender" class="conver-messages">{{message.sender.nickname}}</div>
-    <div *ngIf="message.sender" class="conver-write">{{message.message}}</div>
+  <div class="conver-messages">
+    <div class="conver-body p-2" *ngFor="let message of messages">
+      <div *ngIf="message.sender" class="message-sender" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.sender.nickname}}</div>
+      <div *ngIf="message.sender" class="message-text" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.message}}</div>
+    </div>
   </div>
   <div class="conver-message d-flex">
     <input class="form-control" type="text" formControlName="message">

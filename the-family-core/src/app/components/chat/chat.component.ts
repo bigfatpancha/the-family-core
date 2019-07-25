@@ -1,36 +1,44 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { User } from 'src/app/model/auth';
 import { SendbirdService } from 'src/app/services/sendbird/sendbird.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser } from 'src/app/model/family';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Channel } from 'src/app/model/chat';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
   @Input() user: User;
 
   chatListOpen = false;
   converOpen = false;
+  showSelect= false;
+
   channelList: any;
   users: FamilyUser[];
+  userSendbird;
+  
   selectedUsers: FamilyUser[];
-  showSelect= false;
   dropdownSettings = {
     singleSelection: false,
     idField: 'sendbirdId',
     textField: 'nickname',
     placeholder: 'Select user'
   };
-  chat;
+  
+  groupChannel;
   messages;
 
   formList: FormGroup;
   formChat: FormGroup;
+
+  subscriptions: Subscription[] = [];
 
   constructor(
     private sbService: SendbirdService,
@@ -47,17 +55,20 @@ export class ChatComponent implements OnInit {
     this.formChat = new FormGroup({
       'message': new FormControl(null)
     })
-    this.sbService.connect(this.user.sendbirdId).then((user: any) => {
-      this.sbService.getChannelList().then((channelList: any) => {
-        this.channelList = channelList;
-        console.log(this.channelList);
-      });
-    });
-    
+    this.connect();
   }
 
   get chats() { return this.formList.get('chats'); }
   get message() { return this.formChat.get('message'); }
+
+  connect() {
+    this.sbService.connect(this.user).then((user: any) => {
+      this.userSendbird = user;
+      this.sbService.getChannelList().then((channelList: any) => {
+        this.channelList = channelList;
+      });
+    });
+  }
 
   showList() {
     this.showSelect = !this.showSelect;
@@ -79,33 +90,37 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  openChat(chat) {
+  openChat(groupChannel) {
     this.converOpen = true;
-    this.chat = chat;
-    this.sbService.loadPreviousMessages(chat).then((messages) => {
-      this.messages = messages.slice().reverse();
-    })
-  }
-
-  getName() {
-    return this.getNameChat(this.chat);
-  }
-
-  getNameChat(chat) {
-    let name = '';
-    chat.members.forEach(member => {
-      name += member.nickname + ' ';
+    this.groupChannel = groupChannel;
+    this.sbService.loadPreviousMessages(groupChannel).then((messages) => {
+      this.messages = messages;
     });
-    return name;
+    this.subscriptions.push(this.sbService.messageReceivedCallback$.subscribe((message) => {
+        this.messages.unshift(message);
+    }));
+  }
+
+  getLastMessage(channel: Channel) {
+    return channel.lastMessage ? channel.lastMessage.message : '';
   }
 
   sendmessage() {
-    this.sbService.sendMessage(this.message.value, this.chat).then((message) => {
-      this.sbService.loadPreviousMessages(this.chat).then((messages) => {
-        this.messages = messages.slice().reverse();
-        console.log(this.messages);
-      })
-    })
+    if (this.message.value && this.message.value != '') {
+      this.sbService.sendMessage(this.message.value, this.groupChannel).then((message) => {
+        this.sbService.loadPreviousMessages(this.groupChannel).then((messages) => {
+          this.messages = messages;
+        })
+      });
+      this.message.setValue(null);
+    }
+  }
+
+  isUserLogged(message) {
+    if (message.sender) {
+      return message.sender.nickname === this.user.nickname;
+    }
+    return false;
   }
 
   closeChat(){
@@ -114,6 +129,12 @@ export class ChatComponent implements OnInit {
 
   converClose(){
     this.converOpen = !this.converOpen;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
 }

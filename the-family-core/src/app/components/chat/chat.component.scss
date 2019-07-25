@@ -48,6 +48,15 @@
       }
     }
   }
+
+  .channels {
+    cursor: pointer;
+    border-bottom: 1px solid lightgray !important;
+
+    :hover {
+      background-color: lightgray;
+    }
+  }
 }
 
 
@@ -97,6 +106,26 @@
       .close-conver {
         transform: rotate(45deg);
       }
+    }
+  }
+
+  .conver-messages {
+    height: 312px;
+    overflow-y: scroll;
+    scroll-behavior: auto;
+    display: flex;
+    flex-direction: column-reverse;
+
+    .message-sender {
+      color: darkgrey;
+    }
+
+    .isUser {
+      text-align: right;
+    }
+
+    .isNotUser {
+      text-align: left;
     }
   }
 

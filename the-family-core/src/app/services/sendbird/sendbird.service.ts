@@ -1,5 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import * as SendBird from 'sendbird';
+import { User } from 'src/app/model/auth';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,33 +9,48 @@ import * as SendBird from 'sendbird';
 export class SendbirdService implements OnDestroy {
 
   sendbird;
-  id: string;
-  user;
+  user: User;
+  userSendbird;
   groupChannel: any;
   HANDLER = 'handler';
+  private messageReceivedCallback = new Subject<string>();
+  messageReceivedCallback$ = this.messageReceivedCallback.asObservable();
+
+
+  onMessageReceived = (channel, message): any => {
+    this.messageReceivedCallback.next(message);
+  }
 
   constructor() {
     this.sendbird = new SendBird({appId: '24FA9059-6DA2-49AF-932A-8790F065C3E0'});
-    var ChannelHandler = new this.sendbird.ChannelHandler();
+    let ChannelHandler = new this.sendbird.ChannelHandler();
 
-    ChannelHandler.onMessageReceived = function(channel, message) {};
+    ChannelHandler.onMessageReceived = this.onMessageReceived;
     ChannelHandler.onUserReceivedInvitation = function(groupChannel, inviter, invitees) {};
     ChannelHandler.onUserDeclinedInvitation = function(groupChannel, inviter, invitee) {};
 
     // Add this channel event handler to the SendBird object.
     this.sendbird.addChannelHandler(this.HANDLER, ChannelHandler);
-  }  
+  }
 
-  connect(id: string): Promise<any> {
-    this.id = id;
+  connect(user: User): Promise<any> {
+    var _sendbird = this.sendbird;
+    var _userSendbird;
+    this.user = user;
     const promise = new Promise((resolve, reject) => {
-      this.sendbird.connect(id, function(user, error) {
+      _sendbird.connect(user.sendbirdId, function(userSendbird, error) {
       
         if (error) {
             reject(error);
         } else {
-          console.log('conectado a sendbird', user);
-          resolve(user);
+          console.log('conectado a sendbird');
+          _sendbird.updateCurrentUserInfo(user.nickname, '', function (response, error) {
+            if (error) {
+              reject(error);
+            }
+            _userSendbird = response;
+            resolve(response);
+          });
         }
         
       });
@@ -47,7 +64,7 @@ export class SendbirdService implements OnDestroy {
 	params.isEphemeral = false;
 	params.isDistinct = false;
 	params.addUserIds(ids);
-	params.operatorIds = [this.id];   // or .operators(Array<User>)
+	params.operatorIds = [this.user.sendbirdId];   // or .operators(Array<User>)
 	params.name = name;
 	
     const promise = new Promise((resolve, reject) => {
@@ -106,7 +123,6 @@ export class SendbirdService implements OnDestroy {
           reject(error);
         }
         resolve(messages);
-        console.log(messages);
       });
     });
     return promise;
@@ -145,7 +161,6 @@ export class SendbirdService implements OnDestroy {
             reject(error);
         }
         resolve(message);
-        console.log(message);
       });
     })
     return promise;

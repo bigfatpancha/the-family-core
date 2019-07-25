@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -31,6 +32,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { ReportsComponent } from './components/reports/reports.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CalendarComponent } from './components/user/calendar/calendar.component';
+import { UserListSelectComponent } from './components/chat/user-list-select/user-list-select.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
     EditProfileComponent,
     ReportsComponent,
     EditUserComponent,
-    CalendarComponent
+    CalendarComponent,
+    UserListSelectComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
       apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
     }),
     MatDialogModule,
+    MatTooltipModule,
     NgxSpinnerModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -79,6 +83,7 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
     UploadComponent,
     NewUserComponent,
     EditUserComponent,
+    UserListSelectComponent,
     EditProfileComponent
   ],
 })

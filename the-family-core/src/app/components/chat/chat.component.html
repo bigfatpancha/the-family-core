@@ -1,4 +1,4 @@
-<div class="chat-list" [ngClass]="{'chat-open': chatListOpen}" [formGroup]="formList">
+<div class="chat-list" [ngClass]="{'chat-open': chatListOpen}">
   <div class="chat-header p-2 d-flex align-items-center justify-content-between">
     <div>
       <h5 class="mb-0">Channel List</h5>
@@ -10,13 +10,6 @@
     </div>
   </div>
   <div class="chat-body p-2">
-    <div class="input-icon" *ngIf="showSelect">
-      <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
-      <ng-multiselect-dropdown [data]="users" [(ngModel)]="selectedUsers"
-        class="multiple-select" [settings]="dropdownSettings" formControlName="chats"> 
-      </ng-multiselect-dropdown>
-      <button class="btn-save" (click)="newChat()">Create Chat</button>
-    </div>
     <div *ngIf="channelList" class="channels">
       <div *ngFor="let channel of channelList" (click)="openChat(channel)">
         <div class="chat-messages">{{channel.name}}</div>
@@ -34,7 +27,7 @@
       <span class="notificaciones">{{groupChannel.joinedMemberCount}}</span>
     </div>
     <div class="actions d-flex align-items-center">
-      <div class="add-chat ml-2" matTooltip="Invite user"><i class="icon-cruz"></i></div>
+      <div class="add-chat ml-2" matTooltip="Invite user" (click)="inviteUser()"><i class="icon-cruz"></i></div>
       <div class="add-chat ml-2" matTooltip="Upload file"><i class="icon-user-chat"></i></div>
       <div class="upload-chat ml-2" matTooltip="Leave chat" (click)="leaveChat()"><i class="icon-upload-chat"></i></div>
       <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>

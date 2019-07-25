@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { User } from 'src/app/model/auth';
 import { SendbirdService } from 'src/app/services/sendbird/sendbird.service';
-import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser } from 'src/app/model/family';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Channel } from 'src/app/model/chat';
 import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { UserListSelectComponent } from './user-list-select/user-list-select.component';
 
 @Component({
   selector: 'app-chat',
@@ -21,44 +22,27 @@ export class ChatComponent implements OnInit, OnDestroy {
   showSelect= false;
 
   channelList: any;
-  users: FamilyUser[];
   userSendbird;
-  
-  selectedUsers: FamilyUser[];
-  dropdownSettings = {
-    singleSelection: false,
-    idField: 'sendbirdId',
-    textField: 'nickname',
-    placeholder: 'Select user'
-  };
   
   groupChannel;
   messages;
 
-  formList: FormGroup;
   formChat: FormGroup;
 
   subscriptions: Subscription[] = [];
 
   constructor(
     private sbService: SendbirdService,
-    private usersService: UsersService
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    this.users = this.usersService.users.filter((user: FamilyUser) => {
-      return user.id !== this.user.id;
-    });
-    this.formList = new FormGroup({
-      'chats': new FormControl([])
-    })
     this.formChat = new FormGroup({
       'message': new FormControl(null)
     })
     this.connect();
   }
 
-  get chats() { return this.formList.get('chats'); }
   get message() { return this.formChat.get('message'); }
 
   connect() {
@@ -71,18 +55,21 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   showList() {
-    this.showSelect = !this.showSelect;
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.hasBackdrop = true;
+    dialogConfig.width = '70%';
+    dialogConfig.height = '70%';
+    dialogConfig.data = { type: 'new' };
+    const listRef = this.dialog.open(UserListSelectComponent, dialogConfig);
+    listRef.componentInstance.onSelect.subscribe((res: any) => {
+      this.newChat(res);
+    })
   }
 
-  newChat() {
+  newChat(data: any) {
     this.showSelect = false;
-    const ids = this.chats.value.map((user: FamilyUser) => user.sendbirdId);
-    const names = this.chats.value.map((user: FamilyUser) => user.nickname);
-    let name = '';
-    names.forEach(nickname => {
-      name += nickname + ' ';
-    });
-    this.sbService.startGroupChannel(name, ids).then((groupChannel: any) => {
+    const ids = data.users.map((user: FamilyUser) => user.sendbirdId);
+    this.sbService.startGroupChannel(data.name, ids).then((groupChannel: any) => {
       this.sbService.getChannelList().then((channelList) => {
         this.channelList = channelList;
       })
@@ -120,6 +107,18 @@ export class ChatComponent implements OnInit, OnDestroy {
       return message.sender.nickname === this.user.nickname;
     }
     return false;
+  }
+
+  inviteUser() {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.hasBackdrop = true;
+    dialogConfig.width = '70%';
+    dialogConfig.height = '70%';
+    dialogConfig.data = { type: 'invite' };
+    const listRef = this.dialog.open(UserListSelectComponent, dialogConfig);
+    listRef.componentInstance.onSelect.subscribe((data: any) => {
+      this.sbService.inviteUsers(data.users, this.groupChannel);
+    })
   }
 
   leaveChat() {

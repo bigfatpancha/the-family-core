@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as SendBird from 'sendbird';
 import { User } from 'src/app/model/auth';
 import { Subject } from 'rxjs';
+import { FamilyUser } from 'src/app/model/family';
 
 @Injectable({
   providedIn: 'root'
@@ -91,13 +92,15 @@ export class SendbirdService implements OnDestroy {
     return promise;
   }
 
-  inviteUsers(id: string, groupChannel) {
-    var userIds = [id];
+  inviteUsers(users: FamilyUser[], groupChannel) {
+    console.log(users)
+    var userIds = users.map((user: FamilyUser) => user.sendbirdId);
 
     groupChannel.inviteWithUserIds(userIds, function(response, error) {
         if (error) {
-            return;
+          return;
         }
+        console.log(response);
     });
   }
 

@@ -83,6 +83,7 @@ import { UserListSelectComponent } from './components/chat/user-list-select/user
     UploadComponent,
     NewUserComponent,
     EditUserComponent,
+    UserListSelectComponent,
     EditProfileComponent
   ],
 })

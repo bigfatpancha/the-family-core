@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.body.password = this.password.value;
       this.authService.doAuthLoginPost(this.body)
       .subscribe( (data: LoginResponse) => {
-        this.userService.user = data.user;
+        this.userService.setUser(data.user);
         this.httpService.key = data.key;
         this.httpService.id = data.user.id;
         this.getUsers();

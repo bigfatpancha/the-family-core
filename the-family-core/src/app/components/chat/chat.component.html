@@ -13,7 +13,8 @@
     <div *ngIf="channelList" class="channels">
       <div *ngFor="let channel of channelList" (click)="openChat(channel)">
         <div class="chat-messages">{{channel.name}}</div>
-        <div class="chat-write">{{getLastMessage(channel)}}</div>
+        <div *ngIf="channel.lastMessage && channel.lastMessage.messageType === 'user'" class="chat-write">{{getLastMessage(channel)}}</div>
+        <div *ngIf="channel.lastMessage && channel.lastMessage.messageType === 'file'" class="chat-write">image</div>
       </div>
     </div>
   </div>

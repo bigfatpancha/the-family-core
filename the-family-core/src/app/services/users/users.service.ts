@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { FamilyUserListResponse, FamilyUser, UserId } from 'src/app/model/family';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Routes } from '../config/routes-enum';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from 'src/app/model/auth';
@@ -18,9 +18,17 @@ export class UsersService {
   users: FamilyUser[];
   headers: HttpHeaders = new HttpHeaders();
 
+  private userUpdatedCallback = new Subject<User>(); 
+  userUpdatedCallback$ = this.userUpdatedCallback.asObservable(); 
+
   constructor(private http_service: HttpService) {
     this.headers = this.headers.set('accept', 'application/json')
                                .set('content-type', 'application/json');
+  }
+
+  setUser(user: User) {
+    this.user = user;
+    this.userUpdatedCallback.next(user);
   }
 
   doGetUsersList(): Observable<FamilyUserListResponse> {

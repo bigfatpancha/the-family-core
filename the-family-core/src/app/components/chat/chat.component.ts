@@ -50,6 +50,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.userSendbird = user;
       this.sbService.getChannelList().then((channelList: any) => {
         this.channelList = channelList;
+        console.log(channelList)
       });
     });
   }

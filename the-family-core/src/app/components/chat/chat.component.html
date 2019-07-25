@@ -31,12 +31,12 @@
   <div class="conver-header p-2 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center">
       <p class="mb-0">{{groupChannel.name}}</p>
-      <span class="notificaciones">2</span>
+      <span class="notificaciones">{{groupChannel.joinedMemberCount}}</span>
     </div>
     <div class="actions d-flex align-items-center">
-      <div class="add-chat ml-2"><i class="icon-cruz"></i></div>
-      <div class="add-chat ml-2"><i class="icon-user-chat"></i></div>
-      <div class="upload-chat ml-2"><i class="icon-upload-chat"></i></div>
+      <div class="add-chat ml-2" matTooltip="Invite user"><i class="icon-cruz"></i></div>
+      <div class="add-chat ml-2" matTooltip="Upload file"><i class="icon-user-chat"></i></div>
+      <div class="upload-chat ml-2" matTooltip="Leave chat" (click)="leaveChat()"><i class="icon-upload-chat"></i></div>
       <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>
     </div>
   </div>

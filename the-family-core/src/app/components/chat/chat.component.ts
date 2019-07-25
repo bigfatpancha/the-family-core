@@ -85,7 +85,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.sbService.startGroupChannel(name, ids).then((groupChannel: any) => {
       this.sbService.getChannelList().then((channelList) => {
         this.channelList = channelList;
-        console.log(this.channelList);
       })
     });
   }
@@ -121,6 +120,15 @@ export class ChatComponent implements OnInit, OnDestroy {
       return message.sender.nickname === this.user.nickname;
     }
     return false;
+  }
+
+  leaveChat() {
+    this.sbService.leaveChannel(this.groupChannel).then(() => {
+      this.sbService.getChannelList().then((channelList) => {
+        this.channelList = channelList;
+      });
+    });
+    this.converOpen = !this.converOpen;
   }
 
   closeChat(){

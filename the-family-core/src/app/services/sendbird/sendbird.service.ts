@@ -59,16 +59,17 @@ export class SendbirdService implements OnDestroy {
   }
 
   startGroupChannel(name: string, ids: string[]): Promise<any> {
-	let params = new this.sendbird.GroupChannelParams();
-	params.isPublic = false;
-	params.isEphemeral = false;
-	params.isDistinct = false;
-	params.addUserIds(ids);
-	params.operatorIds = [this.user.sendbirdId];   // or .operators(Array<User>)
-	params.name = name;
-	
+    ids.push(this.user.sendbirdId);
+    let params = new this.sendbird.GroupChannelParams();
+    params.isPublic = false;
+    params.isEphemeral = false;
+    params.isDistinct = false;
+    params.addUserIds(ids);
+    params.operatorIds = [this.user.sendbirdId];
+    params.name = name;
+    console.log(params);
     const promise = new Promise((resolve, reject) => {
-      this.sendbird.GroupChannel.createChannelWithUserIds(params, function(groupChannel, error) {
+      this.sendbird.GroupChannel.createChannel(params, function(groupChannel, error) {
         if (error) {
             reject(error);
         }
@@ -78,12 +79,16 @@ export class SendbirdService implements OnDestroy {
     return promise;
   }
 
-  leaveChannel(groupChannel) {
-    groupChannel.leave(function(response, error) {
-      if (error) {
-          return;
-      }
+  leaveChannel(groupChannel): Promise<any> {
+    const promise = new Promise((resolve, reject) => {
+      groupChannel.leave(function(response, error) {
+        if (error) {
+          reject(error);
+        }
+        resolve(response);
+      });
     });
+    return promise;
   }
 
   inviteUsers(id: string, groupChannel) {

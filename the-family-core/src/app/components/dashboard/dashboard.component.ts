@@ -11,6 +11,10 @@ import { Router } from '@angular/router';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GenericError } from 'src/app/model/error';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +33,10 @@ export class DashboardComponent implements OnInit {
   uploadRef: MatDialogRef<UploadComponent>;
   editRef: MatDialogRef<EditProfileComponent>;
   dialogConfig = new MatDialogConfig();
-
+  
+  form = new FormControl();
+  options: FamilyUser[] = [];
+  filteredOptions: Observable<FamilyUser[]>;
 
   constructor(private userService: UsersService,
               private httpService: HttpService,
@@ -43,10 +50,20 @@ export class DashboardComponent implements OnInit {
     this.dialogConfig.width = 'auto';
     this.dialogConfig.height = 'auto';
     if (this.isLogged) {
-      this.user = this.userService.user;
-      this.users = this.userService.users;
+      this.getUsers();
     }
   }
+
+  displayFn(user?: User): string | undefined {
+    return user ? user.nickname : undefined;
+  }
+
+  private _filter(option: string): FamilyUser[] {
+    const filterValue = option.toLowerCase();
+
+    return this.options.filter(option => option.nickname.toLowerCase().includes(filterValue));
+  }
+
 
   goToUsers() {
     if (this.isLogged) {
@@ -85,6 +102,13 @@ export class DashboardComponent implements OnInit {
     this.showLogin = false;
     this.users = this.userService.users;
     this.user = this.userService.user;
+    this.options = [...this.users];
+    this.filteredOptions = this.form.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.nickname),
+        map((value: string) => value ? this._filter(value) : this.options.slice())
+      );
   }
 
   openLogin() {
@@ -152,6 +176,10 @@ export class DashboardComponent implements OnInit {
         });
       });
     }
+  }
+
+  selectedUser(event: MatAutocompleteSelectedEvent) {
+    this.router.navigate(['/user', event.option.value.id]);
   }
 
 }

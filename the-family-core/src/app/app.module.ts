@@ -6,6 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -66,6 +69,9 @@ import { UserListSelectComponent } from './components/chat/user-list-select/user
     }),
     MatDialogModule,
     MatTooltipModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule,
     NgxSpinnerModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

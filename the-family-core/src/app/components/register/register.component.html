@@ -16,7 +16,7 @@
             Legal First Name is required.
           </div>
           <div *ngIf="firstName.errors.maxlength">
-            legal first Name must have between 1 and 30 characters.
+            Legal First Name must have between 1 and 30 characters.
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
         <input class="form-control" placeholder="Mobile #" formControlName="mobileNumber">
         <div *ngIf="mobileNumber.invalid && ((mobileNumber.dirty || mobileNumber.touched))" class="alert alert-danger">
           <div *ngIf="mobileNumber.errors.maxlength">
-            Mobile Number must have between 1 and 28 characters.
+            Mobile # must have between 1 and 28 characters.
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
         <input class="form-control" placeholder="Password" formControlName="password1" required type="password">
         <div *ngIf="password1.invalid && ((password1.dirty || password1.touched))" class="alert alert-danger">
           <div *ngIf="password1.errors.required">
-            password is required.
+            Password is required.
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@
         <input class="form-control" placeholder="Repeat Password" formControlName="password2" required type="password">
         <div *ngIf="password2.invalid && ((password2.dirty || password2.touched))" class="alert alert-danger">
           <div *ngIf="password2.errors.required">
-            password is required.
+            Password is required.
           </div>
         </div>
         <div *ngIf="form.errors?.notSame && (form.touched || form.dirty)" class="cross-validation-error-message alert alert-danger">

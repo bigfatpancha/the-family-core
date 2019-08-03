@@ -25,7 +25,7 @@
                 <input formControlName="firstName" class="form-control" placeholder="Legal Firts Name">
                 <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
                   <div *ngIf="firstName.errors.maxlength">
-                    First name must have between 1 and 30 characters long.
+                    Legal Firts Name must have between 1 and 30 characters long.
                   </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@
                 <input formControlName="middleName" class="form-control" placeholder="M.I.">
                 <div *ngIf="middleName.invalid && (middleName.dirty || middleName.touched)" class="alert alert-danger">
                   <div *ngIf="middleName.errors.maxlength">
-                    Middle name must have between 1 and 30 characters long.
+                    Middle Name must have between 1 and 30 characters long.
                   </div>
                 </div>
               </div>
@@ -41,7 +41,7 @@
                 <input formControlName="lastName" class="form-control" placeholder="Legal Last Name">
                 <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert alert-danger">
                   <div *ngIf="lastName.errors.maxlength">
-                    Last name must have between 1 and 30 characters long.
+                    Legal Last Name must have between 1 and 30 characters long.
                   </div>
                 </div>
               </div>
@@ -52,7 +52,7 @@
                 <input formControlName="nickname" class="form-control" placeholder="Nickname" required>
                 <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="alert alert-danger">
                   <div *ngIf="nickname.errors.required">
-                    This fild is required.
+                    Nickname is required.
                   </div>
                   <div *ngIf="nickname.errors.maxlength || nickname.errors.minlength">
                     Nickname must have between 4 and 150 characters long.
@@ -63,10 +63,10 @@
                 <input formControlName="email" class="form-control" placeholder="Email" required>
                 <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
                   <div *ngIf="email.errors.required">
-                    This fild is required.
+                    Email is required.
                   </div>
                   <div *ngIf="email.errors.email">
-                    This is not a valid email
+                    Please enter a valid email
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                 <input formControlName="mobileNumber" class="form-control" placeholder="Mobile #">
                 <div *ngIf="mobileNumber.invalid && (mobileNumber.dirty || mobileNumber.touched)" class="alert alert-danger">
                   <div *ngIf="mobileNumber.errors.maxlength">
-                    Phone Number must have between 1 and 128 characters long.
+                    Mobile # must have between 1 and 128 characters long.
                   </div>
                 </div>
               </div>
@@ -123,7 +123,7 @@
                   required type="password">
                   <div *ngIf="password1.invalid && (password1.dirty || password1.touched)" class="alert alert-danger">
                     <div *ngIf="password1.errors.required">
-                      password is required.
+                      Password is required.
                     </div>
                   </div>
               </div>
@@ -132,7 +132,7 @@
                   required type="password">
                   <div *ngIf="password2.invalid && (password2.dirty || password2.touched)" class="alert alert-danger">
                     <div *ngIf="password2.errors.required">
-                      password is required.
+                      Password is required.
                     </div>
                   </div>
               </div>
@@ -164,7 +164,7 @@
               placeholder="Address Line 1">
             <div *ngIf="addressLine1.invalid && (addressLine1.dirty || addressLine1.touched)" class="alert alert-danger">
               <div *ngIf="addressLine1.errors.maxlength">
-                Address must have between 1 and 128 characters long.
+                Address Line 1 must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -173,7 +173,7 @@
               placeholder="Address Line 2">
             <div *ngIf="addressLine2.invalid && (addressLine2.dirty || addressLine2.touched)" class="alert alert-danger">
               <div *ngIf="addressLine2.errors.maxlength">
-                Address must have between 1 and 128 characters long.
+                Address Line 2 must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -184,7 +184,7 @@
             <input formControlName="city" class="form-control" type="text" placeholder="City">
             <div *ngIf="city.invalid && (city.dirty || city.touched)" class="alert alert-danger">
               <div *ngIf="city.errors.maxlength">
-                Address must have between 1 and 50 characters long.
+                City must have between 1 and 50 characters long.
               </div>
             </div>
           </div>
@@ -249,7 +249,7 @@
           </div>
 
           <div class="form-group col-md-3 col-lg-2">
-            <input class="form-control" type="text" placeholder="Zip" formControlName="zipCode">
+            <input class="form-control" type="text" placeholder="Zip code" formControlName="zipCode">
             <div *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)" class="alert alert-danger">
               <div *ngIf="zipCode.errors.maxlength">
                 Zip code must have between 1 and 50 characters long.
@@ -263,7 +263,7 @@
             <input type="text" class="form-control" placeholder="Phone #" formControlName="phoneNumber">
             <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
               <div *ngIf="phoneNumber.errors.maxlength">
-                Phone number must have between 1 and 128 characters long.
+                Phone # must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -272,7 +272,7 @@
             <input type="text" class="form-control" placeholder="Fax #" formControlName="faxNumber">
             <div *ngIf="faxNumber.invalid && (faxNumber.dirty || faxNumber.touched)" class="alert alert-danger">
               <div *ngIf="faxNumber.errors.maxlength">
-                Fax number must have between 1 and 128 characters long.
+                Fax # must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -325,7 +325,7 @@
           <input type="text" class="form-control" placeholder="Height" formControlName="height">
           <div *ngIf="height.invalid && (height.dirty || height.touched)" class="alert alert-danger">
             <div *ngIf="height.errors.maxlength">
-              height must have between 1 and 30 characters long.
+              Height must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -334,7 +334,7 @@
           <input type="text" class="form-control" placeholder="Weight" formControlName="weight">
           <div *ngIf="weight.invalid && (weight.dirty || weight.touched)" class="alert alert-danger">
             <div *ngIf="weight.errors.maxlength">
-              weight must have between 1 and 30 characters long.
+              Weight must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -342,19 +342,19 @@
 
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
-          <input type="text" class="form-control" placeholder="hair color" formControlName="hairColor">
+          <input type="text" class="form-control" placeholder="Hair color" formControlName="hairColor">
           <div *ngIf="hairColor.invalid && (hairColor.dirty || hairColor.touched)" class="alert alert-danger">
             <div *ngIf="hairColor.errors.maxlength">
-              Hari color must have between 1 and 30 characters long.
+              Hair color must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
-          <input type="text" class="form-control" placeholder="eye color" formControlName="eyeColor">
+          <input type="text" class="form-control" placeholder="Eye color" formControlName="eyeColor">
           <div *ngIf="eyeColor.invalid && (eyeColor.dirty || eyeColor.touched)" class="alert alert-danger">
             <div *ngIf="eyeColor.errors.maxlength">
-              eye color must have between 1 and 30 characters long.
+              Eye color must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -366,7 +366,7 @@
           <input type="text" class="form-control" placeholder="Allergies" name="allergies">
           <div *ngIf="allergies.invalid && (allergies.dirty || allergies.touched)" class="alert alert-danger">
             <div *ngIf="allergies.errors.maxlength">
-              allergies must have between 1 and 32 characters long.
+              Allergies must have between 1 and 32 characters long.
             </div>
           </div>
         </div>
@@ -413,7 +413,7 @@
           <input type="text" class="form-control" placeholder="School State" formControlName="schoolState">
           <div *ngIf="schoolState.invalid && (schoolState.dirty || schoolState.touched)" class="alert alert-danger">
             <div *ngIf="schoolState.errors.maxlength">
-              school state must have between 1 and 30 characters long.
+              School State must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -421,7 +421,7 @@
           <input type="text" class="form-control" placeholder="Social Security #" formControlName="socialSecurityNumber">
           <div *ngIf="socialSecurityNumber.invalid && (socialSecurityNumber.dirty || socialSecurityNumber.touched)" class="alert alert-danger">
             <div *ngIf="socialSecurityNumber.errors.maxlength">
-              Social Security Number must have between 1 and 30 characters long.
+              Social Security # must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -432,7 +432,7 @@
           <input type="text" class="form-control" placeholder="School" formControlName="school">
           <div *ngIf="school.invalid && (school.dirty || school.touched)" class="alert alert-danger">
             <div *ngIf="school.errors.maxlength">
-                school must have between 1 and 30 characters long.
+                School must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -441,7 +441,7 @@
           <input type="text" class="form-control" placeholder="Grade" formControlName="grade">
           <div *ngIf="grade.invalid && (grade.dirty || grade.touched)" class="alert alert-danger">
             <div *ngIf="grade.errors.maxlength">
-                grade must have between 1 and 30 characters long.
+                Grade must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -662,7 +662,7 @@
           <input type="text" placeholder="Refered By..." class="form-control" formControlName="refName">
           <div *ngIf="refName.invalid && (refName.dirty || refName.touched)" class="alert alert-danger">
             <div *ngIf="refName.errors.maxlength">
-                Name must have between 1 and 30 characters long.
+              Refered By... must have between 1 and 30 characters long.
             </div>
           </div>
         </div>

@@ -23,11 +23,11 @@
         <div class="form-group col-md-4">
           <input class="form-control" formControlName="detail" [placeholder]="type.value.type === 1 ? 'Description' : 'Detail'">
           <div *ngIf="detail.invalid && ((title.dirty || title.touched))" class="alert alert-danger">
-              <div *ngIf="detail.errors.required">
-                  Description is required.
-                </div>
+            <div *ngIf="detail.errors.required">
+              Description is required.
+            </div>
             <div *ngIf="detail.errors.maxlength">
-              Title must have between 1 and 30 characters long.
+              Description must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -81,10 +81,10 @@
           <input formControlName="email" class="form-control" placeholder="Email" required>
           <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
             <div *ngIf="email.errors.required">
-              This fild is required.
+              Email is required.
             </div>
             <div *ngIf="email.errors.email">
-              This is not a valid email
+              Please enter a valid email
             </div>
           </div>
         </div>
@@ -370,7 +370,7 @@
           <div *ngIf="addressLine1.invalid && (addressLine1.dirty || addressLine1.touched)"
               class="alert alert-danger">
             <div *ngIf="addressLine1.errors.maxlength">
-              Address line must have between 0 and 128 characters
+              Address Line 1 line must have between 0 and 128 characters
             </div>
           </div>
         </div>
@@ -379,7 +379,7 @@
           <div *ngIf="addressLine2.invalid && (addressLine2.dirty || addressLine2.touched)"
               class="alert alert-danger">
             <div *ngIf="addressLine2.errors.maxlength">
-              Address line must have between 0 and 128 characters
+              Address Line 2 line must have between 0 and 128 characters
             </div>
           </div>
         </div>
@@ -456,7 +456,7 @@
         </div>
 
         <div class="form-group col-md-3 col-lg-2">
-          <input class="form-control" type="text" formControlName="zip" placeholder="Zip Code">
+          <input class="form-control" type="text" formControlName="Zip code" placeholder="Zip Code">
           <div *ngIf="zip.invalid && (zip.dirty || zip.touched)"
               class="alert alert-danger">
             <div *ngIf="zip.errors.maxlength">

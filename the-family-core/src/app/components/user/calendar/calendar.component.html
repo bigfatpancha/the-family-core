@@ -17,10 +17,10 @@
 
 <div class="row mb-5">
   <div  class="col-lg-8">
-    <mwl-calendar-month-view [viewDate]="viewDate" [events]="calendarEvents" [refresh]="refresh">
+    <mwl-calendar-month-view [viewDate]="viewDate" [activeDay]="activeDay" [events]="calendarEvents" [refresh]="refresh" (dayClicked)="dayClicked($event)">
     </mwl-calendar-month-view>
   </div>
-  <div class="events col-lg-4">
+  <div class="events col-lg-4" *ngIf="events">
     <div class="py-3 px-2 container-event" *ngFor="let event of events">
       <div class="d-flex justify-content-between align-items-center header-event">
         <div>
@@ -47,76 +47,3 @@
 
   </div>
 </div>
-
-<!-- <div class="d-flex justify-content-between align-items-center mb-3 edit-event">
-  <h3>Edit events</h3>
-  <button class="btn btn-primary" (click)="addEvent()">Add new</button>
-</div> -->
-
-<!-- <div class="table-responsive">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Primary color</th>
-        <th>Secondary color</th>
-        <th>Starts at</th>
-        <th>Ends at</th>
-        <th>Remove</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr *ngFor="let event of events">
-        <td>
-          <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="event.color.secondary" (change)="refresh.next()" />
-        </td>
-        <td>
-          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
-            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
-            dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
-        </td>
-        <td>
-          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()"
-            [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i" placeholder="Not set" />
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteEvent(event)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
-<!-- <ng-template #modalContent let-close="close">
-  <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
-    <button type="button" class="close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
-    </div>
-    <div>
-      Event:
-      <pre>{{ modalData?.event | json }}</pre>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="close()">
-      OK
-    </button>
-  </div>
-</ng-template> -->

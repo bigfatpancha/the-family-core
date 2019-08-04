@@ -1,17 +1,17 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { DataService } from 'src/app/services/data/data.service';
 import { Timezone } from 'src/app/model/data';
 import { EventsService } from 'src/app/services/events/events.service';
 import { Event, EventAttachment } from '../../model/events';
 import { UsersService } from 'src/app/services/users/users.service';
-import { FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
-import { Address, Contact } from 'src/app/model/contact';
+import { FamilyUser } from 'src/app/model/family';
+import { Contact } from 'src/app/model/contact';
 import { Document } from 'src/app/model/documents';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RRule } from 'rrule'
 import { Observable, Subscriber } from 'rxjs';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -29,12 +29,11 @@ export class Type {
 }
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  selector: 'app-edit-upload',
+  templateUrl: './edit-upload.component.html',
+  styleUrls: ['./edit-upload.component.scss']
 })
-export class UploadComponent implements OnInit {
-
+export class EditUploadComponent implements OnInit {
   @Output() onEventPost = new EventEmitter<boolean>();
 
   constructor(
@@ -44,7 +43,8 @@ export class UploadComponent implements OnInit {
     private documentsService: DocumentsService,
     private contactsService: ContactsService,
     private spinner: NgxSpinnerService,
-    public dialogRef: MatDialogRef<UploadComponent>
+    public dialogRef: MatDialogRef<EditUploadComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   eventForm: FormGroup;
@@ -105,48 +105,27 @@ export class UploadComponent implements OnInit {
       this.timezones = data;
     });
     this.familyMembers = this.userService.users;
+    if (this.data.data.familyMembers) {
+      this.familyMembersSelected = [];
+      this.data.data.familyMembers.forEach((id: number) => {
+        this.userService.users.forEach((user: FamilyUser) => {
+          if (id === user.id) {
+            this.familyMembersSelected.push(user);
+          }
+        });
+      });
+    }
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
     this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
     this.dayOfMonth = this.getGetOrdinal(this.date.getDate());
     this.dayOfYear = this.formatMonth(this.date.getMonth()) + ' ' + this.dayOfMonth;
     this.progress = 0;
-
-    this.eventForm = new FormGroup({
-      'title': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30)
-      ]),
-      'detail': new FormControl(null, [Validators.maxLength(30)]),
-      'type': new FormControl(this.types[0], [Validators. required]),
-      'familyMemberForm': new FormControl(null),
-      'leadForm': new FormControl(null),
-      'dpstart': new FormControl(this.startDate),
-      'startTimeForm': new FormControl(this.startTime),
-      'dpend': new FormControl(this.endDate),
-      'endTimeForm': new FormControl(this.endTime),
-      'timezone': new FormControl(null),
-      'alert': new FormControl(0),
-      'recurrence': new FormControl('Doesnotrepeat'),
-      'endsForm': new FormControl('Never'),
-      'recurrenceEndDateForm': new FormControl(this.startDate),
-      'recurrenceOcurrencesForm': new FormControl(null),
-      'customRepeatForm': new FormControl(1),
-      'customFrecuenceForm': new FormControl('Day'),
-      'addressLine1': new FormControl(null, [Validators.maxLength(128)]),
-      'addressLine2': new FormControl(null, [Validators.maxLength(128)]),
-      'city': new FormControl(null, [Validators.maxLength(50)]),
-      'state': new FormControl(null),
-      'zip': new FormControl(null, [Validators.maxLength(50)]),
-      'phoneNumber': new FormControl(null, [Validators.maxLength(128)]),
-      'fax': new FormControl(null, [Validators.maxLength(128)]),
-      'notes': new FormControl(null),
-      'notifyTeam': new FormControl(false),
-      'email': new FormControl(null)
-    }, this.validateTime);
-
-
+    this.createFromEvent();
+    if (this.data.data.attachments) {
+      this.attachments = [];
+      this.data.data.attachments.forEach((attachment) => this.attachments.push(attachment));
+    }
     this.eventForm.get('type').valueChanges.subscribe((type: Type) => {
       if (type.type === 0) { // for setting validations
         this.eventForm.get('email').clearValidators();
@@ -194,7 +173,58 @@ export class UploadComponent implements OnInit {
         this.eventForm.get('timezone').clearValidators();
         this.eventForm.get('timezone').updateValueAndValidity();
       }
-  });
+    });
+  }
+
+  createFromEvent() {
+    console.log(this.data);
+    const event = this.data.data;
+    const type = this.types.find((type: Type) => type.type === this.data.type && type.id === event.type)
+    let start;
+    let end;
+    if (event.start) {
+      const startDate = new Date(event.start);
+      start = new NgbDate(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+      this.startTime = startDate.getHours().toString() + ':' + startDate.getMinutes().toString();
+    }
+    if (event.end) {
+      const endDate = new Date(event.end);
+      end = new NgbDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
+      this.endTime = endDate.getHours().toString() + ':' + endDate.getMinutes().toString();
+    }
+    this.eventForm = new FormGroup({
+      'title': new FormControl(event.title ? event.title : event.name, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(30)
+      ]),
+      'detail': new FormControl(event.detail && event.detail !== 'null' ? event.detail : event.description, [Validators.maxLength(30)]),
+      'type': new FormControl(type, [Validators. required]),
+      'familyMemberForm': new FormControl(null),
+      'leadForm': new FormControl(event.lead ? event.lead : null),
+      'dpstart': new FormControl(event.start ? start : this.startDate),
+      'startTimeForm': new FormControl(this.startTime),
+      'dpend': new FormControl(event.end ? end : this.endDate),
+      'endTimeForm': new FormControl(this.endTime),
+      'timezone': new FormControl(event.timezone ? event.timezone.name : null),
+      'alert': new FormControl(event.alert),
+      'recurrence': new FormControl('Doesnotrepeat'),
+      'endsForm': new FormControl('Never'),
+      'recurrenceEndDateForm': new FormControl(this.startDate),
+      'recurrenceOcurrencesForm': new FormControl(null),
+      'customRepeatForm': new FormControl(1),
+      'customFrecuenceForm': new FormControl('Day'),
+      'addressLine1': new FormControl(event.address && event.address.addressLine1 ? event.address.addressLine1 : null, [Validators.maxLength(128)]),
+      'addressLine2': new FormControl(event.address && event.address.addressLine2 ? event.address.addressLine2 : null, [Validators.maxLength(128)]),
+      'city': new FormControl(event.address && event.address.city ? event.address.city : null, [Validators.maxLength(50)]),
+      'state': new FormControl(event.address && event.address.state ? event.address.state : null),
+      'zip': new FormControl(event.address && event.address.zipCode ? event.address.zipCode : null, [Validators.maxLength(50)]),
+      'phoneNumber': new FormControl(event.address && event.address.phoneNumber ? event.address.phoneNumber : null, [Validators.maxLength(128)]),
+      'fax': new FormControl(event.address && event.address.faxNumber ? event.address.faxNumber : null, [Validators.maxLength(128)]),
+      'notes': new FormControl(event.notes),
+      'notifyTeam': new FormControl(event.notifyTeam),
+      'email': new FormControl(event.email ? event.email : null)
+    }, this.validateTime);
   }
 
   get title() { return this.eventForm.get('title'); }

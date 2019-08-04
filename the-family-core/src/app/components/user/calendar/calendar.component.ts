@@ -8,6 +8,8 @@ import { User } from 'src/app/model/auth';
 import { EventResponse, Event, CalendarEventImpl } from 'src/app/model/events';
 import { GenericError } from 'src/app/model/error';
 import { FamilyUser } from 'src/app/model/family';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { EditUploadComponent } from '../../edit-upload/edit-upload.component';
 
 const colors: any = {
   red: {
@@ -45,12 +47,15 @@ export class CalendarComponent implements OnInit {
   calendarEvents: CalendarEvent[];
   events: Event[];
   activeDayIsOpen: boolean = true;
+  dialogConfig = new MatDialogConfig();
+  EditRef: MatDialogRef<EditUploadComponent>;
 
   constructor(
     private modal: NgbModal,
     private usersService: UsersService,
     private spinner: NgxSpinnerService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -61,9 +66,10 @@ export class CalendarComponent implements OnInit {
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventByDateGet(this.user.id, after.toISOString(), before.toISOString())
-    .subscribe((res: EventResponse) => {
-      this.calendarEvents = res.results.map((event: Event) => {
+    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after.toISOString(), before.toISOString())
+    .subscribe((res: any) => {
+      let events: Event[] = this.getEventsListFromResponse(res);
+      this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);
         ev.end = new Date(event.end);
@@ -148,9 +154,10 @@ export class CalendarComponent implements OnInit {
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventByDateGet(this.user.id, after.toISOString(), before.toISOString())
-    .subscribe((res: EventResponse) => {
-      this.calendarEvents = res.results.map((event: Event) => {
+    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after.toISOString(), before.toISOString())
+    .subscribe((res: any) => {
+      let events: Event[] = this.getEventsListFromResponse(res);
+      this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);
         ev.end = new Date(event.end);
@@ -182,12 +189,13 @@ export class CalendarComponent implements OnInit {
     this.spinner.show();
     this.activeDay = event.day.date;
     const after: string = this.activeDay.toISOString();
-    this.usersService.doUserIdEventByDateGet(this.user.id, after, after)
-      .subscribe((res: EventResponse) => {
+    const before: string = new Date(this.activeDay.setDate(this.activeDay.getDate() + 1)).toISOString();
+    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after, before)
+      .subscribe((res: any) => {
+        let events: Event[] = this.getEventsListFromResponse(res);
         this.spinner.hide();
-        this.events = res.results;
+        this.events = events;
         this.changeDetector.detectChanges();
-        console.log(this.events);
       }, (err: GenericError) => {
         this.spinner.hide();
         let message = 'Error: ';
@@ -203,6 +211,52 @@ export class CalendarComponent implements OnInit {
         });
         alert('Something went wrong, please try again\n' + message);
       });
+  }
+
+  edit(event: Event) {
+    this.dialogConfig.hasBackdrop = true;
+    this.dialogConfig.width = '90%';
+    this.dialogConfig.height = 'auto';
+    this.dialogConfig.data = {
+      type: 0,
+      data: event
+    };
+    this.EditRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
+  }
+
+  delete(event: Event) {
+    this.spinner.show();
+    this.usersService.doUserIdEventIdDelete(this.user.id, event.id)
+    .subscribe(() => {
+      this.spinner.hide();
+      alert('event deleted');
+      this.dataChange(this.activeDay);
+    }, (err: GenericError) => {
+      this.spinner.hide();
+      let message = 'Error: ';
+      Object.keys(err.error).forEach(key => {
+        if (Array.isArray(err.error[key])) {
+          err.error[key].forEach(msg => {
+            message += msg + ' ';
+          });
+        } else {
+          message += err.error;
+        }            
+        message += '\n';
+      });
+      alert('Something went wrong, please try again\n' + message);
+    })
+  }
+
+
+  getEventsListFromResponse(response: any): Event[] {
+    let events: Event[] = [];
+    Object.keys(response).forEach(key => {
+      response[key].forEach((event: Event) => {
+        events.push(event);
+      })
+    })
+    return events;
   }
 
 }

@@ -127,7 +127,7 @@
       <div class="form-row">
         <div class="form-group col-12 col-sm-8">
           <div class="opcion-selected col-md-8 col-xl-6 mb-3" *ngFor="let file of attachments">
-            <span>- {{file.file.name}}</span>
+            <span>- {{file.file.name ? file.file.name : file.file}}</span>
             <a class="btn btn-danger btn-sm p-1" (click)="deleteFile(file)"><i class="icon-guion"></i></a>
           </div>
         </div>

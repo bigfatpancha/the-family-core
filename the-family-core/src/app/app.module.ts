@@ -36,6 +36,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CalendarComponent } from './components/user/calendar/calendar.component';
 import { UserListSelectComponent } from './components/chat/user-list-select/user-list-select.component';
+import { EditUploadComponent } from './components/edit-upload/edit-upload.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { UserListSelectComponent } from './components/chat/user-list-select/user
     ReportsComponent,
     EditUserComponent,
     CalendarComponent,
-    UserListSelectComponent
+    UserListSelectComponent,
+    EditUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,8 @@ import { UserListSelectComponent } from './components/chat/user-list-select/user
     NewUserComponent,
     EditUserComponent,
     UserListSelectComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    EditUploadComponent
   ],
 })
 export class AppModule { }

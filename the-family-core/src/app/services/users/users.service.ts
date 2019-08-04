@@ -108,6 +108,14 @@ export class UsersService {
     return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
   }
 
+  doUserIdEventIdDelete(userId: number, eventId: number): Observable<any> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const options = {
+      headers: headers
+    }
+    return this.http_service.doDelete(Routes.FAMILY_USERS + userId + '/events/' + eventId + '/', options);
+  }
+
   doUserIdEventByTypeGet(id: number, type: string): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const params = new HttpParams().set('type', type);
@@ -127,6 +135,17 @@ export class UsersService {
       params: params
     }
     return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+  }
+
+  doUserIdEventCalendarByDateGet(id: number, after: any, before: any): Observable<any> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const params = new HttpParams().set('date_before', before)
+                                    .set('date_after', after);
+    const options = {
+      headers: headers,
+      params: params
+    }
+    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/calendar/', options);
   }
 
   doUserIdDocumentGet(id: number, type: string): Observable<DocumentResponse> {

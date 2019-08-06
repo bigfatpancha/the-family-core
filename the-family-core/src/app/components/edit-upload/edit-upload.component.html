@@ -52,7 +52,7 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
             <select class="custom-select select form-control" (change)="addMember()"
-              formControlName="familyMemberForm" required>
+              formControlName="familyMemberForm">
               <option value="null" disabled>Select user</option>
               <option *ngFor="let member of familyMembers" [ngValue]="member">{{member.nickname}}</option>
             </select>

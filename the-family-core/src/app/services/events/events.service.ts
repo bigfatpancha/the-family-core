@@ -40,26 +40,7 @@ export class EventsService {
     const options = {
       headers: headers
     };
-    const formData = new FormData();
-    Object.keys(event).forEach(key => {
-      if (key === 'address') {
-        Object.keys(event[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), event[key][key2]));
-      } else if (key === 'attachments') {
-        let i = 0;
-        for (const attachment of event[key]) {
-          console.log(attachment.file);
-          formData.append('attachment_' + i + '.file', attachment.file);
-          i++;
-        }
-      } else if (key === 'familyMembers') {
-        for (const member of event[key]) {
-          formData.append('family_members', member.toString());
-        }
-      } else {
-        formData.append(this.converSnakecase(key), event[key]);
-      }
-    });
-    return this.http_service.doPost(Routes.EVENTS, formData, options);
+    return this.http_service.doPost(Routes.EVENTS, this.getFormData(event), options);
   }
 
   private converSnakecase(name: string): string {
@@ -85,11 +66,13 @@ export class EventsService {
   }
 
   doEventIdPut(id:number, event: Event): Observable<Event> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    let headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
     }
-    return this.http_service.doPut(Routes.EVENTS + id, event, options);
+    return this.http_service.doPut(Routes.EVENTS + id + '/', this.getFormData(event), options);
   }
 
   doEventIdPatch(id:number, event: Event): Observable<Event> {
@@ -106,6 +89,30 @@ export class EventsService {
       headers: headers
     }
     return this.http_service.doDelete(Routes.EVENTS + id, options);
+  }
+
+  getFormData(event: Event): FormData {
+    console.log(event)
+    const formData = new FormData();
+    Object.keys(event).forEach(key => {
+      if (key === 'address') {
+        Object.keys(event[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), event[key][key2]));
+      } else if (key === 'attachments') {
+        let i = 0;
+        for (const attachment of event[key]) {
+          console.log(attachment.file);
+          formData.append('attachment_' + i + '.file', attachment.file);
+          i++;
+        }
+      } else if (key === 'familyMembers') {
+        for (const member of event[key]) {
+          formData.append('family_members', member.toString());
+        }
+      } else {
+        formData.append(this.converSnakecase(key), event[key]);
+      }
+    });
+    return formData;
   }
 
 }

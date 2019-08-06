@@ -34,7 +34,7 @@ export class Type {
   styleUrls: ['./edit-upload.component.scss']
 })
 export class EditUploadComponent implements OnInit {
-  @Output() onEventPost = new EventEmitter<boolean>();
+  @Output() onEventPut = new EventEmitter<any>();
 
   constructor(
     private dataService: DataService,
@@ -69,7 +69,7 @@ export class EditUploadComponent implements OnInit {
   saveClicked = false;
   ariaValuenow = 0;
   timezones: Timezone[];
-  isFamilyMemberFormValid = false;
+  isFamilyMemberFormValid = true;
   familyMembersSelected: FamilyUser[];
   familyMembers: FamilyUser[];
 
@@ -122,6 +122,7 @@ export class EditUploadComponent implements OnInit {
     this.dayOfYear = this.formatMonth(this.date.getMonth()) + ' ' + this.dayOfMonth;
     this.progress = 0;
     this.createFromEvent();
+    this.familyMemberForm.markAsTouched();
     if (this.data.data.attachments) {
       this.attachments = [];
       this.data.data.attachments.forEach((attachment) => this.attachments.push(attachment));
@@ -355,20 +356,25 @@ export class EditUploadComponent implements OnInit {
   }
 
   postEvent() {
+    console.log(this.eventForm)
     if (this.eventForm.status === 'VALID') {
       this.spinner.show();
       if (this.type.value.type === 0) {
         const event = new Event(this.eventForm);
-        event.familyMembers = this.familyMembersSelected.map((item) => item.id);
-        if (this.recurrence.value) {
+        if (this.familyMemberForm.dirty) {
+          event.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        } else {
+          event.familyMembers = this.data.data.familyMembers;
+        }        
+        if (this.isRecurrenceEdited()) {
           event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
         }
         if (this.attachments && this.attachments.length > 0) {
           event.attachments = this.attachments;
         }
-        this.eventsService.doEventPost(event).subscribe((res: Event) => {
+        this.eventsService.doEventIdPut(this.data.data.id, event).subscribe((res: Event) => {
           this.spinner.hide();
-          this.onEventPost.emit(true);
+          this.onEventPut.emit(res);
           this.dialogRef.close();
         }, (err: GenericError) => {
           this.spinner.hide();
@@ -393,7 +399,7 @@ export class EditUploadComponent implements OnInit {
         }
         this.documentsService.doDocumentPost(document).subscribe((res: Document) => {
           this.spinner.hide();
-          this.onEventPost.emit(true);
+          this.onEventPut.emit(true);
           this.dialogRef.close();
           console.log(res);
         }, (err: GenericError) => {
@@ -419,7 +425,7 @@ export class EditUploadComponent implements OnInit {
         }
         this.contactsService.doContactsPost(contact).subscribe((res: Contact) => {
           this.spinner.hide();
-          this.onEventPost.emit(true);
+          this.onEventPut.emit(true);
           this.dialogRef.close();
           console.log(res);
         }, (err: GenericError) => {
@@ -441,6 +447,11 @@ export class EditUploadComponent implements OnInit {
     } else {
       this.eventForm.markAllAsTouched();
     }
+  }
+
+  isRecurrenceEdited(): boolean {
+    return (this.recurrence.dirty || this.endsForm.dirty || this.recurrenceEndDateForm.dirty || this.recurrenceOcurrencesForm.dirty ||
+      this.customRepeatForm.dirty || this.customFrecuenceForm.dirty);
   }
 
   getBase64(file): Observable<string> {
@@ -734,6 +745,6 @@ export class EditUploadComponent implements OnInit {
         dtstart: new Date(),
         count: count
       })
-    }  
+    }
   }
 }

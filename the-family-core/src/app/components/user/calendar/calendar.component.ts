@@ -48,7 +48,7 @@ export class CalendarComponent implements OnInit {
   events: Event[];
   activeDayIsOpen: boolean = true;
   dialogConfig = new MatDialogConfig();
-  EditRef: MatDialogRef<EditUploadComponent>;
+  editRef: MatDialogRef<EditUploadComponent>;
 
   constructor(
     private modal: NgbModal,
@@ -188,8 +188,9 @@ export class CalendarComponent implements OnInit {
   dayClicked(event) {
     this.spinner.show();
     this.activeDay = event.day.date;
+    let date = new Date(event.day.date);
     const after: string = this.activeDay.toISOString();
-    const before: string = new Date(this.activeDay.setDate(this.activeDay.getDate() + 1)).toISOString();
+    const before: string = new Date(date.setDate(date.getDate() + 1)).toISOString();
     this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after, before)
       .subscribe((res: any) => {
         let events: Event[] = this.getEventsListFromResponse(res);
@@ -221,7 +222,8 @@ export class CalendarComponent implements OnInit {
       type: 0,
       data: event
     };
-    this.EditRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
+    this.editRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
+    this.editRef.componentInstance.onEventPut.subscribe((event: Event) => this.dataChange(this.activeDay));
   }
 
   delete(event: Event) {

@@ -29,11 +29,11 @@ export class Event {
 
     constructor(form: FormGroup) {
         this.title = form.get('title').value;
-        if (form.get('detail').value) {
+        if (form.get('detail').dirty) {
           this.detail = form.get('detail').value
         }
         this.type = form.get('type').value.id;
-        if (form.get('leadForm').value) {
+        if (form.get('leadForm').dirty) {
             this.lead = form.get('leadForm').value.id;
         }
         // start
@@ -47,11 +47,11 @@ export class Event {
         const endDate = new Date(form.get('dpend').value.year, form.get('dpend').value.month - 1, form.get('dpend').value.day, hour, min, 0);
         this.end = endDate.toISOString();
         this.timezone = form.get('timezone').value;
-        if (form.get('alert').value){
+        if (form.get('alert').dirty){
             this.alert = form.get('alert').value;
         }
         this.notifyTeam = form.get('notifyTeam').value;
-        if (form.get('notes').value) {
+        if (form.get('notes').dirty) {
             this.notes = form.get('notes').value;
         }
         if (form.get('addressLine1').value) {

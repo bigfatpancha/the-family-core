@@ -5,7 +5,7 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { UsersService } from 'src/app/services/users/users.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from 'src/app/model/auth';
-import { EventResponse, Event, CalendarEventImpl } from 'src/app/model/events';
+import { Event, CalendarEventImpl } from 'src/app/model/events';
 import { GenericError } from 'src/app/model/error';
 import { FamilyUser } from 'src/app/model/family';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';

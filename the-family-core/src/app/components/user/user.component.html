@@ -430,7 +430,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let loc of contacts">
+            <div class="table__body" *ngFor="let loc of contacts" (click)="openModal(2, loc)">
               <div class="table__body--columns col-3">
                 <p>{{loc.name}}</p>
               </div>
@@ -464,7 +464,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let teacher of contacts">
+            <div class="table__body" *ngFor="let teacher of contacts" (click)="openModal(2, teacher)">
               <div class="table__body--columns col-3">
                 <p>{{teacher.name}}</p>
               </div>
@@ -498,7 +498,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let task of events">
+            <div class="table__body" *ngFor="let task of events" (click)="openModal(0, task)">
               <div class="table__body--columns col-3">
                 <p>{{task.title}}</p>
               </div>
@@ -532,7 +532,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let classmate of contacts">
+            <div class="table__body" *ngFor="let classmate of contacts" (click)="openModal(2, classmate)">
               <div class="table__body--columns col-3">
                 <p>{{classmate.name}}</p>
               </div>
@@ -564,7 +564,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -595,7 +595,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let con of contacts">
+            <div class="table__body" *ngFor="let con of contacts" (click)="openModal(2, con)">
               <div class="table__body--columns col-3">
                 <p>{{con.name}}</p>
               </div>
@@ -626,7 +626,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -662,7 +662,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let ev of events">
+            <div class="table__body" *ngFor="let ev of events" (click)="openModal(0, ev)">
               <div class="table__body--columns col-2">
                 <p>{{ev.title}}</p>
               </div>
@@ -679,7 +679,7 @@
                 <p>{{ev.start}}</p>
               </div>
               <div class="table__body--columns col-1">
-                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
+                <img class="d-inline-flex icono-file" *ngFor="let file of ev.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -771,7 +771,7 @@
               </div> -->
             </div>
 
-            <div class="table__body" *ngFor="let con of contacts">
+            <div class="table__body" *ngFor="let con of contacts" (click)="openModal(2, con)">
               <div class="table__body--columns col-4">
                 <p>{{con.name}}</p>
               </div>
@@ -803,7 +803,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -832,7 +832,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>

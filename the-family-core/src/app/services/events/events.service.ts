@@ -88,7 +88,7 @@ export class EventsService {
     const options = {
       headers: headers
     }
-    return this.http_service.doDelete(Routes.EVENTS + id, options);
+    return this.http_service.doDelete(Routes.EVENTS + id + '/', options);
   }
 
   getFormData(event: Event): FormData {

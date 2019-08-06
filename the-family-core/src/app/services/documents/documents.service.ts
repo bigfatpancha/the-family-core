@@ -32,6 +32,28 @@ export class DocumentsService {
     const options = {
       headers: headers
     };
+    return this.http_service.doPost(Routes.DOCUMENTS, this.getFormData(body), options);
+  }
+
+  doDocumentIdPut(documentId: number, body: Document, userId: number) {
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    };
+    return this.http_service.doPut(Routes.FAMILY_USERS + userId + '/documents/' + documentId + '/', this.getFormData(body), options);
+  }
+
+  doDocumentIdDelete(documentId: number, userId: number): Observable<any> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    }
+    return this.http_service.doDelete(Routes.FAMILY_USERS + userId + '/documents/' + documentId + '/', options);
+  }
+
+  getFormData(body: Document): FormData {
     const formData = new FormData();
     Object.keys(body).forEach(key => {
       if (key === 'attachments') {
@@ -49,7 +71,7 @@ export class DocumentsService {
         formData.append(this.converSnakecase(key), body[key]);
       }
     });
-    return this.http_service.doPost(Routes.DOCUMENTS, formData, options);
+    return formData;
   }
 
   private converSnakecase(name: string): string {

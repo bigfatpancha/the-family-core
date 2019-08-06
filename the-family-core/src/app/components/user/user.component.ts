@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GenericError } from 'src/app/model/error';
+import { EditUploadComponent } from '../edit-upload/edit-upload.component';
 
 @Component({
   selector: 'app-user',
@@ -44,6 +45,7 @@ export class UserComponent implements OnInit, AfterContentInit {
   selectedRelationships: FamilyUser[];
   editRef: MatDialogRef<EditUserComponent>;
   dialogConfig = new MatDialogConfig();
+  editUploadRef: MatDialogRef<EditUploadComponent>;
 
   constructor(
     private usersService: UsersService,
@@ -183,23 +185,31 @@ export class UserComponent implements OnInit, AfterContentInit {
 
   doContactsType(type, state) {
     this.spinner.show();
+    this.state = state;
+    this.getContactsType(type);
+  }
+
+  private getContactsType(type) {
     this.usersService.doUserIdContactTypeGet(this.id, type)
     .subscribe((data: ContactResponse) => {
       this.spinner.hide();
       this.contacts = data.results;
-      this.state = state;
     }, (err: GenericError) => {
       this.spinner.hide();
     })
   }
 
   doEventType(type, state) {
-    this.spinner.show()
+    this.spinner.show();
+    this.state = state;
+    this.getEventType(type);
+  }
+
+  private getEventType(type) {
     this.usersService.doUserIdEventByTypeGet(this.id, type)
     .subscribe((data: EventResponse) => {
       this.spinner.hide();
       this.events = data.results;
-      this.state = state;
     }, (err: GenericError) => {
       this.spinner.hide();
     });
@@ -207,11 +217,15 @@ export class UserComponent implements OnInit, AfterContentInit {
 
   doDocumentType(type, state) {
     this.spinner.show();
+    this.state = state;
+    this.getDocumentType(type);
+  }
+
+  private getDocumentType(type) {
     this.usersService.doUserIdDocumentGet(this.id, type)
     .subscribe((data: DocumentResponse) => {
       this.spinner.hide();
       this.documents = data.results;
-      this.state = state;
     }, (err: GenericError) => {
       this.spinner.hide();
     });
@@ -247,6 +261,26 @@ export class UserComponent implements OnInit, AfterContentInit {
     this.editRef = this.dialog.open(EditUserComponent, this.dialogConfig);
     this.editRef.afterClosed().subscribe(() => {
       this.findUser(this.user.id);
+    });
+  }
+
+  openModal(type, data) {
+    this.dialogConfig.hasBackdrop = true;
+    this.dialogConfig.width = '90%';
+    this.dialogConfig.height = 'auto';
+    this.dialogConfig.data = {
+      type: type,
+      data: data
+    };
+    this.editUploadRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
+    this.editUploadRef.componentInstance.onEventPut.subscribe((res: any) => {
+      if (type === 0) {
+        this.getEventType(res.type);
+      } else if (type === 1) {
+        this.getDocumentType(res.type);
+      } else if (type === 2) {
+        this.getContactsType(res.type);
+      }
     });
   }
 

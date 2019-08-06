@@ -178,7 +178,6 @@ export class EditUploadComponent implements OnInit {
   }
 
   createFromEvent() {
-    console.log(this.data);
     const event = this.data.data;
     const type = this.types.find((type: Type) => type.type === this.data.type && type.id === event.type)
     let start;
@@ -356,7 +355,6 @@ export class EditUploadComponent implements OnInit {
   }
 
   postEvent() {
-    console.log(this.eventForm)
     if (this.eventForm.status === 'VALID') {
       this.spinner.show();
       if (this.type.value.type === 0) {
@@ -365,7 +363,7 @@ export class EditUploadComponent implements OnInit {
           event.familyMembers = this.familyMembersSelected.map((item) => item.id);
         } else {
           event.familyMembers = this.data.data.familyMembers;
-        }        
+        }      
         if (this.isRecurrenceEdited()) {
           event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
         }
@@ -393,15 +391,18 @@ export class EditUploadComponent implements OnInit {
         });
       } else if (this.type.value.type === 1) {
         const document = new Document(this.eventForm);
-        document.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        if (this.familyMemberForm.dirty) {
+          document.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        } else {
+          document.familyMembers = this.data.data.familyMembers;
+        }
         if (this.attachments && this.attachments.length > 0) {
           document.attachments = this.attachments;
         }
-        this.documentsService.doDocumentPost(document).subscribe((res: Document) => {
+        this.documentsService.doDocumentIdPut(this.data.data.id, document, this.userService.user.id).subscribe((res: Document) => {
           this.spinner.hide();
-          this.onEventPut.emit(true);
+          this.onEventPut.emit(res);
           this.dialogRef.close();
-          console.log(res);
         }, (err: GenericError) => {
           this.spinner.hide();
           let message = 'Error: ';
@@ -419,15 +420,18 @@ export class EditUploadComponent implements OnInit {
         });
       } else if (this.type.value.type === 2) {
         const contact = new Contact(this.eventForm);
-        contact.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        if (this.familyMemberForm.dirty) {
+          contact.familyMembers = this.familyMembersSelected.map((item) => item.id);
+        } else {
+          contact.familyMembers = this.data.data.familyMembers;
+        }
         if (this.attachments && this.attachments.length > 0) {
           contact.avatar = this.attachments[0].file;
         }
-        this.contactsService.doContactsPost(contact).subscribe((res: Contact) => {
+        this.contactsService.doContactIdPut(this.data.data.id, contact, this.userService.user.id).subscribe((res: Contact) => {
           this.spinner.hide();
-          this.onEventPut.emit(true);
+          this.onEventPut.emit(res);
           this.dialogRef.close();
-          console.log(res);
         }, (err: GenericError) => {
           this.spinner.hide();
           let message = 'Error: ';
@@ -745,6 +749,28 @@ export class EditUploadComponent implements OnInit {
         dtstart: new Date(),
         count: count
       })
+    }
+  }
+
+  delete() {
+    if (this.data.type === 0) {
+      this.eventsService.doEventIdDelete(this.data.data.id)
+      .subscribe(() => {
+        this.dialogRef.close();
+        this.onEventPut.emit(this.data.data);
+      });
+    } else if (this.data.type === 1) {
+      this.documentsService.doDocumentIdDelete(this.data.data.id, this.userService.user.id)
+      .subscribe(() => {
+        this.dialogRef.close();
+        this.onEventPut.emit(this.data.data);
+      });
+    } else if (this.data.type === 2) {
+      this.contactsService.doContactIdDelete(this.data.data.id, this.userService.user.id)
+      .subscribe(() => {
+        this.dialogRef.close();
+        this.onEventPut.emit(this.data.data);
+      });
     }
   }
 }

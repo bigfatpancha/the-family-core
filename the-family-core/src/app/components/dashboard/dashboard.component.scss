@@ -36,6 +36,10 @@
     &>img {
       max-width: 35px;
       max-height: 35px;
+
+      &.rounded {
+        border-radius: 50% !important;
+      }
     }
   }
 

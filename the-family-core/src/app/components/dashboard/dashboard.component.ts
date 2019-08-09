@@ -54,6 +54,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  avatar() {
+    return this.isLogged && this.user.avatar ? this.user.avatar : '../../../assets/icono.webp';
+  }
+
   displayFn(user?: User): string | undefined {
     return user ? user.nickname : undefined;
   }

@@ -8,7 +8,7 @@
 
     <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
       <div class="d-inline-block mr-3 profile__user cursor-pointer" (click)="openLogin()">
-        <img src="../../../assets/icono.webp" alt="icono de perfil" class="mr-3">
+        <img [src]="avatar()" alt="icono de perfil" class="mr-3" [ngClass]="{'rounded': isLogged}">
         <span *ngIf="isLogged && user">{{user.nickname}}</span>
         <span *ngIf="!isLogged">Login</span>
       </div>

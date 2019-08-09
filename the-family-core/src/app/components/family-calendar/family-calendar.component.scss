@@ -1,0 +1,124 @@
+.header-calendar {
+    padding: 15px 20px;
+    background: #f0fbe6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    h3 {
+      font-size: 1.3rem;
+      min-width: 160px;
+    }
+  
+    .today {
+      font-size: .8rem;
+      text-transform: uppercase;
+      font-family: sfMedium;
+      color: #001426;
+      padding: 8px;
+      border-radius: 4px;
+  
+      &:hover {
+        color: #007aff;
+        background: rgba(255, 255, 255, 0.8);
+      }
+    }
+  
+    .fecha {
+      h5 {
+        font-size: 1.25rem;
+        font-family: avenirBlack;
+        color: #03263f;
+      }
+    }
+  }
+  
+  .fecha-calendario {
+    i {
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+  }
+  
+  .edit-event {
+    h3 {
+      font-family: sfBold;
+    }
+  
+    button {
+      font-family: sfBold;
+    }
+  }
+  
+  .table-responsive {
+    font-family: sfRegular;
+  }
+  
+  .events {
+    border-left: 2px solid #eee;
+    height: 650px;
+    overflow-y: scroll;
+  
+    .header-event {
+      position: relative;
+      .point-event {
+        width: 15px;
+        height: 15px;
+        background: #f05a23;
+        position: absolute;
+        top: 4px;
+        left: 0px;
+        border-radius: 50%;
+      }
+    }
+  
+    p {
+      font-family: sfRegular;
+    }
+  
+    span.icono-file {
+      background: #f05a23;
+      padding: 0.3rem;
+      color: #fff;
+      font-size: 1.2rem;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .container-event {
+      border-bottom: 1.5px solid #b0d6ff;
+    }
+  
+    .users {
+      .div-img {
+        width: 28px;
+        height: 28px;
+        overflow: hidden;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #007aff;
+      }
+  
+      img {
+        width: 30px;
+        height: auto;
+      }
+    }
+  
+    .location {
+      i {
+        font-size: 1.3rem;
+        width: 30px;
+      }
+  
+      p {
+        font-family: sfLight;
+      }
+    }
+  }
+  

@@ -67,7 +67,8 @@ export class UsersComponent implements OnInit {
     this.newUserRef.afterClosed().subscribe(() => this.updateUsers());
   }
 
-  sendInvitation(user: FamilyUser) {
+  sendInvitation(user: FamilyUser, event) {
+    event.stopPropagation();
     this.spinner.show();
     let body = new UserId();
     body.id = user.id;

@@ -7,6 +7,7 @@ export enum Routes {
     FAMILY_USERS = 'family/users/',
     CONTACTS = 'contacts/',
     EVENTS = 'events/',
+    EVENTS_CALENDAR = 'events/calendar/',
     EVENTS_COUNT = 'events/count',
     DATA_TIMEZONE = 'data/timezones/',
     DEVICES = 'devices/',

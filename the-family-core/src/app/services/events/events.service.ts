@@ -33,6 +33,17 @@ export class EventsService {
     return this.http_service.doGet(Routes.EVENTS, options);
   }
 
+  doEventsCalendarGet(after: any, before: any): Observable<EventResponse> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const params = new HttpParams().set('dateBefore', before)
+                                    .set('dateAfter', after);
+    const options = {
+      headers: headers,
+      params: params
+    }
+    return this.http_service.doGet(Routes.EVENTS, options);
+  }
+
   doEventPost(event: Event): Observable<Event> {
     let headers = new HttpHeaders()
           .set('accept', 'application/json')

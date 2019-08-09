@@ -37,6 +37,7 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CalendarComponent } from './components/user/calendar/calendar.component';
 import { UserListSelectComponent } from './components/chat/user-list-select/user-list-select.component';
 import { EditUploadComponent } from './components/edit-upload/edit-upload.component';
+import { FamilyCalendarComponent } from './components/family-calendar/family-calendar.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { EditUploadComponent } from './components/edit-upload/edit-upload.compon
     EditUserComponent,
     CalendarComponent,
     UserListSelectComponent,
-    EditUploadComponent
+    EditUploadComponent,
+    FamilyCalendarComponent
   ],
   imports: [
     BrowserModule,

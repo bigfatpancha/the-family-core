@@ -1,62 +1,42 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { CalendarView, CalendarEvent } from 'angular-calendar';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { Event, CalendarEventImpl, EventResponse } from 'src/app/model/events';
+import { FamilyUser } from 'src/app/model/family';
 import { UsersService } from 'src/app/services/users/users.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { User } from 'src/app/model/auth';
-import { Event, CalendarEventImpl } from 'src/app/model/events';
-import { GenericError } from 'src/app/model/error';
-import { FamilyUser } from 'src/app/model/family';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { EditUploadComponent } from '../../edit-upload/edit-upload.component';
-
-const colors: any = {
-  red: {
-    primary: '#f15a24',
-  },
-  blue: {
-    primary: '#1e90ff',
-  },
-  yellow: {
-    primary: '#00aaff',
-  }
-};
+import { EditUploadComponent } from '../edit-upload/edit-upload.component';
+import { GenericError } from 'src/app/model/error';
+import { EventsService } from 'src/app/services/events/events.service';
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'app-family-calendar',
+  templateUrl: './family-calendar.component.html',
+  styleUrls: ['./family-calendar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit {
-
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-  @Input() user: User;
+export class FamilyCalendarComponent implements OnInit {
 
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   activeDay: Date = new Date();
-  today;
-  showCalendar = false;
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-  refresh: Subject<any> = new Subject();
   calendarEvents: CalendarEvent[];
+  refresh: Subject<any> = new Subject();
   events: Event[];
-  activeDayIsOpen: boolean = true;
   dialogConfig = new MatDialogConfig();
   editRef: MatDialogRef<EditUploadComponent>;
+  today;
+  showCalendar = false;
+  activeDayIsOpen: boolean = true;
 
   constructor(
-    private modal: NgbModal,
     private usersService: UsersService,
     private spinner: NgxSpinnerService,
+    private dialog: MatDialog,
+    private eventsService: EventsService,
     private changeDetector: ChangeDetectorRef,
-    private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -66,86 +46,38 @@ export class CalendarComponent implements OnInit {
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after.toISOString(), before.toISOString())
-    .subscribe((res: any) => {
-      let events: Event[] = this.getEventsListFromResponse(res);
-      this.calendarEvents = events.map((event: Event) => {
-        let ev = new CalendarEventImpl()
-        ev.start = new Date(event.start);
-        ev.end = new Date(event.end);
-        ev.title = event.title;
-        return ev;
-      });
-      this.showCalendar = true;
-      this.refresh.next();
-      this.spinner.hide();
-      this.changeDetector.detectChanges();
-    }, (err: GenericError) => {
-      this.spinner.hide();
-      let message = 'Error: ';
-      Object.keys(err.error).forEach(key => {
-        if (Array.isArray(err.error[key])) {
-          err.error[key].forEach(msg => {
-            message += msg + ' ';
-          });
-        } else {
-          message += err.error;
-        }            
-        message += '\n';
-      });
-      alert('Something went wrong, please try again\n' + message);
-    })
-
+    this.eventsService.doEventsCalendarGet(after, before)
+      .subscribe((res: EventResponse) => {
+        let events: Event[] = res.results;
+        this.calendarEvents = events.map((event: Event) => {
+          let ev = new CalendarEventImpl()
+          ev.start = new Date(event.start);
+          ev.end = new Date(event.end);
+          ev.title = event.title;
+          return ev;
+        });
+        this.showCalendar = true;
+        this.refresh.next();
+        this.spinner.hide();
+        this.changeDetector.detectChanges();
+      }, (err: GenericError) => {
+        this.spinner.hide();
+        let message = 'Error: ';
+        Object.keys(err.error).forEach(key => {
+          if (Array.isArray(err.error[key])) {
+            err.error[key].forEach(msg => {
+              message += msg + ' ';
+            });
+          } else {
+            message += err.error;
+          }            
+          message += '\n';
+        });
+        alert('Something went wrong, please try again\n' + message);
+      })
   }
 
-  getAddress(event: Event) {
-    let address = '';
-    if (event.address) {
-      if (event.address.addressLine1) {
-        address += event.address.addressLine1;
-      }
-      if (event.address.addressLine2) {
-        address += ' ' + event.address.addressLine2;
-      }
-      if (event.address.city) {
-        address += ', ' +event.address.city;
-      }
-      if (event.address.state) {
-        address += ', ' + event.address.state;
-      }
-    }
-    return address;
-  }
-
-  getTime(event: Event) {
-    const date = new Date(event.start);
-    return event.start ? date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) : '';
-  }
-
-  getAvatar(member: number) {
-    const user = this.usersService.users.find((user: FamilyUser) => user.id === member);
-    return user ? user.avatar : '';
-  }
-
-  getName(member: number) {
-    const user = this.usersService.users.find((user: FamilyUser) => user.id === member);
-    return user ? user.nickname : '';
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
-  }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
-
-  dataChange(viewDate) {
+  dataChange(viewDate: Date) {
     this.activeDayIsOpen = false;
     this.spinner.show();
     const today = viewDate;
@@ -154,9 +86,9 @@ export class CalendarComponent implements OnInit {
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after.toISOString(), before.toISOString())
-    .subscribe((res: any) => {
-      let events: Event[] = this.getEventsListFromResponse(res);
+    this.eventsService.doEventsCalendarGet(after.toISOString(), before.toISOString())
+    .subscribe((res: EventResponse) => {
+      let events: Event[] = res.results;
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);
@@ -191,11 +123,10 @@ export class CalendarComponent implements OnInit {
     let date = new Date(event.day.date);
     const after: string = this.activeDay.toISOString();
     const before: string = new Date(date.setDate(date.getDate() + 1)).toISOString();
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after, before)
-      .subscribe((res: any) => {
-        let events: Event[] = this.getEventsListFromResponse(res);
+    this.eventsService.doEventsCalendarGet(after, before)
+      .subscribe((res: EventResponse) => {
+        this.events = res.results;
         this.spinner.hide();
-        this.events = events;
         this.changeDetector.detectChanges();
       }, (err: GenericError) => {
         this.spinner.hide();
@@ -214,14 +145,47 @@ export class CalendarComponent implements OnInit {
       });
   }
 
+  getTime(event: Event) {
+    const date = new Date(event.start);
+    return event.start ? date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) : '';
+  }
+
+  getName(member: number) {
+    const user = this.usersService.users.find((user: FamilyUser) => user.id === member);
+    return user ? user.nickname : '';
+  }
+
+  getAddress(event: Event) {
+    let address = '';
+    if (event.address) {
+      if (event.address.addressLine1) {
+        address += event.address.addressLine1;
+      }
+      if (event.address.addressLine2) {
+        address += ' ' + event.address.addressLine2;
+      }
+      if (event.address.city) {
+        address += ', ' +event.address.city;
+      }
+      if (event.address.state) {
+        address += ', ' + event.address.state;
+      }
+    }
+    return address;
+  }
+
+  getAvatar(member: number) {
+    const user = this.usersService.users.find((user: FamilyUser) => user.id === member);
+    return user ? user.avatar : '';
+  }
+
   edit(event: Event) {
     this.dialogConfig.hasBackdrop = true;
     this.dialogConfig.width = '90%';
     this.dialogConfig.height = 'auto';
     this.dialogConfig.data = {
       type: 0,
-      data: event,
-      userId: this.user.id
+      data: event
     };
     this.editRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
     this.editRef.componentInstance.onEventPut.subscribe((event: Event) => this.dataChange(this.activeDay));
@@ -229,7 +193,7 @@ export class CalendarComponent implements OnInit {
 
   delete(event: Event) {
     this.spinner.show();
-    this.usersService.doUserIdEventIdDelete(this.user.id, event.id)
+    this.usersService.doUserIdEventIdDelete(this.usersService.user.id, event.id)
     .subscribe(() => {
       this.spinner.hide();
       alert('event deleted');
@@ -251,7 +215,6 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-
   getEventsListFromResponse(response: any): Event[] {
     let events: Event[] = [];
     Object.keys(response).forEach(key => {
@@ -263,4 +226,3 @@ export class CalendarComponent implements OnInit {
   }
 
 }
-

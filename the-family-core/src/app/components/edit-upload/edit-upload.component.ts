@@ -399,7 +399,7 @@ export class EditUploadComponent implements OnInit {
         if (this.attachments && this.attachments.length > 0) {
           document.attachments = this.attachments;
         }
-        this.documentsService.doDocumentIdPut(this.data.data.id, document, this.userService.user.id).subscribe((res: Document) => {
+        this.documentsService.doDocumentIdPut(this.data.data.id, document, this.data.userId).subscribe((res: Document) => {
           this.spinner.hide();
           this.onEventPut.emit(res);
           this.dialogRef.close();
@@ -428,7 +428,7 @@ export class EditUploadComponent implements OnInit {
         if (this.attachments && this.attachments.length > 0) {
           contact.avatar = this.attachments[0].file;
         }
-        this.contactsService.doContactIdPut(this.data.data.id, contact, this.userService.user.id).subscribe((res: Contact) => {
+        this.contactsService.doContactIdPut(this.data.data.id, contact, this.data.userId).subscribe((res: Contact) => {
           this.spinner.hide();
           this.onEventPut.emit(res);
           this.dialogRef.close();

@@ -53,7 +53,7 @@
             <div class="table__body--columns col-2">
               <p>{{user.nickname}}</p>
             </div>
-            <div class="table__body--columns col-2 resend-invitation" (click)="sendInvitation(user)">
+            <div class="table__body--columns col-2 resend-invitation" (click)="sendInvitation(user, $event)">
               <p>Resend Invitation</p>
             </div>
             <div class="table__body--columns col-3">

@@ -97,6 +97,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  goToCalendar() {
+    if (this.isLogged) {
+      this.router.navigate(['/calendar']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
+
   getUsers() {
     this.isLogged = true;
     this.showLogin = false;

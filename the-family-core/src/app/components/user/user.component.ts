@@ -270,7 +270,8 @@ export class UserComponent implements OnInit, AfterContentInit {
     this.dialogConfig.height = 'auto';
     this.dialogConfig.data = {
       type: type,
-      data: data
+      data: data,
+      userId: this.user.id
     };
     this.editUploadRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
     this.editUploadRef.componentInstance.onEventPut.subscribe((res: any) => {

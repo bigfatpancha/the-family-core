@@ -138,4 +138,16 @@
       height: 160px;
     }
   }
+
+  &__img {
+    height: 120px;
+    
+    @media screen and (min-width: 576px) {
+      height: 140px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      height: 160px;
+    }
+  }
 }

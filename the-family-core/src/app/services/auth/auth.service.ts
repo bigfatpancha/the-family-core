@@ -53,4 +53,12 @@ export class AuthService {
     return this.httpService.doPost(Routes.AUTH_REGISTRATION_VERIFY_EMAIL, body, options);
   }
 
+  doAuthLogOutPost(): Observable<any> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.httpService.key );
+    const options = {
+      headers: headers
+    }
+    return this.httpService.doPost(Routes.AUTH_LOGOUT, {}, options);
+  }
+
 }

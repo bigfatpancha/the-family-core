@@ -225,4 +225,9 @@ export class UsersService {
   private converSnakecase(name: string): string {
     return name.split(/(?=[A-Z])/).join('_').toLowerCase();
   }
+
+  clean() {
+    this.user = null;
+    this.users = null;
+  }
 }

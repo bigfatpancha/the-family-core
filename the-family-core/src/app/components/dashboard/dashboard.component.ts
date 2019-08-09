@@ -15,6 +15,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,6 +41,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private userService: UsersService,
               private httpService: HttpService,
+              private authService: AuthService,
               private router: Router,
               private spinner: NgxSpinnerService,
               private dialog: MatDialog) { }
@@ -192,6 +194,20 @@ export class DashboardComponent implements OnInit {
 
   selectedUser(event: MatAutocompleteSelectedEvent) {
     this.router.navigate(['/user', event.option.value.id]);
+  }
+
+  logout() {
+    this.spinner.show();
+    this.authService.doAuthLogOutPost().subscribe(() => {
+      this.spinner.hide();
+      this.isLogged = false;
+      this.userService.clean();
+      this.httpService.clean();
+      this.user = null;
+      this.users = null;
+    }, (err: GenericError) => {
+      this.spinner.hide();
+    })
   }
 
 }

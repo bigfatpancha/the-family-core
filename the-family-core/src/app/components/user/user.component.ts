@@ -116,31 +116,31 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   getAddress1() {
-    return this.user.address ? this.user.address.addressLine1 : '';
+    return this.user.address && this.user.address.addressLine1 !== 'null' ? this.user.address.addressLine1 : '';
   }
 
   getAddress2() {
-    return this.user.address ? this.user.address.addressLine2 : '';
+    return this.user.address && this.user.address.addressLine2 !== 'null' ? this.user.address.addressLine2 : '';
   }
 
   getCity() {
-    return this.user.address ? this.user.address.city : '';
+    return this.user.address && this.user.address.city !== 'null' ? this.user.address.city : '';
   }
 
   getState() {
-    return this.user.address ? this.user.address.state : '';
+    return this.user.address && this.user.address.state !== 'null' ? this.user.address.state : '';
   }
 
   getZipcode() {
-    return this.user.address ? this.user.address.zipCode : '';
+    return this.user.address && this.user.address.zipCode !== 'null' ? this.user.address.zipCode : '';
   }
 
   getPhoneNumber() {
-    return this.user.address ? this.user.address.phoneNumber : '';
+    return this.user.address && this.user.address.phoneNumber !== 'null' ? this.user.address.phoneNumber : '';
   }
 
   getFaxNumber() {
-    return this.user.address ? this.user.address.faxNumber : '';
+    return this.user.address && this.user.address.faxNumber !== 'null' ? this.user.address.faxNumber : '';
   }
 
   getRefName() {
@@ -148,35 +148,35 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   getRefColorCode() {
-    return this.user.referredBy ? this.user.referredBy.colorCode : '';
+    return this.user.referredBy && this.user.referredBy.colorCode !== 'undefined' ? this.user.referredBy.colorCode : '';
   }
 
   getDriversLicenseState() {
-    return this.user.referredBy ? this.user.referredBy.driversLicenseState : '';
+    return this.user.referredBy && this.user.referredBy.driversLicenseState !== 'undefined' ? this.user.referredBy.driversLicenseState : '';
   }
 
   getDriversLicenseNumber() {
-    return this.user.referredBy ? this.user.referredBy.driversLicenseNumber : '';
+    return this.user.referredBy && this.user.referredBy.driversLicenseNumber !== 'undefined' ? this.user.referredBy.driversLicenseNumber : '';
   }
 
   getPlaceOfBirth() {
-    return this.user.referredBy ? this.user.referredBy.placeOfBirth : '';
+    return this.user.referredBy && this.user.referredBy.placeOfBirth !== 'undefinde' ? this.user.referredBy.placeOfBirth : '';
   }
 
   getSocialSecurityNumber() {
-    return this.user.referredBy ? this.user.referredBy.socialSecurityNumber : '';
+    return this.user.referredBy && this.user.referredBy.socialSecurityNumber !== 'undefined' ? this.user.referredBy.socialSecurityNumber : '';
   }
 
   getCountryOfCitizenship() {
-    return this.user.referredBy ? this.user.referredBy.countryOfCitizenship : '';
+    return this.user.referredBy && this.user.referredBy.countryOfCitizenship !== 'undefined' ? this.user.referredBy.countryOfCitizenship : '';
   }
 
   getPassportNumber() {
-    return this.user.referredBy ? this.user.referredBy.passportNumber : '';
+    return this.user.referredBy && this.user.referredBy.passportNumber !== 'undefined' ? this.user.referredBy.passportNumber : '';
   }
 
   getAgencyForBackgroundCheck() {
-    return this.user.referredBy ? this.user.referredBy.agencyForBackgroundCheck : '';
+    return this.user.referredBy && this.user.referredBy.agencyForBackgroundCheck !== 'undefined' ? this.user.referredBy.agencyForBackgroundCheck : '';
   }
 
   getLocationAddress(loc) {

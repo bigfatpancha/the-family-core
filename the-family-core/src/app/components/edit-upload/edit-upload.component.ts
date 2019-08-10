@@ -9,13 +9,14 @@ import { Contact } from 'src/app/model/contact';
 import { Document } from 'src/app/model/documents';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RRule } from 'rrule'
-import { Observable, Subscriber } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DocumentsService } from 'src/app/services/documents/documents.service';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GenericError } from 'src/app/model/error';
+import { EventRecurrenceService } from 'src/app/services/event-recurrence/event-recurrence.service';
+import { ErrorService } from 'src/app/services/error/error.service';
+import { DatesService } from 'src/app/services/dates/dates.service';
 
 export class Type {
   id: number;
@@ -44,6 +45,9 @@ export class EditUploadComponent implements OnInit {
     private contactsService: ContactsService,
     private spinner: NgxSpinnerService,
     public dialogRef: MatDialogRef<EditUploadComponent>,
+    private eventRecurrenceService: EventRecurrenceService,
+    private datesService: DatesService,
+    private errorService: ErrorService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -96,6 +100,7 @@ export class EditUploadComponent implements OnInit {
   activeTur = false;
   activeFri = false;
   activeSat = false;
+  activeDay = [this.activeMon, this.activeTue, this.activeWed, this.activeTur, this.activeFri, this.activeSat, this.activeSun];
   until: Date;
   count: number;
 
@@ -117,9 +122,9 @@ export class EditUploadComponent implements OnInit {
     }
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
-    this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
-    this.dayOfMonth = this.getGetOrdinal(this.date.getDate());
-    this.dayOfYear = this.formatMonth(this.date.getMonth()) + ' ' + this.dayOfMonth;
+    // this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
+    // this.dayOfMonth = this.getGetOrdinal(this.startDate.day);
+    // this.dayOfYear = this.formatMonth(this.startDate.month) + ' ' + this.dayOfMonth;
     this.progress = 0;
     this.createFromEvent();
     this.familyMemberForm.markAsTouched();
@@ -127,6 +132,14 @@ export class EditUploadComponent implements OnInit {
       this.attachments = [];
       this.data.data.attachments.forEach((attachment) => this.attachments.push(attachment));
     }
+
+    this.eventForm.get('dpstart').valueChanges.subscribe((startDate: NgbDate) => {
+      const date = new Date(startDate.month+'/'+startDate.day+'/'+startDate.year);
+      this.dayOfWeek = this.datesService.formatDayOfWeek(date.getDay());
+      this.dayOfMonth = this.datesService.getGetOrdinal(startDate.day);
+      this.dayOfYear = this.datesService.formatMonth(startDate.month) + ' ' + this.dayOfMonth;
+    })
+
     this.eventForm.get('type').valueChanges.subscribe((type: Type) => {
       if (type.type === 0) { // for setting validations
         this.eventForm.get('email').clearValidators();
@@ -255,40 +268,7 @@ export class EditUploadComponent implements OnInit {
   get notifyTeam() { return this.eventForm.get('notifyTeam'); }
   get email() { return this.eventForm.get('email'); }
 
-  formatDayOfWeek(day: number) {
-    switch(day) {
-      case 0: return 'Sunday';
-      case 1: return 'Monday';
-      case 2: return 'Tuesday';
-      case 3: return 'Wednesday';
-      case 4: return 'Thursday';
-      case 5: return 'Friday';
-      case 6: return 'Saturday';
-    }
-  }
 
-  formatMonth(month: number) {
-    switch(month) {
-      case 0: return 'January';
-      case 1: return 'February';
-      case 2: return 'March';
-      case 3: return 'April';
-      case 4: return 'May';
-      case 5: return 'June';
-      case 6: return 'July';
-      case 7: return 'August';
-      case 8: return 'September';
-      case 9: return 'October';
-      case 10: return 'November';
-      case 11: return 'December';
-    }
-  }
-
-  getGetOrdinal(n: number) {
-    var s=["th","st","nd","rd"],
-        v=n%100;
-    return n+(s[(v-20)%10]||s[v]||s[0]);
- }
 
   addMember() {
     if (!this.familyMembersSelected) {
@@ -354,99 +334,15 @@ export class EditUploadComponent implements OnInit {
     return this.recurrence.value !== 'Doesnotrepeat' && this.endsForm.value !== 'Never';
   }
 
-  postEvent() {
+  postUpload() {
     if (this.eventForm.status === 'VALID') {
       this.spinner.show();
       if (this.type.value.type === 0) {
-        const event = new Event(this.eventForm);
-        if (this.familyMemberForm.dirty) {
-          event.familyMembers = this.familyMembersSelected.map((item) => item.id);
-        } else {
-          event.familyMembers = this.data.data.familyMembers;
-        }      
-        if (this.isRecurrenceEdited()) {
-          event.recurrence = this.recurrenceToRrule() ? this.recurrenceToRrule().toString() : null;
-        }
-        if (this.attachments && this.attachments.length > 0) {
-          event.attachments = this.attachments;
-        }
-        this.eventsService.doEventIdPut(this.data.data.id, event).subscribe((res: Event) => {
-          this.spinner.hide();
-          this.onEventPut.emit(res);
-          this.dialogRef.close();
-        }, (err: GenericError) => {
-          this.spinner.hide();
-          let message = 'Error: ';
-          Object.keys(err.error).forEach(key => {
-            if (Array.isArray(err.error[key])) {
-              err.error[key].forEach(msg => {
-                message += msg + ' ';
-              });
-            } else {
-              message += err.error;
-            }            
-            message += '\n';
-          });
-          alert('Something went wrong, please try again\n' + message);
-        });
+        this.postEvent();
       } else if (this.type.value.type === 1) {
-        const document = new Document(this.eventForm);
-        if (this.familyMemberForm.dirty) {
-          document.familyMembers = this.familyMembersSelected.map((item) => item.id);
-        } else {
-          document.familyMembers = this.data.data.familyMembers;
-        }
-        if (this.attachments && this.attachments.length > 0) {
-          document.attachments = this.attachments;
-        }
-        this.documentsService.doDocumentIdPut(this.data.data.id, document, this.data.userId).subscribe((res: Document) => {
-          this.spinner.hide();
-          this.onEventPut.emit(res);
-          this.dialogRef.close();
-        }, (err: GenericError) => {
-          this.spinner.hide();
-          let message = 'Error: ';
-          Object.keys(err.error).forEach(key => {
-            if (Array.isArray(err.error[key])) {
-              err.error[key].forEach(msg => {
-                message += msg + ' ';
-              });
-            } else {
-              message += err.error;
-            }            
-            message += '\n';
-          });
-          alert('Something went wrong, please try again\n' + message);
-        });
+        this.postDocument();
       } else if (this.type.value.type === 2) {
-        const contact = new Contact(this.eventForm);
-        if (this.familyMemberForm.dirty) {
-          contact.familyMembers = this.familyMembersSelected.map((item) => item.id);
-        } else {
-          contact.familyMembers = this.data.data.familyMembers;
-        }
-        if (this.attachments && this.attachments.length > 0) {
-          contact.avatar = this.attachments[0].file;
-        }
-        this.contactsService.doContactIdPut(this.data.data.id, contact, this.data.userId).subscribe((res: Contact) => {
-          this.spinner.hide();
-          this.onEventPut.emit(res);
-          this.dialogRef.close();
-        }, (err: GenericError) => {
-          this.spinner.hide();
-          let message = 'Error: ';
-          Object.keys(err.error).forEach(key => {
-            if (Array.isArray(err.error[key])) {
-              err.error[key].forEach(msg => {
-                message += msg + ' ';
-              });
-            } else {
-              message += err.error;
-            }            
-            message += '\n';
-          });
-          alert('Something went wrong, please try again\n' + message);
-        });
+        this.postContact();
       }
     } else {
       this.eventForm.markAllAsTouched();
@@ -458,298 +354,77 @@ export class EditUploadComponent implements OnInit {
       this.customRepeatForm.dirty || this.customFrecuenceForm.dirty);
   }
 
-  getBase64(file): Observable<string> {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    return Observable.create((observer: Subscriber<string | ArrayBuffer>): void => {
-      // if success
-      reader.onload = ((ev: ProgressEvent): void => {
-        observer.next(reader.result);
-        observer.complete();
-      })
-
-      // if failed
-      reader.onerror = (error: ProgressEvent): void => {
-        observer.error(error);
-      }
-    });
-  }
- 
-
-  recurrenceToRrule(): RRule {
-    switch(this.recurrence.value) {
-      case 'Doesnotrepeat': return this.doesNotRepeat();
-      case 'Daily': return this.dailyToRrule();
-      case 'WeeklyondayOfWeek': return this.weeklyondayOfWeekToRrule();
-      case 'Monthlyonthefirst': return this.monthlyonthefirst();
-      case 'Monthlyonthe': return this.monthlyonthe();
-      case 'Annuallyonthe': return this.annuallyonthe();
-      case 'EveryweekdayMondaytoFriday': return this.everyweekdayMondaytoFriday();
-      case 'Custom': return this.custom();
-    }
-  }
-
-  untilAndCount() {
-    this.until = this.endsForm.value !== 'Never' && this.recurrenceEndDateForm.value ? 
-      new Date(
-        this.recurrenceEndDateForm.value.year,
-        this.recurrenceEndDateForm.value.month,
-        this.recurrenceEndDateForm.value.day) :
-        null;
-    this.count = this.recurrenceOcurrencesForm.value ? this.recurrenceOcurrencesForm.value : null;
-  }
-
-  doesNotRepeat(): RRule {
-    return new RRule({
-      freq: RRule.DAILY,
-      dtstart: new Date(),
-      count: 1
-    });
-  }
-  
-  dailyToRrule(): RRule {
-    this.untilAndCount();
-    let rule;
-    if (!this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.DAILY,
-        dtstart: new Date()
-      });
-    } else if (this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.DAILY,
-        dtstart: new Date(),
-        until: this.until
-      });
-    } else if (!this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.DAILY,
-        dtstart: new Date(),
-        count: this.count
-      });
-    } else if (this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.DAILY,
-        dtstart: new Date(),
-        until: this.until,
-        count: this.count
-      });
-    }
-
-    return rule;
-  }
-
-  weeklyondayOfWeekToRrule(): RRule {
-    this.untilAndCount();
-    let rule;
-    if (!this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.WEEKLY,
-        byweekday: this.date.getDay() -1,
-        dtstart: new Date(),
-      });
-    } else if (this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.WEEKLY,
-        byweekday: this.date.getDay() -1,
-        dtstart: new Date(),
-        until: this.until
-      });
-    } else if (!this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.WEEKLY,
-        byweekday: this.date.getDay() -1,
-        dtstart: new Date(),
-        count: this.count
-      });
-    } else if (this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.WEEKLY,
-        byweekday: this.date.getDay() -1,
-        dtstart: new Date(),
-        until: this.until,
-        count: this.count
-      });
-    }
-    return rule;
-  }
-
-  monthlyonthefirst(): RRule {
-    this.untilAndCount();
-    let rule;
-    if (!this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: this.date.getDay() -1,
-        bysetpos: 1,
-        dtstart: new Date(),
-      });
-    } else if (this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: this.date.getDay() -1,
-        bysetpos: 1,
-        dtstart: new Date(),
-        until: this.until
-      });
-    } else if (!this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: this.date.getDay() -1,
-        bysetpos: 1,
-        dtstart: new Date(),
-        count: this.count
-      });
-    } else if (this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: this.date.getDay() -1,
-        bysetpos: 1,
-        dtstart: new Date(),
-        until: this.until,
-        count: this.count
-      });
-    }
-    return rule;
-  }
-
-  monthlyonthe(): RRule {
-    this.untilAndCount();
-    let rule;
-    if (!this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-      });
-    } else if (this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-        until: this.until
-      });
-    } else if (!this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-        count: this.count
-      });
-    } else if (this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-        until: this.until,
-        count: this.count
-      });
-    }
-    return rule;
-  }
-
-  annuallyonthe(): RRule {
-    this.untilAndCount();
-    let rule;
-    if (!this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.YEARLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-      });
-    } else if (this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.YEARLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-        until: this.until
-      });
-    } else if (!this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.YEARLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-        count: this.count
-      });
-    } else if (this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.YEARLY,
-        bysetpos: 1,
-        dtstart: new Date(),
-        until: this.until,
-        count: this.count
-      });
-    }
-    return rule;
-  }
-
-  everyweekdayMondaytoFriday(): RRule {
-    this.untilAndCount();
-    let rule;
-    if (!this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-        dtstart: new Date(),
-      });
-    } else if (this.until && !this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-        dtstart: new Date(),
-        until: this.until
-      });
-    } else if (!this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-        dtstart: new Date(),
-        count: this.count
-      });
-    } else if (this.until && this.count) {
-      rule = new RRule({
-        freq: RRule.MONTHLY,
-        byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-        dtstart: new Date(),
-        until: this.until,
-        count: this.count
-      });
-    }
-    return rule;
-  }
-
-  custom(): RRule {
-    let byweekday = [];
-    if (this.activeMon) { byweekday.push(RRule.MO) }
-    if (this.activeTue) { byweekday.push(RRule.TU) }
-    if (this.activeWed) { byweekday.push(RRule.WE) }
-    if (this.activeTur) { byweekday.push(RRule.TH) }
-    if (this.activeFri) { byweekday.push(RRule.FR) }
-    if (this.activeSat) { byweekday.push(RRule.SA) }
-    if (this.activeSun) { byweekday.push(RRule.SU) }
-    let freq;
-    switch(this.customFrecuenceForm.value) {
-      case "0": freq = RRule.DAILY; break;
-      case "0": freq = RRule.WEEKLY; break;
-      case "0": freq = RRule.MONTHLY; break;
-      case "0": freq = RRule.YEARLY; break;
-      default: freq = null;
-    }
-    let count = parseInt(this.customRepeatForm.value);
-    if (byweekday.length > 0) {
-      return new RRule({
-        freq: freq,
-        byweekday: byweekday,
-        dtstart: new Date(),
-        count: count
-      })
+  postEvent() {
+    const event = new Event(this.eventForm);
+    if (this.familyMemberForm.dirty) {
+      event.familyMembers = this.familyMembersSelected.map((item) => item.id);
     } else {
-      return new RRule({
-        freq: freq,
-        dtstart: new Date(),
-        count: count
-      })
+      event.familyMembers = this.data.data.familyMembers;
+    }      
+    if (this.isRecurrenceEdited()) {
+      const recurrence = this.eventRecurrenceService.recurrenceToRrule(
+        this.recurrence.value,
+        this.endsForm.value,
+        this.recurrenceEndDateForm.value,
+        this.recurrenceOcurrencesForm.value,
+        new Date(event.start),
+        this.activeDay,
+        this.customFrecuenceForm.value,
+        this.customRepeatForm.value
+      );
+      event.recurrence = recurrence ? recurrence.toString() : null;
     }
+    if (this.attachments && this.attachments.length > 0) {
+      event.attachments = this.attachments;
+    }
+    this.eventsService.doEventIdPut(this.data.data.id, event).subscribe((res: Event) => {
+      this.spinner.hide();
+      this.onEventPut.emit(res);
+      this.dialogRef.close();
+    }, (err: GenericError) => {
+      this.spinner.hide();
+      this.errorService.showError(err);
+    });
+  }
+
+  postDocument() {
+    const document = new Document(this.eventForm);
+    if (this.familyMemberForm.dirty) {
+      document.familyMembers = this.familyMembersSelected.map((item) => item.id);
+    } else {
+      document.familyMembers = this.data.data.familyMembers;
+    }
+    if (this.attachments && this.attachments.length > 0) {
+      document.attachments = this.attachments;
+    }
+    this.documentsService.doDocumentIdPut(this.data.data.id, document, this.data.userId).subscribe((res: Document) => {
+      this.spinner.hide();
+      this.onEventPut.emit(res);
+      this.dialogRef.close();
+    }, (err: GenericError) => {
+      this.spinner.hide();
+      this.errorService.showError(err);
+    });
+  }
+
+  postContact() {
+    const contact = new Contact(this.eventForm);
+    if (this.familyMemberForm.dirty) {
+      contact.familyMembers = this.familyMembersSelected.map((item) => item.id);
+    } else {
+      contact.familyMembers = this.data.data.familyMembers;
+    }
+    if (this.attachments && this.attachments.length > 0) {
+      contact.avatar = this.attachments[0].file;
+    }
+    this.contactsService.doContactIdPut(this.data.data.id, contact, this.data.userId).subscribe((res: Contact) => {
+      this.spinner.hide();
+      this.onEventPut.emit(res);
+      this.dialogRef.close();
+    }, (err: GenericError) => {
+      this.spinner.hide();
+      this.errorService.showError(err);
+    });
   }
 
   delete() {

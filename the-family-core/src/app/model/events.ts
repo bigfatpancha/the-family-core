@@ -119,7 +119,8 @@ export class EventResponse {
 }
 
 export class CalendarEventImpl implements CalendarEvent {
-    id?: string | number;    start: Date;
+    id?: string | number;
+    start: Date;
     end?: Date;
     title: string;
     color?: import("calendar-utils").EventColor;

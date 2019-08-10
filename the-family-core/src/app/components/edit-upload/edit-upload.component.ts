@@ -122,9 +122,9 @@ export class EditUploadComponent implements OnInit {
     }
     this.date = new Date();
     this.startDate = new NgbDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
-    // this.dayOfWeek = this.formatDayOfWeek(this.date.getDay());
-    // this.dayOfMonth = this.getGetOrdinal(this.startDate.day);
-    // this.dayOfYear = this.formatMonth(this.startDate.month) + ' ' + this.dayOfMonth;
+    this.dayOfWeek = this.datesService.formatDayOfWeek(this.date.getDay());
+    this.dayOfMonth = this.datesService.getGetOrdinal(this.startDate.day);
+    this.dayOfYear = this.datesService.formatMonth(this.startDate.month) + ' ' + this.dayOfMonth;
     this.progress = 0;
     this.createFromEvent();
     this.familyMemberForm.markAsTouched();

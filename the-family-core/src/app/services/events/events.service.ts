@@ -35,8 +35,8 @@ export class EventsService {
 
   doEventsCalendarGet(after: any, before: any): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
-    const params = new HttpParams().set('dateBefore', before)
-                                    .set('dateAfter', after);
+    const params = new HttpParams().set('date_before', before)
+                                    .set('date_after', after);
     const options = {
       headers: headers,
       params: params

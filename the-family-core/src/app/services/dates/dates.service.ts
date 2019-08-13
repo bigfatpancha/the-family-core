@@ -41,4 +41,23 @@ export class DatesService {
         v=n%100;
     return n+(s[(v-20)%10]||s[v]||s[0]);
   }
+
+  manageTimeZone(isoDate: string, char: string): string {
+    isoDate = this.setCharAt(isoDate, 11, char);
+    isoDate = this.setCharAt(isoDate, 12, char);
+    return isoDate;
+  }
+
+  manageTimeZoneBefore(isoDate: string, time: string): string {
+    for (let i = 0; i < 8; i ++) {
+      isoDate = this.setCharAt(isoDate, i+11, time[i]);
+    }
+    
+    return isoDate;
+  }
+
+  private setCharAt(str, index, chr): string {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+  }
 }

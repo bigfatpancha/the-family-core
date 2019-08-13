@@ -9,6 +9,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { EditUploadComponent } from '../edit-upload/edit-upload.component';
 import { GenericError } from 'src/app/model/error';
 import { EventsService } from 'src/app/services/events/events.service';
+import { DatesService } from 'src/app/services/dates/dates.service';
 
 @Component({
   selector: 'app-family-calendar',
@@ -36,17 +37,18 @@ export class FamilyCalendarComponent implements OnInit {
     private dialog: MatDialog,
     private eventsService: EventsService,
     private changeDetector: ChangeDetectorRef,
+    private dateService: DatesService
   ) { }
 
   ngOnInit() {
     this.spinner.show();
     const today = new Date();
     this.today = today.toUTCString().substring(0,7);
-    const after = new Date(today.getFullYear(), today.getMonth(), 1);
+    const after = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0).toISOString();
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
-      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
+      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1, 0, 0, 0).toISOString();
     this.dayClicked({day: {date: today} });
-    this.eventsService.doEventsCalendarGet(after, before)
+    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZone(before, '0'))
       .subscribe((res: EventResponse) => {
         let events: Event[] = res.results;
         this.calendarEvents = events.map((event: Event) => {
@@ -82,11 +84,11 @@ export class FamilyCalendarComponent implements OnInit {
     this.spinner.show();
     const today = viewDate;
     this.today = today.toUTCString().substring(0,7);
-    const after = new Date(today.getFullYear(), today.getMonth(), 1);
+    const after = new Date(today.getFullYear(), today.getMonth(), 1).toISOString();
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
-      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
+      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1).toISOString();
     this.dayClicked({day: {date: today} });
-    this.eventsService.doEventsCalendarGet(after.toISOString(), before.toISOString())
+    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZone(before, '0'))
     .subscribe((res: EventResponse) => {
       let events: Event[] = res.results;
       this.calendarEvents = events.map((event: Event) => {
@@ -121,9 +123,9 @@ export class FamilyCalendarComponent implements OnInit {
     this.spinner.show();
     this.activeDay = event.day.date;
     let date = new Date(event.day.date);
-    const after: string = this.activeDay.toISOString();
-    const before: string = new Date(date.setDate(date.getDate() + 1)).toISOString();
-    this.eventsService.doEventsCalendarGet(after, before)
+    const after: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
+    const before: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
+    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
       .subscribe((res: EventResponse) => {
         this.events = res.results;
         this.spinner.hide();

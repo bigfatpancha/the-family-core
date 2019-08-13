@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { DataService } from 'src/app/services/data/data.service';
 import { Timezone } from 'src/app/model/data';
 import { EventsService } from 'src/app/services/events/events.service';
-import { Event, EventAttachment } from '../../model/events';
+import { Event, EventAttachment, Recurrence } from '../../model/events';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser } from 'src/app/model/family';
 import { Contact } from 'src/app/model/contact';
@@ -17,6 +17,7 @@ import { GenericError } from 'src/app/model/error';
 import { EventRecurrenceService } from 'src/app/services/event-recurrence/event-recurrence.service';
 import { ErrorService } from 'src/app/services/error/error.service';
 import { DatesService } from 'src/app/services/dates/dates.service';
+import RRule from 'rrule';
 
 export class Type {
   id: number;
@@ -100,9 +101,10 @@ export class EditUploadComponent implements OnInit {
   activeTur = false;
   activeFri = false;
   activeSat = false;
-  activeDay = [this.activeMon, this.activeTue, this.activeWed, this.activeTur, this.activeFri, this.activeSat, this.activeSun];
+  activeDay: boolean[] = [this.activeMon, this.activeTue, this.activeWed, this.activeTur, this.activeFri, this.activeSat, this.activeSun];
   until: Date;
   count: number;
+  eventRecurrence: Recurrence = null;
 
   ngOnInit() {
     this.dataService.doTimezoneGet()
@@ -125,6 +127,13 @@ export class EditUploadComponent implements OnInit {
     this.dayOfWeek = this.datesService.formatDayOfWeek(this.date.getDay());
     this.dayOfMonth = this.datesService.getGetOrdinal(this.startDate.day);
     this.dayOfYear = this.datesService.formatMonth(this.startDate.month) + ' ' + this.dayOfMonth;
+    if(this.data.type === 0 && this.data.data.recurrence) {
+      const rrule = RRule.fromString(this.data.data.recurrence);
+      this.eventRecurrence = this.eventRecurrenceService.rruleToRecurrence(rrule);
+      for (let i = 0; i < 7; i++) {
+        this.activeDay[i] = this.eventRecurrence[i];
+      }
+    }
     this.progress = 0;
     this.createFromEvent();
     this.familyMemberForm.markAsTouched();
@@ -198,12 +207,12 @@ export class EditUploadComponent implements OnInit {
     if (event.start) {
       const startDate = new Date(event.start);
       start = new NgbDate(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
-      this.startTime = startDate.getHours().toString() + ':' + startDate.getMinutes().toString();
+      this.startTime = startDate.toLocaleTimeString("es-AR", {timeZone: event.timezone.name}).substring(0,5);
     }
     if (event.end) {
       const endDate = new Date(event.end);
       end = new NgbDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
-      this.endTime = endDate.getHours().toString() + ':' + endDate.getMinutes().toString();
+      this.endTime = endDate.toLocaleTimeString("es-AR", {timeZone: event.timezone.name}).substring(0,5);
     }
     this.eventForm = new FormGroup({
       'title': new FormControl(event.title ? event.title : event.name, [
@@ -221,12 +230,12 @@ export class EditUploadComponent implements OnInit {
       'endTimeForm': new FormControl(this.endTime),
       'timezone': new FormControl(event.timezone ? event.timezone.name : null),
       'alert': new FormControl(event.alert),
-      'recurrence': new FormControl('Doesnotrepeat'),
-      'endsForm': new FormControl('Never'),
-      'recurrenceEndDateForm': new FormControl(this.startDate),
-      'recurrenceOcurrencesForm': new FormControl(null),
-      'customRepeatForm': new FormControl(1),
-      'customFrecuenceForm': new FormControl('Day'),
+      'recurrence': new FormControl(this.eventRecurrence ? this.eventRecurrence.recurrence : 'Doesnotrepeat'),
+      'endsForm': new FormControl(this.eventRecurrence && this.eventRecurrence.endingWhen ? this.eventRecurrence.endingWhen : 'Never'),
+      'recurrenceEndDateForm': new FormControl(this.eventRecurrence && this.eventRecurrence.recurrenceEndingDate ? this.eventRecurrence.recurrenceEndingDate : null),
+      'recurrenceOcurrencesForm': new FormControl(this.eventRecurrence && this.eventRecurrence.occuring ? this.eventRecurrence.occuring : null),
+      'customRepeatForm': new FormControl(this.eventRecurrence && this.eventRecurrence.customOccuring ? this.eventRecurrence.customOccuring : null),
+      'customFrecuenceForm': new FormControl(this.eventRecurrence && this.eventRecurrence.customFrecuence ? this.eventRecurrence.customFrecuence : null),
       'addressLine1': new FormControl(event.address && event.address.addressLine1 ? event.address.addressLine1 : null, [Validators.maxLength(128)]),
       'addressLine2': new FormControl(event.address && event.address.addressLine2 ? event.address.addressLine2 : null, [Validators.maxLength(128)]),
       'city': new FormControl(event.address && event.address.city ? event.address.city : null, [Validators.maxLength(50)]),

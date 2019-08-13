@@ -158,18 +158,19 @@
       <div class="form-inline row mt-3">
         <div class="form-group col-sm-6 col-lg-4 col-xl-3">
           <div class="input-group" style="width: 100%;">
-            <div *ngIf="dpstart.invalid && (dpstart.dirty || dpstart.touched)"
-                class="alert alert-danger">
+            <div *ngIf="dpstart.invalid && (dpstart.dirty || dpstart.touched)" class="alert alert-danger">
               <div *ngIf="dpstart.errors.required">
                 Start date is required.
+              </div>
+              <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.invalid">
+                Please enter a valid date
               </div>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-6 col-lg-3">
           <div class="input-group">
-            <div *ngIf="startTimeForm.invalid && (startTimeForm.dirty || startTimeForm.touched)"
-                class="alert alert-danger">
+            <div *ngIf="startTimeForm.invalid && (startTimeForm.dirty || startTimeForm.touched)" class="alert alert-danger">
               <div *ngIf="startTimeForm.errors.required">
                 Start time is required.
               </div>
@@ -200,18 +201,22 @@
       <div class="form-inline row mt-3">
         <div class="form-group col-sm-6 col-lg-4 col-xl-3">
           <div class="input-group" style="width: 100%;">
-            <div *ngIf="dpend.invalid && (dpend.dirty || dpend.touched)"
-                class="alert alert-danger">
+            <div *ngIf="dpend.invalid && (dpend.dirty || dpend.touched)" class="alert alert-danger">
               <div *ngIf="dpend.errors.required">
                 End date is required.
+              </div>
+              <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.requiredBefore">
+                End date has to be after today
+              </div>
+              <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.invalid">
+                Please enter a valid date
               </div>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-6 col-lg-3">
           <div class="input-group">
-            <div *ngIf="endTimeForm.invalid && (endTimeForm.dirty || endTimeForm.touched)"
-                class="alert alert-danger">
+            <div *ngIf="endTimeForm.invalid && (endTimeForm.dirty || endTimeForm.touched)" class="alert alert-danger">
               <div *ngIf="endTimeForm.errors.required">
                 End time is required.
               </div>

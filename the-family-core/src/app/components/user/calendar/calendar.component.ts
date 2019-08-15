@@ -5,12 +5,13 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { UsersService } from 'src/app/services/users/users.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from 'src/app/model/auth';
-import { Event, CalendarEventImpl } from 'src/app/model/events';
+import { Event, CalendarEventImpl, EventResponse } from 'src/app/model/events';
 import { GenericError } from 'src/app/model/error';
 import { FamilyUser } from 'src/app/model/family';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { EditUploadComponent } from '../../edit-upload/edit-upload.component';
 import { DatesService } from 'src/app/services/dates/dates.service';
+import { EventsService } from 'src/app/services/events/events.service';
 
 const colors: any = {
   red: {
@@ -57,7 +58,8 @@ export class CalendarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog,
-    private dateService: DatesService
+    private dateService: DatesService,
+    private eventsService: EventsService
   ) {}
 
   ngOnInit() {
@@ -68,9 +70,9 @@ export class CalendarComponent implements OnInit {
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
-    .subscribe((res: any) => {
-      let events: Event[] = this.getEventsListFromResponse(res);
+    this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
+    .subscribe((res: EventResponse) => {
+      let events: Event[] = res.results;
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);

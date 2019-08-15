@@ -33,7 +33,7 @@ export class EventsService {
     return this.http_service.doGet(Routes.EVENTS, options);
   }
 
-  doEventsCalendarGet(after: any, before: any): Observable<EventResponse> {
+  doEventsCalendarGet(after: string, before: string): Observable<EventResponse> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
     const params = new HttpParams().set('date_before', before)
                                     .set('date_after', after);

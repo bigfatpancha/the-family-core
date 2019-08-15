@@ -83,12 +83,12 @@ export class FamilyCalendarComponent implements OnInit {
     this.activeDayIsOpen = false;
     this.spinner.show();
     const today = viewDate;
-    this.today = today.toUTCString().substring(0,7);
-    const after = new Date(today.getFullYear(), today.getMonth(), 1).toISOString();
+    const after = new Date(today.getFullYear(), today.getMonth(), 1);
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
-      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1).toISOString();
-    this.dayClicked({day: {date: today} });
-    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZone(before, '0'))
+      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
+    this.today = after.toUTCString().substring(0,7);
+    this.dayClicked({day: {date: after} });
+    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
     .subscribe((res: EventResponse) => {
       let events: Event[] = res.results;
       this.calendarEvents = events.map((event: Event) => {
@@ -122,6 +122,7 @@ export class FamilyCalendarComponent implements OnInit {
   dayClicked(event) {
     this.spinner.show();
     this.activeDay = event.day.date;
+    this.today = event.day.date.toUTCString().substring(0,7);
     let date = new Date(event.day.date);
     const after: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
     const before: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();

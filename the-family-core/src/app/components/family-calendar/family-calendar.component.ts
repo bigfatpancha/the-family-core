@@ -30,6 +30,7 @@ export class FamilyCalendarComponent implements OnInit {
   today;
   showCalendar = false;
   activeDayIsOpen: boolean = true;
+  colors;
 
   constructor(
     private usersService: UsersService,
@@ -42,6 +43,7 @@ export class FamilyCalendarComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.resolveUserColors();
     const today = new Date();
     this.today = today.toUTCString().substring(0,7);
     const after = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0).toISOString();
@@ -56,6 +58,7 @@ export class FamilyCalendarComponent implements OnInit {
           ev.start = new Date(event.start);
           ev.end = new Date(event.end);
           ev.title = event.title;
+          ev.color = this.colors[event.familyMembers[0]];
           return ev;
         });
         this.showCalendar = true;
@@ -96,6 +99,7 @@ export class FamilyCalendarComponent implements OnInit {
         ev.start = new Date(event.start);
         ev.end = new Date(event.end);
         ev.title = event.title;
+        ev.color = this.colors[event.familyMembers[0]];
         return ev;
       });
       this.showCalendar = true;
@@ -226,6 +230,19 @@ export class FamilyCalendarComponent implements OnInit {
       })
     })
     return events;
+  }
+
+  /**
+   *  recorro la lista de usuarios y armo un objeto (calve, valor) user.id, color
+   * {
+   *    user.id: { primary: colorCode }
+   * }
+   */
+  resolveUserColors() {
+    this.colors = {};
+    this.usersService.users.forEach((user: FamilyUser) => {
+      this.colors[user.id] = { primary: user.colorCode };
+    })
   }
 
 }

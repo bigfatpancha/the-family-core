@@ -261,6 +261,7 @@ export class UserComponent implements OnInit, AfterContentInit {
     this.editRef = this.dialog.open(EditUserComponent, this.dialogConfig);
     this.editRef.afterClosed().subscribe(() => {
       this.findUser(this.user.id);
+      this.usersService.doGetUsersList().subscribe((data: FamilyUserListResponse) => this.usersService.users = data.results);
     });
   }
 

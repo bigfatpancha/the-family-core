@@ -11,19 +11,6 @@ import { FamilyUser } from 'src/app/model/family';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { EditUploadComponent } from '../../edit-upload/edit-upload.component';
 import { DatesService } from 'src/app/services/dates/dates.service';
-import { EventsService } from 'src/app/services/events/events.service';
-
-const colors: any = {
-  red: {
-    primary: '#f15a24',
-  },
-  blue: {
-    primary: '#1e90ff',
-  },
-  yellow: {
-    primary: '#00aaff',
-  }
-};
 
 @Component({
   selector: 'app-calendar',
@@ -58,8 +45,7 @@ export class CalendarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog,
-    private dateService: DatesService,
-    private eventsService: EventsService
+    private dateService: DatesService
   ) {}
 
   ngOnInit() {

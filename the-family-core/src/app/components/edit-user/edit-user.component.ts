@@ -280,11 +280,11 @@ export class EditUserComponent implements OnInit {
   saveUser() {
     if (this.newUserForm.status === 'VALID') {
       this.spinner.show();
-      if (this.nickname.value) {
+      if (this.nickname.dirty) {
         this.editedUser.nickname = this.nickname.value;
         this.editedUser.username = this.nickname.value;
       }
-      if (this.email.value) {
+      if (this.email.dirty) {
         this.editedUser.email = this.email.value;
       }
       if (this.allergies.dirty) {
@@ -454,7 +454,7 @@ export class EditUserComponent implements OnInit {
       if (this.avatarFile) {
         this.editedUser.avatar = this.avatarFile;
       }
-      this.usersService.doUserIdPut(this.user.id, this.editedUser).subscribe((data: User) => {
+      this.usersService.doUserIdPatch(this.user.id, this.editedUser).subscribe((data: User) => {
         this.spinner.hide();
         this.dialogRef.close();
         alert('Profile edited successfully');

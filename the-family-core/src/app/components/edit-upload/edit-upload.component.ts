@@ -204,15 +204,20 @@ export class EditUploadComponent implements OnInit {
     const type = this.types.find((type: Type) => type.type === this.data.type && type.id === event.type)
     let start;
     let end;
+    let lead: FamilyUser[] = null;
     if (event.start) {
       const startDate = new Date(event.start);
       start = new NgbDate(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
       this.startTime = startDate.toLocaleTimeString("es-AR", {timeZone: event.timezone.name}).substring(0,5);
+      this.startDate = start;
     }
     if (event.end) {
       const endDate = new Date(event.end);
       end = new NgbDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
       this.endTime = endDate.toLocaleTimeString("es-AR", {timeZone: event.timezone.name}).substring(0,5);
+    }
+    if (event.lead) {
+      lead = this.familyMembers.filter((user: FamilyUser) => user.id === event.lead);
     }
     this.eventForm = new FormGroup({
       'title': new FormControl(event.title ? event.title : event.name, [
@@ -223,7 +228,7 @@ export class EditUploadComponent implements OnInit {
       'detail': new FormControl(event.detail && event.detail !== 'null' ? event.detail : event.description, [Validators.maxLength(30)]),
       'type': new FormControl(type, [Validators. required]),
       'familyMemberForm': new FormControl(null),
-      'leadForm': new FormControl(event.lead ? event.lead : null),
+      'leadForm': new FormControl(lead ? lead[0] : null),
       'dpstart': new FormControl(event.start ? start : this.startDate),
       'startTimeForm': new FormControl(this.startTime),
       'dpend': new FormControl(event.end ? end : this.endDate),

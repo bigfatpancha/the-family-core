@@ -184,7 +184,7 @@
           <div class="input-group" style="width: 100%;">
             <label class="mb-0 d-flex align-items-center">End Date</label>
             <input class="form-control ml-3" placeholder="yyyy-mm-dd" formControlName="dpend" ngbDatepicker #d2="ngbDatepicker"
-              [startDate]="startDate" [minDate]="startDate" required (dateSelect)="validateTime()" (blur)="validateTime()">
+              required (dateSelect)="validateTime()" (blur)="validateTime()">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary icon-calendar" (click)="d2.toggle()" type="button"></button>
             </div>
@@ -205,9 +205,6 @@
               <div *ngIf="dpend.errors.required">
                 End date is required.
               </div>
-              <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.requiredBefore">
-                End date has to be after today
-              </div>
               <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.invalid">
                 Please enter a valid date
               </div>
@@ -225,7 +222,7 @@
         </div>
       </div>
       <div *ngIf="eventForm.errors?.notValidTime && (eventForm.touched || eventForm.dirty)" class="cross-validation-error-message alert alert-danger">
-        Start date should be before end date
+        End date and time should be after start date and time
       </div>
 
       <div class="form-row">

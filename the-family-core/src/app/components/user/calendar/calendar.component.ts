@@ -5,23 +5,12 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { UsersService } from 'src/app/services/users/users.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from 'src/app/model/auth';
-import { Event, CalendarEventImpl } from 'src/app/model/events';
+import { Event, CalendarEventImpl, EventResponse } from 'src/app/model/events';
 import { GenericError } from 'src/app/model/error';
 import { FamilyUser } from 'src/app/model/family';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { EditUploadComponent } from '../../edit-upload/edit-upload.component';
-
-const colors: any = {
-  red: {
-    primary: '#f15a24',
-  },
-  blue: {
-    primary: '#1e90ff',
-  },
-  yellow: {
-    primary: '#00aaff',
-  }
-};
+import { DatesService } from 'src/app/services/dates/dates.service';
 
 @Component({
   selector: 'app-calendar',
@@ -55,7 +44,8 @@ export class CalendarComponent implements OnInit {
     private usersService: UsersService,
     private spinner: NgxSpinnerService,
     private changeDetector: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dateService: DatesService
   ) {}
 
   ngOnInit() {
@@ -66,9 +56,9 @@ export class CalendarComponent implements OnInit {
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after.toISOString(), before.toISOString())
-    .subscribe((res: any) => {
-      let events: Event[] = this.getEventsListFromResponse(res);
+    this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
+    .subscribe((res: EventResponse) => {
+      let events: Event[] = res.results;
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);
@@ -149,12 +139,12 @@ export class CalendarComponent implements OnInit {
     this.activeDayIsOpen = false;
     this.spinner.show();
     const today = viewDate;
-    this.today = today.toUTCString().substring(0,7);
     const after = new Date(today.getFullYear(), today.getMonth(), 1);
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
-    this.dayClicked({day: {date: today} });
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after.toISOString(), before.toISOString())
+    this.today = after.toUTCString().substring(0,7);
+    this.dayClicked({day: {date: after} });
+    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
     .subscribe((res: any) => {
       let events: Event[] = this.getEventsListFromResponse(res);
       this.calendarEvents = events.map((event: Event) => {
@@ -188,10 +178,11 @@ export class CalendarComponent implements OnInit {
   dayClicked(event) {
     this.spinner.show();
     this.activeDay = event.day.date;
+    this.today = event.day.date.toUTCString().substring(0,7);
     let date = new Date(event.day.date);
-    const after: string = this.activeDay.toISOString();
-    const before: string = new Date(date.setDate(date.getDate() + 1)).toISOString();
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, after, before)
+    const after: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
+    const before: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
+    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
       .subscribe((res: any) => {
         let events: Event[] = this.getEventsListFromResponse(res);
         this.spinner.hide();

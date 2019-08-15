@@ -71,11 +71,13 @@ export class UsersService {
   }
 
   doUserIdPatch(id: number, body: User): Observable<User> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
     }
-    return this.http_service.doPatch(Routes.FAMILY_USERS + id, body, options);
+    return this.http_service.doPatch(Routes.FAMILY_USERS + id + '/', this.getFormData(body), options);
   }
 
   doUserIdDelete(id: number): Observable<any> {

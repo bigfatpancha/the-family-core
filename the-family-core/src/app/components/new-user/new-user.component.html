@@ -281,7 +281,7 @@
     </div>
 
 
-    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === '2' || role.value === '3'">
+    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === 2 || role.value === 3 || role.value === '2' || role.value === '3'">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
@@ -450,7 +450,7 @@
     </div>
 
     <div class="form_family border-bottom pb-3 mt-5"
-      *ngIf="(role.value === '2' || role.value === '3') && (gender.value === '1')">
+      *ngIf="(role.value === 2 || role.value === 3 || role.value === '2' || role.value === '3') && (gender.value === 1 || gender.value === '1')">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
@@ -519,7 +519,7 @@
     </div>
 
     <div class="form_family border-bottom pb-3 mt-5"
-      *ngIf="(role.value === '2' || role.value === '3') && (gender.value === '0')">
+      *ngIf="(role.value === 2 || role.value === 3 || role.value === '2' || role.value === '3') && (gender.value === 0 || gender.value === '0')">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
@@ -656,13 +656,13 @@
     </div>
 
 
-    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === '4'">
+    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === 4 || role.value === '4'">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
-          <input type="text" placeholder="Refered By..." class="form-control" formControlName="refName">
+          <input type="text" placeholder="Referred By..." class="form-control" formControlName="refName">
           <div *ngIf="refName.invalid && (refName.dirty || refName.touched)" class="alert alert-danger">
             <div *ngIf="refName.errors.maxlength">
-              Refered By... must have between 1 and 30 characters long.
+              Referred By... must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -670,7 +670,7 @@
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
-            <select class="custom-select select form-control">
+            <select class="custom-select select form-control" formControlName="refColorCode">
               <option value="null" selected disabled>Color Code</option>
               <option value="#FFFFFF">White</option>
               <option value="#FF0000">Red</option>
@@ -768,8 +768,10 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="refplaceOfBirth">
-              <option value="place">Place of Birth</option>
-              <option value="1">USA</option>
+              <option value="null">Place of Birth</option>
+              <option value="USA">USA</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Canada">Canada</option>
             </select>
           </div>
         </div>
@@ -790,8 +792,10 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="refCountOfCit">
-              <option value="countryOfCitizenship">Country of Citizenship</option>
-              <option value="1">USA</option>
+              <option value="null">Country of Citizenship</option>
+              <option value="USA">USA</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Canada">Canada</option>
             </select>
           </div>
         </div>

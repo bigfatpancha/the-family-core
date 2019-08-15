@@ -36,11 +36,8 @@ export class RewardsComponent implements OnInit {
   redeem(userGeneric: FamilyUser) {
     let user: User = new User();
     user.stars = 0;
-    user.username = userGeneric.username;
-    user.nickname = userGeneric.nickname;
-    user.email = userGeneric.email;
     this.spinner.show();
-    this.usersService.doUserIdPut(userGeneric.id, user).subscribe((res: User) => {
+    this.usersService.doUserIdPatch(userGeneric.id, user).subscribe((res: User) => {
       this.usersService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
         this.spinner.hide();
         this.users = res.results;

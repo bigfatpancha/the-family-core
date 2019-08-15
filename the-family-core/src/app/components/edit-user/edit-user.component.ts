@@ -38,7 +38,6 @@ export class EditUserComponent implements OnInit {
     public dialogRef: MatDialogRef<EditUserComponent>,
     @Inject(MAT_DIALOG_DATA) public user: User
   ) {
-    console.log(this.user);
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -48,11 +47,9 @@ export class EditUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usersService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => {
-      this.relationshipsList = data.results.filter((user: FamilyUser) => {
-        return user.id !== this.httpService.id;
-      });
+    let userslist: FamilyUser[] = [...this.usersService.users];
+    this.relationshipsList = userslist.filter((user: FamilyUser) => {
+      return user.id !== this.httpService.id;
     });
     let birthDateNG: NgbDate = null;
     if (this.user.birthDate) {
@@ -128,13 +125,14 @@ export class EditUserComponent implements OnInit {
       'phoneNumber': new FormControl(this.user.address?this.user.address.phoneNumber && this.user.address.phoneNumber !== 'null'? this.user.address.phoneNumber:null:null, [Validators.maxLength(128)]),
       'faxNumber': new FormControl(this.user.address?this.user.address.faxNumber && this.user.address.faxNumber !== 'null'? this.user.address.faxNumber :null:null, [Validators.maxLength(128)]),
       'refName': new FormControl(this.user.referredBy?this.user.referredBy.name:null, [Validators.maxLength(30)]),
-      'driversLicenseState': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseState:null, [Validators.maxLength(30)]),
-      'driversLicenseNumber': new FormControl(this.user.referredBy?this.user.referredBy.driversLicenseNumber:null, [Validators.maxLength(30)]),
-      'refplaceOfBirth': new FormControl(this.user.referredBy?this.user.referredBy.placeOfBirth:null, [Validators.maxLength(30)]),
-      'refpassportNumber': new FormControl(this.user.referredBy?this.user.referredBy.passportNumber:null, [Validators.maxLength(30)]),
-      'refSocSecNum': new FormControl(this.user.referredBy?this.user.referredBy.socialSecurityNumber:null, [Validators.maxLength(30)]),
-      'refCountOfCit': new FormControl(this.user.referredBy?this.user.referredBy.countryOfCitizenship:null, [Validators.maxLength(30)]),
-      'agency': new FormControl(this.user.referredBy?this.user.referredBy.agencyForBackgroundCheck:null, [Validators.maxLength(30)]),
+      'refColorCode': new FormControl(this.user. referredBy && this.user.referredBy.colorCode !== 'undefined' ? this.user.referredBy.colorCode : null),
+      'driversLicenseState': new FormControl(this.user.referredBy && this.user.referredBy.driversLicenseState !== 'undefined'?this.user.referredBy.driversLicenseState:null, [Validators.maxLength(30)]),
+      'driversLicenseNumber': new FormControl(this.user.referredBy && this.user.referredBy.driversLicenseNumber !== 'undefined'?this.user.referredBy.driversLicenseNumber:null, [Validators.maxLength(30)]),
+      'refplaceOfBirth': new FormControl(this.user.referredBy && this.user.referredBy.placeOfBirth !== 'undefined'?this.user.referredBy.placeOfBirth:null, [Validators.maxLength(30)]),
+      'refpassportNumber': new FormControl(this.user.referredBy && this.user.referredBy.passportNumber !== 'undefined'?this.user.referredBy.passportNumber:null, [Validators.maxLength(30)]),
+      'refSocSecNum': new FormControl(this.user.referredBy && this.user.referredBy.socialSecurityNumber !== 'undefined'?this.user.referredBy.socialSecurityNumber:null, [Validators.maxLength(30)]),
+      'refCountOfCit': new FormControl(this.user.referredBy && this.user.referredBy.countryOfCitizenship !== 'undefined'?this.user.referredBy.countryOfCitizenship:null, [Validators.maxLength(30)]),
+      'agency': new FormControl(this.user.referredBy && this.user.referredBy.agencyForBackgroundCheck !== 'undefined'?this.user.referredBy.agencyForBackgroundCheck:null, [Validators.maxLength(30)]),
       'background': new FormControl(null),
       'relationships': new FormControl(this.user.relationships, [Validators.maxLength(30)])
     });
@@ -191,6 +189,7 @@ export class EditUserComponent implements OnInit {
   get phoneNumber() { return this.newUserForm.get('phoneNumber'); }
   get faxNumber() { return this.newUserForm.get('faxNumber'); }
   get refName() { return this.newUserForm.get('refName'); }
+  get refColorCode() { return this.newUserForm.get('refColorCode'); }
   get driversLicenseState() { return this.newUserForm.get('driversLicenseState'); }
   get driversLicenseNumber() { return this.newUserForm.get('driversLicenseNumber'); }
   get refplaceOfBirth() { return this.newUserForm.get('refplaceOfBirth'); }
@@ -281,11 +280,11 @@ export class EditUserComponent implements OnInit {
   saveUser() {
     if (this.newUserForm.status === 'VALID') {
       this.spinner.show();
-      if (this.nickname.value) {
+      if (this.nickname.dirty) {
         this.editedUser.nickname = this.nickname.value;
         this.editedUser.username = this.nickname.value;
       }
-      if (this.email.value) {
+      if (this.email.dirty) {
         this.editedUser.email = this.email.value;
       }
       if (this.allergies.dirty) {
@@ -313,6 +312,9 @@ export class EditUserComponent implements OnInit {
         }
         if (this.refName.dirty) {
           this.editedUser.referredBy.name = this.refName.value;
+        }
+        if (this.refColorCode.dirty) {
+          this.editedUser.referredBy.colorCode = this.refColorCode.value;
         }
         if (this.driversLicenseState.dirty) {
           this.editedUser.referredBy.driversLicenseState = this.driversLicenseState.value;
@@ -452,7 +454,7 @@ export class EditUserComponent implements OnInit {
       if (this.avatarFile) {
         this.editedUser.avatar = this.avatarFile;
       }
-      this.usersService.doUserIdPut(this.user.id, this.editedUser).subscribe((data: User) => {
+      this.usersService.doUserIdPatch(this.user.id, this.editedUser).subscribe((data: User) => {
         this.spinner.hide();
         this.dialogRef.close();
         alert('Profile edited successfully');
@@ -486,8 +488,8 @@ export class EditUserComponent implements OnInit {
   }
 
   isRefEdited(): boolean {
-    return (this.refName.dirty || this.driversLicenseState.dirty || this.driversLicenseNumber.dirty || this.refCountOfCit.dirty ||
-      this.agency.dirty || this.passportNumber.dirty || this.refplaceOfBirth.dirty || this.refSocSecNum.dirty);
+    return (this.refName.dirty || this.refColorCode.dirty || this.driversLicenseState.dirty || this.driversLicenseNumber.dirty ||
+      this.refCountOfCit.dirty || this.agency.dirty || this.passportNumber.dirty || this.refplaceOfBirth.dirty || this.refSocSecNum.dirty);
   }
 
 }

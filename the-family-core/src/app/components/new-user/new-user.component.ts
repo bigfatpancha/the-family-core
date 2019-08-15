@@ -44,11 +44,9 @@ export class NewUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usersService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => {
-      this.relationshipsList = data.results.filter((user: FamilyUser) => {
-        return user.id !== this.httpService.id;
-      });
+    let userslist: FamilyUser[] = [...this.usersService.users];
+    this.relationshipsList = userslist.filter((user: FamilyUser) => {
+      return user.id !== this.httpService.id;
     });
     this.newUserForm = new FormGroup({
       'role': new FormControl(null),
@@ -110,6 +108,7 @@ export class NewUserComponent implements OnInit {
       'phoneNumber': new FormControl(null, [Validators.maxLength(128)]),
       'faxNumber': new FormControl(null, [Validators.maxLength(128)]),
       'refName': new FormControl(null, [Validators.maxLength(30)]),
+      'refColorCode': new FormControl(null),
       'driversLicenseState': new FormControl(null, [Validators.maxLength(30)]),
       'driversLicenseNumber': new FormControl(null, [Validators.maxLength(30)]),
       'refplaceOfBirth': new FormControl(null, [Validators.maxLength(30)]),
@@ -174,6 +173,7 @@ export class NewUserComponent implements OnInit {
   get phoneNumber() { return this.newUserForm.get('phoneNumber'); }
   get faxNumber() { return this.newUserForm.get('faxNumber'); }
   get refName() { return this.newUserForm.get('refName'); }
+  get refColorCode() { return this.newUserForm.get('refColorCode'); }
   get driversLicenseState() { return this.newUserForm.get('driversLicenseState'); }
   get driversLicenseNumber() { return this.newUserForm.get('driversLicenseNumber'); }
   get refplaceOfBirth() { return this.newUserForm.get('refplaceOfBirth'); }
@@ -337,6 +337,9 @@ export class NewUserComponent implements OnInit {
     }
     if (this.refName.dirty) {
       this.referredBy.name = this.refName.value;
+    }
+    if (this.refColorCode.dirty) {
+      this.referredBy.colorCode = this.refColorCode.value;
     }
     if (this.driversLicenseState.dirty) {
       this.referredBy.driversLicenseState = this.driversLicenseState.value;

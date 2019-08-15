@@ -158,18 +158,19 @@
       <div class="form-inline row mt-3">
         <div class="form-group col-sm-6 col-lg-4 col-xl-3">
           <div class="input-group" style="width: 100%;">
-            <div *ngIf="dpstart.invalid && (dpstart.dirty || dpstart.touched)"
-                class="alert alert-danger">
+            <div *ngIf="dpstart.invalid && (dpstart.dirty || dpstart.touched)" class="alert alert-danger">
               <div *ngIf="dpstart.errors.required">
                 Start date is required.
+              </div>
+              <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.invalid">
+                Please enter a valid date
               </div>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-6 col-lg-3">
           <div class="input-group">
-            <div *ngIf="startTimeForm.invalid && (startTimeForm.dirty || startTimeForm.touched)"
-                class="alert alert-danger">
+            <div *ngIf="startTimeForm.invalid && (startTimeForm.dirty || startTimeForm.touched)" class="alert alert-danger">
               <div *ngIf="startTimeForm.errors.required">
                 Start time is required.
               </div>
@@ -183,7 +184,7 @@
           <div class="input-group" style="width: 100%;">
             <label class="mb-0 d-flex align-items-center">End Date</label>
             <input class="form-control ml-3" placeholder="yyyy-mm-dd" formControlName="dpend" ngbDatepicker #d2="ngbDatepicker"
-              [startDate]="startDate" [minDate]="startDate" required (dateSelect)="validateTime()" (blur)="validateTime()">
+              required (dateSelect)="validateTime()" (blur)="validateTime()">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary icon-calendar" (click)="d2.toggle()" type="button"></button>
             </div>
@@ -200,18 +201,19 @@
       <div class="form-inline row mt-3">
         <div class="form-group col-sm-6 col-lg-4 col-xl-3">
           <div class="input-group" style="width: 100%;">
-            <div *ngIf="dpend.invalid && (dpend.dirty || dpend.touched)"
-                class="alert alert-danger">
+            <div *ngIf="dpend.invalid && (dpend.dirty || dpend.touched)" class="alert alert-danger">
               <div *ngIf="dpend.errors.required">
                 End date is required.
+              </div>
+              <div *ngIf="dpend.errors.ngbDate && dpend.errors.ngbDate.invalid">
+                Please enter a valid date
               </div>
             </div>
           </div>
         </div>
         <div class="form-group col-sm-6 col-lg-3">
           <div class="input-group">
-            <div *ngIf="endTimeForm.invalid && (endTimeForm.dirty || endTimeForm.touched)"
-                class="alert alert-danger">
+            <div *ngIf="endTimeForm.invalid && (endTimeForm.dirty || endTimeForm.touched)" class="alert alert-danger">
               <div *ngIf="endTimeForm.errors.required">
                 End time is required.
               </div>
@@ -220,7 +222,7 @@
         </div>
       </div>
       <div *ngIf="eventForm.errors?.notValidTime && (eventForm.touched || eventForm.dirty)" class="cross-validation-error-message alert alert-danger">
-        Start date should be before end date
+        End date and time should be after start date and time
       </div>
 
       <div class="form-row">
@@ -328,10 +330,10 @@
           <div class="input-icon">
             <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select sin-label">
             <select class="custom-select select form-control" formControlName="customFrecuenceForm">
-              <option selected value="0">Day</option>
-              <option value="1">Week</option>
-              <option value="2">Month</option>
-              <option value="3">Year</option>
+              <option selected value="3">Day</option>
+              <option value="2">Week</option>
+              <option value="1">Month</option>
+              <option value="0">Year</option>
             </select>
           </div>
         </div>
@@ -497,7 +499,7 @@
         </div>
         <div class="col-md-4 d-flex justify-content-center align-items-end">
           <div class="buttons new-user mt-3">
-            <a class="btn btn-sm btn-save" (click)="postEvent()">SAVE</a>
+            <a class="btn btn-sm btn-save" (click)="postUpload()">SAVE</a>
             <a (click)="delete()" class="btn btn-sm btn-save invite">DELETE</a>
           </div>
         </div>

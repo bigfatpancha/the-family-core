@@ -1,7 +1,7 @@
 import { Address } from './contact';
-import { FamilyUser } from './family';
 import { FormGroup } from '@angular/forms';
 import { CalendarEvent } from 'calendar-utils';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export class EventAttachment {
     id: number;
@@ -119,7 +119,8 @@ export class EventResponse {
 }
 
 export class CalendarEventImpl implements CalendarEvent {
-    id?: string | number;    start: Date;
+    id?: string | number;
+    start: Date;
     end?: Date;
     title: string;
     color?: import("calendar-utils").EventColor;
@@ -130,4 +131,17 @@ export class CalendarEventImpl implements CalendarEvent {
     draggable?: boolean;
     meta?: any;
     
+}
+
+export class Recurrence {
+    recurrence: string;
+    endingWhen: string;
+    recurrenceEndingDate: NgbDate;
+    occuring: number;
+    dtstart: Date;
+    activeDay: boolean[];
+    customFrecuence: number;
+    customOccuring: number;
+    custom: boolean;
+    weekDay: number[];
 }

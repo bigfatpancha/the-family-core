@@ -25,14 +25,18 @@ export class EventRecurrenceService {
       if (event.recurrence) {
         const rrule = RRule.fromString(event.recurrence);
         const dates: Date[] = rrule.between(after, before);
-        dates.forEach(date => {
-          let ev = new Event();
-          ev.start = date.toISOString();
-          ev.end = date.toISOString();
-          ev.title = event.title;
-          ev.familyMembers = event.familyMembers;
-          events.push(ev);
-        })
+        if (dates.length === 0) {
+          events.push(event);
+        } else {
+          dates.forEach(date => {
+            let ev = new Event();
+            ev.start = date.toISOString();
+            ev.end = date.toISOString();
+            ev.title = event.title;
+            ev.familyMembers = event.familyMembers;
+            events.push(ev);
+          });
+        }
       } else {
         events.push(event);
       }

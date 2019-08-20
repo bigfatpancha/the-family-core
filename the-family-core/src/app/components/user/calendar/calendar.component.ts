@@ -147,9 +147,9 @@ export class CalendarComponent implements OnInit {
       today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1);
     this.today = after.toUTCString().substring(0,7);
     this.dayClicked({day: {date: after} });
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
-    .subscribe((res: any) => {
-      let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(this.getEventsListFromResponse(res), after, before);
+    this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
+    .subscribe((res: EventResponse) => {
+      let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);
@@ -185,9 +185,9 @@ export class CalendarComponent implements OnInit {
     let date = new Date(event.day.date);
     const after: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
     const before: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
-    this.usersService.doUserIdEventCalendarByDateGet(this.user.id, this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
-      .subscribe((res: any) => {
-        let events: Event[] = this.getEventsListFromResponse(res);
+    this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
+      .subscribe((res: EventResponse) => {
+        let events: Event[] = res.results;
         this.spinner.hide();
         this.events = events;
         this.changeDetector.detectChanges();

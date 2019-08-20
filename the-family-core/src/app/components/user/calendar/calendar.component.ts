@@ -11,6 +11,8 @@ import { FamilyUser } from 'src/app/model/family';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { EditUploadComponent } from '../../edit-upload/edit-upload.component';
 import { DatesService } from 'src/app/services/dates/dates.service';
+import { EventRecurrenceService } from 'src/app/services/event-recurrence/event-recurrence.service';
+import RRule from 'rrule';
 
 @Component({
   selector: 'app-calendar',
@@ -45,7 +47,8 @@ export class CalendarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog,
-    private dateService: DatesService
+    private dateService: DatesService,
+    private eventRecurrence: EventRecurrenceService
   ) {}
 
   ngOnInit() {
@@ -58,7 +61,7 @@ export class CalendarComponent implements OnInit {
     this.dayClicked({day: {date: today} });
     this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
     .subscribe((res: EventResponse) => {
-      let events: Event[] = res.results;
+      let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);
@@ -146,7 +149,7 @@ export class CalendarComponent implements OnInit {
     this.dayClicked({day: {date: after} });
     this.usersService.doUserIdEventCalendarByDateGet(this.user.id, this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
     .subscribe((res: any) => {
-      let events: Event[] = this.getEventsListFromResponse(res);
+      let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(this.getEventsListFromResponse(res), after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);

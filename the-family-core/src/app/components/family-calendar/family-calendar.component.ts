@@ -10,6 +10,7 @@ import { EditUploadComponent } from '../edit-upload/edit-upload.component';
 import { GenericError } from 'src/app/model/error';
 import { EventsService } from 'src/app/services/events/events.service';
 import { DatesService } from 'src/app/services/dates/dates.service';
+import { EventRecurrenceService } from 'src/app/services/event-recurrence/event-recurrence.service';
 
 @Component({
   selector: 'app-family-calendar',
@@ -38,7 +39,8 @@ export class FamilyCalendarComponent implements OnInit {
     private dialog: MatDialog,
     private eventsService: EventsService,
     private changeDetector: ChangeDetectorRef,
-    private dateService: DatesService
+    private dateService: DatesService,
+    private eventRecurrence: EventRecurrenceService
   ) { }
 
   ngOnInit() {
@@ -46,13 +48,13 @@ export class FamilyCalendarComponent implements OnInit {
     this.resolveUserColors();
     const today = new Date();
     this.today = today.toUTCString().substring(0,7);
-    const after = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0).toISOString();
+    const after = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0);
     const before = new Date(today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear(),
-      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1, 0, 0, 0).toISOString();
+      today.getMonth() === 11 ? 0 : today.getMonth() + 1, 1, 0, 0, 0);
     this.dayClicked({day: {date: today} });
-    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZone(before, '0'))
+    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
       .subscribe((res: EventResponse) => {
-        let events: Event[] = res.results;
+        let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);;
         this.calendarEvents = events.map((event: Event) => {
           let ev = new CalendarEventImpl()
           ev.start = new Date(event.start);
@@ -93,7 +95,7 @@ export class FamilyCalendarComponent implements OnInit {
     this.dayClicked({day: {date: after} });
     this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
     .subscribe((res: EventResponse) => {
-      let events: Event[] = res.results;
+      let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = new Date(event.start);

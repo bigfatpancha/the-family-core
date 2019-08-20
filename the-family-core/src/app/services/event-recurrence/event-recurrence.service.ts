@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import RRule, { ByWeekday } from 'rrule';
-import { Recurrence } from 'src/app/model/events';
+import { Recurrence, EventResponse, Event } from 'src/app/model/events';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
@@ -18,6 +18,27 @@ export class EventRecurrenceService {
   customOccuring: number;
 
   constructor() { }
+
+  allDatesFromRecurrence(eventList: Event[], after: Date, before: Date): Event[] {
+    let events: Event[] = [];
+    eventList.forEach((event: Event) => {
+      if (event.recurrence) {
+        const rrule = RRule.fromString(event.recurrence);
+        const dates: Date[] = rrule.between(after, before);
+        dates.forEach(date => {
+          let ev = new Event();
+          ev.start = date.toISOString();
+          ev.end = date.toISOString();
+          ev.title = event.title;
+          ev.familyMembers = event.familyMembers;
+          events.push(ev);
+        })
+      } else {
+        events.push(event);
+      }
+    });
+    return events;
+  }
 
   rruleToRecurrence(rrule: RRule): Recurrence {
     let recurrence: Recurrence = new Recurrence();

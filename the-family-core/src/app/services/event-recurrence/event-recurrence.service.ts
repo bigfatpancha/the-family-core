@@ -177,7 +177,7 @@ export class EventRecurrenceService {
     this.customOccuring = customOccuring;
     this.untilToDate()
     switch(recurrence) {
-      case 'Doesnotrepeat': return null;
+      case 'Doesnotrepeat': return this.doesNotRepeat();
       case 'Daily': return this.dailyToRrule();
       case 'WeeklyondayOfWeek': return this.weeklyondayOfWeekToRrule();
       case 'Monthlyonthefirst': return this.monthlyonthefirst();
@@ -195,6 +195,14 @@ export class EventRecurrenceService {
         this.recurrenceEndingDate.month,
         this.recurrenceEndingDate.day) :
       null;
+  }
+
+  private doesNotRepeat(): RRule {
+    return new RRule({
+      freq: RRule.DAILY,
+      dtstart: this.dtstart,
+      count: 1
+    })
   }
   
   private dailyToRrule(): RRule {

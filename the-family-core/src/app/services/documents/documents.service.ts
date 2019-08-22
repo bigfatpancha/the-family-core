@@ -45,6 +45,16 @@ export class DocumentsService {
     return this.http_service.doPut(Routes.FAMILY_USERS + userId + '/documents/' + documentId + '/', this.getFormData(body), options);
   }
 
+  doDocumentIdPatch(documentId: number, body: Document, userId: number) {
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    };
+    return this.http_service.doPatch(Routes.FAMILY_USERS + userId + '/documents/' + documentId + '/', this.getFormData(body), options);
+  }
+
   doDocumentIdDelete(documentId: number, userId: number): Observable<any> {
     const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
     const options = {

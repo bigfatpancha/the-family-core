@@ -19,11 +19,10 @@ import { EditUploadComponent } from '../edit-upload/edit-upload.component';
 })
 export class UserComponent implements OnInit, AfterContentInit {
 
-  GENERAL_CONTACT = '0';
-  DOCTORS = '1';
-  TEACHER = '2';
-  CLASSMATE = '3';
-  LOCATION = '4';
+  DOCTORS = '0';
+  TEACHER = '1';
+  CLASSMATE = '2';
+  LOCATION = '3';
 
   TASK = '1';
   APPOINTMENTS = '2';

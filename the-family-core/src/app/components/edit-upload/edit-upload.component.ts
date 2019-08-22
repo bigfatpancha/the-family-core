@@ -64,11 +64,11 @@ export class EditUploadComponent implements OnInit {
     new Type(2, 1, 'Rx'),
     new Type(3, 1, 'Legal Document'),
 
-    new Type(0, 2, 'General Contact'),
-    new Type(1, 2, 'Doctor'),
-    new Type(2, 2, 'Teacher'),
-    new Type(3, 2, 'Classmate'),
-    new Type(4, 2, 'School Location')
+    new Type(4, 2, 'General Contact'),
+    new Type(0, 2, 'Doctor'),
+    new Type(1, 2, 'Teacher'),
+    new Type(2, 2, 'Classmate'),
+    new Type(3, 2, 'School Location')
   ]
 
   saveClicked = false;
@@ -411,7 +411,7 @@ export class EditUploadComponent implements OnInit {
     if (this.attachments && this.attachments.length > 0) {
       document.attachments = this.attachments;
     }
-    this.documentsService.doDocumentIdPut(this.data.data.id, document, this.data.userId).subscribe((res: Document) => {
+    this.documentsService.doDocumentIdPatch(this.data.data.id, document, this.data.userId).subscribe((res: Document) => {
       this.spinner.hide();
       this.onEventPut.emit(res);
       this.dialogRef.close();

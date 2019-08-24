@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LocationComponent } from './components/location/location.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'rewards', component: RewardsComponent },
   { path: 'location', component: LocationComponent },
-  { path: 'reports', component: ReportsComponent }
+  { path: 'reports', component: ReportsComponent },
+  { path: 'payment', component: PaymentComponent }
 ];
 
 @NgModule({

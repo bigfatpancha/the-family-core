@@ -25,6 +25,7 @@ import { LocationComponent } from './components/location/location.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     LocationComponent,
     EditProfileComponent,
     ReportsComponent,
-    EditUserComponent
+    EditUserComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

@@ -41,6 +41,7 @@ export class EventsService {
       headers: headers,
       params: params
     }
+    console.log(params);
     return this.http_service.doGet(Routes.EVENTS, options);
   }
 

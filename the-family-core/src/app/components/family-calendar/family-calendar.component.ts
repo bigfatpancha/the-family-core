@@ -135,6 +135,7 @@ export class FamilyCalendarComponent implements OnInit {
     this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
       .subscribe((res: EventResponse) => {
         this.events = res.results;
+        console.log(this.events);
         this.spinner.hide();
         this.changeDetector.detectChanges();
       }, (err: GenericError) => {

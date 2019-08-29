@@ -26,12 +26,13 @@ export class Contact {
 
     constructor(form: FormGroup) {
         this.name = form.get('title').value;
-        if (form.get('detail').value) {
+        if (form.get('detail').dirty) {
           this.detail = form.get('detail').value
         }
         this.type = form.get('type').value.id;
         this.notifyTeam = form.get('notifyTeam').value;
-        if (form.get('notes').value) {
+        this.email = form.get('email').value;
+        if (form.get('notes').dirty) {
             this.notes = form.get('notes').value;
         }
         if (form.get('addressLine1').value) {

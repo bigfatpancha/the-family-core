@@ -41,4 +41,8 @@ export class HttpService implements OnInit {
     return this.http.delete(this.configService.serverUrl + url, options);
   }
 
+  clean() {
+    this.key = null;
+  }
+
 }

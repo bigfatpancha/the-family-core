@@ -34,6 +34,44 @@ export class ContactsService {
     const options = {
       headers: headers
     };
+    return this.http_service.doPost(Routes.CONTACTS, this.getFormData(body), options);
+  }
+
+  doContactIdGet(id: number): Observable<Contact> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    }
+    return this.http_service.doGet(Routes.CONTACTS + id, options);
+  }
+
+  doContactIdPut(contactId: number, body: Contact, userId: number): Observable<Contact> {
+    const headers = new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    };
+    return this.http_service.doPut(Routes.FAMILY_USERS + userId + '/contacts/' + contactId + '/', this.getFormData(body), options);
+  }
+
+  doContactIdPatch(id: number, body: Contact): Observable<Contact> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    }
+    return this.http_service.doPatch(Routes.CONTACTS + id, body, options);
+  }
+
+  doContactIdDelete(contactId: number, userId: number): Observable<any> {
+    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const options = {
+      headers: headers
+    }
+    return this.http_service.doDelete(Routes.FAMILY_USERS + userId + '/contacts/' + contactId + '/', options);
+  }
+
+  private getFormData(body: Contact): FormData {
     const formData = new FormData();
     Object.keys(body).forEach(key => {
       if (key === 'address') {
@@ -46,39 +84,7 @@ export class ContactsService {
         formData.append(this.converSnakecase(key), body[key]);
       }
     });
-    return this.http_service.doPost(Routes.CONTACTS, formData, options);
-  }
-
-  doContactIdGet(id: number): Observable<Contact> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
-    const options = {
-      headers: headers
-    }
-    return this.http_service.doGet(Routes.CONTACTS + id, options);
-  }
-
-  doContactIdPut(id: number, body: Contact): Observable<Contact> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
-    const options = {
-      headers: headers
-    }
-    return this.http_service.doPut(Routes.CONTACTS + id, body, options);
-  }
-
-  doContactIdPatch(id: number, body: Contact): Observable<Contact> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
-    const options = {
-      headers: headers
-    }
-    return this.http_service.doPatch(Routes.CONTACTS + id, body, options);
-  }
-
-  doContactIdDelete(id: number): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
-    const options = {
-      headers: headers
-    }
-    return this.http_service.doDelete(Routes.CONTACTS + id, options);
+    return formData;
   }
 
   private converSnakecase(name: string): string {

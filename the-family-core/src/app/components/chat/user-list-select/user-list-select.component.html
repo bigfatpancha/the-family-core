@@ -1,0 +1,27 @@
+<div class="login-container">
+  <div class="header-info mb-4">
+    <h4>{{title}}</h4>
+    <div class="buttons cursor-pointer">
+      <button (click)="newChat()" class="btn btn-sm btn-save">{{buttonText}}</button>
+    </div>
+  </div>
+  <div class="form_family" [formGroup]="formList">
+    <div class="form-row" *ngIf="type === 'new'">
+      <div class="form-group col-md-12">
+        <div class="input-icon">
+            <input formControlName="name" class="form-control" placeholder="Group name">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="input-icon">
+          <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
+          <ng-multiselect-dropdown [data]="users" [(ngModel)]="selectedUsers"
+            class="multiple-select" [settings]="dropdownSettings" formControlName="user"> 
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

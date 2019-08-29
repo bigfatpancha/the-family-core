@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { LocationComponent } from './components/location/location.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { FamilyCalendarComponent } from './components/family-calendar/family-calendar.component';
 import { PaymentComponent } from './components/payment/payment.component';
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'rewards', component: RewardsComponent },
   { path: 'location', component: LocationComponent },
   { path: 'reports', component: ReportsComponent },
+  { path: 'calendar', component: FamilyCalendarComponent },
   { path: 'payment', component: PaymentComponent }
 ];
 

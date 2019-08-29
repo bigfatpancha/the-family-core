@@ -9,6 +9,13 @@ import { RegisterComponent } from '../register/register.component';
 import { UploadComponent } from '../upload/upload.component';
 import { Router } from '@angular/router';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,12 +23,6 @@ import { EditProfileComponent } from '../edit-profile/edit-profile.component';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  // body: LoginRequest = {
-  //   username: 'developer',
-  //   email: 'lucia.julia.r@gmail.com',
-  //   password: 'Susvin01'
-  // };
 
   user: User;
   users: FamilyUser[];
@@ -33,11 +34,16 @@ export class DashboardComponent implements OnInit {
   uploadRef: MatDialogRef<UploadComponent>;
   editRef: MatDialogRef<EditProfileComponent>;
   dialogConfig = new MatDialogConfig();
-
+  
+  form = new FormControl();
+  options: FamilyUser[] = [];
+  filteredOptions: Observable<FamilyUser[]>;
 
   constructor(private userService: UsersService,
               private httpService: HttpService,
+              private authService: AuthService,
               private router: Router,
+              private spinner: NgxSpinnerService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -46,10 +52,24 @@ export class DashboardComponent implements OnInit {
     this.dialogConfig.width = 'auto';
     this.dialogConfig.height = 'auto';
     if (this.isLogged) {
-      this.user = this.userService.user;
-      this.users = this.userService.users;
+      this.getUsers();
     }
   }
+
+  avatar() {
+    return this.isLogged && this.user.avatar ? this.user.avatar : '../../../assets/icono.webp';
+  }
+
+  displayFn(user?: User): string | undefined {
+    return user ? user.nickname : undefined;
+  }
+
+  private _filter(option: string): FamilyUser[] {
+    const filterValue = option.toLowerCase();
+
+    return this.options.filter(option => option.nickname.toLowerCase().includes(filterValue));
+  }
+
 
   goToUsers() {
     if (this.isLogged) {
@@ -83,16 +103,32 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  goToCalendar() {
+    if (this.isLogged) {
+      this.router.navigate(['/calendar']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
+
   getUsers() {
     this.isLogged = true;
     this.showLogin = false;
     this.users = this.userService.users;
     this.user = this.userService.user;
+    this.options = [...this.users];
+    this.filteredOptions = this.form.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.nickname),
+        map((value: string) => value ? this._filter(value) : this.options.slice())
+      );
   }
 
   openLogin() {
     if (!this.isLogged) {
       this.showLogin = !this.showLogin;
+	    this.dialogConfig.width = 'auto';
       this.loginRef = this.dialog.open(LoginComponent, this.dialogConfig);
       this.loginRef.componentInstance.onLogin.subscribe(() => this.getUsers());
     }
@@ -108,6 +144,7 @@ export class DashboardComponent implements OnInit {
   openRegister() {
     if (!this.isLogged) {
       this.showRegister = !this.showRegister;
+	    this.dialogConfig.width = '70%';
       this.registerRef = this.dialog.open(RegisterComponent, this.dialogConfig);
       this.registerRef.componentInstance.onRegister.subscribe(() => this.onRegister());
     }
@@ -136,16 +173,41 @@ export class DashboardComponent implements OnInit {
       this.dialogConfig.width = '90%';
       this.editRef = this.dialog.open(EditProfileComponent, this.dialogConfig);
       this.editRef.afterClosed().subscribe(() => {
+        this.spinner.show();
         this.userService.doUserIdGet(this.user.id).subscribe((res: User) => {
+          this.spinner.hide();
           this.userService.user = res;
           this.user = res;
+        }, (err: GenericError) => {
+          this.spinner.hide();
         });
         this.userService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
+          this.spinner.hide();
           this.userService.users = res.results;
           this.users = res.results;
+        }, (err: GenericError) => {
+          this.spinner.hide();
         });
       });
     }
+  }
+
+  selectedUser(event: MatAutocompleteSelectedEvent) {
+    this.router.navigate(['/user', event.option.value.id]);
+  }
+
+  logout() {
+    this.spinner.show();
+    this.authService.doAuthLogOutPost().subscribe(() => {
+      this.spinner.hide();
+      this.isLogged = false;
+      this.userService.clean();
+      this.httpService.clean();
+      this.user = null;
+      this.users = null;
+    }, (err: GenericError) => {
+      this.spinner.hide();
+    })
   }
 
 }

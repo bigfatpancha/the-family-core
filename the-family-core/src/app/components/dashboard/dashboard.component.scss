@@ -36,11 +36,20 @@
     &>img {
       max-width: 35px;
       max-height: 35px;
+
+      &.rounded {
+        border-radius: 50% !important;
+      }
     }
   }
 
   &__link {
     color: #007aff;
+
+    &.first {
+      position: relative;
+      right: 20px;
+    }
   }
 }
 
@@ -135,6 +144,18 @@
 
     @media screen and (min-width: 1200px) {
       width: 160px;
+      height: 160px;
+    }
+  }
+
+  &__img {
+    height: 120px;
+    
+    @media screen and (min-width: 576px) {
+      height: 140px;
+    }
+
+    @media screen and (min-width: 1200px) {
       height: 160px;
     }
   }

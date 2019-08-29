@@ -10,13 +10,13 @@
 
     <div class="form-row">
       <div class="form-group col-md-5">
-        <input class="form-control" placeholder="Legal Firts Name" formControlName="firstName" required>
+        <input class="form-control" placeholder="Legal First Name" formControlName="firstName" required>
         <div *ngIf="firstName.invalid && ((firstName.dirty || firstName.touched))" class="alert alert-danger">
           <div *ngIf="firstName.errors.required">
-            first Name is required.
+            Legal First Name is required.
           </div>
           <div *ngIf="firstName.errors.maxlength">
-            first Name must have between 1 and 30 characters.
+            Legal First Name must have between 1 and 30 characters.
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
         <input class="form-control" placeholder="M.I." formControlName="middleName">
         <div *ngIf="middleName.invalid && ((middleName.dirty || middleName.touched))" class="alert alert-danger">
           <div *ngIf="middleName.errors.maxlength">
-            middle Name must have between 1 and 30 characters.
+            Middle Name must have between 1 and 30 characters.
           </div>
         </div>
       </div>
@@ -32,10 +32,10 @@
         <input class="form-control" placeholder="Legal Last Name" formControlName="lastName" required>
         <div *ngIf="lastName.invalid && ((lastName.dirty || lastName.touched))" class="alert alert-danger">
           <div *ngIf="lastName.errors.required">
-            last Name is required.
+            Legal Last Name is required.
           </div>
           <div *ngIf="lastName.errors.maxlength">
-            last Name must have between 1 and 30 characters.
+            Legal Last Name must have between 1 and 30 characters.
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
         <input class="form-control" placeholder="Email" formControlName="email" required>
         <div *ngIf="email.invalid && ((email.dirty || email.touched))" class="alert alert-danger">
           <div *ngIf="email.errors.email">
-            email is required.
+            Email is required.
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
         <input class="form-control" placeholder="Mobile #" formControlName="mobileNumber">
         <div *ngIf="mobileNumber.invalid && ((mobileNumber.dirty || mobileNumber.touched))" class="alert alert-danger">
           <div *ngIf="mobileNumber.errors.maxlength">
-            mobile Number must have between 1 and 28 characters.
+            Mobile # must have between 1 and 28 characters.
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
         <input class="form-control" placeholder="Password" formControlName="password1" required type="password">
         <div *ngIf="password1.invalid && ((password1.dirty || password1.touched))" class="alert alert-danger">
           <div *ngIf="password1.errors.required">
-            password is required.
+            Password is required.
           </div>
         </div>
       </div>
@@ -94,13 +94,14 @@
         <input class="form-control" placeholder="Repeat Password" formControlName="password2" required type="password">
         <div *ngIf="password2.invalid && ((password2.dirty || password2.touched))" class="alert alert-danger">
           <div *ngIf="password2.errors.required">
-            password is required.
+            Password is required.
           </div>
         </div>
         <div *ngIf="form.errors?.notSame && (form.touched || form.dirty)" class="cross-validation-error-message alert alert-danger">
-          Passwords are different. They should be equal!
+          Both passwords should be the same.
         </div>
       </div>
     </div>
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </div>

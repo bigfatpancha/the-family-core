@@ -21,10 +21,10 @@
 
             <div class="form-row">
               <div class="form-group col-md-5">
-                <input formControlName="firstName" class="form-control" placeholder="Legal Firts Name">
+                <input formControlName="firstName" class="form-control" placeholder="Legal First Name">
                 <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
                   <div *ngIf="firstName.errors.maxlength">
-                    First name must have between 1 and 30 characters long.
+                    Legal First Name must have between 1 and 30 characters long.
                   </div>
                 </div>
               </div>
@@ -32,7 +32,7 @@
                 <input formControlName="middleName" class="form-control" placeholder="M.I.">
                 <div *ngIf="middleName.invalid && (middleName.dirty || middleName.touched)" class="alert alert-danger">
                   <div *ngIf="middleName.errors.maxlength">
-                    Middle name must have between 1 and 30 characters long.
+                    Middle Name must have between 1 and 30 characters long.
                   </div>
                 </div>
               </div>
@@ -40,7 +40,7 @@
                 <input formControlName="lastName" class="form-control" placeholder="Legal Last Name">
                 <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert alert-danger">
                   <div *ngIf="lastName.errors.maxlength">
-                    Last name must have between 1 and 30 characters long.
+                    Legal Last Name must have between 1 and 30 characters long.
                   </div>
                 </div>
               </div>
@@ -51,7 +51,7 @@
                 <input formControlName="nickname" class="form-control" placeholder="Nickname" required>
                 <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="alert alert-danger">
                   <div *ngIf="nickname.errors.required">
-                    This fild is required.
+                    Nickname is required.
                   </div>
                   <div *ngIf="nickname.errors.maxlength || nickname.errors.minlength">
                     Nickname must have between 4 and 150 characters long.
@@ -62,7 +62,7 @@
                 <input formControlName="email" class="form-control" placeholder="Email" required>
                 <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
                   <div *ngIf="email.errors.required">
-                    This fild is required.
+                    Email is required.
                   </div>
                   <div *ngIf="email.errors.email">
                     This is not a valid email
@@ -76,7 +76,7 @@
                 <input formControlName="mobileNumber" class="form-control" placeholder="Mobile #">
                 <div *ngIf="mobileNumber.invalid && (mobileNumber.dirty || mobileNumber.touched)" class="alert alert-danger">
                   <div *ngIf="mobileNumber.errors.maxlength">
-                    Phone Number must have between 1 and 128 characters long.
+                    Mobile # must have between 1 and 128 characters long.
                   </div>
                 </div>
               </div>
@@ -97,7 +97,7 @@
               <div class="form-group col-md-12">
                 <label>Role</label>
                 <div class="input-icon">
-                  <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+                  <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
                   <select class="custom-select select form-control" formControlName="role">
                     <option value="null" disabled>Role</option>
                     <option value="0">Admin</option>
@@ -145,7 +145,7 @@
               placeholder="Address Line 1">
             <div *ngIf="addressLine1.invalid && (addressLine1.dirty || addressLine1.touched)" class="alert alert-danger">
               <div *ngIf="addressLine1.errors.maxlength">
-                Address must have between 1 and 128 characters long.
+                Address Line 1 must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@
               placeholder="Address Line 2">
             <div *ngIf="addressLine2.invalid && (addressLine2.dirty || addressLine2.touched)" class="alert alert-danger">
               <div *ngIf="addressLine2.errors.maxlength">
-                Address must have between 1 and 128 characters long.
+                Address Line 2 must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -165,14 +165,14 @@
             <input formControlName="city" class="form-control" type="text" placeholder="City">
             <div *ngIf="city.invalid && (city.dirty || city.touched)" class="alert alert-danger">
               <div *ngIf="city.errors.maxlength">
-                Address must have between 1 and 50 characters long.
+                City must have between 1 and 50 characters long.
               </div>
             </div>
           </div>
 
           <div class="form-group col-md-3 col-lg-2">
             <div class="input-icon">
-              <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+              <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
               <select class="custom-select select form-control" formControlName="state">
                 <option value="null" disabled>State</option>
                 <option value="Alabama">Alabama</option>
@@ -230,7 +230,7 @@
           </div>
 
           <div class="form-group col-md-3 col-lg-2">
-            <input class="form-control" type="text" placeholder="Zip" formControlName="zipCode">
+            <input class="form-control" type="text" placeholder="Zip code" formControlName="zipCode">
             <div *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)" class="alert alert-danger">
               <div *ngIf="zipCode.errors.maxlength">
                 Zip code must have between 1 and 50 characters long.
@@ -244,7 +244,7 @@
             <input type="text" class="form-control" placeholder="Phone #" formControlName="phoneNumber">
             <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
               <div *ngIf="phoneNumber.errors.maxlength">
-                Phone number must have between 1 and 128 characters long.
+                Phone # must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -253,7 +253,7 @@
             <input type="text" class="form-control" placeholder="Fax #" formControlName="faxNumber">
             <div *ngIf="faxNumber.invalid && (faxNumber.dirty || faxNumber.touched)" class="alert alert-danger">
               <div *ngIf="faxNumber.errors.maxlength">
-                Fax number must have between 1 and 128 characters long.
+                Fax # must have between 1 and 128 characters long.
               </div>
             </div>
           </div>
@@ -262,11 +262,11 @@
     </div>
 
 
-    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === 2 || role.value === 3">
+    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === 2 || role.value === 3 || role.value === '2' || role.value === '3'">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="gender">
               <option value="null" disabled></option>
               <option value="0">Male</option>
@@ -278,7 +278,7 @@
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="colorCode">
               <option value="null" disabled>Color Code</option>
               <option value="#FFFFFF">White</option>
@@ -306,7 +306,7 @@
           <input type="text" class="form-control" placeholder="Height" formControlName="height">
           <div *ngIf="height.invalid && (height.dirty || height.touched)" class="alert alert-danger">
             <div *ngIf="height.errors.maxlength">
-              height must have between 1 and 30 characters long.
+              Height must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -315,7 +315,7 @@
           <input type="text" class="form-control" placeholder="Weight" formControlName="weight">
           <div *ngIf="weight.invalid && (weight.dirty || weight.touched)" class="alert alert-danger">
             <div *ngIf="weight.errors.maxlength">
-              weight must have between 1 and 30 characters long.
+              Weight must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -323,19 +323,19 @@
 
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
-          <input type="text" class="form-control" placeholder="hair color" formControlName="hairColor">
+          <input type="text" class="form-control" placeholder="Hair color" formControlName="hairColor">
           <div *ngIf="hairColor.invalid && (hairColor.dirty || hairColor.touched)" class="alert alert-danger">
             <div *ngIf="hairColor.errors.maxlength">
-              Hari color must have between 1 and 30 characters long.
+              Hair color must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
-          <input type="text" class="form-control" placeholder="eye color" formControlName="eyeColor">
+          <input type="text" class="form-control" placeholder="Eye color" formControlName="eyeColor">
           <div *ngIf="eyeColor.invalid && (eyeColor.dirty || eyeColor.touched)" class="alert alert-danger">
             <div *ngIf="eyeColor.errors.maxlength">
-              eye color must have between 1 and 30 characters long.
+              Eye color must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -347,14 +347,14 @@
           <input type="text" class="form-control" placeholder="Allergies" name="allergies">
           <div *ngIf="allergies.invalid && (allergies.dirty || allergies.touched)" class="alert alert-danger">
             <div *ngIf="allergies.errors.maxlength">
-              allergies must have between 1 and 32 characters long.
+              Allergies must have between 1 and 32 characters long.
             </div>
           </div>
         </div>
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="bloodType">
               <option value="null" disabled>Blood Type</option>
               <option value="1">A+</option>
@@ -370,7 +370,7 @@
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="countryOfCitizenship">
               <option value="null" disabled>Country of Citizenship</option>
               <option value="1">USA</option>
@@ -394,7 +394,7 @@
           <input type="text" class="form-control" placeholder="School State" formControlName="schoolState">
           <div *ngIf="schoolState.invalid && (schoolState.dirty || schoolState.touched)" class="alert alert-danger">
             <div *ngIf="schoolState.errors.maxlength">
-              school state must have between 1 and 30 characters long.
+              School State must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -402,7 +402,7 @@
           <input type="text" class="form-control" placeholder="Social Security #" formControlName="socialSecurityNumber">
           <div *ngIf="socialSecurityNumber.invalid && (socialSecurityNumber.dirty || socialSecurityNumber.touched)" class="alert alert-danger">
             <div *ngIf="socialSecurityNumber.errors.maxlength">
-              Social Security Number must have between 1 and 30 characters long.
+              Social Security # must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -413,7 +413,7 @@
           <input type="text" class="form-control" placeholder="School" formControlName="school">
           <div *ngIf="school.invalid && (school.dirty || school.touched)" class="alert alert-danger">
             <div *ngIf="school.errors.maxlength">
-                school must have between 1 and 30 characters long.
+                School must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -422,7 +422,7 @@
           <input type="text" class="form-control" placeholder="Grade" formControlName="grade">
           <div *ngIf="grade.invalid && (grade.dirty || grade.touched)" class="alert alert-danger">
             <div *ngIf="grade.errors.maxlength">
-                grade must have between 1 and 30 characters long.
+                Grade must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
@@ -431,11 +431,11 @@
     </div>
 
     <div class="form_family border-bottom pb-3 mt-5"
-      *ngIf="(role.value === 2 || role.value === 3) && (gender.value === 1)">
+      *ngIf="(role.value === 2 || role.value === 3 || role.value === '2' || role.value === '3') && (gender.value === 1 || gender.value === '1')">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="topSize">
               <option value="null" disabled>Tops Size</option>
               <option value="S">S</option>
@@ -447,7 +447,7 @@
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="bottomsSize">
               <option value="null" disabled>Bottoms Size</option>
               <option value="XXS">XXS</option>
@@ -465,7 +465,7 @@
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlNAme="shoeSize">
               <option value="null" disabled>Shoe Size</option>
               <option value="4">4</option>
@@ -486,7 +486,7 @@
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="braSize">
               <option value="null" disabled>Bra Size</option>
               <option value="90">90</option>
@@ -500,11 +500,11 @@
     </div>
 
     <div class="form_family border-bottom pb-3 mt-5"
-      *ngIf="(role.value === 2 || role.value === 3) && (gender.value === 0)">
+      *ngIf="(role.value === 2 || role.value === 3 || role.value === '2' || role.value === '3') && (gender.value === 0 || gender.value === '0')">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="shirtSize">
               <option value="null" disabled>Shirt Size</option>
               <option value="XXS">XXS</option>
@@ -520,7 +520,7 @@
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="pantsSize">
               <option value="null" disabled>Pants Size</option>
               <option value="XXS">XXS</option>
@@ -538,7 +538,7 @@
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="shoeSize">
               <option value="null" disabled>Shoe Size</option>
               <option value="4">4</option>
@@ -569,7 +569,7 @@
             <div class="col-3 d-flex align-items-center" (click)="addFavorite()">
               <div class="icon-add d-flex align-items-center">
                 <a class="d-flex align-items-center">
-                  <img src="../../../assets/img/corazon-mas.png" alt="#" class="icon-corazon">
+                  <img src="../../../assets/img/corazon-mas.webp" alt="#" class="icon-corazon">
                 </a>
               </div>
             </div>
@@ -594,7 +594,7 @@
             <div class="col-3 d-flex align-items-center" (click)="addDislike()">
               <div class="icon-add d-flex align-items-center">
                 <a class="d-flex align-items-center">
-                  <img src="../../../assets/img/sad.png" alt="#" class="icon-corazon">
+                  <img src="../../../assets/img/sad.webp" alt="#" class="icon-corazon">
                 </a>
               </div>
             </div>
@@ -619,7 +619,7 @@
             <div class="col-3 d-flex align-items-center" (click)="addWish()">
               <div class="icon-add d-flex align-items-center">
                 <a class="d-flex align-items-center">
-                  <img src="../../../assets/img/star.png" alt="#" class="icon-corazon">
+                  <img src="../../../assets/img/star.webp" alt="#" class="icon-corazon">
                 </a>
               </div>
             </div>
@@ -637,21 +637,21 @@
     </div>
 
 
-    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === '4'">
+    <div class="form_family border-bottom pb-3 mt-5" *ngIf="role.value === 4 || role.value === '4'">
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
-          <input type="text" placeholder="Refered By..." class="form-control" formControlName="refName">
+          <input type="text" placeholder="Referred By..." class="form-control" formControlName="refName">
           <div *ngIf="refName.invalid && (refName.dirty || refName.touched)" class="alert alert-danger">
             <div *ngIf="refName.errors.maxlength">
-                Name must have between 1 and 30 characters long.
+              Referred By... must have between 1 and 30 characters long.
             </div>
           </div>
         </div>
 
         <div class="form-group col-md-4 offset-md-1 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
-            <select class="custom-select select form-control">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
+            <select class="custom-select select form-control" formControlName="refColorCode">
               <option value="null" selected disabled>Color Code</option>
               <option value="#FFFFFF">White</option>
               <option value="#FF0000">Red</option>
@@ -676,7 +676,7 @@
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="driversLicenseState">
               <option value="null" disabled>Driver's License State</option>
               <option value="0">State</option>
@@ -747,10 +747,12 @@
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="refplaceOfBirth">
-              <option value="place">Place of Birth</option>
-              <option value="1">USA</option>
+              <option value="null">Place of Birth</option>
+              <option value="USA">USA</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Canada">Canada</option>
             </select>
           </div>
         </div>
@@ -769,10 +771,12 @@
       <div class="form-row">
         <div class="form-group col-md-4 mb-4">
           <div class="input-icon">
-            <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select">
+            <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select">
             <select class="custom-select select form-control" formControlName="refCountOfCit">
-              <option value="countryOfCitizenship">Country of Citizenship</option>
-              <option value="1">USA</option>
+              <option value="null">Country of Citizenship</option>
+              <option value="USA">USA</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Canada">Canada</option>
             </select>
           </div>
         </div>
@@ -801,7 +805,7 @@
             <div class="col-3 d-flex align-items-center">
               <div class="icon-add d-flex align-items-center">
                 <a class="d-flex align-items-center">
-                  <img src="../../../assets/img/mas.png" alt="#">
+                  <img src="../../../assets/img/mas.webp" alt="#">
                 </a>
               </div>
             </div>
@@ -824,7 +828,7 @@
           <div class="form-group col-md-9 mb-4 p-0">
             <label>Child / Dependent relationship</label>
             <div class="input-icon" *ngIf="relationshipsList">
-              <img src="../../../assets/img/arrow-down.png" alt="#" class="icono-select flecha">
+              <img src="../../../assets/img/arrow-down.webp" alt="#" class="icono-select flecha">
               <ng-multiselect-dropdown [data]="relationshipsList" [(ngModel)]="selectedRelationships"
                 class="multiple-select" [settings]="dropdownSettings" formControlName="relationships"> 
               </ng-multiselect-dropdown>
@@ -849,4 +853,5 @@
     </div>
 
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </div>

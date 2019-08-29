@@ -3,10 +3,10 @@
     <div class="row">
       <div class="col-md-3" id="sidebar">
         <div class="sidebar__header row">
-          <a routerLink="/dashboard"><img src="../../../assets/img/home.png" alt="family core"></a>
+          <a routerLink="/dashboard"><img src="../../../assets/img/home.webp" alt="family core"></a>
           <div>
             <div class="user-pic">
-              <img src="../../../assets/icono.png" alt="">
+              <img src="../../../assets/icono.webp" alt="">
             </div>
             <h4>User</h4>
           </div>
@@ -18,8 +18,8 @@
             <li class="sidebar__item"><a [ngClass]="{'active': state == 'calendar'}"
                 (click)="state = 'calendar'">Calendar</a></li>
 
-            <li class="sidebar__item"><a data-toggle="collapse" href="#collapseSchool" role="button" aria-expanded="false"
-                aria-controls="collapseSchool">School</a>
+            <li class="sidebar__item"><a data-toggle="collapse" href="#collapseSchool" role="button"
+                aria-expanded="false" aria-controls="collapseSchool">School</a>
               <ul class="sidebar__item--list collapse" id="collapseSchool">
                 <li class="sidebar__item--list--subitem"><a [ngClass]="{'active': state == 'schoolLocation'}"
                     (click)="doContactsType(LOCATION, 'schoolLocation')">Location</a></li>
@@ -261,7 +261,8 @@
 
               </form>
 
-              <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 1 && (user.role === 2 || user.role === 3)">
+              <form class="form_family border-bottom pt-3 pb-3"
+                *ngIf="user.gender === 1 && (user.role === 2 || user.role === 3)">
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
@@ -287,7 +288,8 @@
 
               </form>
 
-              <form class="form_family border-bottom pt-3 pb-3" *ngIf="user.gender === 0 && (user.role === 2 || user.role === 3)">
+              <form class="form_family border-bottom pt-3 pb-3"
+                *ngIf="user.gender === 0 && (user.role === 2 || user.role === 3)">
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
@@ -392,7 +394,8 @@
                 <div class="form-row">
                   <div class="form-group col-md-8">
                     <label>Admin Notes</label>
-                    <textarea class="form-control" rows="5" placeholder="Note" value="{{user.adminNotes}}" readonly></textarea>
+                    <textarea class="form-control" rows="5" placeholder="Note" value="{{user.adminNotes}}"
+                      readonly></textarea>
                   </div>
                 </div>
               </form>
@@ -403,8 +406,8 @@
 
 
         <!-- Calendario -->
-        <div *ngIf="state =='calendar'">
-
+        <div *ngIf="state =='calendar'" class="mt-3 mb-5">
+          <app-calendar [user]=user></app-calendar>
         </div>
 
 
@@ -427,12 +430,12 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let loc of contacts">
+            <div class="table__body" *ngFor="let loc of contacts" (click)="openModal(2, loc)">
               <div class="table__body--columns col-3">
                 <p>{{loc.name}}</p>
               </div>
               <div class="table__body--columns col-3">
-                <p>{{loc.address.addressLine1}}</p>
+                <p>{{getLocationAddress(loc)}}</p>
               </div>
               <div class="table__body--columns col-3">
                 <p>{{loc.phoneNumber}}</p>
@@ -461,7 +464,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let teacher of contacts">
+            <div class="table__body" *ngFor="let teacher of contacts" (click)="openModal(2, teacher)">
               <div class="table__body--columns col-3">
                 <p>{{teacher.name}}</p>
               </div>
@@ -495,7 +498,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let task of events">
+            <div class="table__body" *ngFor="let task of events" (click)="openModal(0, task)">
               <div class="table__body--columns col-3">
                 <p>{{task.title}}</p>
               </div>
@@ -529,7 +532,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let classmate of contacts">
+            <div class="table__body" *ngFor="let classmate of contacts" (click)="openModal(2, classmate)">
               <div class="table__body--columns col-3">
                 <p>{{classmate.name}}</p>
               </div>
@@ -561,7 +564,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -592,7 +595,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let con of contacts">
+            <div class="table__body" *ngFor="let con of contacts" (click)="openModal(2, con)">
               <div class="table__body--columns col-3">
                 <p>{{con.name}}</p>
               </div>
@@ -623,7 +626,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -659,7 +662,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let ev of events">
+            <div class="table__body" *ngFor="let ev of events" (click)="openModal(0, ev)">
               <div class="table__body--columns col-2">
                 <p>{{ev.title}}</p>
               </div>
@@ -670,13 +673,13 @@
                 <p>{{ev.detail}}</p>
               </div>
               <div class="table__body--columns col-2">
-                <p>{{ev.address.addressLine1}}</p>
+                <p>{{getLocationAddress(ev)}}</p>
               </div>
               <div class="table__body--columns col-2">
                 <p>{{ev.start}}</p>
               </div>
               <div class="table__body--columns col-1">
-                <img class="d-inline-flex icono-file" *ngFor="let file of doc.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
+                <img class="d-inline-flex icono-file" *ngFor="let file of ev.attachments" src="{{file.thumbnail}}" alt="attachment" height="25px">
               </div>
             </div>
           </div>
@@ -768,7 +771,7 @@
               </div> -->
             </div>
 
-            <div class="table__body" *ngFor="let con of contacts">
+            <div class="table__body" *ngFor="let con of contacts" (click)="openModal(2, con)">
               <div class="table__body--columns col-4">
                 <p>{{con.name}}</p>
               </div>
@@ -800,7 +803,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -829,7 +832,7 @@
               </div>
             </div>
 
-            <div class="table__body" *ngFor="let doc of documents">
+            <div class="table__body" *ngFor="let doc of documents" (click)="openModal(1, doc)">
               <div class="table__body--columns col-3">
                 <p>{{doc.title}}</p>
               </div>
@@ -845,4 +848,5 @@
       </div>
     </div>
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
 </div>

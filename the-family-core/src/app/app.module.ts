@@ -40,6 +40,7 @@ import { UserListSelectComponent } from './components/chat/user-list-select/user
 import { EditUploadComponent } from './components/edit-upload/edit-upload.component';
 import { FamilyCalendarComponent } from './components/family-calendar/family-calendar.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { CardComponent } from './components/payment/card/card.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { PaymentComponent } from './components/payment/payment.component';
     UserListSelectComponent,
     EditUploadComponent,
     FamilyCalendarComponent,
-    PaymentComponent
+    PaymentComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +101,8 @@ import { PaymentComponent } from './components/payment/payment.component';
     EditUserComponent,
     UserListSelectComponent,
     EditProfileComponent,
-    EditUploadComponent
+    EditUploadComponent,
+    CardComponent
   ],
 })
 export class AppModule { }

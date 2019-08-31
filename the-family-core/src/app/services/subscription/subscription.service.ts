@@ -30,7 +30,7 @@ export class SubscriptionService {
     const options = {
       headers: headers
     };
-
+    console.log(Routes.SUBSCRIPTION, body);
     return this.http_service.doPost(Routes.SUBSCRIPTION, body, options);
   }
 

@@ -21,4 +21,11 @@ export class SubscriptionRequest {
     stripe_token: string;
     plan: string;
     charge_immediately?: boolean;
+    constructor(
+        stripe_token: string,
+        plan: string
+    ) {
+        this.stripe_token = stripe_token;
+        this.plan = plan;
+    }
 }

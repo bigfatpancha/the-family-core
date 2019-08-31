@@ -1,7 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SubscriptionService } from 'src/app/services/subscription/subscription.service';
 import { Subscription, SubscriptionRequest } from 'src/app/model/subscription';
-import { StripeScriptTag, StripeToken, StripeSource, StripeCard } from "stripe-angular";
+import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
+import { CardComponent } from './card/card.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GenericError } from 'src/app/model/error';
+import { StripeToken } from 'stripe-angular';
 
 
 @Component({
@@ -11,6 +15,7 @@ import { StripeScriptTag, StripeToken, StripeSource, StripeCard } from "stripe-a
 })
 export class PaymentComponent implements OnInit {
 
+  plan = 'plan_FMtk4OUbYtSsbX';
 
   extraData = {
     'name': null,
@@ -20,30 +25,76 @@ export class PaymentComponent implements OnInit {
     'address_state': null,
     'address_zip': null
   }
-
-  stripeCard: StripeCard;
   subscription: Subscription;
-  private publishableKey: string = "pk_test_FvGMuKVhs6K3jLI3RqWEnvgp00WkmXYTVt";
+  cardRef: MatDialogRef<CardComponent>;
+  dialogConfig = new MatDialogConfig();
 
   constructor(
     private subscriptionService: SubscriptionService,
-    public StripeScriptTag:StripeScriptTag
+    private spinner: NgxSpinnerService,
+    private dialog: MatDialog
   ) {
-    this.StripeScriptTag.setPublishableKey(this.publishableKey);
+    this.dialogConfig.hasBackdrop = true;
+    this.dialogConfig.width = '60%';
+    this.dialogConfig.height = 'auto';
   }
 
   ngOnInit() {
-    this.stripeCard = new StripeCard()
     this.subscriptionService.doSubscriptionGet().subscribe((subscription: Subscription) => {
       this.subscription = subscription;
     })
   }
 
   subscribe() {
-    let body: SubscriptionRequest = new SubscriptionRequest();
-    body.plan = this.subscription ? this.subscription.plan : '';
-    this.stripeCard.createToken(this.extraData).then((res) => console.log(res));
-    this.subscriptionService.doSubscriptionPost(body)
+    this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
+    this.cardRef.componentInstance.onToken.subscribe((token: StripeToken) => {
+      this.spinner.show()
+      let body: SubscriptionRequest = new SubscriptionRequest(token.id, this.plan);
+      this.subscriptionService.doSubscriptionPost(body).subscribe(
+        (data: SubscriptionRequest) => {
+          this.spinner.hide();
+          alert('Subscription added successfully');
+        },
+        (err: GenericError) => {
+          this.spinner.hide();
+          let message = 'Something went wrong, please try again.\n';
+          if (err.error.includes('Something went wrong')) {
+            message = err.error;
+          } else {
+            Object.keys(err.error).forEach((key: string) => {
+              message += key + ': ' + err.error[key][0] + '.\n';
+            });
+          }          
+          alert(message);
+        }
+      );
+    });
+  }
+
+  cancel() {
+    this.spinner.show();
+    this.subscriptionService.doSubscriptionDelete().subscribe(
+      () => {
+        this.spinner.hide();
+        alert('Subscription cancelled successfully');
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+        let message = 'Something went wrong, please try again.\n';
+        if (err.error.includes('Something went wrong')) {
+          message = err.error;
+        } else {
+          Object.keys(err.error).forEach((key: string) => {
+            message += key + ': ' + err.error[key][0] + '.\n';
+          });
+        }          
+        alert(message);
+      }
+    );
+  }
+
+  formatCard() {
+    return 'AMEXxxxxxxxxxxxxx1212';
   }
 
 }

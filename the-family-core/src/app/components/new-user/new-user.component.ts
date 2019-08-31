@@ -339,7 +339,7 @@ export class NewUserComponent implements OnInit {
       this.referredBy.name = this.refName.value;
     }
     if (this.refColorCode.dirty) {
-      this.referredBy.colorCode = this.refColorCode.value;
+      this.newUser.colorCode = this.refColorCode.value;
     }
     if (this.driversLicenseState.dirty) {
       this.referredBy.driversLicenseState = this.driversLicenseState.value;

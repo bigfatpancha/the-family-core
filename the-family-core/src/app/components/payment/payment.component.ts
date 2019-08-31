@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SubscriptionService } from 'src/app/services/subscription/subscription.service';
+import { SubscriptionService, PLAN } from 'src/app/services/subscription/subscription.service';
 import { Subscription, SubscriptionRequest } from 'src/app/model/subscription';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { CardComponent } from './card/card.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GenericError } from 'src/app/model/error';
 import { StripeToken } from 'stripe-angular';
-
 
 @Component({
   selector: 'app-payment',
@@ -15,7 +14,7 @@ import { StripeToken } from 'stripe-angular';
 })
 export class PaymentComponent implements OnInit {
 
-  plan = 'plan_FMtk4OUbYtSsbX';
+  
 
   extraData = {
     'name': null,
@@ -49,7 +48,7 @@ export class PaymentComponent implements OnInit {
     this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
     this.cardRef.componentInstance.onToken.subscribe((token: StripeToken) => {
       this.spinner.show()
-      let body: SubscriptionRequest = new SubscriptionRequest(token.id, this.plan);
+      let body: SubscriptionRequest = new SubscriptionRequest(token.id, PLAN);
       this.subscriptionService.doSubscriptionPost(body).subscribe(
         (data: SubscriptionRequest) => {
           this.spinner.hide();

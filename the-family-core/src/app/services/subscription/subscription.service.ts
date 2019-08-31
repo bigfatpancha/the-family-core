@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { Subscription, SubscriptionRequest } from 'src/app/model/subscription';
 import { Routes } from '../config/routes-enum';
 
+export const PLAN = 'plan_FMtk4OUbYtSsbX';
+
 @Injectable({
   providedIn: 'root'
 })

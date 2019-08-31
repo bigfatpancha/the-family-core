@@ -16,6 +16,10 @@ import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { SubscriptionService, PLAN } from 'src/app/services/subscription/subscription.service';
+import { Subscription, SubscriptionRequest } from 'src/app/model/subscription';
+import { CardComponent } from '../payment/card/card.component';
+import { StripeToken } from 'stripe-angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +37,7 @@ export class DashboardComponent implements OnInit {
   registerRef: MatDialogRef<RegisterComponent>;
   uploadRef: MatDialogRef<UploadComponent>;
   editRef: MatDialogRef<EditProfileComponent>;
+  cardRef: MatDialogRef<CardComponent>;
   dialogConfig = new MatDialogConfig();
   
   form = new FormControl();
@@ -43,6 +48,7 @@ export class DashboardComponent implements OnInit {
               private httpService: HttpService,
               private authService: AuthService,
               private router: Router,
+              private subscriptionService: SubscriptionService,
               private spinner: NgxSpinnerService,
               private dialog: MatDialog) { }
 
@@ -138,8 +144,47 @@ export class DashboardComponent implements OnInit {
       this.showLogin = !this.showLogin;
 	    this.dialogConfig.width = 'auto';
       this.loginRef = this.dialog.open(LoginComponent, this.dialogConfig);
-      this.loginRef.componentInstance.onLogin.subscribe(() => this.getUsers());
+      this.loginRef.componentInstance.onLogin.subscribe(() => {
+        this.subscriptionService.doSubscriptionGet().subscribe(
+          (sub: Subscription) => {
+            if (sub.status === 'active') {
+              this.getUsers();
+            } else {
+              alert('You are not subscribed.');
+              this.dialogConfig.width = '60%';
+              this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
+              this.subscribe();
+            }
+          }
+        )
+        
+      });
     }
+  }
+
+  private subscribe() {
+    this.cardRef.componentInstance.onToken.subscribe((token: StripeToken) => {
+      this.spinner.show()
+      let body: SubscriptionRequest = new SubscriptionRequest(token.id, PLAN);
+      this.subscriptionService.doSubscriptionPost(body).subscribe(
+        (data: SubscriptionRequest) => {
+          this.spinner.hide();
+          alert('Subscription added successfully');
+        },
+        (err: GenericError) => {
+          this.spinner.hide();
+          let message = 'Something went wrong, please try again.\n';
+          if (err.error.includes('Something went wrong')) {
+            message = err.error;
+          } else {
+            Object.keys(err.error).forEach((key: string) => {
+              message += key + ': ' + err.error[key][0] + '.\n';
+            });
+          }          
+          alert(message);
+        }
+      );
+    });
   }
 
   onRegister() {

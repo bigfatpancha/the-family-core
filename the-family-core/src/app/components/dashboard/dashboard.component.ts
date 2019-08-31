@@ -103,6 +103,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  goToPayments() {
+    if (this.isLogged) {
+      this.router.navigate(['/payment']);
+    } else {
+      alert('you need to be logged to perform this action');
+    }
+  }
+
   goToCalendar() {
     if (this.isLogged) {
       this.router.navigate(['/calendar']);

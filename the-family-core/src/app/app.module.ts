@@ -16,6 +16,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { Module as StripeModule } from "stripe-angular"
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -73,6 +74,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
     }),
+    StripeModule.forRoot(),
     MatDialogModule,
     MatTooltipModule,
     MatAutocompleteModule,

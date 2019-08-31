@@ -125,7 +125,7 @@ export class EditUserComponent implements OnInit {
       'phoneNumber': new FormControl(this.user.address?this.user.address.phoneNumber && this.user.address.phoneNumber !== 'null'? this.user.address.phoneNumber:null:null, [Validators.maxLength(128)]),
       'faxNumber': new FormControl(this.user.address?this.user.address.faxNumber && this.user.address.faxNumber !== 'null'? this.user.address.faxNumber :null:null, [Validators.maxLength(128)]),
       'refName': new FormControl(this.user.referredBy?this.user.referredBy.name:null, [Validators.maxLength(30)]),
-      'refColorCode': new FormControl(this.user. referredBy && this.user.referredBy.colorCode !== 'undefined' ? this.user.referredBy.colorCode : null),
+      'refColorCode': new FormControl(this.user.colorCode && this.user.colorCode !== 'null' ? this.user.colorCode : null),
       'driversLicenseState': new FormControl(this.user.referredBy && this.user.referredBy.driversLicenseState !== 'undefined'?this.user.referredBy.driversLicenseState:null, [Validators.maxLength(30)]),
       'driversLicenseNumber': new FormControl(this.user.referredBy && this.user.referredBy.driversLicenseNumber !== 'undefined'?this.user.referredBy.driversLicenseNumber:null, [Validators.maxLength(30)]),
       'refplaceOfBirth': new FormControl(this.user.referredBy && this.user.referredBy.placeOfBirth !== 'undefined'?this.user.referredBy.placeOfBirth:null, [Validators.maxLength(30)]),
@@ -314,7 +314,7 @@ export class EditUserComponent implements OnInit {
           this.editedUser.referredBy.name = this.refName.value;
         }
         if (this.refColorCode.dirty) {
-          this.editedUser.referredBy.colorCode = this.refColorCode.value;
+          this.editedUser.colorCode = this.refColorCode.value;
         }
         if (this.driversLicenseState.dirty) {
           this.editedUser.referredBy.driversLicenseState = this.driversLicenseState.value;

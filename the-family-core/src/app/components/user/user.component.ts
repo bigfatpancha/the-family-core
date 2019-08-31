@@ -146,10 +146,6 @@ export class UserComponent implements OnInit, AfterContentInit {
     return this.user.referredBy ? this.user.referredBy.name : '';
   }
 
-  getRefColorCode() {
-    return this.user.referredBy && this.user.referredBy.colorCode !== 'undefined' ? this.user.referredBy.colorCode : '';
-  }
-
   getDriversLicenseState() {
     return this.user.referredBy && this.user.referredBy.driversLicenseState !== 'undefined' ? this.user.referredBy.driversLicenseState : '';
   }

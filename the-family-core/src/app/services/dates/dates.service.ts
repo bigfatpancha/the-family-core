@@ -48,10 +48,33 @@ export class DatesService {
     return isoDate;
   }
 
-  manageTimeZoneBefore(isoDate: string, time: string): string {
+  manageTimeZoneAfter(date: Date, offset: number): string {
+    if (offset < 0) {
+      offset = 24 - offset;
+      date = new Date(date.setDate(date.getDate()-1));
+    }
+    let isoDate = date.toISOString();
+    const offsetString = offset.toString();
+    isoDate = this.setCharAt(isoDate, 11, offsetString.length === 2 ? offsetString[0] : '0');
+    isoDate = this.setCharAt(isoDate, 12, offsetString.length === 2 ? offsetString[1] : offsetString[0]);
+    return isoDate;
+  }
+
+  manageTimeZoneBefore(date: Date, offset: number): string {
+    const time = '23:59:59';
+    if (offset < 0) {
+      offset = 24 - offset;
+    }
+    if (offset > 0) {
+      date = new Date(date.setDate(date.getDate()+1));
+    }
+    let isoDate = date.toISOString();
     for (let i = 0; i < 8; i ++) {
       isoDate = this.setCharAt(isoDate, i+11, time[i]);
     }
+    const offsetString = (offset - 1).toString();
+    isoDate = this.setCharAt(isoDate, 11, offsetString.length === 2 ? offsetString[0] : '0');
+    isoDate = this.setCharAt(isoDate, 12, offsetString.length === 2 ? offsetString[1] : offsetString[0]);
     
     return isoDate;
   }

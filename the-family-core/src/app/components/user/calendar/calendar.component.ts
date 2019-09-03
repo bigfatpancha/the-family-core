@@ -64,8 +64,8 @@ export class CalendarComponent implements OnInit {
       let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
-        ev.start = new Date(event.start);
-        ev.end = new Date(event.end);
+        ev.start = this.eventRecurrence.parseISOString(event.start);
+        ev.end = this.eventRecurrence.parseISOString(event.end);
         ev.title = event.title;
         return ev;
       });
@@ -152,8 +152,8 @@ export class CalendarComponent implements OnInit {
       let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
-        ev.start = new Date(event.start);
-        ev.end = new Date(event.end);
+        ev.start = this.eventRecurrence.parseISOString(event.start);
+        ev.end = this.eventRecurrence.parseISOString(event.end);
         ev.title = event.title;
         return ev;
       });
@@ -183,9 +183,10 @@ export class CalendarComponent implements OnInit {
     this.activeDay = event.day.date;
     this.today = event.day.date.toUTCString().substring(0,7);
     let date = new Date(event.day.date);
-    const after: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
-    const before: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
-    this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
+    const after: Date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const before: Date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const offset = event.day.date.getTimezoneOffset() ? event.day.date.getTimezoneOffset() / 60 : new Date().getTimezoneOffset() / 60;
+    this.usersService.doUserIdEventByDateGet(this.user.id, this.dateService.manageTimeZoneAfter(after, offset), this.dateService.manageTimeZoneBefore(before, offset))
       .subscribe((res: EventResponse) => {
         let events: Event[] = res.results;
         this.spinner.hide();

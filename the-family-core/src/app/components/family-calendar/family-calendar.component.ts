@@ -54,11 +54,11 @@ export class FamilyCalendarComponent implements OnInit {
     this.dayClicked({day: {date: today} });
     this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after.toISOString(), '0'), this.dateService.manageTimeZone(before.toISOString(), '0'))
       .subscribe((res: EventResponse) => {
-        let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);;
+        let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
         this.calendarEvents = events.map((event: Event) => {
           let ev = new CalendarEventImpl()
-          ev.start = new Date(event.start);
-          ev.end = new Date(event.end);
+          ev.start = this.eventRecurrence.parseISOString(event.start);
+          ev.end = this.eventRecurrence.parseISOString(event.end);
           ev.title = event.title;
           ev.color = this.colors[event.familyMembers[0]];
           return ev;
@@ -98,8 +98,8 @@ export class FamilyCalendarComponent implements OnInit {
       let events: Event[] = this.eventRecurrence.allDatesFromRecurrence(res.results, after, before);
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
-        ev.start = new Date(event.start);
-        ev.end = new Date(event.end);
+        ev.start = this.eventRecurrence.parseISOString(event.start);
+        ev.end = this.eventRecurrence.parseISOString(event.end);
         ev.title = event.title;
         ev.color = this.colors[event.familyMembers[0]];
         return ev;
@@ -130,12 +130,12 @@ export class FamilyCalendarComponent implements OnInit {
     this.activeDay = event.day.date;
     this.today = event.day.date.toUTCString().substring(0,7);
     let date = new Date(event.day.date);
-    const after: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
-    const before: string = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
-    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZone(after, '0'), this.dateService.manageTimeZoneBefore(before, '23:59:59'))
+    const after: Date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const before: Date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const offset = event.day.date.getTimezoneOffset() ? event.day.date.getTimezoneOffset() / 60 : new Date().getTimezoneOffset() / 60;
+    this.eventsService.doEventsCalendarGet(this.dateService.manageTimeZoneAfter(after, offset), this.dateService.manageTimeZoneBefore(before, offset))
       .subscribe((res: EventResponse) => {
         this.events = res.results;
-        console.log(this.events);
         this.spinner.hide();
         this.changeDetector.detectChanges();
       }, (err: GenericError) => {

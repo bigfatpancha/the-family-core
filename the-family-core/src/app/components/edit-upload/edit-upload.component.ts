@@ -208,13 +208,16 @@ export class EditUploadComponent implements OnInit {
     if (event.start) {
       const startDate = new Date(event.start);
       start = new NgbDate(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
-      this.startTime = startDate.toLocaleTimeString("es-AR", {timeZone: event.timezone.name}).substring(0,5);
+      this.startTime = startDate.toLocaleTimeString("es-AR").substring(0,5);
       this.startDate = start;
+      this.dayOfWeek = this.datesService.formatDayOfWeek(startDate.getDay());
+      this.dayOfMonth = this.datesService.getGetOrdinal(this.startDate.day);
+      this.dayOfYear = this.datesService.formatMonth(this.startDate.month) + ' ' + this.dayOfMonth;
     }
     if (event.end) {
       const endDate = new Date(event.end);
       end = new NgbDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
-      this.endTime = endDate.toLocaleTimeString("es-AR", {timeZone: event.timezone.name}).substring(0,5);
+      this.endTime = endDate.toLocaleTimeString("es-AR").substring(0,5);
     }
     if (event.lead) {
       lead = this.familyMembers.filter((user: FamilyUser) => user.id === event.lead);

@@ -29,11 +29,10 @@ export class EventRecurrenceService {
           events.push(event);
         } else {
           dates.forEach(date => {
-            const endtime = event.end.substring(11,24);
             let ev = new Event();
-            ev.start = date.toISOString();
-            // ev.end = endtime !== '00:00:00Z' ? date.toISOString().substring(0, 11).concat(event.end.substring(11,24)) : new Date(date.setDate(date.getDate()+1)).toISOString().substring(0, 11).concat(event.end.substring(11,24));
-            ev.end = date.toISOString();
+            const timezone = event.timezone.description.substring(4,10);
+            ev.start = date.toISOString().substring(0, 19) + timezone;
+            ev.end = date.toISOString().substring(0, 19) + timezone;
             ev.title = event.title;
             ev.familyMembers = event.familyMembers;
             events.push(ev);

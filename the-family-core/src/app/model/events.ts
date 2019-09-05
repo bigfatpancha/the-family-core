@@ -20,7 +20,7 @@ export class Event {
     end: string;
     recurrence: string;
     recurrenceDescription: string;
-    timezone: string;
+    timezone: any;
     alert: number; // 0, 1, 2, 3
     notifyTeam:	boolean;
     notes: string;

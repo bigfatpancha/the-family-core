@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import RRule, { ByWeekday } from 'rrule';
-import { Recurrence, EventResponse, Event } from 'src/app/model/events';
+import { Recurrence, Event } from 'src/app/model/events';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
@@ -30,8 +30,9 @@ export class EventRecurrenceService {
         } else {
           dates.forEach(date => {
             let ev = new Event();
-            ev.start = date.toISOString();
-            ev.end = date.toISOString();
+            const timezone = event.timezone.description.substring(4,10);
+            ev.start = date.toISOString().substring(0, 19) + timezone;
+            ev.end = date.toISOString().substring(0, 19) + timezone;
             ev.title = event.title;
             ev.familyMembers = event.familyMembers;
             events.push(ev);
@@ -42,6 +43,12 @@ export class EventRecurrenceService {
       }
     });
     return events;
+  }
+
+  parseISOString(s): Date {
+    var b = s.split(/\D+/);
+    const date = new Date(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]);
+    return date;
   }
 
   rruleToRecurrence(rrule: RRule): Recurrence {
@@ -79,8 +86,8 @@ export class EventRecurrenceService {
   }
 
   private isWeeklyondayOfWeek(rrule: RRule): boolean {
-    if (rrule.options.freq === 2) {
-      return rrule.options.byweekday && !rrule.options.byweekday.length;
+    if (rrule.options.freq === RRule.WEEKLY) {
+      return rrule.options.byweekday ? true : false;
     }
     return false;
   }

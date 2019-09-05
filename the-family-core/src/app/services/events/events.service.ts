@@ -41,7 +41,6 @@ export class EventsService {
       headers: headers,
       params: params
     }
-    console.log(params);
     return this.http_service.doGet(Routes.EVENTS, options);
   }
 
@@ -104,7 +103,6 @@ export class EventsService {
   }
 
   getFormData(event: Event): FormData {
-    console.log(event)
     const formData = new FormData();
     Object.keys(event).forEach(key => {
       if (key === 'address') {
@@ -112,7 +110,6 @@ export class EventsService {
       } else if (key === 'attachments') {
         let i = 0;
         for (const attachment of event[key]) {
-          console.log(attachment.file);
           formData.append('attachment_' + i + '.file', attachment.file);
           i++;
         }

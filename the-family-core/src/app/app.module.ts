@@ -16,6 +16,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { Module as StripeModule } from "stripe-angular"
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +39,8 @@ import { CalendarComponent } from './components/user/calendar/calendar.component
 import { UserListSelectComponent } from './components/chat/user-list-select/user-list-select.component';
 import { EditUploadComponent } from './components/edit-upload/edit-upload.component';
 import { FamilyCalendarComponent } from './components/family-calendar/family-calendar.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { CardComponent } from './components/payment/card/card.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,9 @@ import { FamilyCalendarComponent } from './components/family-calendar/family-cal
     CalendarComponent,
     UserListSelectComponent,
     EditUploadComponent,
-    FamilyCalendarComponent
+    FamilyCalendarComponent,
+    PaymentComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +76,7 @@ import { FamilyCalendarComponent } from './components/family-calendar/family-cal
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
     }),
+    StripeModule.forRoot(),
     MatDialogModule,
     MatTooltipModule,
     MatAutocompleteModule,
@@ -95,7 +101,8 @@ import { FamilyCalendarComponent } from './components/family-calendar/family-cal
     EditUserComponent,
     UserListSelectComponent,
     EditProfileComponent,
-    EditUploadComponent
+    EditUploadComponent,
+    CardComponent
   ],
 })
 export class AppModule { }

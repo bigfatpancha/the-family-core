@@ -1,0 +1,17 @@
+<div class="login-container">
+  <div class="header-info mb-4">
+    <h4>Subscription</h4>
+    <div class="buttons cursor-pointer">
+      <button class="btn btn-sm btn-save" (click)="stripeCard.createToken()">Submit</button>
+    </div>
+  </div>
+  <div class="form_family">
+    <stripe-card
+      #stripeCard
+      (catch) = "onStripeError($event)"
+      [(invalid)] = "invalidError"
+      (tokenChange) = "setStripeToken($event)"
+      (sourceChange) = "setStripeSource($event)"
+    ></stripe-card>
+  </div>
+</div>

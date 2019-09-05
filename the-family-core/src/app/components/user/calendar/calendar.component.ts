@@ -65,7 +65,7 @@ export class CalendarComponent implements OnInit {
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = this.eventRecurrence.parseISOString(event.start);
-        ev.end = this.eventRecurrence.parseISOString(event.end);
+        ev.end = this.eventRecurrence.parseISOString(event.start);
         ev.title = event.title;
         return ev;
       });
@@ -153,7 +153,7 @@ export class CalendarComponent implements OnInit {
       this.calendarEvents = events.map((event: Event) => {
         let ev = new CalendarEventImpl()
         ev.start = this.eventRecurrence.parseISOString(event.start);
-        ev.end = this.eventRecurrence.parseISOString(event.end);
+        ev.end = this.eventRecurrence.parseISOString(event.start);
         ev.title = event.title;
         return ev;
       });

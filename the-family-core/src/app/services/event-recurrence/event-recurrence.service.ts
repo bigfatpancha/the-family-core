@@ -32,7 +32,8 @@ export class EventRecurrenceService {
             const endtime = event.end.substring(11,24);
             let ev = new Event();
             ev.start = date.toISOString();
-            ev.end = endtime !== '00:00:00Z' ? date.toISOString().substring(0, 11).concat(event.end.substring(11,24)) : new Date(date.setDate(date.getDate()+1)).toISOString().substring(0, 11).concat(event.end.substring(11,24));
+            // ev.end = endtime !== '00:00:00Z' ? date.toISOString().substring(0, 11).concat(event.end.substring(11,24)) : new Date(date.setDate(date.getDate()+1)).toISOString().substring(0, 11).concat(event.end.substring(11,24));
+            ev.end = date.toISOString();
             ev.title = event.title;
             ev.familyMembers = event.familyMembers;
             events.push(ev);

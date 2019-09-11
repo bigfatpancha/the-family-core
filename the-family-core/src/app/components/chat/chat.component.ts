@@ -7,6 +7,7 @@ import { Channel } from 'src/app/model/chat';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { UserListSelectComponent } from './user-list-select/user-list-select.component';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-chat',
@@ -20,20 +21,18 @@ export class ChatComponent implements OnInit, OnDestroy {
   chatListOpen = false;
   converOpen = false;
   showSelect= false;
-
   channelList: any;
   userSendbird;
-  
   groupChannel;
   messages;
-
   formChat: FormGroup;
-
   subscriptions: Subscription[] = [];
+  usersSendbirdIds: string[];
 
   constructor(
     private sbService: SendbirdService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userService: UsersService
   ) { }
 
   ngOnInit() {
@@ -48,9 +47,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   connect() {
     this.sbService.connect(this.user).then((user: any) => {
       this.userSendbird = user;
-      this.sbService.getChannelList().then((channelList: any) => {
+      this.usersSendbirdIds = this.userService.users.map((user: FamilyUser) => user.sendbirdId);
+      this.sbService.getChannelList(this.usersSendbirdIds).then((channelList: any) => {
         this.channelList = channelList;
-        console.log(channelList)
       });
     });
   }
@@ -71,7 +70,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.showSelect = false;
     const ids = data.users.map((user: FamilyUser) => user.sendbirdId);
     this.sbService.startGroupChannel(data.name, ids).then((groupChannel: any) => {
-      this.sbService.getChannelList().then((channelList) => {
+      this.sbService.getChannelList(this.usersSendbirdIds).then((channelList) => {
         this.channelList = channelList;
       })
     });
@@ -135,7 +134,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   leaveChat() {
     this.sbService.leaveChannel(this.groupChannel).then(() => {
-      this.sbService.getChannelList().then((channelList) => {
+      this.sbService.getChannelList(this.usersSendbirdIds).then((channelList) => {
         this.channelList = channelList;
       });
     });

@@ -68,7 +68,6 @@ export class SendbirdService implements OnDestroy {
     params.addUserIds(ids);
     params.operatorIds = [this.user.sendbirdId];
     params.name = name;
-    console.log(params);
     const promise = new Promise((resolve, reject) => {
       this.sendbird.GroupChannel.createChannel(params, function(groupChannel, error) {
         if (error) {
@@ -93,21 +92,21 @@ export class SendbirdService implements OnDestroy {
   }
 
   inviteUsers(users: FamilyUser[], groupChannel) {
-    console.log(users)
     var userIds = users.map((user: FamilyUser) => user.sendbirdId);
 
     groupChannel.inviteWithUserIds(userIds, function(response, error) {
         if (error) {
           return;
         }
-        console.log(response);
     });
   }
 
-  getChannelList(): Promise<any> {
+  getChannelList(userSendbirdIds: string[]): Promise<any> {
     var channelListQuery = this.sendbird.GroupChannel.createMyGroupChannelListQuery();
     channelListQuery.includeEmpty = true;
     channelListQuery.limit = 20;    // The value of pagination limit could be set up to 100.
+    channelListQuery.userIdsFilter = userSendbirdIds;
+    console.log('createMyGroupChannelListQuery', channelListQuery);
     const promise = new Promise((resolve, reject) => {
       if (channelListQuery.hasNext) {
         channelListQuery.next(function(channelList, error) {

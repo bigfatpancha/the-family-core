@@ -25,11 +25,11 @@
               <h4>MEMBERSHIP</h4>
             </div>
             <div class="table__header--columns col-6">
-              <h4>CREDIT CARD</h4>
+              <h4></h4>
             </div>
           </div>
 
-          <div class="table__body table_link" *ngIf="subscription">
+          <div class="table__body table_link" *ngIf="subscription && subscription.status">
             <div class="table__body--columns col-3">
               <p>{{subscription.status}}</p>
             </div>
@@ -37,7 +37,6 @@
               <p>{{subscription.plan}}</p>
             </div>
             <div class="table__body--columns col-6 d-flex align-items-center">
-              <p class="mr-2">{{formatCard()}}</p>
               <a class="change-card" (click)="subscribe()">Change Card</a>
             </div>
           </div>

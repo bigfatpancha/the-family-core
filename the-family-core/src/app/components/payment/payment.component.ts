@@ -92,8 +92,4 @@ export class PaymentComponent implements OnInit {
     );
   }
 
-  formatCard() {
-    return 'AMEXxxxxxxxxxxxxx1212';
-  }
-
 }

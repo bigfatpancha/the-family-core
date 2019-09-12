@@ -62,11 +62,8 @@ export class SendbirdService implements OnDestroy {
   startGroupChannel(name: string, ids: string[]): Promise<any> {
     ids.push(this.user.sendbirdId);
     let params = new this.sendbird.GroupChannelParams();
-    params.isPublic = false;
-    params.isEphemeral = false;
     params.isDistinct = false;
     params.addUserIds(ids);
-    params.operatorIds = [this.user.sendbirdId];
     params.name = name;
     const promise = new Promise((resolve, reject) => {
       this.sendbird.GroupChannel.createChannel(params, function(groupChannel, error) {
@@ -106,7 +103,8 @@ export class SendbirdService implements OnDestroy {
     channelListQuery.includeEmpty = true;
     channelListQuery.limit = 20;    // The value of pagination limit could be set up to 100.
     channelListQuery.userIdsFilter = userSendbirdIds;
-    console.log('createMyGroupChannelListQuery', channelListQuery);
+    channelListQuery.includeEmpty = true;
+    channelListQuery.queryType = 'OR'
     const promise = new Promise((resolve, reject) => {
       if (channelListQuery.hasNext) {
         channelListQuery.next(function(channelList, error) {

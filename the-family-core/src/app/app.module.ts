@@ -16,7 +16,15 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
 import { FlatpickrModule } from 'angularx-flatpickr';
-import { Module as StripeModule } from "stripe-angular"
+import { Module as StripeModule } from "stripe-angular";
+import {
+  GoogleApiModule, 
+  GoogleApiService, 
+  GoogleAuthService, 
+  NgGapiClientConfig, 
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from "ng-gapi";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +49,12 @@ import { EditUploadComponent } from './components/edit-upload/edit-upload.compon
 import { FamilyCalendarComponent } from './components/family-calendar/family-calendar.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { CardComponent } from './components/payment/card/card.component';
+
+let gapiClientConfig: NgGapiClientConfig = {
+  client_id: "151615008634-47pgaup21mprpsc2jr28nu3uff4p63c8.apps.googleusercontent.com",
+  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+  scope: ["https://www.googleapis.com/auth/calendar.readonly"].join(" ")
+};
 
 @NgModule({
   declarations: [
@@ -77,6 +91,10 @@ import { CardComponent } from './components/payment/card/card.component';
       apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
     }),
     StripeModule.forRoot(),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
     MatDialogModule,
     MatTooltipModule,
     MatAutocompleteModule,

@@ -51,7 +51,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { CardComponent } from './components/payment/card/card.component';
 
 let gapiClientConfig: NgGapiClientConfig = {
-  client_id: "151615008634-47pgaup21mprpsc2jr28nu3uff4p63c8.apps.googleusercontent.com",
+  client_id: "807097429789-hndn25nql2ps4m6u9huos61tnt404lg2.apps.googleusercontent.com",
   discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
   scope: ["https://www.googleapis.com/auth/calendar.readonly"].join(" ")
 };
@@ -88,7 +88,7 @@ let gapiClientConfig: NgGapiClientConfig = {
     NgbModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCN7bGKmPkOEc6LZSNGiWG98lwjjBTgh9U'
+      apiKey: 'familycore-b8521'
     }),
     StripeModule.forRoot(),
     GoogleApiModule.forRoot({

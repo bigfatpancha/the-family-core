@@ -17,6 +17,7 @@ import { GenericError } from 'src/app/model/error';
 import { EventRecurrenceService } from 'src/app/services/event-recurrence/event-recurrence.service';
 import { ErrorService } from 'src/app/services/error/error.service';
 import { DatesService } from 'src/app/services/dates/dates.service';
+import { GoogleService } from 'src/app/services/google/google.service';
 
 export class Type {
   id: number;
@@ -48,6 +49,7 @@ export class UploadComponent implements OnInit {
     public dialogRef: MatDialogRef<UploadComponent>,
     private eventRecurrenceService: EventRecurrenceService,
     private errorService: ErrorService,
+    private google: GoogleService,
     private datesService: DatesService
   ) { }
 
@@ -298,6 +300,10 @@ export class UploadComponent implements OnInit {
 
   showEndDate() {
     return this.recurrence.value !== 'Doesnotrepeat' && this.endsForm.value !== 'Never';
+  }
+
+  importGoogleCalendar() {
+    this.google.getToken()
   }
 
   postUpload() {

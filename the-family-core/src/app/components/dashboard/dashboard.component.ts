@@ -20,7 +20,6 @@ import { SubscriptionService, PLAN } from 'src/app/services/subscription/subscri
 import { Subscription, SubscriptionRequest } from 'src/app/model/subscription';
 import { CardComponent } from '../payment/card/card.component';
 import { StripeToken } from 'stripe-angular';
-import { GoogleService } from 'src/app/services/google/google.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -48,7 +47,6 @@ export class DashboardComponent implements OnInit {
   constructor(private userService: UsersService,
               private httpService: HttpService,
               private authService: AuthService,
-              private google: GoogleService,
               private router: Router,
               private subscriptionService: SubscriptionService,
               private spinner: NgxSpinnerService,

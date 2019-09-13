@@ -4,7 +4,14 @@
 
   <div class="header-info mb-4">
     <h4>Upload</h4>
-    <a (click)="postUpload()" class="btn btn-sm btn-save">SAVE</a>
+    <div class="col-md-6 d-flex justify-content-center align-items-end">
+      <div class="buttons new-user">
+        <a class="btn btn-sm btn-save" (click)="postUpload()">SAVE</a>
+      </div>
+      <div class="buttons new-user">
+        <a (click)="importGoogleCalendar()" class="btn btn-sm btn-save invite" style="font-size: 10px">Import Google Calendar</a>
+      </div>
+    </div>
   </div>
   <div class="container-fluid" [formGroup]="eventForm">
     <div class="form_family border-bottom pb-3">

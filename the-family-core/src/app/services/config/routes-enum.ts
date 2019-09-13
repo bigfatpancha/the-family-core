@@ -13,5 +13,6 @@ export enum Routes {
     DATA_TIMEZONE = 'data/timezones/',
     DEVICES = 'devices/',
     DOCUMENTS = 'documents/',
-    SUBSCRIPTION = 'subscription/'
+    SUBSCRIPTION = 'subscription/',
+    IMPORT_CALENDAR = 'events/google/importCalendar/'
 }

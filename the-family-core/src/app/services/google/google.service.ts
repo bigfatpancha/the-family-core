@@ -13,7 +13,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root'
 })
 export class GoogleService {
-
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(
@@ -23,30 +22,37 @@ export class GoogleService {
     private errorService: ErrorService,
     private spinner: NgxSpinnerService
   ) {
-    this.headers = this.headers.set('accept', 'application/json')
-                               .set('Content-Type', 'application/json');
+    this.headers = this.headers
+      .set('accept', 'application/json')
+      .set('Content-Type', 'application/json');
   }
 
   getToken() {
     this.gapiService.onLoad().subscribe(() => {
-      this.googleAuth.getAuth().subscribe((auth) => {
+      this.googleAuth.getAuth().subscribe(auth => {
         auth.signIn().then(res => {
           this.spinner.show();
           const body = new ImportCalendarPost(res.Zi.access_token);
-          this.doImportCalendarPost(body).subscribe((res) => {
-            this.spinner.hide();
-            alert(res.detail);
-          }, (err: GenericError) => {
-            this.spinner.hide();
-            this.errorService.showError(err);
-          })
+          this.doImportCalendarPost(body).subscribe(
+            res => {
+              this.spinner.hide();
+              alert(res.detail);
+            },
+            (err: GenericError) => {
+              this.spinner.hide();
+              this.errorService.showError(err);
+            }
+          );
         });
       });
-    })
+    });
   }
 
   doImportCalendarPost(body: ImportCalendarPost): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
     };

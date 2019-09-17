@@ -11,24 +11,32 @@ export const PLAN = 'plan_FMtk4OUbYtSsbX';
   providedIn: 'root'
 })
 export class SubscriptionService {
-
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http_service: HttpService) {
-    this.headers = this.headers.set('accept', 'application/json')
-                               .set('content-type', 'application/json');
+    this.headers = this.headers
+      .set('accept', 'application/json')
+      .set('content-type', 'application/json');
   }
 
   doSubscriptionGet(): Observable<Subscription> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
     };
     return this.http_service.doGet(Routes.SUBSCRIPTION, options);
   }
 
-  doSubscriptionPost(body: SubscriptionRequest): Observable<SubscriptionRequest> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+  doSubscriptionPost(
+    body: SubscriptionRequest
+  ): Observable<SubscriptionRequest> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
     };
@@ -37,12 +45,14 @@ export class SubscriptionService {
   }
 
   doSubscriptionDelete() {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
     };
 
     return this.http_service.doDelete(Routes.SUBSCRIPTION, options);
   }
-
 }

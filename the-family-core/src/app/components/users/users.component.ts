@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FamilyUser, FamilyUserListResponse, UserRole, UserId } from '../../model/family';
+import {
+  FamilyUser,
+  FamilyUserListResponse,
+  UserRole,
+  UserId
+} from '../../model/family';
 import { UsersService } from 'src/app/services/users/users.service';
 import { MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material';
 import { NewUserComponent } from '../new-user/new-user.component';
@@ -12,9 +17,8 @@ import { GenericError } from 'src/app/model/error';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-
   isDataLoaded = false;
-  state: number = 5;
+  state = 5;
   users: FamilyUser[];
   newUserRef: MatDialogRef<NewUserComponent>;
   dialogConfig = new MatDialogConfig();
@@ -23,7 +27,7 @@ export class UsersComponent implements OnInit {
     private userService: UsersService,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.users = this.userService.users;
@@ -34,26 +38,28 @@ export class UsersComponent implements OnInit {
 
   updateUsers() {
     this.spinner.show();
-    this.userService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => {
-      this.spinner.hide();
-      this.users = data.results;
-      this.userService.users = this.users;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
+    this.userService.doGetUsersList().subscribe(
+      (data: FamilyUserListResponse) => {
+        this.spinner.hide();
+        this.users = data.results;
+        this.userService.users = this.users;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
   }
-  
+
   formatRole(role) {
-    if(role === 0){
+    if (role === 0) {
       return UserRole.ADMIN;
-    } else if (role === 1){
+    } else if (role === 1) {
       return UserRole.LEGAL_GUARDIAN;
     } else if (role === 2) {
       return UserRole.CHILD;
-    } else if (role === 3){
+    } else if (role === 3) {
       return UserRole.DEPENDENT;
-    } else{
+    } else {
       return UserRole.NANNY;
     }
   }
@@ -70,15 +76,16 @@ export class UsersComponent implements OnInit {
   sendInvitation(user: FamilyUser, event) {
     event.stopPropagation();
     this.spinner.show();
-    let body = new UserId();
+    const body = new UserId();
     body.id = user.id;
-    this.userService.doUsersIdSendInvitePost(body)
-    .subscribe((res: UserId) => {
-      this.spinner.hide();
-      alert('Invitation sent');
-    }, (err: GenericError) => {
-      this.spinner.hide();
-      let message = 'Error: ';
+    this.userService.doUsersIdSendInvitePost(body).subscribe(
+      (res: UserId) => {
+        this.spinner.hide();
+        alert('Invitation sent');
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+        let message = 'Error: ';
         Object.keys(err.error).forEach(key => {
           if (Array.isArray(err.error[key])) {
             err.error[key].forEach(msg => {
@@ -86,10 +93,11 @@ export class UsersComponent implements OnInit {
             });
           } else {
             message += err.error;
-          }            
+          }
           message += '\n';
         });
         alert('Something went wrong, please try again\n' + message);
-    })
+      }
+    );
   }
 }

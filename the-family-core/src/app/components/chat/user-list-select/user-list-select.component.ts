@@ -16,7 +16,7 @@ export class UserListSelectComponent implements OnInit {
   title: string;
   buttonText: string;
   formList: FormGroup;
-  users: FamilyUser[]
+  users: FamilyUser[];
   selectedUsers: FamilyUser[];
   dropdownSettings = {
     singleSelection: false,
@@ -24,7 +24,7 @@ export class UserListSelectComponent implements OnInit {
     textField: 'nickname',
     placeholder: 'Select user'
   };
-  
+
 
   constructor(
     public dialogRef: MatDialogRef<UserListSelectComponent>,

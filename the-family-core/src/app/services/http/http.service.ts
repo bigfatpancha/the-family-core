@@ -1,24 +1,16 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../config/config.service';
 import { Observable } from 'rxjs';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
-export class HttpService implements OnInit {
-
+export class HttpService {
   key: string;
   id: number;
 
-  constructor(
-    private http: HttpClient,
-    private configService: ConfigService) { }
-
-  ngOnInit() {
-  }
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   doGet(url: string, options: any): Observable<any> {
     return this.http.get(this.configService.serverUrl + url, options);
@@ -44,5 +36,4 @@ export class HttpService implements OnInit {
   clean() {
     this.key = null;
   }
-
 }

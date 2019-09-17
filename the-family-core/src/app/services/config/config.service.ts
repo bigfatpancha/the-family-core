@@ -10,8 +10,7 @@ export interface Config {
   providedIn: 'root'
 })
 export class ConfigService {
-
   serverUrl = environment.baseUrl;
 
-  constructor() { }
+  constructor() {}
 }

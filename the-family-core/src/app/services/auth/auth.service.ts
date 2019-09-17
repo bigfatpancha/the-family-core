@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { 
+import {
   LoginResponse,
   User,
   LoginRequest,
@@ -16,49 +16,62 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private httpService: HttpService) {
-    this.headers = this.headers.set('accept', 'application/json')
-                               .set('content-type', 'application/json');
+    this.headers = this.headers
+      .set('accept', 'application/json')
+      .set('content-type', 'application/json');
   }
 
   doAuthLoginPost(body: LoginRequest): Observable<LoginResponse> {
     const options = {
       headers: this.headers
-    }
-    return this.httpService.doPost(Routes.AUTH_LOGIN, body, options)
+    };
+    return this.httpService.doPost(Routes.AUTH_LOGIN, body, options);
   }
 
   doAuthUserGet(): Observable<User> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.httpService.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.httpService.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.httpService.doGet(Routes.AUTH_USER, options);
   }
 
-  doAuthRegistrationPost(body: RegistrationRequest): Observable<RegistrationResponse> {
+  doAuthRegistrationPost(
+    body: RegistrationRequest
+  ): Observable<RegistrationResponse> {
     const options = {
       headers: this.headers
-    }
+    };
     return this.httpService.doPost(Routes.AUTH_REGISTRATION, body, options);
   }
 
-  doAuthRegistrationVerifyEmailPost(body: SendVerifyEmail): Observable<SendVerifyEmail> {
+  doAuthRegistrationVerifyEmailPost(
+    body: SendVerifyEmail
+  ): Observable<SendVerifyEmail> {
     const options = {
       headers: this.headers
-    }
-    return this.httpService.doPost(Routes.AUTH_REGISTRATION_VERIFY_EMAIL, body, options);
+    };
+    return this.httpService.doPost(
+      Routes.AUTH_REGISTRATION_VERIFY_EMAIL,
+      body,
+      options
+    );
   }
 
   doAuthLogOutPost(): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.httpService.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.httpService.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.httpService.doPost(Routes.AUTH_LOGOUT, {}, options);
   }
-
 }

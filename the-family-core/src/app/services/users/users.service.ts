@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { FamilyUserListResponse, FamilyUser, UserId } from 'src/app/model/family';
+import {
+  FamilyUserListResponse,
+  FamilyUser,
+  UserId
+} from 'src/app/model/family';
 import { Observable, Subject } from 'rxjs';
 import { Routes } from '../config/routes-enum';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
@@ -13,17 +17,17 @@ import { DocumentResponse } from 'src/app/model/documents';
   providedIn: 'root'
 })
 export class UsersService {
-
   user: User;
   users: FamilyUser[];
   headers: HttpHeaders = new HttpHeaders();
 
-  private userUpdatedCallback = new Subject<User>(); 
-  userUpdatedCallback$ = this.userUpdatedCallback.asObservable(); 
+  private userUpdatedCallback = new Subject<User>();
+  userUpdatedCallback$ = this.userUpdatedCallback.asObservable();
 
   constructor(private http_service: HttpService) {
-    this.headers = this.headers.set('accept', 'application/json')
-                               .set('content-type', 'application/json');
+    this.headers = this.headers
+      .set('accept', 'application/json')
+      .set('content-type', 'application/json');
   }
 
   setUser(user: User) {
@@ -32,7 +36,10 @@ export class UsersService {
   }
 
   doGetUsersList(): Observable<FamilyUserListResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
     };
@@ -41,8 +48,8 @@ export class UsersService {
 
   doUserPost(body: User): Observable<User> {
     const headers = new HttpHeaders()
-          .set('accept', 'application/json')
-          .set('Authorization', 'Token ' + this.http_service.key);
+      .set('accept', 'application/json')
+      .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
     };
@@ -53,148 +60,249 @@ export class UsersService {
   }
 
   doUserIdGet(id: number): Observable<User> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doGet(Routes.FAMILY_USERS + id + '/', options);
   }
 
   doUserIdPut(id: number, body: User): Observable<User> {
     const headers = new HttpHeaders()
-          .set('accept', 'application/json')
-          .set('Authorization', 'Token ' + this.http_service.key);
+      .set('accept', 'application/json')
+      .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPut(Routes.FAMILY_USERS + id + '/', this.getFormData(body), options);
+    };
+    return this.http_service.doPut(
+      Routes.FAMILY_USERS + id + '/',
+      this.getFormData(body),
+      options
+    );
   }
 
   doUserIdPatch(id: number, body: User): Observable<User> {
     const headers = new HttpHeaders()
-          .set('accept', 'application/json')
-          .set('Authorization', 'Token ' + this.http_service.key);
+      .set('accept', 'application/json')
+      .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPatch(Routes.FAMILY_USERS + id + '/', this.getFormData(body), options);
+    };
+    return this.http_service.doPatch(
+      Routes.FAMILY_USERS + id + '/',
+      this.getFormData(body),
+      options
+    );
   }
 
   doUserIdDelete(id: number): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doDelete(Routes.FAMILY_USERS + id, options);
   }
 
-  doUserIdContactTypeGet(id: number, type: string): Observable<ContactResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+  doUserIdContactTypeGet(
+    id: number,
+    type: string
+  ): Observable<ContactResponse> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const params = new HttpParams().set('type', type);
     const options = {
       headers: headers,
       params: params
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/contacts/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/contacts/',
+      options
+    );
   }
 
-  doUserIdEventGet(id: number, type: string, after: any, before: any): Observable<EventResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
-    const params = new HttpParams().set('type', type)
-                                    .set('date_before', before)
-                                    .set('date_after', after);
+  doUserIdEventGet(
+    id: number,
+    type: string,
+    after: any,
+    before: any
+  ): Observable<EventResponse> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
+    const params = new HttpParams()
+      .set('type', type)
+      .set('date_before', before)
+      .set('date_after', after);
     const options = {
       headers: headers,
       params: params
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/events/',
+      options
+    );
   }
 
   doUserIdEventIdDelete(userId: number, eventId: number): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
-    return this.http_service.doDelete(Routes.FAMILY_USERS + userId + '/events/' + eventId + '/', options);
+    };
+    return this.http_service.doDelete(
+      Routes.FAMILY_USERS + userId + '/events/' + eventId + '/',
+      options
+    );
   }
 
   doUserIdEventByTypeGet(id: number, type: string): Observable<EventResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const params = new HttpParams().set('type', type);
     const options = {
       headers: headers,
       params: params
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/events/',
+      options
+    );
   }
 
-  doUserIdEventByDateGet(id: number, after: any, before: any): Observable<EventResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
-    const params = new HttpParams().set('date_before', before)
-                                    .set('date_after', after);
+  doUserIdEventByDateGet(
+    id: number,
+    after: any,
+    before: any
+  ): Observable<EventResponse> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
+    const params = new HttpParams()
+      .set('date_before', before)
+      .set('date_after', after);
     const options = {
       headers: headers,
       params: params
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/events/',
+      options
+    );
   }
 
-  doUserIdEventCalendarByDateGet(id: number, after: any, before: any): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
-    const params = new HttpParams().set('date_before', before)
-                                    .set('date_after', after);
+  doUserIdEventCalendarByDateGet(
+    id: number,
+    after: any,
+    before: any
+  ): Observable<any> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
+    const params = new HttpParams()
+      .set('date_before', before)
+      .set('date_after', after);
     const options = {
       headers: headers,
       params: params
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/events/calendar/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/events/calendar/',
+      options
+    );
   }
 
   doUserIdDocumentGet(id: number, type: string): Observable<DocumentResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const params = new HttpParams().set('type', type);
     const options = {
       headers: headers,
       params: params
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/documents/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/documents/',
+      options
+    );
   }
 
   doUserIdContactGet(id: number): Observable<ContactResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
-    return this.http_service.doGet(Routes.FAMILY_USERS + id + '/contacts/', options);
+    };
+    return this.http_service.doGet(
+      Routes.FAMILY_USERS + id + '/contacts/',
+      options
+    );
   }
 
   doUsersIdSendInvitePost(body: UserId): Observable<UserId> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
-    return this.http_service.doPost(Routes.FAMILY_USERS + body.id + '/sendInvite/', body, options);
+    };
+    return this.http_service.doPost(
+      Routes.FAMILY_USERS + body.id + '/sendInvite/',
+      body,
+      options
+    );
   }
-
-
 
   private getFormData(body): FormData {
     const formData = new FormData();
     Object.keys(body).forEach(key => {
       if (key === 'address') {
         if (body[key]) {
-          Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+          Object.keys(body[key]).forEach(key2 =>
+            formData.append(
+              this.converSnakecase(key + '.' + key2),
+              body[key][key2]
+            )
+          );
         }
       } else if (key === 'referredBy') {
         if (body[key]) {
-          Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+          Object.keys(body[key]).forEach(key2 =>
+            formData.append(
+              this.converSnakecase(key + '.' + key2),
+              body[key][key2]
+            )
+          );
         }
       } else if (key === 'coordinate') {
         if (body[key]) {
-          Object.keys(body[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), body[key][key2]));
+          Object.keys(body[key]).forEach(key2 =>
+            formData.append(
+              this.converSnakecase(key + '.' + key2),
+              body[key][key2]
+            )
+          );
         }
       } else if (key === 'avatar') {
-          formData.append('avatar', body[key]);
+        formData.append('avatar', body[key]);
       } else if (key === 'allergies') {
         let i = 0;
         for (const allergy of body[key]) {
@@ -225,7 +333,10 @@ export class UsersService {
   }
 
   private converSnakecase(name: string): string {
-    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
+    return name
+      .split(/(?=[A-Z])/)
+      .join('_')
+      .toLowerCase();
   }
 
   clean() {

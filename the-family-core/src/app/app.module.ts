@@ -11,20 +11,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarCommonModule, CalendarMonthModule } from 'angular-calendar';
 import { FlatpickrModule } from 'angularx-flatpickr';
-import { Module as StripeModule } from "stripe-angular";
-import {
-  GoogleApiModule, 
-  GoogleApiService, 
-  GoogleAuthService, 
-  NgGapiClientConfig, 
-  NG_GAPI_CONFIG,
-  GoogleApiConfig
-} from "ng-gapi";
+import { Module as StripeModule } from 'stripe-angular';
+import { GoogleApiModule, NgGapiClientConfig, NG_GAPI_CONFIG } from 'ng-gapi';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,10 +43,13 @@ import { FamilyCalendarComponent } from './components/family-calendar/family-cal
 import { PaymentComponent } from './components/payment/payment.component';
 import { CardComponent } from './components/payment/card/card.component';
 
-let gapiClientConfig: NgGapiClientConfig = {
-  client_id: "807097429789-hndn25nql2ps4m6u9huos61tnt404lg2.apps.googleusercontent.com",
-  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
-  scope: ["https://www.googleapis.com/auth/calendar.readonly"].join(" ")
+const gapiClientConfig: NgGapiClientConfig = {
+  client_id:
+    '807097429789-hndn25nql2ps4m6u9huos61tnt404lg2.apps.googleusercontent.com',
+  discoveryDocs: [
+    'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'
+  ],
+  scope: ['https://www.googleapis.com/auth/calendar.readonly'].join(' ')
 };
 
 @NgModule({
@@ -104,7 +100,10 @@ let gapiClientConfig: NgGapiClientConfig = {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
     CalendarCommonModule,
     CalendarMonthModule,
     FlatpickrModule.forRoot()
@@ -121,6 +120,6 @@ let gapiClientConfig: NgGapiClientConfig = {
     EditProfileComponent,
     EditUploadComponent,
     CardComponent
-  ],
+  ]
 })
-export class AppModule { }
+export class AppModule {}

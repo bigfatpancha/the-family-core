@@ -11,14 +11,13 @@ import { GenericError } from 'src/app/model/error';
   styleUrls: ['./rewards.component.scss']
 })
 export class RewardsComponent implements OnInit {
-
   state = -1;
   users: FamilyUser[];
 
   constructor(
     private usersService: UsersService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.users = this.usersService.users;
@@ -37,30 +36,35 @@ export class RewardsComponent implements OnInit {
     let user: User = new User();
     user.stars = 0;
     this.spinner.show();
-    this.usersService.doUserIdPatch(userGeneric.id, user).subscribe((res: User) => {
-      this.usersService.doGetUsersList().subscribe((res: FamilyUserListResponse) => {
+    this.usersService.doUserIdPatch(userGeneric.id, user).subscribe(
+      (res: User) => {
+        this.usersService.doGetUsersList().subscribe(
+          (res: FamilyUserListResponse) => {
+            this.spinner.hide();
+            this.users = res.results;
+            this.usersService.users = res.results;
+            alert('Redeem Successful');
+          },
+          (err: GenericError) => {
+            this.spinner.hide();
+          }
+        );
+      },
+      (err: GenericError) => {
         this.spinner.hide();
-        this.users = res.results;
-        this.usersService.users = res.results;
-        alert('Redeem Successful');
-      }, (err: GenericError) => {
-        this.spinner.hide();
-      })
-    }, (err: GenericError) => {
-      this.spinner.hide();
-      let message = 'Error: ';
-      Object.keys(err.error).forEach(key => {
-        if (Array.isArray(err.error[key])) {
-          err.error[key].forEach(msg => {
-            message += msg + ' ';
-          });
-        } else {
-          message += err.error;
-        }            
-        message += '\n';
-      });
-      alert('Something went wrong, please try again\n' + message);
-    })
+        let message = 'Error: ';
+        Object.keys(err.error).forEach(key => {
+          if (Array.isArray(err.error[key])) {
+            err.error[key].forEach(msg => {
+              message += msg + ' ';
+            });
+          } else {
+            message += err.error;
+          }
+          message += '\n';
+        });
+        alert('Something went wrong, please try again\n' + message);
+      }
+    );
   }
-
 }

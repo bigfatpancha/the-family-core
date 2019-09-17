@@ -5,8 +5,7 @@ import { GenericError } from 'src/app/model/error';
   providedIn: 'root'
 })
 export class ErrorService {
-
-  constructor() { }
+  constructor() {}
 
   showError(err: GenericError) {
     let message = 'Error: ';
@@ -17,7 +16,7 @@ export class ErrorService {
         });
       } else {
         message += err.error;
-      }            
+      }
       message += '\n';
     });
     alert('Something went wrong, please try again\n' + message);

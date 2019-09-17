@@ -8,7 +8,6 @@ import { FamilyUser } from 'src/app/model/family';
   providedIn: 'root'
 })
 export class SendbirdService implements OnDestroy {
-
   sendbird;
   user: User;
   userSendbird;
@@ -17,35 +16,46 @@ export class SendbirdService implements OnDestroy {
   private messageReceivedCallback = new Subject<string>();
   messageReceivedCallback$ = this.messageReceivedCallback.asObservable();
 
-
   onMessageReceived = (channel, message): any => {
     this.messageReceivedCallback.next(message);
-  }
+  };
 
   constructor() {
-    this.sendbird = new SendBird({appId: '24FA9059-6DA2-49AF-932A-8790F065C3E0'});
-    let ChannelHandler = new this.sendbird.ChannelHandler();
+    this.sendbird = new SendBird({
+      appId: '24FA9059-6DA2-49AF-932A-8790F065C3E0'
+    });
+    const ChannelHandler = new this.sendbird.ChannelHandler();
 
     ChannelHandler.onMessageReceived = this.onMessageReceived;
-    ChannelHandler.onUserReceivedInvitation = function(groupChannel, inviter, invitees) {};
-    ChannelHandler.onUserDeclinedInvitation = function(groupChannel, inviter, invitee) {};
+    ChannelHandler.onUserReceivedInvitation = function(
+      groupChannel,
+      inviter,
+      invitees
+    ) {};
+    ChannelHandler.onUserDeclinedInvitation = function(
+      groupChannel,
+      inviter,
+      invitee
+    ) {};
 
     // Add this channel event handler to the SendBird object.
     this.sendbird.addChannelHandler(this.HANDLER, ChannelHandler);
   }
 
   connect(user: User): Promise<any> {
-    var _sendbird = this.sendbird;
-    var _userSendbird;
+    const _sendbird = this.sendbird;
+    let _userSendbird;
     this.user = user;
     const promise = new Promise((resolve, reject) => {
       _sendbird.connect(user.sendbirdId, function(userSendbird, error) {
-      
         if (error) {
-            reject(error);
+          reject(error);
         } else {
           console.log('conectado a sendbird');
-          _sendbird.updateCurrentUserInfo(user.nickname, '', function (response, error) {
+          _sendbird.updateCurrentUserInfo(user.nickname, '', function(
+            response,
+            error
+          ) {
             if (error) {
               reject(error);
             }
@@ -53,7 +63,6 @@ export class SendbirdService implements OnDestroy {
             resolve(response);
           });
         }
-        
       });
     });
     return promise;
@@ -61,14 +70,17 @@ export class SendbirdService implements OnDestroy {
 
   startGroupChannel(name: string, ids: string[]): Promise<any> {
     ids.push(this.user.sendbirdId);
-    let params = new this.sendbird.GroupChannelParams();
+    const params = new this.sendbird.GroupChannelParams();
     params.isDistinct = false;
     params.addUserIds(ids);
     params.name = name;
     const promise = new Promise((resolve, reject) => {
-      this.sendbird.GroupChannel.createChannel(params, function(groupChannel, error) {
+      this.sendbird.GroupChannel.createChannel(params, function(
+        groupChannel,
+        error
+      ) {
         if (error) {
-            reject(error);
+          reject(error);
         }
         resolve(groupChannel);
       });
@@ -89,29 +101,29 @@ export class SendbirdService implements OnDestroy {
   }
 
   inviteUsers(users: FamilyUser[], groupChannel) {
-    var userIds = users.map((user: FamilyUser) => user.sendbirdId);
+    const userIds = users.map((user: FamilyUser) => user.sendbirdId);
 
     groupChannel.inviteWithUserIds(userIds, function(response, error) {
-        if (error) {
-          return;
-        }
+      if (error) {
+        return;
+      }
     });
   }
 
   getChannelList(userSendbirdIds: string[]): Promise<any> {
-    var channelListQuery = this.sendbird.GroupChannel.createMyGroupChannelListQuery();
+    const channelListQuery = this.sendbird.GroupChannel.createMyGroupChannelListQuery();
     channelListQuery.includeEmpty = true;
-    channelListQuery.limit = 20;    // The value of pagination limit could be set up to 100.
+    channelListQuery.limit = 20; // The value of pagination limit could be set up to 100.
     channelListQuery.userIdsFilter = userSendbirdIds;
     channelListQuery.includeEmpty = true;
-    channelListQuery.queryType = 'OR'
+    channelListQuery.queryType = 'OR';
     const promise = new Promise((resolve, reject) => {
       if (channelListQuery.hasNext) {
         channelListQuery.next(function(channelList, error) {
-            if (error) {
-              reject(error);
-            }
-            resolve(channelList);
+          if (error) {
+            reject(error);
+          }
+          resolve(channelList);
         });
       }
     });
@@ -119,7 +131,7 @@ export class SendbirdService implements OnDestroy {
   }
 
   loadPreviousMessages(groupChannel): Promise<any> {
-    var prevMessageListQuery = groupChannel.createPreviousMessageListQuery();
+    const prevMessageListQuery = groupChannel.createPreviousMessageListQuery();
     prevMessageListQuery.limit = 30;
     prevMessageListQuery.reverse = true;
     const promise = new Promise((resolve, reject) => {
@@ -141,16 +153,16 @@ export class SendbirdService implements OnDestroy {
     // In case of accepting an invitation
     groupChannel.acceptInvitation(function(response, error) {
       if (error) {
-          return;
+        return;
       }
     });
   }
-  
+
   declineInvitation() {
     // In case of declining an invitation
     this.sendbird.GroupChannel.declineInvitation(function(response, error) {
       if (error) {
-          return;
+        return;
       }
     });
   }
@@ -159,15 +171,15 @@ export class SendbirdService implements OnDestroy {
     const params = new this.sendbird.UserMessageParams();
 
     params.message = message;
-    params.pushNotificationDeliveryOption = 'default';  // Either 'default' or 'suppress' 
+    params.pushNotificationDeliveryOption = 'default'; // Either 'default' or 'suppress'
     const promise = new Promise((resolve, reject) => {
       groupChannel.sendUserMessage(params, function(message, error) {
         if (error) {
-            reject(error);
+          reject(error);
         }
         resolve(message);
       });
-    })
+    });
     return promise;
   }
 
@@ -181,17 +193,16 @@ export class SendbirdService implements OnDestroy {
     const promise = new Promise((resolve, reject) => {
       groupChannel.sendFileMessage(params, function(fileMessage, error) {
         if (error) {
-            reject(error);
+          reject(error);
         }
-        resolve(fileMessage)
+        resolve(fileMessage);
       });
     });
     return promise;
   }
-  
 
   ngOnDestroy() {
-    this.sendbird.disconnect(function(){
+    this.sendbird.disconnect(function() {
       // A current user is discconected from SendBird server.
     });
   }

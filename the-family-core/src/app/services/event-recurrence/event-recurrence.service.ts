@@ -7,7 +7,6 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
   providedIn: 'root'
 })
 export class EventRecurrenceService {
-
   dtstart: Date;
   occuring: number;
   until: Date;
@@ -17,10 +16,14 @@ export class EventRecurrenceService {
   customFrecuence: string;
   customOccuring: number;
 
-  constructor() { }
+  constructor() {}
 
-  allDatesFromRecurrence(eventList: Event[], after: Date, before: Date): Event[] {
-    let events: Event[] = [];
+  allDatesFromRecurrence(
+    eventList: Event[],
+    after: Date,
+    before: Date
+  ): Event[] {
+    const events: Event[] = [];
     eventList.forEach((event: Event) => {
       if (event.recurrence) {
         const rrule = RRule.fromString(event.recurrence);
@@ -29,8 +32,8 @@ export class EventRecurrenceService {
           events.push(event);
         } else {
           dates.forEach(date => {
-            let ev = new Event();
-            const timezone = event.timezone.description.substring(4,10);
+            const ev = new Event();
+            const timezone = event.timezone.description.substring(4, 10);
             ev.start = date.toISOString().substring(0, 19) + timezone;
             ev.end = date.toISOString().substring(0, 19) + timezone;
             ev.title = event.title;
@@ -46,16 +49,23 @@ export class EventRecurrenceService {
   }
 
   parseISOString(s): Date {
-    var b = s.split(/\D+/);
+    const b = s.split(/\D+/);
     const date = new Date(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]);
     return date;
   }
 
   rruleToRecurrence(rrule: RRule): Recurrence {
-    let recurrence: Recurrence = new Recurrence();
+    const recurrence: Recurrence = new Recurrence();
     recurrence.dtstart = rrule.options.dtstart;
-    recurrence.endingWhen = rrule.options.until || rrule.options.count ? 'On' : 'Never';
-    recurrence.recurrenceEndingDate = rrule.options.until ? new NgbDate(rrule.options.until.getFullYear(), rrule.options.until.getMonth() + 1, rrule.options.until.getDate()) : null;
+    recurrence.endingWhen =
+      rrule.options.until || rrule.options.count ? 'On' : 'Never';
+    recurrence.recurrenceEndingDate = rrule.options.until
+      ? new NgbDate(
+          rrule.options.until.getFullYear(),
+          rrule.options.until.getMonth() + 1,
+          rrule.options.until.getDate()
+        )
+      : null;
     recurrence.custom = false;
     if (this.isDaily(rrule)) {
       return this.dailyToRecurrence(rrule, recurrence);
@@ -92,7 +102,10 @@ export class EventRecurrenceService {
     return false;
   }
 
-  private WeeklyondayOfWeekToRecurrence(rrule: RRule, recurrence: Recurrence): Recurrence {
+  private WeeklyondayOfWeekToRecurrence(
+    rrule: RRule,
+    recurrence: Recurrence
+  ): Recurrence {
     recurrence.recurrence = 'WeeklyondayOfWeek';
     recurrence.occuring = rrule.options.count;
     recurrence.weekDay = rrule.options.byweekday;
@@ -106,7 +119,10 @@ export class EventRecurrenceService {
     return false;
   }
 
-  private MonthlyonthefirstToRecurrence(rrule: RRule, recurrence: Recurrence): Recurrence {
+  private MonthlyonthefirstToRecurrence(
+    rrule: RRule,
+    recurrence: Recurrence
+  ): Recurrence {
     recurrence.recurrence = 'Monthlyonthefirst';
     recurrence.occuring = rrule.options.count;
     recurrence.weekDay = rrule.options.byweekday;
@@ -117,7 +133,10 @@ export class EventRecurrenceService {
     return rrule.options.freq === 1 && !rrule.options.byweekday;
   }
 
-  private MonthlyontheToRecurrence(rrule: RRule, recurrence: Recurrence): Recurrence {
+  private MonthlyontheToRecurrence(
+    rrule: RRule,
+    recurrence: Recurrence
+  ): Recurrence {
     recurrence.recurrence = 'Monthlyonthefirst';
     recurrence.occuring = rrule.options.count;
     return recurrence;
@@ -127,7 +146,10 @@ export class EventRecurrenceService {
     return rrule.options.freq === 0 && !rrule.options.byweekday;
   }
 
-  private AnnuallyontheToRecurrence(rrule: RRule, recurrence: Recurrence): Recurrence {
+  private AnnuallyontheToRecurrence(
+    rrule: RRule,
+    recurrence: Recurrence
+  ): Recurrence {
     recurrence.recurrence = 'Annuallyonthe';
     recurrence.occuring = rrule.options.count;
     return recurrence;
@@ -135,15 +157,24 @@ export class EventRecurrenceService {
 
   private isEveryweekdayMondaytoFriday(rrule: RRule): boolean {
     if (rrule.options.freq === 1) {
-      if (rrule.options.byweekday && rrule.options.byweekday.length && rrule.options.byweekday.length === 5) {
-        const weekDays: ByWeekday[] = rrule.options.byweekday.filter((day) => day.valueOf() !== 5 && day.valueOf() !== 6);
-        return (weekDays && weekDays.length && weekDays.length === 5);
+      if (
+        rrule.options.byweekday &&
+        rrule.options.byweekday.length &&
+        rrule.options.byweekday.length === 5
+      ) {
+        const weekDays: ByWeekday[] = rrule.options.byweekday.filter(
+          day => day.valueOf() !== 5 && day.valueOf() !== 6
+        );
+        return weekDays && weekDays.length && weekDays.length === 5;
       }
     }
     return false;
   }
 
-  private EveryweekdayMondaytoFridayToRecurrence(rrule: RRule, recurrence: Recurrence): Recurrence {
+  private EveryweekdayMondaytoFridayToRecurrence(
+    rrule: RRule,
+    recurrence: Recurrence
+  ): Recurrence {
     recurrence.recurrence = 'EveryweekdayMondaytoFriday';
     recurrence.weekDay = rrule.options.byweekday;
     recurrence.occuring = rrule.options.count;
@@ -156,8 +187,8 @@ export class EventRecurrenceService {
     recurrence.customFrecuence = rrule.options.freq.valueOf();
     recurrence.customOccuring = rrule.options.count;
     if (rrule.options.byweekday) {
-      let array = [false, false, false, false, false, false, false];
-      rrule.options.byweekday.forEach((day) => {
+      const array = [false, false, false, false, false, false, false];
+      rrule.options.byweekday.forEach(day => {
         array[day.valueOf()] = true;
       });
       recurrence.activeDay = array;
@@ -182,26 +213,36 @@ export class EventRecurrenceService {
     this.activeDay = activeDay;
     this.customFrecuence = customFrecuence;
     this.customOccuring = customOccuring;
-    this.untilToDate()
-    switch(recurrence) {
-      case 'Doesnotrepeat': return this.doesNotRepeat();
-      case 'Daily': return this.dailyToRrule();
-      case 'WeeklyondayOfWeek': return this.weeklyondayOfWeekToRrule();
-      case 'Monthlyonthefirst': return this.monthlyonthefirst();
-      case 'Monthlyonthe': return this.monthlyonthe();
-      case 'Annuallyonthe': return this.annuallyonthe();
-      case 'EveryweekdayMondaytoFriday': return this.everyweekdayMondaytoFriday();
-      case 'Custom': return this.custom();
+    this.untilToDate();
+    switch (recurrence) {
+      case 'Doesnotrepeat':
+        return this.doesNotRepeat();
+      case 'Daily':
+        return this.dailyToRrule();
+      case 'WeeklyondayOfWeek':
+        return this.weeklyondayOfWeekToRrule();
+      case 'Monthlyonthefirst':
+        return this.monthlyonthefirst();
+      case 'Monthlyonthe':
+        return this.monthlyonthe();
+      case 'Annuallyonthe':
+        return this.annuallyonthe();
+      case 'EveryweekdayMondaytoFriday':
+        return this.everyweekdayMondaytoFriday();
+      case 'Custom':
+        return this.custom();
     }
   }
 
   private untilToDate() {
-    this.until = this.endingWhen !== 'Never' && this.recurrenceEndingDate ? 
-      new Date(
-        this.recurrenceEndingDate.year,
-        this.recurrenceEndingDate.month,
-        this.recurrenceEndingDate.day) :
-      null;
+    this.until =
+      this.endingWhen !== 'Never' && this.recurrenceEndingDate
+        ? new Date(
+            this.recurrenceEndingDate.year,
+            this.recurrenceEndingDate.month,
+            this.recurrenceEndingDate.day
+          )
+        : null;
   }
 
   private doesNotRepeat(): RRule {
@@ -209,9 +250,9 @@ export class EventRecurrenceService {
       freq: RRule.DAILY,
       dtstart: this.dtstart,
       count: 1
-    })
+    });
   }
-  
+
   private dailyToRrule(): RRule {
     let rule;
     if (!this.until && !this.occuring) {
@@ -248,27 +289,27 @@ export class EventRecurrenceService {
     if (!this.until && !this.occuring) {
       rule = new RRule({
         freq: RRule.WEEKLY,
-        byweekday: this.dtstart.getDay() -1,
-        dtstart: this.dtstart,
+        byweekday: this.dtstart.getDay() - 1,
+        dtstart: this.dtstart
       });
     } else if (this.until && !this.occuring) {
       rule = new RRule({
         freq: RRule.WEEKLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         dtstart: this.dtstart,
         until: this.until
       });
     } else if (!this.until && this.occuring) {
       rule = new RRule({
         freq: RRule.WEEKLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         dtstart: this.dtstart,
         count: this.occuring
       });
     } else if (this.until && this.occuring) {
       rule = new RRule({
         freq: RRule.WEEKLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         dtstart: this.dtstart,
         until: this.until,
         count: this.occuring
@@ -282,14 +323,14 @@ export class EventRecurrenceService {
     if (!this.until && !this.occuring) {
       rule = new RRule({
         freq: RRule.MONTHLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         bysetpos: 1,
-        dtstart: this.dtstart,
+        dtstart: this.dtstart
       });
     } else if (this.until && !this.occuring) {
       rule = new RRule({
         freq: RRule.MONTHLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         bysetpos: 1,
         dtstart: this.dtstart,
         until: this.until
@@ -297,7 +338,7 @@ export class EventRecurrenceService {
     } else if (!this.until && this.occuring) {
       rule = new RRule({
         freq: RRule.MONTHLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         bysetpos: 1,
         dtstart: this.dtstart,
         count: this.occuring
@@ -305,7 +346,7 @@ export class EventRecurrenceService {
     } else if (this.until && this.occuring) {
       rule = new RRule({
         freq: RRule.MONTHLY,
-        byweekday: this.dtstart.getDay() -1,
+        byweekday: this.dtstart.getDay() - 1,
         bysetpos: 1,
         dtstart: this.dtstart,
         until: this.until,
@@ -321,7 +362,7 @@ export class EventRecurrenceService {
       rule = new RRule({
         freq: RRule.MONTHLY,
         bysetpos: 1,
-        dtstart: this.dtstart,
+        dtstart: this.dtstart
       });
     } else if (this.until && !this.occuring) {
       rule = new RRule({
@@ -355,7 +396,7 @@ export class EventRecurrenceService {
       rule = new RRule({
         freq: RRule.YEARLY,
         bysetpos: 1,
-        dtstart: this.dtstart,
+        dtstart: this.dtstart
       });
     } else if (this.until && !this.occuring) {
       rule = new RRule({
@@ -389,7 +430,7 @@ export class EventRecurrenceService {
       rule = new RRule({
         freq: RRule.MONTHLY,
         byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-        dtstart: this.dtstart,
+        dtstart: this.dtstart
       });
     } else if (this.until && !this.occuring) {
       rule = new RRule({
@@ -418,36 +459,59 @@ export class EventRecurrenceService {
   }
 
   private custom(): RRule {
-    let byweekday = [];
-    if (this.activeDay[0]) { byweekday.push(RRule.MO) }
-    if (this.activeDay[1]) { byweekday.push(RRule.TU) }
-    if (this.activeDay[2]) { byweekday.push(RRule.WE) }
-    if (this.activeDay[3]) { byweekday.push(RRule.TH) }
-    if (this.activeDay[4]) { byweekday.push(RRule.FR) }
-    if (this.activeDay[5]) { byweekday.push(RRule.SA) }
-    if (this.activeDay[6]) { byweekday.push(RRule.SU) }
-    let freq;
-    switch(this.customFrecuence) {
-      case "0": freq = RRule.DAILY; break;
-      case "1": freq = RRule.WEEKLY; break;
-      case "2": freq = RRule.MONTHLY; break;
-      case "3": freq = RRule.YEARLY; break;
-      default: freq = null;
+    const byweekday = [];
+    if (this.activeDay[0]) {
+      byweekday.push(RRule.MO);
     }
-    let count = this.customOccuring;
+    if (this.activeDay[1]) {
+      byweekday.push(RRule.TU);
+    }
+    if (this.activeDay[2]) {
+      byweekday.push(RRule.WE);
+    }
+    if (this.activeDay[3]) {
+      byweekday.push(RRule.TH);
+    }
+    if (this.activeDay[4]) {
+      byweekday.push(RRule.FR);
+    }
+    if (this.activeDay[5]) {
+      byweekday.push(RRule.SA);
+    }
+    if (this.activeDay[6]) {
+      byweekday.push(RRule.SU);
+    }
+    let freq;
+    switch (this.customFrecuence) {
+      case '0':
+        freq = RRule.DAILY;
+        break;
+      case '1':
+        freq = RRule.WEEKLY;
+        break;
+      case '2':
+        freq = RRule.MONTHLY;
+        break;
+      case '3':
+        freq = RRule.YEARLY;
+        break;
+      default:
+        freq = null;
+    }
+    const count = this.customOccuring;
     if (byweekday.length > 0) {
       return new RRule({
         freq: freq,
         byweekday: byweekday,
         dtstart: this.dtstart,
         count: count
-      })
+      });
     } else {
       return new RRule({
         freq: freq,
         dtstart: this.dtstart,
         count: count
-      })
-    }  
+      });
+    }
   }
 }

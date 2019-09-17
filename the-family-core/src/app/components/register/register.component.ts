@@ -1,20 +1,39 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { RegistrationRequest, RegistrationResponse, User, SendVerifyEmail } from 'src/app/model/auth';
+import {
+  RegistrationRequest,
+  RegistrationResponse,
+  User,
+  SendVerifyEmail
+} from 'src/app/model/auth';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUserListResponse } from 'src/app/model/family';
 import { MatDialogRef, ErrorStateMatcher } from '@angular/material';
-import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormGroupDirective,
+  NgForm
+} from '@angular/forms';
 import { GenericError } from 'src/app/model/error';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
     const invalidCtrl = !!(control && control.invalid && control.parent.dirty);
-    const invalidParent = !!(control && control.parent && control.parent.invalid && control.parent.dirty);
+    const invalidParent = !!(
+      control &&
+      control.parent &&
+      control.parent.invalid &&
+      control.parent.dirty
+    );
 
-    return (invalidCtrl || invalidParent);
+    return invalidCtrl || invalidParent;
   }
 }
 
@@ -24,7 +43,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-
   @Output() onRegister = new EventEmitter<boolean>();
 
   form: FormGroup;
@@ -37,37 +55,65 @@ export class RegisterComponent implements OnInit {
     private userService: UsersService,
     private spinner: NgxSpinnerService,
     public dialogRef: MatDialogRef<RegisterComponent>
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.form = new FormGroup({
-      'username': new FormControl(null, [Validators.required]),
-      'email': new FormControl(null, [Validators.required, Validators.email]),
-      'password1': new FormControl(null, [Validators.required]),
-      'password2': new FormControl(null, [Validators.required]),
-      'firstName': new FormControl(null, [Validators.required, Validators.maxLength(30)]),
-      'middleName': new FormControl(null, [Validators.maxLength(30)]),
-      'lastName': new FormControl(null, [Validators.required, Validators.maxLength(30)]),
-      'mobileNumber': new FormControl(null, [Validators.maxLength(28)]),
-      'birthDate': new FormControl(null)
-    }, this.checkPasswords)
+    this.form = new FormGroup(
+      {
+        username: new FormControl(null, [Validators.required]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password1: new FormControl(null, [Validators.required]),
+        password2: new FormControl(null, [Validators.required]),
+        firstName: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(30)
+        ]),
+        middleName: new FormControl(null, [Validators.maxLength(30)]),
+        lastName: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(30)
+        ]),
+        mobileNumber: new FormControl(null, [Validators.maxLength(28)]),
+        birthDate: new FormControl(null)
+      },
+      this.checkPasswords
+    );
   }
 
-  get username() { return this.form.get('username'); }
-  get email() { return this.form.get('email'); }
-  get password1() { return this.form.get('password1'); }
-  get password2() { return this.form.get('password2'); }
-  get firstName() { return this.form.get('firstName'); }
-  get middleName() { return this.form.get('middleName'); }
-  get lastName() { return this.form.get('lastName'); }
-  get mobileNumber() { return this.form.get('mobileNumber'); }
-  get birthDate() { return this.form.get('birthDate'); }
+  get username() {
+    return this.form.get('username');
+  }
+  get email() {
+    return this.form.get('email');
+  }
+  get password1() {
+    return this.form.get('password1');
+  }
+  get password2() {
+    return this.form.get('password2');
+  }
+  get firstName() {
+    return this.form.get('firstName');
+  }
+  get middleName() {
+    return this.form.get('middleName');
+  }
+  get lastName() {
+    return this.form.get('lastName');
+  }
+  get mobileNumber() {
+    return this.form.get('mobileNumber');
+  }
+  get birthDate() {
+    return this.form.get('birthDate');
+  }
 
-  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-    let pass = group.controls.password1.value;
-    let confirmPass = group.controls.password2.value;
+  checkPasswords(group: FormGroup) {
+    // here we have the 'passwords' group
+    const pass = group.controls.password1.value;
+    const confirmPass = group.controls.password2.value;
 
-    return pass === confirmPass ? null : { notSame: true }     
+    return pass === confirmPass ? null : { notSame: true };
   }
 
   formatToTwoDigits(num: number): string {
@@ -95,16 +141,52 @@ export class RegisterComponent implements OnInit {
         this.body.mobileNumber = this.mobileNumber.value;
       }
       if (this.birthDate.value) {
-        this.body.birthDate = this.birthDate.value.year + '-' +
-          this.formatToTwoDigits(this.birthDate.value.month) + '-' +
+        this.body.birthDate =
+          this.birthDate.value.year +
+          '-' +
+          this.formatToTwoDigits(this.birthDate.value.month) +
+          '-' +
           this.formatToTwoDigits(this.birthDate.value.day);
       }
-      this.authService.doAuthRegistrationPost(this.body)
-      .subscribe((data: RegistrationResponse) => {
-        if (data.code && data.code === 10) {
-          this.verifyEmail();
+      this.authService.doAuthRegistrationPost(this.body).subscribe(
+        (data: RegistrationResponse) => {
+          if (data.code && data.code === 10) {
+            this.verifyEmail();
+          }
+        },
+        (err: GenericError) => {
+          this.spinner.hide();
+          let message = 'Error: ';
+          Object.keys(err.error).forEach(key => {
+            if (Array.isArray(err.error[key])) {
+              err.error[key].forEach(msg => {
+                message += msg + ' ';
+              });
+            } else {
+              message += err.error;
+            }
+            message += '\n';
+          });
+          alert('Something went wrong, please try again\n' + message);
         }
-      }, (err: GenericError) => {
+      );
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
+  verifyEmail() {
+    const body = new SendVerifyEmail();
+    body.email = this.email.value;
+    this.authService.doAuthRegistrationVerifyEmailPost(body).subscribe(
+      (res: SendVerifyEmail) => {
+        this.dialogRef.close();
+        this.spinner.hide();
+        alert(
+          'we sent you an email to verify your account.\nPlease check your email'
+        );
+      },
+      (err: GenericError) => {
         this.spinner.hide();
         let message = 'Error: ';
         Object.keys(err.error).forEach(key => {
@@ -113,64 +195,38 @@ export class RegisterComponent implements OnInit {
               message += msg + ' ';
             });
           } else {
-            message += err.error;
-          }            
+            message += err.error[key];
+          }
           message += '\n';
         });
         alert('Something went wrong, please try again\n' + message);
-      });
-    } else {
-      this.form.markAllAsTouched();
-    }    
+      }
+    );
   }
-
-  verifyEmail() {
-    let body = new SendVerifyEmail();
-    body.email = this.email.value;
-    this.authService.doAuthRegistrationVerifyEmailPost(body)
-    .subscribe((res: SendVerifyEmail) => {
-      this.dialogRef.close();
-      this.spinner.hide();
-      alert('we sent you an email to verify your account.\nPlease check your email')
-    }, (err: GenericError) => {
-      this.spinner.hide();
-      let message = 'Error: ';
-      Object.keys(err.error).forEach(key => {
-        if (Array.isArray(err.error[key])) {
-          err.error[key].forEach(msg => {
-            message += msg + ' ';
-          });
-        } else {
-          message += err.error[key];
-        }            
-        message += '\n';
-      });
-      alert('Something went wrong, please try again\n' + message);
-    })
-  }
-
 
   getUser() {
-    this.authService.doAuthUserGet()
-    .subscribe((res: User) => {
-      this.userService.user = res;
-      this.httpService.id = res.id;
-      this.getUsers();
-      
-    }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.name);
-    })
+    this.authService.doAuthUserGet().subscribe(
+      (res: User) => {
+        this.userService.user = res;
+        this.httpService.id = res.id;
+        this.getUsers();
+      },
+      (err: Error) => {
+        alert('Something went wrong, please try again ' + err.name);
+      }
+    );
   }
 
   getUsers() {
-    this.userService.doGetUsersList()
-    .subscribe( (data: FamilyUserListResponse) => {
-      this.userService.users = data.results;
-      this.onRegister.emit();
-      this.dialogRef.close();
-    }, (err: Error) => {
-      alert('Something went wrong, please try again ' + err.name);
-    });
+    this.userService.doGetUsersList().subscribe(
+      (data: FamilyUserListResponse) => {
+        this.userService.users = data.results;
+        this.onRegister.emit();
+        this.dialogRef.close();
+      },
+      (err: Error) => {
+        alert('Something went wrong, please try again ' + err.name);
+      }
+    );
   }
-
 }

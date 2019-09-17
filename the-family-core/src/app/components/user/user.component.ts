@@ -2,7 +2,11 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from 'src/app/model/auth';
 import { ActivatedRoute } from '@angular/router';
-import { UserRole, FamilyUser, FamilyUserListResponse } from 'src/app/model/family';
+import {
+  UserRole,
+  FamilyUser,
+  FamilyUserListResponse
+} from 'src/app/model/family';
 import { ContactResponse, Contact } from '../../model/contact';
 import { EventResponse, Event } from '../../model/events';
 import { DocumentResponse, Document } from '../../model/documents';
@@ -18,7 +22,6 @@ import { EditUploadComponent } from '../edit-upload/edit-upload.component';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, AfterContentInit {
-
   DOCTORS = '0';
   TEACHER = '1';
   CLASSMATE = '2';
@@ -51,7 +54,7 @@ export class UserComponent implements OnInit, AfterContentInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.dialogConfig.hasBackdrop = true;
@@ -63,30 +66,31 @@ export class UserComponent implements OnInit, AfterContentInit {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.findUser(this.id);
-   });
+    });
   }
 
   findUser(id: number) {
     this.spinner.show();
-    this.usersService.doUserIdGet(id)
-    .subscribe((data: User) => {
-      this.spinner.hide();
-      this.user = data;
-      this.isDataLoaded = true;
-      if (this.user.relationships) {
-        this.selectedRelationships = [];
-        this.user.relationships.forEach((id: number) => {
-          this.usersService.users.forEach((user: FamilyUser) => {
-            if (id === user.id) {
-              this.selectedRelationships.push(user);
-            }
+    this.usersService.doUserIdGet(id).subscribe(
+      (data: User) => {
+        this.spinner.hide();
+        this.user = data;
+        this.isDataLoaded = true;
+        if (this.user.relationships) {
+          this.selectedRelationships = [];
+          this.user.relationships.forEach((id: number) => {
+            this.usersService.users.forEach((user: FamilyUser) => {
+              if (id === user.id) {
+                this.selectedRelationships.push(user);
+              }
+            });
           });
-        });
+        }
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
       }
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
-
+    );
   }
 
   formatGender(gender: number) {
@@ -115,31 +119,45 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   getAddress1() {
-    return this.user.address && this.user.address.addressLine1 !== 'null' ? this.user.address.addressLine1 : '';
+    return this.user.address && this.user.address.addressLine1 !== 'null'
+      ? this.user.address.addressLine1
+      : '';
   }
 
   getAddress2() {
-    return this.user.address && this.user.address.addressLine2 !== 'null' ? this.user.address.addressLine2 : '';
+    return this.user.address && this.user.address.addressLine2 !== 'null'
+      ? this.user.address.addressLine2
+      : '';
   }
 
   getCity() {
-    return this.user.address && this.user.address.city !== 'null' ? this.user.address.city : '';
+    return this.user.address && this.user.address.city !== 'null'
+      ? this.user.address.city
+      : '';
   }
 
   getState() {
-    return this.user.address && this.user.address.state !== 'null' ? this.user.address.state : '';
+    return this.user.address && this.user.address.state !== 'null'
+      ? this.user.address.state
+      : '';
   }
 
   getZipcode() {
-    return this.user.address && this.user.address.zipCode !== 'null' ? this.user.address.zipCode : '';
+    return this.user.address && this.user.address.zipCode !== 'null'
+      ? this.user.address.zipCode
+      : '';
   }
 
   getPhoneNumber() {
-    return this.user.address && this.user.address.phoneNumber !== 'null' ? this.user.address.phoneNumber : '';
+    return this.user.address && this.user.address.phoneNumber !== 'null'
+      ? this.user.address.phoneNumber
+      : '';
   }
 
   getFaxNumber() {
-    return this.user.address && this.user.address.faxNumber !== 'null' ? this.user.address.faxNumber : '';
+    return this.user.address && this.user.address.faxNumber !== 'null'
+      ? this.user.address.faxNumber
+      : '';
   }
 
   getRefName() {
@@ -147,31 +165,52 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   getDriversLicenseState() {
-    return this.user.referredBy && this.user.referredBy.driversLicenseState !== 'undefined' ? this.user.referredBy.driversLicenseState : '';
+    return this.user.referredBy &&
+      this.user.referredBy.driversLicenseState !== 'undefined'
+      ? this.user.referredBy.driversLicenseState
+      : '';
   }
 
   getDriversLicenseNumber() {
-    return this.user.referredBy && this.user.referredBy.driversLicenseNumber !== 'undefined' ? this.user.referredBy.driversLicenseNumber : '';
+    return this.user.referredBy &&
+      this.user.referredBy.driversLicenseNumber !== 'undefined'
+      ? this.user.referredBy.driversLicenseNumber
+      : '';
   }
 
   getPlaceOfBirth() {
-    return this.user.referredBy && this.user.referredBy.placeOfBirth !== 'undefinde' ? this.user.referredBy.placeOfBirth : '';
+    return this.user.referredBy &&
+      this.user.referredBy.placeOfBirth !== 'undefinde'
+      ? this.user.referredBy.placeOfBirth
+      : '';
   }
 
   getSocialSecurityNumber() {
-    return this.user.referredBy && this.user.referredBy.socialSecurityNumber !== 'undefined' ? this.user.referredBy.socialSecurityNumber : '';
+    return this.user.referredBy &&
+      this.user.referredBy.socialSecurityNumber !== 'undefined'
+      ? this.user.referredBy.socialSecurityNumber
+      : '';
   }
 
   getCountryOfCitizenship() {
-    return this.user.referredBy && this.user.referredBy.countryOfCitizenship !== 'undefined' ? this.user.referredBy.countryOfCitizenship : '';
+    return this.user.referredBy &&
+      this.user.referredBy.countryOfCitizenship !== 'undefined'
+      ? this.user.referredBy.countryOfCitizenship
+      : '';
   }
 
   getPassportNumber() {
-    return this.user.referredBy && this.user.referredBy.passportNumber !== 'undefined' ? this.user.referredBy.passportNumber : '';
+    return this.user.referredBy &&
+      this.user.referredBy.passportNumber !== 'undefined'
+      ? this.user.referredBy.passportNumber
+      : '';
   }
 
   getAgencyForBackgroundCheck() {
-    return this.user.referredBy && this.user.referredBy.agencyForBackgroundCheck !== 'undefined' ? this.user.referredBy.agencyForBackgroundCheck : '';
+    return this.user.referredBy &&
+      this.user.referredBy.agencyForBackgroundCheck !== 'undefined'
+      ? this.user.referredBy.agencyForBackgroundCheck
+      : '';
   }
 
   getLocationAddress(loc) {
@@ -185,13 +224,15 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   private getContactsType(type) {
-    this.usersService.doUserIdContactTypeGet(this.id, type)
-    .subscribe((data: ContactResponse) => {
-      this.spinner.hide();
-      this.contacts = data.results;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    })
+    this.usersService.doUserIdContactTypeGet(this.id, type).subscribe(
+      (data: ContactResponse) => {
+        this.spinner.hide();
+        this.contacts = data.results;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
   }
 
   doEventType(type, state) {
@@ -201,13 +242,15 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   private getEventType(type) {
-    this.usersService.doUserIdEventByTypeGet(this.id, type)
-    .subscribe((data: EventResponse) => {
-      this.spinner.hide();
-      this.events = data.results;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
+    this.usersService.doUserIdEventByTypeGet(this.id, type).subscribe(
+      (data: EventResponse) => {
+        this.spinner.hide();
+        this.events = data.results;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
   }
 
   doDocumentType(type, state) {
@@ -217,37 +260,43 @@ export class UserComponent implements OnInit, AfterContentInit {
   }
 
   private getDocumentType(type) {
-    this.usersService.doUserIdDocumentGet(this.id, type)
-    .subscribe((data: DocumentResponse) => {
-      this.spinner.hide();
-      this.documents = data.results;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
+    this.usersService.doUserIdDocumentGet(this.id, type).subscribe(
+      (data: DocumentResponse) => {
+        this.spinner.hide();
+        this.documents = data.results;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
   }
 
   getUsers(state) {
     this.spinner.show();
-    this.usersService.doGetUsersList()
-    .subscribe((data: FamilyUserListResponse) => {
-      this.spinner.hide();
-      this.users = data.results;
-      this.state = state;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
+    this.usersService.doGetUsersList().subscribe(
+      (data: FamilyUserListResponse) => {
+        this.spinner.hide();
+        this.users = data.results;
+        this.state = state;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
   }
 
   doContacts(state) {
     this.spinner.show();
-    this.usersService.doUserIdContactGet(this.id)
-    .subscribe((data: ContactResponse) => {
-      this.spinner.hide();
-      this.contacts = data.results;
-      this.state = state;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
+    this.usersService.doUserIdContactGet(this.id).subscribe(
+      (data: ContactResponse) => {
+        this.spinner.hide();
+        this.contacts = data.results;
+        this.state = state;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
   }
 
   editUser() {
@@ -256,7 +305,12 @@ export class UserComponent implements OnInit, AfterContentInit {
     this.editRef = this.dialog.open(EditUserComponent, this.dialogConfig);
     this.editRef.afterClosed().subscribe(() => {
       this.findUser(this.user.id);
-      this.usersService.doGetUsersList().subscribe((data: FamilyUserListResponse) => this.usersService.users = data.results);
+      this.usersService
+        .doGetUsersList()
+        .subscribe(
+          (data: FamilyUserListResponse) =>
+            (this.usersService.users = data.results)
+        );
     });
   }
 
@@ -269,7 +323,10 @@ export class UserComponent implements OnInit, AfterContentInit {
       data: data,
       userId: this.user.id
     };
-    this.editUploadRef = this.dialog.open(EditUploadComponent, this.dialogConfig);
+    this.editUploadRef = this.dialog.open(
+      EditUploadComponent,
+      this.dialogConfig
+    );
     this.editUploadRef.componentInstance.onEventPut.subscribe((res: any) => {
       if (type === 0) {
         this.getEventType(res.type);
@@ -280,5 +337,4 @@ export class UserComponent implements OnInit, AfterContentInit {
       }
     });
   }
-
 }

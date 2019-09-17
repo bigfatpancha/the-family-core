@@ -20,7 +20,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   chatListOpen = false;
   converOpen = false;
-  showSelect= false;
+  showSelect = false;
   channelList: any;
   userSendbird;
   groupChannel;
@@ -55,7 +55,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   showList() {
-    let dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig();
     dialogConfig.hasBackdrop = true;
     dialogConfig.width = '70%';
     dialogConfig.height = '70%';
@@ -63,7 +63,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     const listRef = this.dialog.open(UserListSelectComponent, dialogConfig);
     listRef.componentInstance.onSelect.subscribe((res: any) => {
       this.newChat(res);
-    })
+    });
   }
 
   newChat(data: any) {
@@ -72,7 +72,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.sbService.startGroupChannel(data.name, ids).then((groupChannel: any) => {
       this.sbService.getChannelList(this.usersSendbirdIds).then((channelList) => {
         this.channelList = channelList;
-      })
+      });
     });
   }
 
@@ -96,7 +96,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.sbService.sendMessage(this.message.value, this.groupChannel).then((message) => {
         this.sbService.loadPreviousMessages(this.groupChannel).then((messages) => {
           this.messages = messages;
-        })
+        });
       });
       this.message.setValue(null);
     }
@@ -110,7 +110,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   inviteUser() {
-    let dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig();
     dialogConfig.hasBackdrop = true;
     dialogConfig.width = '70%';
     dialogConfig.height = '70%';
@@ -118,16 +118,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     const listRef = this.dialog.open(UserListSelectComponent, dialogConfig);
     listRef.componentInstance.onSelect.subscribe((data: any) => {
       this.sbService.inviteUsers(data.users, this.groupChannel);
-    })
+    });
   }
 
   sendFile(event) {
-    console.log(event)
     if (event.target.files.length > 0) {
       this.sbService.sendFileMessage(event.target.files[0], this.groupChannel).then((message) => {
         this.sbService.loadPreviousMessages(this.groupChannel).then((messages) => {
           this.messages = messages;
-        })
+        });
       });
     }
   }
@@ -141,11 +140,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.converOpen = !this.converOpen;
   }
 
-  closeChat(){
+  closeChat() {
     this.chatListOpen = !this.chatListOpen;
   }
 
-  converClose(){
+  converClose() {
     this.converOpen = !this.converOpen;
   }
 

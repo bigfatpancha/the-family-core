@@ -14,9 +14,8 @@ export class AppComponent implements OnInit {
   constructor(private usersService: UsersService) {}
 
   ngOnInit() {
-    this.usersService.userUpdatedCallback$.subscribe((user: User) => { 
+    this.usersService.userUpdatedCallback$.subscribe((user: User) => {
       this.user = user;
-    })
+    });
   }
-
 }

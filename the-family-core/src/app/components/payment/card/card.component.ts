@@ -8,8 +8,7 @@ import { MatDialogRef } from '@angular/material';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent {
-
-  private publishableKey: string = 'pk_test_FvGMuKVhs6K3jLI3RqWEnvgp00WkmXYTVt';
+  private publishableKey = 'pk_test_FvGMuKVhs6K3jLI3RqWEnvgp00WkmXYTVt';
   onToken: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
@@ -18,24 +17,23 @@ export class CardComponent {
   ) {
     this.stripeScriptTag.setPublishableKey(this.publishableKey);
   }
- 
+
   onStripeInvalid(error: Error) {
     console.log('Validation Error', error);
     alert('Invalid card. ' + error.message);
   }
- 
+
   setStripeToken(token: StripeToken) {
     this.onToken.emit(token);
     this.dialogRef.close();
   }
- 
+
   setStripeSource(source: StripeSource) {
     console.log('Stripe source', source);
   }
- 
+
   onStripeError(error: Error) {
     console.error('Stripe error', error);
     alert('Error submiting card. ' + error.message);
   }
-
 }

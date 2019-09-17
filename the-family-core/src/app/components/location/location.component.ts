@@ -1,7 +1,12 @@
-import { Component, OnInit, AfterContentInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser, Coordinate } from 'src/app/model/family';
-import { AgmMap, LatLngBounds, LatLng } from '@agm/core';
+import { AgmMap } from '@agm/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,21 +15,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('mapa', {static: false}) agmMap: AgmMap;
+  @ViewChild('mapa', { static: false }) agmMap: AgmMap;
 
   openSidebar = true;
   state = -1;
   users: FamilyUser[];
   userSelected: FamilyUser;
 
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  lat = 51.678418;
+  lng = 7.809007;
 
-  constructor(
-    private usersService: UsersService,
-    private router: Router
-  ) {
+  constructor(private usersService: UsersService, private router: Router) {
     this.userSelected = new FamilyUser();
     this.userSelected.coordinate = new Coordinate();
     this.userSelected.coordinate.latitude = 0;
@@ -32,7 +33,9 @@ export class LocationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.users = this.usersService.users.filter((user) => user.coordinate !== null);
+    this.users = this.usersService.users.filter(
+      user => user.coordinate !== null
+    );
     this.selectAll();
   }
 
@@ -62,20 +65,19 @@ export class LocationComponent implements OnInit, AfterViewInit {
 
   resizeIcon(url: string) {
     return {
-      url: url, 
+      url: url,
       scaledSize: {
         height: 40,
         width: 20
       }
-    }
+    };
   }
 
-  closeSidebar(){
+  closeSidebar() {
     this.openSidebar = !this.openSidebar;
   }
 
   goToUser(id: number) {
     this.router.navigate(['/user', id]);
   }
-
 }

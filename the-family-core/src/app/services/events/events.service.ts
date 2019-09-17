@@ -9,19 +9,22 @@ import { Routes } from '../config/routes-enum';
   providedIn: 'root'
 })
 export class EventsService {
-
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http_service: HttpService) {
-    this.headers = this.headers.set('accept', 'application/json')
-                               .set('Content-Type', 'application/json');
+    this.headers = this.headers
+      .set('accept', 'application/json')
+      .set('Content-Type', 'application/json');
   }
 
   doEventsGet(date?: string, type?: string): Observable<EventResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const params = new HttpParams();
     if (date) {
-      params.set('date', date)
+      params.set('date', date);
     }
     if (type) {
       params.set('type', type);
@@ -29,76 +32,106 @@ export class EventsService {
     const options = {
       headers: headers,
       params: params
-    }
+    };
     return this.http_service.doGet(Routes.EVENTS, options);
   }
 
-  doEventsCalendarGet(after: string, before: string): Observable<EventResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key );
-    const params = new HttpParams().set('date_before', before)
-                                    .set('date_after', after);
+  doEventsCalendarGet(
+    after: string,
+    before: string
+  ): Observable<EventResponse> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
+    const params = new HttpParams()
+      .set('date_before', before)
+      .set('date_after', after);
     const options = {
       headers: headers,
       params: params
-    }
+    };
     return this.http_service.doGet(Routes.EVENTS, options);
   }
 
   doEventPost(event: Event): Observable<Event> {
-    let headers = new HttpHeaders()
-          .set('accept', 'application/json')
-          .set('Authorization', 'Token ' + this.http_service.key);
+    const headers = new HttpHeaders()
+      .set('accept', 'application/json')
+      .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
     };
-    return this.http_service.doPost(Routes.EVENTS, this.getFormData(event), options);
+    return this.http_service.doPost(
+      Routes.EVENTS,
+      this.getFormData(event),
+      options
+    );
   }
 
   private converSnakecase(name: string): string {
-    return name.split(/(?=[A-Z])/).join('_').toLowerCase();
+    return name
+      .split(/(?=[A-Z])/)
+      .join('_')
+      .toLowerCase();
   }
 
   doEventCountGet(date: string, type: string): Observable<EventResponse> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const params = new HttpParams().set('date', date).set('type', type);
     const options = {
       headers: headers,
       params: params
-    }
+    };
     return this.http_service.doGet(Routes.EVENTS_COUNT, options);
   }
 
   doEventIdGet(id: number): Observable<Event> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doGet(Routes.EVENTS + id, options);
   }
 
-  doEventIdPut(id:number, event: Event): Observable<Event> {
-    let headers = new HttpHeaders()
-          .set('accept', 'application/json')
-          .set('Authorization', 'Token ' + this.http_service.key);
+  doEventIdPut(id: number, event: Event): Observable<Event> {
+    const headers = new HttpHeaders()
+      .set('accept', 'application/json')
+      .set('Authorization', 'Token ' + this.http_service.key);
     const options = {
       headers: headers
-    }
-    return this.http_service.doPut(Routes.EVENTS + id + '/', this.getFormData(event), options);
+    };
+    return this.http_service.doPut(
+      Routes.EVENTS + id + '/',
+      this.getFormData(event),
+      options
+    );
   }
 
-  doEventIdPatch(id:number, event: Event): Observable<Event> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+  doEventIdPatch(id: number, event: Event): Observable<Event> {
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doPatch(Routes.EVENTS + id, event, options);
   }
 
   doEventIdDelete(id: number): Observable<any> {
-    const headers = this.headers.set('Authorization', 'Token ' + this.http_service.key);
+    const headers = this.headers.set(
+      'Authorization',
+      'Token ' + this.http_service.key
+    );
     const options = {
       headers: headers
-    }
+    };
     return this.http_service.doDelete(Routes.EVENTS + id + '/', options);
   }
 
@@ -106,7 +139,12 @@ export class EventsService {
     const formData = new FormData();
     Object.keys(event).forEach(key => {
       if (key === 'address') {
-        Object.keys(event[key]).forEach(key2 => formData.append(this.converSnakecase(key + '.' + key2), event[key][key2]));
+        Object.keys(event[key]).forEach(key2 =>
+          formData.append(
+            this.converSnakecase(key + '.' + key2),
+            event[key][key2]
+          )
+        );
       } else if (key === 'attachments') {
         let i = 0;
         for (const attachment of event[key]) {
@@ -123,5 +161,4 @@ export class EventsService {
     });
     return formData;
   }
-
 }

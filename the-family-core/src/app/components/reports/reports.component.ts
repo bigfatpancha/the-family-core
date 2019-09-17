@@ -14,7 +14,6 @@ import { GenericError } from 'src/app/model/error';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-  
   state = -1;
   tipeReport = 'events';
   users: FamilyUser[];
@@ -26,22 +25,25 @@ export class ReportsComponent implements OnInit {
     private eventsService: EventsService,
     private spinner: NgxSpinnerService,
     private documentsService: DocumentsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.users = this.usersService.users;
     this.spinner.show();
-    this.eventsService.doEventsGet()
-    .subscribe((res: EventResponse) => {
-      this.spinner.hide();
-      this.events = res.results;
-    }, (err: GenericError) => {
-      this.spinner.hide();
-    });
-    this.documentsService.doDocumentsGet()
-    .subscribe((res: DocumentResponse) => {
-      this.documents = res.results;
-    })
+    this.eventsService.doEventsGet().subscribe(
+      (res: EventResponse) => {
+        this.spinner.hide();
+        this.events = res.results;
+      },
+      (err: GenericError) => {
+        this.spinner.hide();
+      }
+    );
+    this.documentsService
+      .doDocumentsGet()
+      .subscribe((res: DocumentResponse) => {
+        this.documents = res.results;
+      });
   }
 
   formatDate(start: string) {
@@ -49,13 +51,19 @@ export class ReportsComponent implements OnInit {
   }
 
   hideEvent(event: Event) {
-    const memberFound = event.familyMembers.find((mem: number) => mem === this.state);
-    return this.state !== -1 && (memberFound === undefined && event.lead !== this.state);
+    const memberFound = event.familyMembers.find(
+      (mem: number) => mem === this.state
+    );
+    return (
+      this.state !== -1 &&
+      (memberFound === undefined && event.lead !== this.state)
+    );
   }
 
   hideDocument(doc: Document) {
-    const memberFound = doc.familyMembers.find((mem: number) => mem === this.state);
+    const memberFound = doc.familyMembers.find(
+      (mem: number) => mem === this.state
+    );
     return this.state !== -1 && memberFound === undefined;
   }
-
 }

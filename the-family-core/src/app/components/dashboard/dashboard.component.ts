@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from '../../model/auth';
@@ -13,11 +13,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { GenericError } from 'src/app/model/error';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SubscriptionService, PLAN } from 'src/app/services/subscription/subscription.service';
-import { Subscription, SubscriptionRequest } from 'src/app/model/subscription';
+import { SubscriptionRequest, Subscription } from 'src/app/model/subscription';
 import { CardComponent } from '../payment/card/card.component';
 import { StripeToken } from 'stripe-angular';
 
@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   editRef: MatDialogRef<EditProfileComponent>;
   cardRef: MatDialogRef<CardComponent>;
   dialogConfig = new MatDialogConfig();
-  
+
   form = new FormControl();
   options: FamilyUser[] = [];
   filteredOptions: Observable<FamilyUser[]>;
@@ -142,30 +142,29 @@ export class DashboardComponent implements OnInit {
   openLogin() {
     if (!this.isLogged) {
       this.showLogin = !this.showLogin;
-	    this.dialogConfig.width = 'auto';
+      this.dialogConfig.width = 'auto';
       this.loginRef = this.dialog.open(LoginComponent, this.dialogConfig);
       this.loginRef.componentInstance.onLogin.subscribe(() => {
-        // this.subscriptionService.doSubscriptionGet().subscribe(
-        //   (sub: Subscription) => {
-        //     if (sub.status === 'active') {
+        this.subscriptionService.doSubscriptionGet().subscribe(
+          (sub: Subscription) => {
+            if (sub.status === 'active') {
               this.getUsers();
-            // } else {
-            //   alert('You are not subscribed.');
-            //   this.dialogConfig.width = '60%';
-            //   this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
-            //   this.subscribe();
-            // }
-          // }
-        // )
-        
+            } else {
+              alert('You are not subscribed.');
+              this.dialogConfig.width = '60%';
+              this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
+              this.subscribe();
+            }
+          }
+        );
       });
     }
   }
 
   private subscribe() {
     this.cardRef.componentInstance.onToken.subscribe((token: StripeToken) => {
-      this.spinner.show()
-      let body: SubscriptionRequest = new SubscriptionRequest(token.id, PLAN);
+      this.spinner.show();
+      const body: SubscriptionRequest = new SubscriptionRequest(token.id, PLAN);
       this.subscriptionService.doSubscriptionPost(body).subscribe(
         (data: SubscriptionRequest) => {
           this.spinner.hide();
@@ -180,7 +179,7 @@ export class DashboardComponent implements OnInit {
             Object.keys(err.error).forEach((key: string) => {
               message += key + ': ' + err.error[key][0] + '.\n';
             });
-          }          
+          }
           alert(message);
         }
       );
@@ -197,7 +196,7 @@ export class DashboardComponent implements OnInit {
   openRegister() {
     if (!this.isLogged) {
       this.showRegister = !this.showRegister;
-	    this.dialogConfig.width = '70%';
+      this.dialogConfig.width = '70%';
       this.registerRef = this.dialog.open(RegisterComponent, this.dialogConfig);
       this.registerRef.componentInstance.onRegister.subscribe(() => this.onRegister());
     }
@@ -260,7 +259,7 @@ export class DashboardComponent implements OnInit {
       this.users = null;
     }, (err: GenericError) => {
       this.spinner.hide();
-    })
+    });
   }
 
 }

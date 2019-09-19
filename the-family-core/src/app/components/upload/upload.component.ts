@@ -505,4 +505,8 @@ export class UploadComponent implements OnInit {
       }
     );
   }
+
+  onCancel() {
+    this.dialogRef.close();
+  }
 }

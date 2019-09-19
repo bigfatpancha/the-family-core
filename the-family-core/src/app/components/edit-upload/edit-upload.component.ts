@@ -675,4 +675,8 @@ export class EditUploadComponent implements OnInit {
         });
     }
   }
+
+  onCancel() {
+    this.dialogRef.close();
+  }
 }

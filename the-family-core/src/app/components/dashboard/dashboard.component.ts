@@ -145,18 +145,18 @@ export class DashboardComponent implements OnInit {
       this.dialogConfig.width = 'auto';
       this.loginRef = this.dialog.open(LoginComponent, this.dialogConfig);
       this.loginRef.componentInstance.onLogin.subscribe(() => {
-        this.subscriptionService.doSubscriptionGet().subscribe(
-          (sub: Subscription) => {
-            if (sub.status === 'active') {
+        // this.subscriptionService.doSubscriptionGet().subscribe(
+        //   (sub: Subscription) => {
+        //     if (sub.status === 'active') {
               this.getUsers();
-            } else {
-              alert('You are not subscribed.');
-              this.dialogConfig.width = '60%';
-              this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
-              this.subscribe();
-            }
-          }
-        );
+        //     } else {
+        //       alert('You are not subscribed.');
+        //       this.dialogConfig.width = '60%';
+        //       this.cardRef = this.dialog.open(CardComponent, this.dialogConfig);
+        //       this.subscribe();
+        //     }
+        //   }
+        // );
       });
     }
   }

@@ -132,3 +132,11 @@ export class RegistrationResponse {
     detail: string;
     code: number;
 }
+
+export class PasswordResetRequest {
+    email: string;
+
+    constructor(email: string) {
+        this.email = email;
+    }
+}

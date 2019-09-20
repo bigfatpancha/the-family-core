@@ -4,7 +4,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import {
   LoginRequest,
   LoginResponse,
-  SendVerifyEmail
+  SendVerifyEmail,
+  PasswordResetRequest
 } from 'src/app/model/auth';
 import { UsersService } from 'src/app/services/users/users.service';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
   body: LoginRequest = new LoginRequest();
   loginForm: FormGroup;
   validateEmail = false;
+  showEmail = false;
 
   @Output() onLogin = new EventEmitter<boolean>();
 
@@ -137,6 +139,34 @@ export class LoginComponent implements OnInit {
           alert('Something went wrong, please try again\n' + message);
         }
       );
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
+  }
+
+  resetPassword() {
+    if (this.email.value) {
+      this.spinner.show();
+      const body = new PasswordResetRequest(this.email.value);
+      this.authService.doAuthPasswordResetPost(body).subscribe(() => {
+        this.dialogRef.close();
+        this.spinner.hide();
+        alert('email sent!');
+      }, (err: GenericError) => {
+        this.spinner.hide();
+        let message = 'Error: ';
+        Object.keys(err.error).forEach(key => {
+          if (Array.isArray(err.error[key])) {
+            err.error[key].forEach(msg => {
+              message += msg + ' ';
+            });
+          } else {
+            message += err.error[key];
+          }
+          message += '\n';
+        });
+        alert('Something went wrong, please try again\n' + message);
+      });
     } else {
       this.loginForm.markAllAsTouched();
     }

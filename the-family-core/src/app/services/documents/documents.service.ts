@@ -94,6 +94,9 @@ export class DocumentsService {
           formData.append('attachment_' + i + '.file', attachment.file);
           i++;
         }
+        if (body[key].length === 0) {
+          formData.append('attachment_0.file', null);
+        }
       } else if (key === 'familyMembers') {
         for (const member of body[key]) {
           formData.append('family_members', member.toString());

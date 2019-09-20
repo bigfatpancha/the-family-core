@@ -610,9 +610,7 @@ export class EditUploadComponent implements OnInit {
     } else {
       document.familyMembers = this.data.data.familyMembers;
     }
-    if (this.attachments && this.attachments.length > 0) {
-      document.attachments = this.attachments;
-    }
+    document.attachments = this.attachments;
     this.documentsService
       .doDocumentIdPatch(this.data.data.id, document, this.data.userId)
       .subscribe(

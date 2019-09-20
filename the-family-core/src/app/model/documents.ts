@@ -18,12 +18,12 @@ export class Document {
 
     constructor(form: FormGroup) {
         this.title = form.get('title').value;
-        if (form.get('detail').dirty) {
+        if (form.get('detail').value) {
           this.description = form.get('detail').value;
         }
         this.type = form.get('type').value.id;
         this.notifyTeam = form.get('notifyTeam').value;
-        if (form.get('notes').dirty) {
+        if (form.get('notes').value) {
             this.notes = form.get('notes').value;
         }
     }

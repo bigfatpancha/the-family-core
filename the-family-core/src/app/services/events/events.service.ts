@@ -108,7 +108,7 @@ export class EventsService {
     };
     return this.http_service.doPut(
       Routes.EVENTS + id + '/',
-      this.getFormData(event),
+      this.getFormDataPut(event),
       options
     );
   }
@@ -133,6 +133,43 @@ export class EventsService {
       headers: headers
     };
     return this.http_service.doDelete(Routes.EVENTS + id + '/', options);
+  }
+
+  getFormDataPut(event: Event): FormData {
+    const formData = new FormData();
+    Object.keys(event).forEach(key => {
+      if (key === 'address') {
+        Object.keys(event[key]).forEach(key2 =>
+          formData.append(
+            this.converSnakecase(key + '.' + key2),
+            event[key][key2]
+          )
+        );
+      } else if (key === 'attachments') {
+        let i = 0;
+        let ids = '';
+        for (const attachment of event[key]) {
+          if (attachment.id) {
+            ids += attachment.id + ',';
+          } else {
+            formData.append('attachment_' + i + '.file', attachment.file);
+            i++;
+          }
+        }
+        if (event[key].length === 0) {
+          formData.append('attachments', '');
+        } else {
+          formData.append('attachments', ids.substring(0, ids.length - 1));
+        }
+      } else if (key === 'familyMembers') {
+        for (const member of event[key]) {
+          formData.append('family_members', member.toString());
+        }
+      } else {
+        formData.append(this.converSnakecase(key), event[key]);
+      }
+    });
+    return formData;
   }
 
   getFormData(event: Event): FormData {

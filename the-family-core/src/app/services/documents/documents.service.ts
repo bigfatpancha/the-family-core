@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Observable } from 'rxjs';
-import { DocumentResponse, Document } from 'src/app/model/documents';
+import { DocumentResponse, Document, Attachment } from 'src/app/model/documents';
 import { Routes } from '../config/routes-enum';
 
 @Injectable({
@@ -65,7 +65,7 @@ export class DocumentsService {
     };
     return this.http_service.doPatch(
       Routes.FAMILY_USERS + userId + '/documents/' + documentId + '/',
-      this.getFormData(body),
+      this.getFormDataPatch(body),
       options
     );
   }
@@ -84,6 +84,36 @@ export class DocumentsService {
     );
   }
 
+  getFormDataPatch(body: Document): FormData {
+    const formData = new FormData();
+    Object.keys(body).forEach(key => {
+      if (key === 'attachments') {
+        let i = 0;
+        let ids = '';
+        for (const attachment of body[key]) {
+          if (attachment.id) {
+            ids += attachment.id + ',';
+          } else {
+            formData.append('attachment_' + i + '.file', attachment.file);
+            i++;
+          }
+        }
+        if (body[key].length === 0) {
+          formData.append('attachments', '');
+        } else {
+          formData.append('attachments', ids.substring(0, ids.length - 1));
+        }
+      } else if (key === 'familyMembers') {
+        for (const member of body[key]) {
+          formData.append('family_members', member.toString());
+        }
+      } else {
+        formData.append(this.converSnakecase(key), body[key]);
+      }
+    });
+    return formData;
+  }
+
   getFormData(body: Document): FormData {
     const formData = new FormData();
     Object.keys(body).forEach(key => {
@@ -93,9 +123,6 @@ export class DocumentsService {
           console.log(attachment.file);
           formData.append('attachment_' + i + '.file', attachment.file);
           i++;
-        }
-        if (body[key].length === 0) {
-          formData.append('attachment_0.file', null);
         }
       } else if (key === 'familyMembers') {
         for (const member of body[key]) {

@@ -6,7 +6,7 @@ import { Event, EventAttachment, Recurrence } from '../../model/events';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FamilyUser } from 'src/app/model/family';
 import { Contact } from 'src/app/model/contact';
-import { Document } from 'src/app/model/documents';
+import { Document, Attachment } from 'src/app/model/documents';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -158,6 +158,10 @@ export class EditUploadComponent implements OnInit {
       this.data.data.attachments.forEach(attachment =>
         this.attachments.push(attachment)
       );
+    }
+    if (this.type.value.type === 2 && this.data.data.avatar) {
+      this.attachments = [];
+      this.attachments.push(this.data.data.avatar);
     }
 
     this.eventForm
@@ -587,9 +591,12 @@ export class EditUploadComponent implements OnInit {
       );
       event.recurrence = recurrence ? recurrence.toString() : null;
     }
-    if (this.attachments && this.attachments.length > 0) {
+    if (this.attachments.length > 0) {
+      event.attachments = this.compareAttachments();
+    } else {
       event.attachments = this.attachments;
     }
+    event.attachments = this.attachments;
     this.eventsService.doEventIdPut(this.data.data.id, event).subscribe(
       (res: Event) => {
         this.spinner.hide();
@@ -610,7 +617,11 @@ export class EditUploadComponent implements OnInit {
     } else {
       document.familyMembers = this.data.data.familyMembers;
     }
-    document.attachments = this.attachments;
+    if (this.attachments.length > 0) {
+      document.attachments = this.compareAttachments();
+    } else {
+      document.attachments = this.attachments;
+    }
     this.documentsService
       .doDocumentIdPatch(this.data.data.id, document, this.data.userId)
       .subscribe(
@@ -633,9 +644,12 @@ export class EditUploadComponent implements OnInit {
     } else {
       contact.familyMembers = this.data.data.familyMembers;
     }
-    if (this.attachments && this.attachments.length > 0) {
-      contact.avatar = this.attachments[0].file;
+    if (this.attachments.length > 0) {
+      contact.avatar = this.compareAttachments()[0].file;
+    } else {
+      contact.avatar = null;
     }
+    console.log('contact', contact.avatar);
     this.contactsService
       .doContactIdPut(this.data.data.id, contact, this.data.userId)
       .subscribe(
@@ -649,6 +663,22 @@ export class EditUploadComponent implements OnInit {
           this.errorService.showError(err);
         }
       );
+  }
+
+  compareAttachments() {
+    const attachments = [];
+    this.attachments.forEach(attachmentChange => {
+      if (attachmentChange.id) {
+        this.data.data.attachments.forEach((attachmentOriginal: Attachment) => {
+          if (attachmentChange.id === attachmentOriginal.id) {
+            attachments.push(attachmentChange);
+          }
+        });
+      } else {
+        attachments.push(attachmentChange);
+      }
+    });
+    return attachments;
   }
 
   delete() {
@@ -676,5 +706,15 @@ export class EditUploadComponent implements OnInit {
 
   onCancel() {
     this.dialogRef.close();
+  }
+
+  getFileName(file) {
+    if (file) {
+      if (file.file) {
+        return file.file.name ? file.file.name : file.file;
+      }
+      return file;
+    }
+    return '';
   }
 }

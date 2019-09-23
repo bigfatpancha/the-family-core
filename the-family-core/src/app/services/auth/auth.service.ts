@@ -6,7 +6,8 @@ import {
   LoginRequest,
   RegistrationRequest,
   RegistrationResponse,
-  SendVerifyEmail
+  SendVerifyEmail,
+  PasswordResetRequest
 } from '../../model/auth';
 import { Routes } from '../config/routes-enum';
 import { Observable } from 'rxjs';
@@ -73,5 +74,12 @@ export class AuthService {
       headers: headers
     };
     return this.httpService.doPost(Routes.AUTH_LOGOUT, {}, options);
+  }
+
+  doAuthPasswordResetPost(body: PasswordResetRequest): Observable<any> {
+    const options = {
+      headers: this.headers
+    };
+    return this.httpService.doPost(Routes.AUTH_PASSWORD_RESET, body, options);
   }
 }

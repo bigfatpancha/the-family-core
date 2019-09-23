@@ -4,6 +4,7 @@ export enum Routes {
     AUTH_USER = 'auth/user/',
     AUTH_REGISTRATION = 'auth/registration/',
     AUTH_REGISTRATION_VERIFY_EMAIL = 'auth/registration/send-verify-email/',
+    AUTH_PASSWORD_RESET = 'auth/password/reset/',
     USERS = 'users/',
     FAMILY_USERS = 'family/users/',
     CONTACTS = 'contacts/',

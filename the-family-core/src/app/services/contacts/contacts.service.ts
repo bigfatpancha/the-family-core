@@ -70,7 +70,7 @@ export class ContactsService {
     };
     return this.http_service.doPut(
       Routes.FAMILY_USERS + userId + '/contacts/' + contactId + '/',
-      this.getFormData(body),
+      this.getFormDatPut(body),
       options
     );
   }
@@ -98,6 +98,34 @@ export class ContactsService {
       Routes.FAMILY_USERS + userId + '/contacts/' + contactId + '/',
       options
     );
+  }
+
+  getFormDatPut(body: Contact): FormData {
+    const formData = new FormData();
+    Object.keys(body).forEach(key => {
+      if (key === 'address') {
+        Object.keys(body[key]).forEach(key2 =>
+          formData.append(
+            this.converSnakecase(key + '.' + key2),
+            body[key][key2]
+          )
+        );
+      } else if (key === 'familyMembers') {
+        for (const member of body[key]) {
+          formData.append('family_members', member.toString());
+        }
+      } else if (key === 'avatar') {
+        if (body[key] !== null) {
+          console.log('body[key]', body[key]);
+          formData.append(this.converSnakecase(key), body[key]);
+        } else {
+          formData.append(this.converSnakecase(key), '');
+        }
+      } else {
+        formData.append(this.converSnakecase(key), body[key]);
+      }
+    });
+    return formData;
   }
 
   private getFormData(body: Contact): FormData {

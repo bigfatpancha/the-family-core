@@ -1,3 +1,119 @@
-<p>
-  dashboard works!
-</p>
+<header class="navbar navbar-expand-lg navbar-light bg-light header-dashboard">
+  <div class="container">
+    <a class="navbar-brand header-dashboard__brand">THE FAMILY CORE <span>Dashboard</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse mr-auto justify-content-end profile" id="navbarTogglerDemo02">
+      <a class="profile__link cursor-pointer first" *ngIf="isLogged" (click)="openEdit()">Edit Profile</a>
+      <div class="d-inline-block mr-3 profile__user cursor-pointer" (click)="openLogin()">
+        <img [src]="avatar()" alt="icono de perfil" class="mr-3" [ngClass]="{'rounded': isLogged}">
+        <span *ngIf="isLogged && user">{{user.nickname}}</span>
+        <span *ngIf="!isLogged">Login</span>
+      </div>
+      <a class="profile__link cursor-pointer" *ngIf="isLogged" (click)="logout()">Log out</a>
+      <a class="profile__link cursor-pointer" *ngIf="!isLogged" (click)="openRegister()">Register</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="col-lg-10 offset-lg-1">
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mt-3">
+        <div class="input-group input-search">
+          <div class="input-group-prepend">
+            <span class="input-group-text cursor-pointer" id="basic-addon1"><i class="icon-lupa"></i></span>
+          </div>
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Search..." aria-label="Search" matInput [formControl]="form" [matAutocomplete]="auto" aria-describedby="basic-addon1">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option.nickname}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <section class="row mt-4">
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToUsers()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/user.access.webp" alt="">
+        </div>
+        <span class="options__text">Users/Access</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="openUpload()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/upload.webp" alt="">
+        </div>
+        <span class="options__text">Upload</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToLocation()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/location.webp" alt="">
+        </div>
+        <span class="options__text">Location</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToRewards()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/rewards.webp" alt="">
+        </div>
+        <span class="options__text">Rewards</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToReports()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/reports.webp" alt="">
+        </div>
+        <span class="options__text">Reports</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToPayments()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/payments.webp" alt="">
+        </div>
+        <span class="options__text">Payment</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/resources.webp" alt="">
+        </div>
+        <span class="options__text">Resources</span>
+      </div>
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" (click)="goToCalendar()">
+        <div class="options__bloque mb-1">
+          <img src="../../../assets/img/calendar.webp" alt="">
+        </div>
+        <span class="options__text">Calendar</span>
+      </div>
+
+    </section>
+
+    <section class="row">
+
+      <div class="col-6 col-sm-4 col-md-3 mb-4 options" *ngFor="let user of users">
+        <div class="users__bloque mb-1" [routerLink]="['/user', user.id]">
+          <img class="users__img" src="{{user.avatar}}" alt="avatar">
+        </div>
+        <span class="options__text">{{user.nickname}}</span>
+      </div>
+
+    </section>
+
+
+  </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
+</main>

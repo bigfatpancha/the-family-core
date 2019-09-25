@@ -1,1 +1,392 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+@font-face {
+  font-family: avenirBlack;
+  src: url(./fonts/AvenirLTStd-Black.otf);
+}
+
+@font-face {
+  font-family: avenirBook;
+  src: url(./fonts/AvenirLTStd-Book.otf);
+}
+
+@font-face {
+  font-family: avenirHeavy;
+  src: url(./fonts/AvenirLTStd-Heavy.otf);
+}
+
+@font-face {
+  font-family: avenirLight;
+  src: url(./fonts/AvenirLTStd-Light.otf);
+}
+
+@font-face {
+  font-family: avenirMedium;
+  src: url(./fonts/AvenirLTStd-Medium.otf);
+}
+
+@font-face {
+  font-family: avenirRoman;
+  src: url(./fonts/AvenirLTStd-Roman.otf);
+}
+
+@font-face {
+  font-family: sfBold;
+  src: url(./fonts/SF-Pro-Text-Bold.otf);
+}
+
+@font-face {
+  font-family: sfHeavy;
+  src: url(./fonts/SF-Pro-Text-Heavy.otf);
+}
+
+@font-face {
+  font-family: sfLight;
+  src: url(./fonts/SF-Pro-Text-Light.otf);
+}
+
+@font-face {
+  font-family: sfMedium;
+  src: url(./fonts/SF-Pro-Text-Medium.otf);
+}
+
+@font-face {
+  font-family: sfRegular;
+  src: url(./fonts/SF-Pro-Text-Regular.otf);
+}
+
+@font-face {
+  font-family: sfSemibold;
+  src: url(./fonts/SF-Pro-Text-Semibold.otf);
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.form_family {
+  &.border-bottom {
+    border-bottom: 2px solid #007aff !important;
+
+    &:last-child {
+      border: none !important;
+    }
+  }
+
+  .form-group {
+
+    label {
+      font-size: 0.8rem;
+      font-family: sfBold;
+      color: #001426;
+    }
+
+    .form-control {
+      font-size: 0.85rem;
+      color: #001426;
+      border: 1.5px solid #007aff;
+
+      &.custom-select {
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background: none;
+
+        &.select {
+          cursor: pointer;
+        }
+      }
+
+      &.btn-day {
+        width: auto;
+        margin-right: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+
+        &.active {
+          background: #007aff;
+          color: #fff;
+        }
+      }
+    }
+
+    &.days {
+      display: inline-block;
+
+      @media screen and (min-width: 768px) {
+        margin-left: 40px;
+      }
+    }
+
+    &.button-save {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    p {
+      color: #007aff;
+      font-family: sfBold;
+      font-size: 0.85rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .opcion-selected {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+
+      >span {
+        color: #007aff;
+        font-family: sfBold;
+      }
+
+      a {
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+    }
+
+    .custom-checkbox label {
+      font-family: sfBold;
+      color: #007aff;
+    }
+  }
+
+}
+
+.form-inline .form-group {
+  margin-bottom: 1rem !important;
+}
+
+.input-group>.form-control:not(:first-child) {
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.input-group .input-group-append .icon-calendar {
+  border: 1.5px solid #007aff;
+  font-size: 1.1rem;
+  background: #f6f6f6;
+}
+
+.input-group .input-group-append .icon-calendar:hover {
+  color: #fff;
+  background: #007aff;
+}
+
+/*** BUTTONS ***/
+.btn-save {
+  background: #000;
+  border-radius: 25px;
+  padding: 5px 20px;
+  color: #fff !important;
+  font-family: sfBold;
+  font-size: 10px;
+
+  &:hover {
+    color: #fff;
+    background: #666;
+    transition: 0.25s;
+  }
+
+  &.invite {
+    background: #007aff;
+    padding: 5px 5px;
+    margin-left: 5px;
+    font-size: 10px;
+
+    &:hover {
+      background: rgba(0, 122, 255, 0.7);
+    }
+  }
+}
+
+.input-icon {
+  position: relative;
+
+  img.icono-select {
+    position: absolute;
+    height: 35px;
+    right: 0px;
+    pointer-events: none;
+    cursor: pointer;
+
+    &.flecha {
+      pointer-events: none;
+    }
+
+    &.icon-add {
+      pointer-events: all;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+
+  /*** BUTTONS ***/
+  .btn-save {
+    padding: 5px 40px;
+    font-size: 1rem;
+
+    &.invite {
+      padding: 5px 20px;
+      margin-left: 15px;
+      font-size: 1rem;
+    }
+  }
+}
+
+.multiple-select span.dropdown-btn {
+  border: 1.5px solid #007aff !important;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 0.85rem;
+  border-top-right-radius: 1rem !important;
+  border-bottom-right-radius: 1rem !important;
+
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+  }
+
+  .dropdown-down,
+  .dropdown-up {
+    display: none !important;
+  }
+}
+
+
+/*** SIDEBAR ***/
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: #e5f4ff;
+  color: #fff;
+  transition: all 0.3s;
+  min-height: 100vh;
+}
+
+#sidebar.close {
+  transform: translateX(-250px)
+}
+
+@media(maz-width:768px) {
+  #sidebar {
+    margin-left: -250px;
+  }
+
+  #sidebar.active {
+    margin-left: 0px;
+  }
+}
+
+.sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px 15px;
+  background: #d8f1e6;
+  margin-top: 10px;
+  height: 50px;
+
+  >a {
+    position: absolute;
+    left: 15px;
+    padding: 10px;
+    color: #fff;
+    background: #007fff;
+    border-radius: 10px;
+
+    >img {
+      height: 40px;
+    }
+
+  }
+
+  >div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    img {
+      max-width: 45px;
+    }
+
+    h4 {
+      margin: 0 !important;
+      color: #001426;
+      font-family: avenirBlack;
+    }
+  }
+
+  .user-pic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+}
+
+/*** MODALS ***/
+.mat-dialog-container {
+  padding: 0px !important;
+}
+
+
+/*** MAP ***/
+.agm-map-container-inner{
+  width: 100% !important;
+  position: absolute;
+}
+/*** CALENDARIO ***/
+.cal-month-view .cal-day-badge {
+  background-color: #f15a24;
+  color: #fff;
+}
+
+.cal-month-view .cal-day-number {
+  font-family: avenirBlack;
+  color: #007aff;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #f15a24;
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.5rem;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  height: auto;
+}
+
+.flatpickr-months .flatpickr-month {
+  height: 35px;
+}
+
+.iconos-calendar {
+  margin-left: 5px;
+  font-size: 0.8rem;
+}
+
+.cal-cell-row.cal-header{
+  margin-bottom: 5px;
+}

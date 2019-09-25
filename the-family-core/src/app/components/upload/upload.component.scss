@@ -1,0 +1,102 @@
+.mat-dialog-content {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+.upload-data {
+  .container-fluid {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+.header-info {
+  width: 100%;
+  background: #f0fbe6;
+  margin-top: 10px;
+  padding: 10px 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  justify-content: space-between;
+
+  >h4 {
+    font-family: sfBold;
+    margin: 0;
+    font-size: 1.25rem;
+    color: #001426;
+  }
+}
+
+.form_family {
+  .subtitle {
+    background: #d9ebff;
+    height: 40px;
+
+    h4 {
+      font-size: 0.8rem;
+      font-family: sfBold;
+      color: #001426;
+      margin: 0px;
+    }
+
+    .progress {
+      border: 1px solid #000;
+      background-color: transparent;
+      height: 0.5rem;
+
+      &-bar {
+        background-color: #000;
+      }
+    }
+
+    .add-image {
+      position: absolute;
+      right: -35px;
+      cursor: pointer;
+
+      img {
+        width: 70px;
+      }
+    }
+  }
+}
+
+.custom-checkbox {
+  .custom-control-label.check-adelante::after {
+    position: absolute;
+    top: -5px;
+    left: -35px;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    content: "";
+  }
+
+  .custom-control-label.check-adelante::before {
+    border-radius: .25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    top: -5px;
+    left: -35px;
+  }
+}
+
+input[type=file] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: auto;
+  user-select: none;
+  left: 0px;
+  top: 20px;
+}
+.div-upload-pic{
+  img {
+    cursor: pointer;
+  }
+
+  input{
+    position: absolute;
+  }
+}

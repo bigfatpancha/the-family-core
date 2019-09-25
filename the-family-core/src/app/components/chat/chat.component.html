@@ -1,0 +1,53 @@
+<div class="chat-list" [ngClass]="{'chat-open': chatListOpen}">
+  <div class="chat-header p-2 d-flex align-items-center justify-content-between">
+    <div>
+      <h5 class="mb-0">Channel List</h5>
+    </div>
+    <div class="actions d-flex align-items-center">
+      <div class="add-chat" (click)="showList()"><i class="icon-cruz"></i></div>
+      <div class="ml-3 close-chat" (click)="closeChat()" [ngClass]="{'chat-open': chatListOpen}"><i
+          class="icon-arrow-down"></i></div>
+    </div>
+  </div>
+  <div class="chat-body p-2">
+    <div *ngIf="channelList" class="channels">
+      <div *ngFor="let channel of channelList" (click)="openChat(channel)">
+        <div class="chat-messages">{{channel.name}}</div>
+        <div *ngIf="channel.lastMessage && channel.lastMessage.messageType === 'user'" class="chat-write">{{getLastMessage(channel)}}</div>
+        <div *ngIf="channel.lastMessage && channel.lastMessage.messageType === 'file'" class="chat-write">image</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="conversacion" *ngIf="groupChannel" [hidden]="!converOpen" [formGroup]="formChat">
+  <div class="conver-header p-2 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <p class="mb-0">{{groupChannel.name}}</p>
+      <span class="notificaciones">{{groupChannel.joinedMemberCount}}</span>
+    </div>
+    <div class="actions d-flex align-items-center">
+      <div class="add-chat ml-2" matTooltip="Invite user" (click)="inviteUser()"><i class="icon-cruz"></i></div>
+      <div class="add-chat ml-2" matTooltip="Upload file">
+        <i class="icon-user-chat"></i>
+        <input type="file" accept="image/png, image/jpeg" (change)="sendFile($event)">
+      </div>
+      <div class="upload-chat ml-2" matTooltip="Leave chat" (click)="leaveChat()"><i class="icon-upload-chat"></i></div>
+      <div class="close-conver ml-2" (click)="converClose();"><i class="icon-cruz"></i></div>
+    </div>
+  </div>
+  <div class="conver-messages">
+    <div class="conver-body p-2" *ngFor="let message of messages">
+      <div *ngIf="message.sender" class="message-sender" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.sender.nickname}}</div>
+      <div *ngIf="message.messageType === 'user'" class="message-text" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">{{message.message}}</div>
+      <div *ngIf="message.messageType === 'file'" class="message-text" [ngClass]="{'isUser': isUserLogged(message), 'isNotUser': !isUserLogged(message)}">
+        <img [src]="message.url" alt="file">
+      </div>
+    </div>
+  </div>
+  <div class="conver-message d-flex">
+    <input class="form-control" type="text" formControlName="message">
+    <button (click)="sendmessage()">send</button>
+  </div>
+</div>

@@ -27,9 +27,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/flatpickr/dist/flatpickr.min.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss",
+              "src/family_core.css"
+              
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/popper.js/dist/umd/popper.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {

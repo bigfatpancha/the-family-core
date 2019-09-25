@@ -1,0 +1,150 @@
+/*** Lista de Chat ***/
+.chat-list {
+  height: 400px;
+  width: 300px;
+  position: fixed;
+  bottom: -350px;
+  right: 5px;
+  background: #fff;
+  box-shadow: -2px 3px 5px 0rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: 0.3s;
+
+  &.chat-open {
+    bottom: 0px;
+  }
+
+  .chat-header {
+    height: 50px;
+    background: -moz-linear-gradient(left, rgba(90, 214, 140, 1) 0%, rgba(1, 203, 249, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(90, 214, 140, 1)), color-stop(100%, rgba(1, 203, 249, 1)));
+    background: -webkit-linear-gradient(left, rgba(90, 214, 140, 1) 0%, rgba(1, 203, 249, 1) 100%);
+    background: -o-linear-gradient(left, rgba(90, 214, 140, 1) 0%, rgba(1, 203, 249, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(90, 214, 140, 1) 0%, rgba(1, 203, 249, 1) 100%);
+    background: linear-gradient(to right, rgba(90, 214, 140, 1) 0%, rgba(1, 203, 249, 1) 100%);
+
+    h5 {
+      font-size: 1rem;
+    }
+
+    .actions {
+
+      .add-chat,
+      .close-chat {
+        cursor: pointer;
+      }
+
+      .close-chat {
+        transform: rotateX(180deg);
+        transition: 0.3s;
+
+        &.chat-open {
+          transform: rotateX(0deg);
+        }
+      }
+
+      .close-chat>i {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .channels {
+    cursor: pointer;
+    border-bottom: 1px solid lightgray !important;
+
+    :hover {
+      background-color: lightgray;
+    }
+    
+    .chat-write {
+      color: darkgrey;
+    }
+  }
+}
+
+
+
+/*** Conversaciones ***/
+.conversacion {
+  height: 400px;
+  width: 300px;
+  position: fixed;
+  bottom: 0px;
+  right: 310px;
+  background: #fff;
+  box-shadow: -2px 3px 5px 0rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: 0.3s;
+
+  .conver-header {
+    background: #e5f4ff;
+    height: 50px;
+
+    p {
+      font-size: 0.85rem;
+    }
+
+    .notificaciones {
+      width: 20px;
+      height: 20px;
+      margin-left: 4px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border-radius: 3px;
+    }
+
+    .actions {
+      div>i {
+        cursor: pointer;
+      }
+
+      .upload-chat {
+        transform: rotate(90deg);
+        font-weight: 600;
+      }
+
+      .close-conver {
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  .conver-messages {
+    height: 312px;
+    overflow-y: scroll;
+    scroll-behavior: auto;
+    display: flex;
+    flex-direction: column-reverse;
+
+    .message-sender {
+      color: darkgrey;
+    }
+
+    .isUser {
+      text-align: right;
+    }
+
+    .isNotUser {
+      text-align: left;
+    }
+  }
+
+  .conver-message {
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+  }
+}
+input[type=file] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: auto;
+  position: absolute;
+  right: 56px;
+  width: 15px;
+  user-select: none;
+}

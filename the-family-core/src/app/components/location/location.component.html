@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" id="sidebar" [ngClass]="{'close': !openSidebar}">
+      <div class="sidebar__header row">
+        <a routerLink="/dashboard"><img src="../../../assets/img/home.webp" alt="family core"></a>
+        <div class="title">
+          <h4>Geolocation</h4>
+        </div>
+        <div class="close-sidebar cursor-pointer" (click)="closeSidebar();">
+          <i class="icon-arrow-fill-left" [ngClass]="{'close': !openSidebar}"></i>
+        </div>
+      </div>
+      <div class="sidebar__body mt-4">
+        <ul class="sidebar__body--list pl-0 text-right">
+          <li class="sidebar__item"><a [ngClass]="{'active': state == -1}" (click)="selectAll()">All</a></li>
+          <li class="sidebar__item" *ngFor="let user of users">
+            <a [ngClass]="{'active': state == user.id}" (click)="selectUser(user)">{{user.nickname}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="map">
+      <agm-map #mapa [latitude]="userSelected.coordinate.latitude" [longitude]="userSelected.coordinate.longitude" > <!--[fitBounds]="true"-->
+          <agm-marker *ngFor="let user of users" [latitude]="user.coordinate.latitude" [longitude]="user.coordinate.longitude"
+            [label]="user.nickname" [visible]="state === user.id || state === -1" (markerClick)="goToUser(user.id)"> <!--[iconUrl]="user.avatar"-->
+          </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

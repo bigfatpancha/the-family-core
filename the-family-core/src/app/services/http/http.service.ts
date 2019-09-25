@@ -17,7 +17,6 @@ export class HttpService {
   }
 
   doPost(url: string, body: any, options: any): Observable<any> {
-    console.log(url, body, options);
     return this.http.post(this.configService.serverUrl + url, body, options);
   }
 

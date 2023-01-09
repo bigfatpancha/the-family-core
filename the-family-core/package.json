@@ -35,7 +35,7 @@
     "ng-multiselect-dropdown": "^0.2.3",
     "ngx-spinner": "^8.0.3",
     "popper.js": "^1.15.0",
-    "rrule": "^2.6.2",
+    "rrule": "^2.7.1",
     "rxjs": "~6.4.0",
     "sendbird": "^3.0.103",
     "stripe-angular": "^0.6.1",
